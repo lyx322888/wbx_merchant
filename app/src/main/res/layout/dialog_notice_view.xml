@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_corner_white"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/user_nick_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_color"
+            android:text="公告管理"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            />
+          <EditText
+              android:id="@+id/dialog_input_edit"
+              android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:layout_marginRight="30dp"
+              android:layout_marginLeft="30dp"
+              android:background="@drawable/ova_tra_line"
+              android:hint="请输入公告"
+              android:textSize="13sp"
+              android:padding="10dp"
+              android:layout_marginBottom="15dp"
+              />
+    </LinearLayout>
+    <View style="@style/GrayLineStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite"
+        >
+
+        <Button
+            android:id="@+id/dialog_cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="取消"
+            android:layout_weight="1"
+            />
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/color_gray_line"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            ></View>
+        <Button
+            android:id="@+id/dialog_complete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="确定"
+            android:layout_weight="1"
+            android:textColor="@color/app_color"
+            />
+    </LinearLayout>
+</LinearLayout>

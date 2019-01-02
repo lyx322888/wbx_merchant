@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/GrayLineStyle"
+            android:layout_alignParentTop="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:id="@+id/tabItemIV"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="8dp"
+                android:focusable="false"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:id="@+id/tab_item_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tabItemIV"
+                android:layout_centerHorizontal="true"
+                android:text="首页"
+                android:textColor="@drawable/index_text_color"
+                android:textSize="11sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>

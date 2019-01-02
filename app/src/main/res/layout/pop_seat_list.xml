@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/new_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center_horizontal"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/classify_item_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkgrcy"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:text="请分配座位" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:text="座位设置"
+            android:textColor="@color/app_color" />
+    </LinearLayout>
+
+
+    <com.wbx.merchant.widget.MyMaxHeightRecyclerView
+        android:id="@+id/recycler_item_new"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <View
+        style="@style/lineViewStyle"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:id="@+id/new_item_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/ic_goods_add"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/app_color"
+            android:gravity="center"
+            android:text="新建分类"
+
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <View
+        style="@style/lineViewStyle"
+        android:layout_height="1dp"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/abolish_item_product"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@color/darkgrcy"
+            android:text="取消"
+            android:textColor="@color/app_color" />
+
+        <Button
+            android:id="@+id/confirm_item_product"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@color/app_color"
+            android:text="确定"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+</LinearLayout>

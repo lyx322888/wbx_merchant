@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/title_bar"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="@color/app_color"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:onClick="back"
+            android:paddingTop="35dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_arrow_black"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tv_title" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="活动管理"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/title_bar"
+            app:layout_constraintLeft_toRightOf="@id/iv_back"
+            app:layout_constraintRight_toLeftOf="@id/tv_right" />
+
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:gravity="center_horizontal|bottom"
+            android:paddingBottom="10dp"
+            android:text="设置"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintLeft_toRightOf="@id/tv_title"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/coupons"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/iv_full_reduce"
+            app:layout_constraintTop_toBottomOf="@id/title_bar" />
+
+        <ImageView
+            android:id="@+id/iv_full_reduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/money_off"
+            app:layout_constraintLeft_toRightOf="@id/iv_coupon"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_bar" />
+
+        <ImageView
+            android:id="@+id/iv_seckill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/seckill"
+            app:layout_constraintLeft_toLeftOf="@id/iv_coupon"
+            app:layout_constraintRight_toRightOf="@id/iv_coupon"
+            app:layout_constraintTop_toBottomOf="@id/iv_coupon" />
+
+        <ImageView
+            android:id="@+id/iv_send_red_packet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/red_packet"
+            app:layout_constraintLeft_toLeftOf="@id/iv_full_reduce"
+            app:layout_constraintRight_toRightOf="@id/iv_full_reduce"
+            app:layout_constraintTop_toBottomOf="@id/iv_coupon" />
+
+        <ImageView
+            android:id="@+id/iv_consume_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/icon_consume_free"
+            app:layout_constraintLeft_toLeftOf="@id/iv_coupon"
+            app:layout_constraintRight_toRightOf="@id/iv_coupon"
+            app:layout_constraintTop_toBottomOf="@id/iv_seckill" />
+
+        <ImageView
+            android:id="@+id/iv_share_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/icon_share_free"
+            app:layout_constraintLeft_toLeftOf="@id/iv_full_reduce"
+            app:layout_constraintRight_toRightOf="@id/iv_full_reduce"
+            app:layout_constraintTop_toBottomOf="@id/iv_seckill" />
+
+        <ImageView
+            android:id="@+id/iv_integral_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/icon_integral_free"
+            app:layout_constraintLeft_toLeftOf="@id/iv_coupon"
+            app:layout_constraintRight_toRightOf="@id/iv_coupon"
+            app:layout_constraintTop_toBottomOf="@id/iv_consume_free" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.NestedScrollView>

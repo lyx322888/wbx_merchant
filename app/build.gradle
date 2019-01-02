@@ -1,0 +1,152 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.bugtags.library.plugin'
+
+def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
+android {
+    useLibrary 'org.apache.http.legacy'
+    signingConfigs {
+        release {
+            keyAlias 'wbx365'
+            keyPassword 'wbx365888'
+            storeFile file('G:/project/keystore/wbxmerchant.jks')
+            storePassword 'wbx365888'
+        }
+    }
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+        multiDexEnabled true
+        applicationId rootProject.ext.applicationId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "f92f2942fb844252acd5977a", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+        ]
+        // 对于国际化支持只打包中文资源，
+        resConfigs "zh-rCN"
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    allprojects {
+        repositories {
+            maven { url "https://jitpack.io" }
+        }
+    }
+}
+
+//Bugtags 插件配置
+bugtags {
+    //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考帮助中心->符号表->Android 符号表->配置自动上传符号表
+    appKey "d5c298ea42ab257e459d766eec29543b"  //这里是你的 appKey
+    appSecret "7a35aebb2fe746d4cee53286d98f0f81"    //这里是你的 appSecret，管理员在设置页可以查看
+    mappingUploadEnabled true
+
+    //网络跟踪功能配置(企业版)
+    //trackingNetworkEnabled true
+}
+
+//统一除multidex外的support包的版本号
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion "$rootProject.ext.supportVersion"
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testImplementation 'junit:junit:4.12'
+    implementation "com.android.support:support-v4:$rootProject.ext.supportVersion"
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"
+    implementation "com.android.support:design:$rootProject.ext.supportVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.ext.supportVersion"
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.orhanobut:logger:1.13'
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+    implementation 'com.jakewharton:butterknife:7.0.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.1.2'
+    implementation 'io.reactivex:rxjava:1.0.1'
+    implementation 'io.reactivex:rxandroid:1.0.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    implementation 'me.iwf.photopicker:PhotoPicker:0.9.5@aar'
+    implementation 'com.contrarywind:Android-PickerView:3.2.5'
+    implementation 'com.qiniu:qiniu-android-sdk:7.2.+'
+    implementation 'com.huangdali:mricheditor:1.0.1'
+    implementation 'com.kyleduo.switchbutton:library:1.4.6'
+    implementation project(':easeui')
+    implementation 'com.umeng.analytics:analytics:latest.integration'
+    implementation 'cn.carbs.android:SegmentControlView:1.0.0'
+    implementation 'me.everything:overscroll-decor-android:1.0.4'
+    implementation 'com.stone.vega.library:VegaLayoutManager:1.0.2'
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+    implementation 'com.github.Aspsine:SwipeToLoadLayout:1.0.3'
+    implementation 'org.greenrobot:greendao:3.2.0'
+    implementation 'com.github.chihane:JDAddressSelector:1.1.4'
+    implementation 'com.bugtags.library:bugtags-lib:latest.integration'
+    //线上使用，如果不需要使用手动提交 issue，可以选择 metrics 包
+    //compile 'com.bugtags.metrics:bugtags-lib:latest.integration'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'cn.jiguang.sdk:jpush:3.1.5'
+    implementation 'cn.jiguang.sdk:jcore:1.2.3'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation 'cn.jzvd:jiaozivideoplayer:6.2.12'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+    implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    implementation 'com.amap.api:3dmap:6.4.1'
+    implementation 'com.amap.api:location:4.2.0'
+    implementation 'com.amap.api:search:6.1.0'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.42'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
+}

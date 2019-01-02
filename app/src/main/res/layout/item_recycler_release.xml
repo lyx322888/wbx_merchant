@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <com.wbx.merchant.widget.RatioLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/colorWhite"
+        app:ratio="1.24">
+
+        <ImageView
+            android:id="@+id/item_recycler_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/loading_logo" />
+
+        <RelativeLayout
+            android:id="@+id/item_recycler_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:src="@drawable/delete" />
+        </RelativeLayout>
+    </com.wbx.merchant.widget.RatioLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkgrcy"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/product_title_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:hint="请输入产品的标题"
+
+            android:textColorHint="#c6c6c6"
+            android:textSize="13sp" />
+
+        <View
+            style="@style/lineViewStyle"
+            android:layout_height="1dp"
+            android:background="#c0c0c0" />
+
+        <EditText
+            android:id="@+id/product_money_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:hint="请输入价格"
+            android:inputType="numberDecimal"
+            android:textColor="@color/red"
+            android:textColorHint="@color/red"
+            android:textSize="13sp" />
+    </LinearLayout>
+</LinearLayout>

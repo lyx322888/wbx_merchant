@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wbx.merchant">
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 用于写入缓存数据到扩展存储卡 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- 浮动通知权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 极光start -->
+    <permission
+        android:name="com.wbx.merchant.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+    <!-- Required -->
+    <uses-permission android:name="com.wbx.merchant.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 极光end -->
+    <!-- DownloadManager下载时不显示Notification -->
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
+    <application
+        android:name=".base.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5983d266e88bad33bb0027ed" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="WBX365" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="167dd241a8344728ace1b456b8aeaa85" />
+
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wx07867153bc1d88fa" />
+            </intent-filter>
+        </activity>
+        <!-- alipay sdk begin -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wx07867153bc1d88fa" />
+            </intent-filter>
+        </activity>
+        <!-- 网页 -->
+        <activity android:name=".activity.WebActivity" />
+        <!-- 智能客服 -->
+        <activity android:name=".activity.IntelligentServiceActivity" />
+
+        <!-- alipay sdk end -->
+        <!-- 拍照 -->
+        <activity
+            android:name="me.iwf.photopicker.PhotoPickerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <!-- 查看照片 -->
+        <activity
+            android:name="me.iwf.photopicker.PhotoPagerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <!-- 入口 -->
+        <activity android:name=".MainActivity" />
+        <!-- 启动页 -->
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- 在线预订 -->
+        <activity android:name=".activity.BookSeatActivity" />
+        <!-- 预订退款 -->
+        <activity android:name=".activity.BookSeatRefundActivity" />
+        <!-- 订单管理 -->
+        <activity android:name=".activity.OrderActivity" />
+        <!-- 商品管理 -->
+        <activity android:name=".activity.GoodsManagerActivity" />
+        <!-- 提现 -->
+        <activity android:name=".activity.CashActivity" />
+        <!-- 收入 -->
+        <activity android:name=".activity.InComeActivity" />
+        <!-- 店铺管理 -->
+        <activity android:name=".activity.StoreManagerActivity" />
+        <!-- 发布商品 -->
+        <activity android:name=".activity.ReleaseActivity" />
+        <!-- 绑定提现账号 -->
+        <activity android:name=".activity.BindAccountActivity" />
+        <!-- 绑定阿里账号 -->
+        <activity android:name=".activity.BindALIActivity" />
+        <!-- 绑定银联账号 -->
+        <activity android:name=".activity.BindUnionPayActivity" />
+        <!-- 修改密码 -->
+        <activity android:name=".activity.ModifyPswActivity" />
+        <!-- 关于我们 -->
+        <activity android:name=".activity.AboutActivity" />
+        <!-- 认证 -->
+        <activity android:name=".activity.AccreditationActivity" />
+        <!-- 注册 -->
+        <activity android:name=".activity.RegisterActivity" />
+        <!-- 登录 -->
+        <activity
+            android:name=".activity.LoginActivity"
+            android:launchMode="singleTask" />
+        <!-- 忘记密码 -->
+        <activity android:name=".activity.ForgetPswActivity" />
+        <!-- 入驻填写店铺信息 -->
+        <activity android:name=".activity.InputShopInfoActivity" />
+        <!-- 入驻选择店铺类型 -->
+        <activity android:name=".activity.ChooseShopTypeActivity" />
+        <!-- 审核中 -->
+        <activity android:name=".activity.AuditingActivity" />
+        <!-- 支付 -->
+        <activity android:name=".activity.PayActivity" />
+        <!-- 添加分类 -->
+        <activity android:name=".activity.GoodsClassifyActivity" />
+        <!-- 订单详情 -->
+        <activity android:name=".activity.OrderDetailActivity" />
+        <!-- 选择营业时间 -->
+        <activity android:name=".activity.BusinessTimeActivity" />
+        <!-- 提现记录 -->
+        <activity android:name=".activity.CashRecordActivity" />
+        <!-- 添加多规格 -->
+        <activity android:name=".activity.AddSpecActivity" />
+        <!-- 客户管理 -->
+        <activity android:name=".activity.CustomerManagerActivity" />
+        <!-- 聊天列表 -->
+        <activity android:name=".activity.MessageListActivity" />
+        <!-- 库存分析 -->
+        <activity android:name=".activity.InventoryAnalyzeActivity" />
+        <!-- 经营分析 -->
+        <activity android:name=".activity.RunAnalyzeActivity" />
+        <!-- 更改库存 -->
+        <activity android:name=".activity.UpDateNumActivity" />
+        <!-- 活动管理 -->
+        <activity android:name=".activity.ActivityManagerActivity" />
+        <!-- 优惠券管理 -->
+        <activity android:name=".activity.CouponManagerActivity" />
+        <!-- 添加优惠券 -->
+        <activity android:name=".activity.AddCouponActivity" />
+        <!-- 录制视频 -->
+        <activity android:name=".activity.VideoRecordActivity" />
+        <!-- 录制播放 -->
+        <!-- 重置支付密码 -->
+        <activity android:name=".activity.ResetPayPswActivity" />
+        <!-- 第三方配送订单 -->
+        <activity android:name=".activity.ThirdDeliveryActivity" />
+        <!-- 设置打印机 -->
+        <activity android:name=".activity.SettingsPrinterActivity" />
+        <!-- 配送订单列表 -->
+        <activity android:name=".activity.DaDaActivity" />
+        <!-- 选择店铺版本 旗舰版/通用版 -->
+        <activity android:name=".activity.ChooseVersionActivity" />
+        <!-- 座位设置 -->
+        <activity android:name=".activity.SeatActivity" />
+        <!-- 限时秒杀 -->
+        <activity android:name=".activity.SeckillActivity" />
+        <!-- 添加限时秒杀 -->
+        <activity android:name=".activity.AddSecKillActivity" />
+        <!-- 限时秒杀选择商品 -->
+        <activity android:name=".activity.SeckillChooseGoodsActivity" />
+
+        <!-- 发布秒杀 -->
+        <activity android:name=".activity.ReleaseSecKillActivity" />
+        <activity android:name=".activity.ProductActivity" />
+        <activity android:name=".activity.MaterialCenterActivity" />
+        <activity android:name=".activity.ProductReleaseActivity" />
+        <activity android:name=".activity.BindPayPlatformActivity" />
+        <activity android:name=".activity.ChooseFinanceWayActivity" />
+        <activity android:name=".activity.ActivitySettingsActivity" />
+        <!-- 聊天界面 -->
+        <activity
+            android:name=".activity.ChatActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <!-- 帮助中心 -->
+        <activity android:name=".activity.TestActivity" />
+        <activity
+            android:name=".activity.VideoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.AddFullActivity" />
+        <activity android:name=".activity.FullActivity" />
+        <activity android:name=".activity.ThridOrderDetailActivity" />
+        <!-- 发送地图 -->
+        <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity" />
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="oLNScgBLbcCLQzld6BSlNYLb861qqLns" />
+
+        <!-- User defined.  For test only  用户自定义的广播接收器 -->
+        <receiver
+            android:name=".receiver.MyReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.wbx.merchant" />
+            </intent-filter>
+        </receiver>
+
+        <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调 -->
+        <receiver android:name=".receiver.MyJPushReceiver">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+
+                <category android:name="com.wbx.merchant" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".update.ApkInstallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 设置环信应用的AppKey -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="1163170724115702#wbx365" />
+        <!-- 声明SDK所需的service SDK核心功能 -->
+        <service
+            android:name="com.hyphenate.chat.EMChatService"
+            android:exported="true" />
+        <service
+            android:name="com.hyphenate.chat.EMJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <!-- 声明SDK所需的receiver -->
+        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <!-- 可选filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.amap.api.location.APSService" />
+        <!-- 版本更新服务 -->
+        <service android:name=".service.DownloadService" />
+        <service android:name=".update.UpdateService" />
+
+        <activity android:name=".activity.MerchantSubsidiesActivity" />
+        <activity android:name=".activity.SubsidyExplainActivity" />
+        <activity android:name=".activity.IntelligentReceiveActivity" />
+        <activity android:name=".activity.ElectronicContractActivity" />
+        <activity android:name=".activity.ContractSignActivity" />
+        <activity android:name=".activity.ReceiverListActivity" />
+        <activity android:name=".activity.ScanOrderActivity" />
+        <activity android:name=".activity.ScanOrderDetailActivity" />
+        <activity android:name=".activity.AddFoodActivity" />
+        <activity android:name=".activity.GoodsAccreditationActivity" />
+        <activity android:name=".activity.MyMemberActivity" />
+        <activity android:name=".activity.MemberSettingActivity" />
+        <activity android:name=".activity.MemberGoodsActivity" />
+        <activity android:name=".activity.SelectGoodsActivity" />
+        <activity android:name=".activity.PublishBusinessCircleActivity" />
+        <activity android:name=".activity.MyBusinessCircleActivity" />
+        <activity android:name=".activity.GoodsPictureActivity" />
+        <activity android:name=".activity.MemberDetailActivity" />
+        <activity android:name=".activity.ShopRedPacketActivity" />
+        <activity android:name=".activity.InviteActivity" />
+        <activity android:name=".activity.ShopRedPacketReceiveRecordActivity" />
+        <activity android:name=".activity.ScanOrderPayTypeSettingActivity" />
+        <activity android:name=".activity.NumberOrderActivity" />
+        <activity android:name=".activity.NumberOrderDetailActivity" />
+        <activity android:name=".activity.NumberOrderSettingActivity" />
+        <activity android:name=".activity.SendSettingActivity" />
+        <activity android:name=".activity.SelectSubSpecActivity" />
+        <activity android:name=".activity.SelectNatureActivity" />
+        <activity android:name=".activity.EditNatureActivity" />
+        <activity android:name=".activity.SelectNatureAttrActivity" />
+        <activity android:name=".activity.AddNatureAttrActivity" />
+        <activity android:name=".activity.ConsumeFreeListActivity" />
+        <activity android:name=".activity.SelectFreeActivityGoodsListActivity" />
+        <activity android:name=".activity.AddConsumeFreeActivity" />
+        <activity android:name=".activity.ShareFreeListActivity" />
+        <activity android:name=".activity.AddShareFreeActivity" />
+        <activity android:name=".activity.AddIntegralFreeActivity" />
+        <activity android:name=".activity.IntegralFreeListActivity"></activity>
+    </application>
+
+</manifest>

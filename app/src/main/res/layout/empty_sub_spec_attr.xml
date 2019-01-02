@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableTop="@drawable/empty_sub_spec_attr"
+        android:drawablePadding="15dp"
+        android:gravity="center"
+        android:text="尚未添加任何规格属性"
+        android:textColor="#929292"
+        android:textSize="12sp" />
+</FrameLayout>

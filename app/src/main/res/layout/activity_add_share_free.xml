@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_background"
+    tools:context=".activity.AddShareFreeActivity">
+
+    <View
+        android:id="@+id/title_bar"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@color/app_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:onClick="back"
+        android:paddingTop="35dp"
+        android:paddingBottom="10dp"
+        android:src="@drawable/ic_arrow"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tv_title" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="分享免单"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/title_bar"
+        app:layout_constraintLeft_toRightOf="@id/iv_back"
+        app:layout_constraintRight_toLeftOf="@id/tv_right" />
+
+    <TextView
+        android:id="@+id/tv_right"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:gravity="center_horizontal|bottom"
+        android:paddingBottom="10dp"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintLeft_toRightOf="@id/tv_title"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <View
+        android:id="@+id/view_play_rule"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#FCF9DA"
+        app:layout_constraintTop_toBottomOf="@id/title_bar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="活动规则：人满发起者免单"
+        android:textColor="#DE6A1C"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_play_rule"
+        app:layout_constraintLeft_toLeftOf="@id/view_play_rule"
+        app:layout_constraintTop_toTopOf="@id/view_play_rule" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="玩法简介>"
+        android:textColor="#DE6A1C"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_play_rule"
+        app:layout_constraintRight_toRightOf="@id/view_play_rule"
+        app:layout_constraintTop_toTopOf="@id/view_play_rule" />
+
+    <View
+        android:id="@+id/view_2"
+        android:layout_width="match_parent"
+        android:layout_height="119dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/view_play_rule" />
+
+    <ImageView
+        android:id="@+id/iv_goods"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_marginLeft="15dp"
+        android:src="@color/app_color"
+        app:layout_constraintBottom_toBottomOf="@id/view_2"
+        app:layout_constraintLeft_toLeftOf="@id/view_2"
+        app:layout_constraintTop_toTopOf="@id/view_2" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="小米8"
+        android:textColor="#333333"
+        android:textSize="13sp"
+        app:layout_constraintLeft_toRightOf="@id/iv_goods"
+        app:layout_constraintTop_toTopOf="@id/iv_goods" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="￥222.00"
+        android:textColor="#EC1F1C"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_goods"
+        app:layout_constraintLeft_toRightOf="@id/iv_goods"
+        app:layout_constraintTop_toTopOf="@id/iv_goods" />
+
+    <TextView
+        android:id="@+id/tv_sold_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="销量0"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_goods"
+        app:layout_constraintLeft_toRightOf="@id/iv_goods" />
+
+    <TextView
+        android:id="@+id/tv_stock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:text="库存22"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_goods"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <View
+        android:id="@+id/view_3"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/view_2" />
+
+    <TextView
+        android:id="@+id/view_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="活动库存"
+        android:textColor="#4C4C4C"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_3" />
+
+    <EditText
+        android:id="@+id/et_activity_stock"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="13dp"
+        android:background="@null"
+        android:hint="参加活动的商品数量"
+        android:inputType="number"
+        android:maxLength="8"
+        android:textColorHint="#C7C7C7"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_3"
+        app:layout_constraintLeft_toRightOf="@id/view_4"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_3" />
+
+    <View
+        android:id="@+id/view_5"
+        android:layout_width="0dp"
+        android:layout_height="132dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/view_3" />
+
+    <TextView
+        android:id="@+id/view_6"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center_vertical"
+        android:text="市场价"
+        android:textColor="#4C4C4C"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@id/view_7"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_5"
+        app:layout_constraintVertical_weight="1" />
+
+    <View
+        android:id="@+id/view_7"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="15dp"
+        android:background="@color/divider_list"
+        app:layout_constraintBottom_toTopOf="@id/view_8"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_6" />
+
+    <TextView
+        android:id="@+id/view_8"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center_vertical"
+        android:text="免单价"
+        android:textColor="#4C4C4C"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@id/view_9"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_7"
+        app:layout_constraintVertical_weight="1" />
+
+    <View
+        android:id="@+id/view_9"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="15dp"
+        android:background="@color/divider_list"
+        app:layout_constraintBottom_toTopOf="@id/view_10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_8" />
+
+    <TextView
+        android:id="@+id/view_10"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center_vertical"
+        android:text="需要人数"
+        android:textColor="#4C4C4C"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_9"
+        app:layout_constraintVertical_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_mall_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="￥0.00"
+        android:textColor="#EC1F1C"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_6"
+        app:layout_constraintLeft_toLeftOf="@id/et_activity_stock"
+        app:layout_constraintTop_toTopOf="@id/view_6" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="￥0.00"
+        android:textColor="#EC1F1C"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_8"
+        app:layout_constraintLeft_toLeftOf="@id/et_activity_stock"
+        app:layout_constraintTop_toTopOf="@id/view_8" />
+
+    <EditText
+        android:id="@+id/et_need_num"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@null"
+        android:hint="请输入需要多少人，发起者才可以免单"
+        android:inputType="number"
+        android:maxLength="8"
+        android:textColorHint="#C7C7C7"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_10"
+        app:layout_constraintLeft_toLeftOf="@id/et_activity_stock"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_10" />
+
+    <View
+        android:id="@+id/view_continue_time"
+        android:layout_width="0dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/view_5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="活动持续时间"
+        android:textColor="#4C4C4C"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_continue_time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_continue_time" />
+
+    <TextView
+        android:id="@+id/tv_continue_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:drawableRight="@drawable/ic_more"
+        android:drawablePadding="15dp"
+        android:text="不限时"
+        android:textColor="#4C4C4C"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_continue_time"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_continue_time" />
+
+    <View
+        android:id="@+id/view_12"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/app_color"
+        android:gravity="center"
+        android:text="保存"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_12"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_12" />
+</android.support.constraint.ConstraintLayout>

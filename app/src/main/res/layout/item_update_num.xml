@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite"
+        >
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           android:layout_weight="1"
+           >
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               >
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   >
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_margin="15dp"
+                       android:text="规格    "
+                       android:textSize="14sp"
+                       />
+                   <TextView
+                       android:id="@+id/spec_name_tv"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:background="@null"
+                       android:textSize="12sp"
+                       android:gravity="center|left"
+                       />
+
+               </LinearLayout>
+               <View style="@style/lineViewStyle" android:layout_marginLeft="15dp"/>
+           </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               >
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   >
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_margin="15dp"
+                       android:text="库存"
+                       android:textSize="14sp"
+                       />
+                   <EditText
+                       android:id="@+id/number_eidt"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:background="@null"
+                       android:hint="请输入库存"
+                       android:textSize="12sp"
+                       android:inputType="numberDecimal"
+                       />
+
+               </LinearLayout>
+               <View style="@style/lineViewStyle" android:layout_marginLeft="15dp"/>
+           </LinearLayout>
+           <LinearLayout
+               android:id="@+id/show_shop_price_ll"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               >
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   >
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_margin="15dp"
+                       android:text="损耗"
+                       android:textSize="14sp"
+                       />
+                   <EditText
+                       android:id="@+id/loss_edit"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:background="@null"
+                       android:hint="请输入损耗数量"
+                       android:textSize="12sp"
+                       android:inputType="numberDecimal"
+                       />
+
+               </LinearLayout>
+               <View style="@style/lineViewStyle" android:layout_marginLeft="15dp"/>
+           </LinearLayout>
+       </LinearLayout>
+    </LinearLayout>
+    <View android:layout_width="match_parent" android:layout_height="20dp" />
+
+</LinearLayout>

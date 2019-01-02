@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eee"
+    android:orientation="vertical" >
+    <LinearLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="#06c1ae"
+        >
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:onClick="back"
+            >
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ease_mm_title_back"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:tint="#ffffff"
+                />
+
+
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:text="@string/location_message"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:layout_marginBottom="4dp"
+            />
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            >
+            <TextView
+                android:enabled="false"
+                android:id="@+id/btn_location_send"
+                android:layout_width="52dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/ease_common_tab_bg"
+                android:onClick="sendLocation"
+                android:text="@string/button_send"
+                android:textColor="#fff"
+                android:textSize="17sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    
+    <com.baidu.mapapi.map.MapView android:id="@+id/bmapView"
+	    android:layout_width="fill_parent" android:layout_height="fill_parent" 
+	    android:clickable="true"
+	    android:background="#fff"
+	/>
+    
+</LinearLayout>
