@@ -3,8 +3,10 @@ package com.wbx.merchant.api;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.wbx.merchant.BuildConfig;
 import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.utils.NetWorkUtils;
+import com.wbx.merchant.utils.SPUtils;
 import com.wbx.merchant.utils.fastjson.FastJsonConverterFactory;
 
 import java.io.File;
@@ -70,9 +72,6 @@ public class Api {
 
     //构造方法私有
     private Api() {
-        //开启Log
-        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor();
-        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         //缓存
         File cacheFile = new File(BaseApplication.getInstance().getCacheDir(), "cache");
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
@@ -87,13 +86,12 @@ public class Api {
             }
         };
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        OkHttpClient okHttpClient = getMyOkHttpClient()
                 .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
                 .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
                 .addInterceptor(mRewriteCacheControlInterceptor)
                 .addNetworkInterceptor(mRewriteCacheControlInterceptor)
                 .addInterceptor(headerInterceptor)
-                .addInterceptor(logInterceptor)
                 .cache(cache)
                 .build();
 
@@ -114,6 +112,23 @@ public class Api {
     }
 
 
+    /**
+     * 获取拦截日志 正式版和测试版的区别对待
+     */
+    private OkHttpClient.Builder getMyOkHttpClient() {
+        final OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                @Override
+                public void log(String message) {
+                    SPUtils.longLog("OkHTTP", message);
+                }
+            });
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            clientBuilder.addInterceptor(httpLoggingInterceptor);
+        }
+        return clientBuilder;
+    }
     /**
      * 根据网络状况获取缓存的策略
      */

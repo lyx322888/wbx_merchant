@@ -814,6 +814,13 @@ public interface ApiService {
     Observable<JSONObject> getIntegralFreeGoodsList(@Field("sj_login_token") String login_token, @Field("page") int page, @Field("num") int num);
 
     /**
+     * 删除免单商品
+     */
+    @FormUrlEncoded
+    @POST("/sjapi/freegoods/delete_free_goods")
+    Observable<JSONObject> deleteFreeGoods(@Field("sj_login_token") String login_token, @Field("goods_id") String goodsId, @Field("free_goods_type") String types);
+
+    /**
      * 获取可以进行免单活动的商品
      */
     @FormUrlEncoded

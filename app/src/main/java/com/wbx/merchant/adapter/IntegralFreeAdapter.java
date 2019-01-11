@@ -28,6 +28,7 @@ public class IntegralFreeAdapter extends BaseQuickAdapter<IntegralFreeGoodsBean,
                 .setText(R.id.tv_price, String.format("¥%.2f", item.getPrice() / 100.00))
                 .setText(R.id.tv_need_num, String.valueOf(item.getAccumulate_free_need_num()))
                 .setText(R.id.tv_free_num, "免" + item.getAccumulate_free_get_num());
-        helper.addOnClickListener(R.id.ll_edit);
+        helper.addOnClickListener(R.id.ll_edit)
+                .addOnClickListener(R.id.ll_delete);
     }
 }

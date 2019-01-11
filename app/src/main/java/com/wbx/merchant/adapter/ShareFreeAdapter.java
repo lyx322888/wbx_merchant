@@ -33,6 +33,7 @@ public class ShareFreeAdapter extends BaseQuickAdapter<ShareFreeGoodsBean, BaseV
                 .setText(R.id.tv_need_num, item.getShare_free_amount() + "")
                 .setText(R.id.tv_continue_time, String.format("活动持续时间：%s", item.getShare_free_duration() == 999999999 ? "不限时" : (item.getShare_free_duration() + "小时")))
                 .setText(R.id.tv_stock, String.format("活动库存%d", item.getShare_free_num()));
-        helper.addOnClickListener(R.id.ll_edit);
+        helper.addOnClickListener(R.id.ll_edit)
+                .addOnClickListener(R.id.ll_delete);
     }
 }

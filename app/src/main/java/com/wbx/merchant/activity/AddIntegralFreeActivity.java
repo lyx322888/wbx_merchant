@@ -101,7 +101,7 @@ public class AddIntegralFreeActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.view_play_rule, R.id.tv_save})
+    @OnClick({R.id.view_play_rule, R.id.tv_save, R.id.iv_delete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.view_play_rule:
@@ -109,7 +109,34 @@ public class AddIntegralFreeActivity extends BaseActivity {
             case R.id.tv_save:
                 save();
                 break;
+            case R.id.iv_delete:
+                if (isEdit) {
+                    toDelete();
+                }
+                break;
+            default:
+                break;
         }
+    }
+
+    private void toDelete() {
+        LoadingDialog.showDialogForLoading(this);
+        new MyHttp().doPost(Api.getDefault().deleteFreeGoods(LoginUtil.getLoginToken(), data.getGoods_id(), "accumulate"), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                ToastUitl.showShort("删除成功");
+                Intent intent = new Intent();
+                intent.putExtra("data", data);
+                intent.putExtra("isDelete", true);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
     }
 
     private void save() {

@@ -22,6 +22,7 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.bean.ConsumeFreeGoodsBean;
 import com.wbx.merchant.common.LoginUtil;
+import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.LoadingDialog;
 
 import java.util.ArrayList;
@@ -30,6 +31,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+/**
+ * @author Administrator
+ * 消费免单
+ */
 public class ConsumeFreeListActivity extends BaseActivity implements OnRefreshListener, OnLoadMoreListener {
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -111,7 +116,34 @@ public class ConsumeFreeListActivity extends BaseActivity implements OnRefreshLi
                         AddConsumeFreeActivity.actionStart(ConsumeFreeListActivity.this, lstData.get(position));
                         editPosition = position;
                         break;
+                    case R.id.ll_delete:
+                        toDelete(position);
+                        break;
+                    default:
+                        break;
                 }
+            }
+        });
+    }
+
+    /**
+     * 删除
+     *
+     * @param position
+     */
+    private void toDelete(final int position) {
+        LoadingDialog.showDialogForLoading(this);
+        myHttp.doPost(Api.getDefault().deleteFreeGoods(LoginUtil.getLoginToken(), lstData.get(position).getGoods_id(), "consume"), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                ToastUitl.showShort("删除成功");
+                lstData.remove(position);
+                adapter.notifyItemRemoved(position);
+            }
+
+            @Override
+            public void onError(int code) {
+
             }
         });
     }

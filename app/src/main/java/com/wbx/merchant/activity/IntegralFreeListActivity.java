@@ -22,6 +22,7 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.bean.IntegralFreeGoodsBean;
 import com.wbx.merchant.common.LoginUtil;
+import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.LoadingDialog;
 
 import java.util.ArrayList;
@@ -111,7 +112,33 @@ public class IntegralFreeListActivity extends BaseActivity implements OnRefreshL
                         AddIntegralFreeActivity.actionStart(IntegralFreeListActivity.this, lstData.get(position));
                         editPosition = position;
                         break;
+                    case R.id.ll_delete:
+                        toDelete(position);
+                        break;
+                    default:
+                        break;
                 }
+            }
+        });
+    }
+
+    /**
+     * 删除
+     * @param position
+     */
+    private void toDelete(final int position) {
+        LoadingDialog.showDialogForLoading(this);
+        myHttp.doPost(Api.getDefault().deleteFreeGoods(LoginUtil.getLoginToken(), lstData.get(position).getGoods_id(), "accumulate"), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                ToastUitl.showShort("删除成功");
+                lstData.remove(position);
+                adapter.notifyItemRemoved(position);
+            }
+
+            @Override
+            public void onError(int code) {
+
             }
         });
     }
@@ -143,13 +170,21 @@ public class IntegralFreeListActivity extends BaseActivity implements OnRefreshL
         switch (requestCode) {
             case AddIntegralFreeActivity.REQUEST_EDIT:
                 IntegralFreeGoodsBean integralFreeGoodsBean = (IntegralFreeGoodsBean) data.getSerializableExtra("data");
-                lstData.set(editPosition, integralFreeGoodsBean);
-                adapter.notifyDataSetChanged();
+                boolean isDelete = data.getBooleanExtra("isDelete", false);
+                if (isDelete) {
+                    lstData.remove(editPosition);
+                    adapter.notifyItemRemoved(editPosition);
+                } else {
+                    lstData.set(editPosition, integralFreeGoodsBean);
+                    adapter.notifyDataSetChanged();
+                }
                 break;
             case SelectFreeActivityGoodsListActivity.REQUEST_ADD:
                 IntegralFreeGoodsBean integralFreeGoodsBean2 = (IntegralFreeGoodsBean) data.getSerializableExtra("data");
                 lstData.add(integralFreeGoodsBean2);
                 adapter.notifyDataSetChanged();
+                break;
+            default:
                 break;
         }
     }

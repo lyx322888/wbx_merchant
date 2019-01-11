@@ -22,6 +22,7 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.bean.ShareFreeGoodsBean;
 import com.wbx.merchant.common.LoginUtil;
+import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.LoadingDialog;
 
 import java.util.ArrayList;
@@ -111,7 +112,34 @@ public class ShareFreeListActivity extends BaseActivity implements OnRefreshList
                         AddShareFreeActivity.actionStart(ShareFreeListActivity.this, lstData.get(position));
                         editPosition = position;
                         break;
+                    case R.id.ll_delete:
+                        toDelete(position);
+                        break;
+                    default:
+                        break;
                 }
+            }
+        });
+    }
+
+    /**
+     * 删除
+     *
+     * @param position
+     */
+    private void toDelete(final int position) {
+        LoadingDialog.showDialogForLoading(this);
+        myHttp.doPost(Api.getDefault().deleteFreeGoods(LoginUtil.getLoginToken(), lstData.get(position).getGoods_id(), "share"), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                ToastUitl.showShort("删除成功");
+                lstData.remove(position);
+                adapter.notifyItemRemoved(position);
+            }
+
+            @Override
+            public void onError(int code) {
+
             }
         });
     }
