@@ -52,6 +52,24 @@ public class ShopInfo implements Serializable {
     private int take_number_no_read_num;
     private int later_subscribe_order_num;
     private int unfinished_scan_order_num;
+    private int shop_grade;
+    private float order_money;
+
+    public int getShop_grade() {
+        return shop_grade;
+    }
+
+    public void setShop_grade(int shop_grade) {
+        this.shop_grade = shop_grade;
+    }
+
+    public float getOrder_money() {
+        return order_money;
+    }
+
+    public void setOrder_money(float order_money) {
+        this.order_money = order_money;
+    }
 
     public int getIs_dispatching_money_activity() {
         return is_dispatching_money_activity;

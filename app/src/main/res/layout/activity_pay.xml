@@ -67,7 +67,6 @@
                 android:hint="请输入您需充值的金额"
                 android:inputType="numberDecimal"
                 android:textSize="13sp" />
-
             <TextView
                 android:id="@+id/grade_name_tv"
                 android:layout_width="wrap_content"

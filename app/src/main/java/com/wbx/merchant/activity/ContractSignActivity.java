@@ -141,7 +141,7 @@ public class ContractSignActivity extends BaseActivity {
             Intent intent = new Intent(mContext, PayActivity.class);
             intent.putExtra("gradeName", shopEnterParameter.getGradeName());
             intent.putExtra("shopGradeId", shopEnterParameter.getShopGradeId());
-            intent.putExtra("needPayPrice", shopEnterParameter.getNeedPayPrice());
+//            intent.putExtra("needPayPrice", shopEnterParameter.getNeedPayPrice());
             intent.putExtra("gradeId", shopEnterParameter.getGradeId());
             startActivity(intent);
         } else {

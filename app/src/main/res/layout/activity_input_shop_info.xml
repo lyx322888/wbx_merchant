@@ -273,12 +273,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:layout_margin="15dp"
                     android:text="商家分类" />
 
@@ -289,6 +291,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="15sp"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:gravity="right"
                     android:hint="请选择" />
 

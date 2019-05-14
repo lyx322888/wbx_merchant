@@ -1,5 +1,6 @@
 package com.wbx.merchant.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -108,7 +109,11 @@ public class ChooseVersionActivity extends BaseActivity {
                 shopEnterParameter.setShopGradeId(selectShopVersion.getShop_grade());
                 shopEnterParameter.setNeedPayPrice(selectShopVersion.getMoney());
                 shopEnterParameter.setGradeId(gradeId);
-                ElectronicContractActivity.actionStart(mContext, shopEnterParameter);
+//                ElectronicContractActivity.actionStart(mContext, shopEnterParameter);
+                Intent intent=new Intent(mContext,PayActivity.class);
+                intent.putExtra("select_money",selectShopVersion.getMoney());
+                intent.putExtra("shopGradeId",shopEnterParameter.getShopGradeId());
+                startActivity(intent);
             }
 
             @Override

@@ -61,6 +61,7 @@ public class LoadingDialog {
         return mLoadingDialog;
     }
 
+
     /**
      * 关闭加载对话框
      */

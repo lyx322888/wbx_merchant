@@ -11,13 +11,17 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.uuzuche.lib_zxing.view.ViewfinderView;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.AccreditationActivity;
 import com.wbx.merchant.activity.ActivityManagerActivity;
+import com.wbx.merchant.activity.AwardCashActivity;
 import com.wbx.merchant.activity.BookSeatActivity;
+import com.wbx.merchant.activity.CashActivity;
 import com.wbx.merchant.activity.DaDaActivity;
 import com.wbx.merchant.activity.GoodsAccreditationActivity;
 import com.wbx.merchant.activity.GoodsManagerActivity;
@@ -46,13 +50,16 @@ import com.wbx.merchant.base.BaseFragment;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.baseapp.AppManager;
 import com.wbx.merchant.bean.ShopInfo;
+import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.dialog.AlertUploadAccreditationDialog;
 import com.wbx.merchant.dialog.DaDaCouponDialog;
 import com.wbx.merchant.dialog.MiniProgramDialog;
 import com.wbx.merchant.dialog.OperatingStateDialog;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.SPUtils;
+import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.CircleImageView;
+import com.wbx.merchant.widget.CustomizedProgressBar;
 import com.wbx.merchant.widget.LoadingDialog;
 
 import java.util.ArrayList;
@@ -96,12 +103,24 @@ public class IndexFragment extends BaseFragment {
     TextView tvNumberOrderNum;
     @Bind(R.id.tv_goods_manager_num)
     TextView tvGoodsManagerNum;
+    //    @Bind(R.id.ll_award)
+//    LinearLayout ll_award;
+//    @Bind(R.id.tv_customized)
+//    TextView tv_customized;
+//    @Bind(R.id.bt_cash_withdrawal)
+//    Button bt_cash_withdrawal;
     private ShopInfo shopInfo;
     private Dialog dialog;
     private EditText inputEdit;
     private Button cancelBtn;
     private Button completeBtn;
     private MyReceiver myReceiver;
+    private CustomizedProgressBar customized;
+    private float progressMax = 30000;
+    private boolean Awardflag = false;
+    private LinearLayout ll_award;
+    private TextView tv_customized;
+    private Button bt_cash_withdrawal;
 
     @Override
     protected int getLayoutResource() {
@@ -113,17 +132,22 @@ public class IndexFragment extends BaseFragment {
         IntentFilter filter = new IntentFilter(AppConfig.REFRESH_UI);
         myReceiver = new MyReceiver();
         getActivity().registerReceiver(myReceiver, filter);
+
+        getShopInfo();
     }
 
 
     @Override
     protected void initView() {
+        customized = rootView.findViewById(R.id.customizedbar);
+        ll_award = rootView.findViewById(R.id.ll_award);
+        tv_customized = rootView.findViewById(R.id.tv_customized);
+        bt_cash_withdrawal = rootView.findViewById(R.id.bt_cash_withdrawal);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getShopInfo();
 //        EMChatManager emChatManager = EMClient.getInstance().chatManager();
 //        if (null != emChatManager) {
 //            int unreadMsgsCount = emChatManager.getUnreadMsgsCount();
@@ -171,6 +195,7 @@ public class IndexFragment extends BaseFragment {
                 loginUser.setScan_order_type(shopInfo.getScan_order_type());
                 BaseApplication.getInstance().saveUserInfo(loginUser);
                 setData();
+
             }
 
             @Override
@@ -241,9 +266,38 @@ public class IndexFragment extends BaseFragment {
                 }
             }
         }
+
         if (shopInfo.getIs_dispatching_money_activity() == 0) {
             DaDaCouponDialog.newInstance().show(getFragmentManager(), "");
         }
+
+        if (shopInfo.getShop_grade() == 6) {
+            Boolean flag = SPUtils.getSharedBooleanData(getContext(), "flag");
+            if (Awardflag == flag) {
+                ll_award.setVisibility(View.VISIBLE);
+                tv_customized.setText((int) shopInfo.getOrder_money() + "");
+                customized.setMaxCount(progressMax);
+                customized.setCurrentCount(shopInfo.getOrder_money());
+                bt_cash_withdrawal.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (shopInfo.getOrder_money() < 30000) {
+                            ToastUitl.showShort("未到达活动金额,无法提现！");
+                            return;
+                        }
+//                        Intent intent = new Intent(getContext(), AwardCashActivity.class);
+//                        startActivity(intent);
+                        startActivityForResult(AwardCashActivity.class, 0);
+                    }
+                });
+            } else {
+                ll_award.setVisibility(View.GONE);
+            }
+
+        } else {
+            ll_award.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -293,7 +347,7 @@ public class IndexFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager})
+    @OnClick({R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager,R.id.ll_video_study})
     public void onViewClicked(View view) {
         if (shopInfo == null) {
             return;
@@ -383,6 +437,9 @@ public class IndexFragment extends BaseFragment {
             case R.id.rl_seat_manager:
                 startActivity(new Intent(getActivity(), SeatActivity.class));
                 break;
+            case R.id.ll_video_study:
+                WebActivity.actionStart(getContext(), "http://www.wbx365.com/Wbxwaphome/video");
+                break;
         }
     }
 
@@ -437,6 +494,17 @@ public class IndexFragment extends BaseFragment {
                     hasMessageTv.setVisibility(View.VISIBLE);
                 }
             });
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && requestCode == 0) {
+            SPUtils.setSharedBooleanData(getContext(), "flag", true);
+            if (shopInfo.getShop_grade() == 6 || shopInfo.getShop_grade() != 6) {
+                ll_award.setVisibility(View.GONE);
+            }
         }
     }
 }

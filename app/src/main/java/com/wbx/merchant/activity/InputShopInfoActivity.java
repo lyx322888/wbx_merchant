@@ -32,6 +32,7 @@ import com.wbx.merchant.bean.JoinAddressInfo;
 import com.wbx.merchant.bean.ShopGradeInfo;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.PermissionsChecker;
+import com.wbx.merchant.utils.SPUtils;
 import com.wbx.merchant.utils.UpLoadPicUtils;
 import com.wbx.merchant.widget.AddressBottomDialog;
 import com.wbx.merchant.widget.LoadingDialog;
@@ -110,7 +111,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
     @Override
     public void initView() {
         addressPickerView = new OptionsPickerView.Builder(mContext, new MyPickerSelectListener(0)).build();
-        gradePickerView = new OptionsPickerView.Builder(mContext, new MyPickerSelectListener(1)).build();
+//        gradePickerView = new OptionsPickerView.Builder(mContext, new MyPickerSelectListener(1)).build();
     }
 
     @Override
@@ -136,7 +137,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
         shopNameEdit.setFilters(new InputFilter[]{filter});
     }
 
-    @OnClick({R.id.shop_info_next_btn, R.id.get_location_btn, R.id.get_shop_cate_layout, R.id.store_signage_pic_layout, R.id.choose_shop_address_layout})
+    @OnClick({R.id.shop_info_next_btn, R.id.get_location_btn, R.id.store_signage_pic_layout, R.id.choose_shop_address_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.shop_info_next_btn:
@@ -147,9 +148,9 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
             case R.id.get_location_btn:
                 initLocation();
                 break;
-            case R.id.get_shop_cate_layout:
-                getShopCate();
-                break;
+//            case R.id.get_shop_cate_layout:
+//                getShopCate();
+//                break;
             case R.id.store_signage_pic_layout:
                 //选择封面图
                 PhotoPicker.builder()
@@ -201,7 +202,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
             public void onSuccess(JSONObject result) {
                 JSONObject data = JSONObject.parseObject(result.getString("data"));
                 userInfo.setShop_id(data.getIntValue("shop_id"));
-                userInfo.setGrade_id((int) mParams.get("grade_id"));
+//                userInfo.setGrade_id((int) mParams.get("grade_id"));
                 showShortToast(result.getString("msg"));
                 startActivity(new Intent(mContext, ChooseShopTypeActivity.class));
                 BaseApplication.getInstance().saveUserInfo(userInfo);
@@ -247,29 +248,29 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
         }
     }
 
-    private void getShopCate() {
-        LoadingDialog.showDialogForLoading(mActivity, "获取中...", false);
-        new MyHttp().doPost(Api.getDefault().getShopGrade(), new HttpListener() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                shopGradeInfos = JSONArray.parseArray(result.getString("data"), ShopGradeInfo.class);
-                if (!gradePickerView.isShowing()) {
-                    showGradePickerView();
-                }
-            }
+//    private void getShopCate() {
+//        LoadingDialog.showDialogForLoading(mActivity, "获取中...", false);
+//        new MyHttp().doPost(Api.getDefault().getShopGrade(), new HttpListener() {
+//            @Override
+//            public void onSuccess(JSONObject result) {
+//                shopGradeInfos = JSONArray.parseArray(result.getString("data"), ShopGradeInfo.class);
+//                if (!gradePickerView.isShowing()) {
+//                    showGradePickerView();
+//                }
+//            }
+//
+//            @Override
+//            public void onError(int code) {
+//
+//            }
+//        });
+//    }
 
-            @Override
-            public void onError(int code) {
-
-            }
-        });
-    }
-
-    //弹出商家等级/商家分类的pickerview
-    private void showGradePickerView() {
-        gradePickerView.setPicker(shopGradeInfos);//添加数据
-        gradePickerView.show();
-    }
+//    //弹出商家等级/商家分类的pickerview
+//    private void showGradePickerView() {
+//        gradePickerView.setPicker(shopGradeInfos);//添加数据
+//        gradePickerView.show();
+//    }
 
     private void initLocation() {
         //初始化AMapLocationClientOption对象
@@ -336,10 +337,10 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
             showShortToast("请输入代理账号");
             return false;
         }
-        if (TextUtils.isEmpty(shopShopGradeTv.getText().toString())) {
-            showShortToast("请选择店铺分类");
-            return false;
-        }
+//        if (TextUtils.isEmpty(shopShopGradeTv.getText().toString())) {
+//            showShortToast("请选择店铺分类");
+//            return false;
+//        }
         if (TextUtils.isEmpty(shopShopAddressTv.getText().toString())) {
             showShortToast("请选择店铺地址");
             return false;

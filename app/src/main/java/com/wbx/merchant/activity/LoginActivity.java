@@ -228,15 +228,7 @@ public class LoginActivity extends BaseActivity {
         if (0 == userInfo.getShop_id()) {
             //未填写信息
             startActivity(new Intent(mContext, InputShopInfoActivity.class));
-        } else if (0 == userInfo.getHas_shop_pact() && userInfo.getIs_new_shop() == 1) {
-            //是邀请入驻的活动商家而且没合同信息
-            ShopEnterParameter shopEnterParameter = new ShopEnterParameter();
-            shopEnterParameter.setGradeName(userInfo.getShop_grade_name());
-            shopEnterParameter.setShopGradeId(userInfo.getShop_grade());
-            shopEnterParameter.setNeedPayPrice(userInfo.getShop_grade_price());
-            shopEnterParameter.setGradeId(userInfo.getGrade_id());
-            ElectronicContractActivity.actionStart(mContext, shopEnterParameter);
-        } else if (0 == userInfo.getEnd_date()) {
+        }  else if (0 == userInfo.getEnd_date()) {
             //未缴费
             startActivity(new Intent(mContext, ChooseShopTypeActivity.class));
         } else if (userInfo.getEnd_date() <= System.currentTimeMillis() / 1000) {

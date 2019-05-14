@@ -122,6 +122,7 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
         holder.setText(R.id.tv_money, String.format("¥%.2f", orderInfo.getNeed_pay() / 100.00));
         final TextView tvExpandState = holder.getView(R.id.tv_expand_state);
         tvExpandState.setText("展开");
+        tvExpandState.setTextColor(mContext.getResources().getColor(R.color.red));
         final ImageView ivExpandState = holder.getView(R.id.iv_expand_state);
         ivExpandState.setImageResource(R.drawable.icon_arrow_down);
         holder.getView(R.id.ll_toggle_expand_state).setOnClickListener(new View.OnClickListener() {
@@ -129,10 +130,12 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
             public void onClick(View v) {
                 if ("展开".equals(tvExpandState.getText().toString())) {
                     tvExpandState.setText("收起");
+                    tvExpandState.setTextColor(mContext.getResources().getColor(R.color.app_color));
                     ivExpandState.setImageResource(R.drawable.icon_arrow_up);
                     adapter.showAll();
                 } else {
                     tvExpandState.setText("展开");
+                    tvExpandState.setTextColor(mContext.getResources().getColor(R.color.red));
                     ivExpandState.setImageResource(R.drawable.icon_arrow_down);
                     adapter.hideSome();
                 }

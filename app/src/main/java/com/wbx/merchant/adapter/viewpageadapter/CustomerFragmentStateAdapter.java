@@ -25,7 +25,7 @@ public class CustomerFragmentStateAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return MyMemberFragment.newInstance(position + 1);
+        return MyMemberFragment.newInstance(position+1);
     }
 
     @Override

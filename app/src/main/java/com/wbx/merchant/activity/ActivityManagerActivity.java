@@ -44,7 +44,7 @@ public class ActivityManagerActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_right, R.id.iv_coupon, R.id.iv_full_reduce, R.id.iv_seckill, R.id.iv_send_red_packet, R.id.iv_consume_free, R.id.iv_share_free, R.id.iv_integral_free})
+    @OnClick({R.id.tv_right, R.id.iv_coupon, R.id.iv_full_reduce, R.id.iv_seckill, R.id.iv_send_red_packet, R.id.iv_share_free, R.id.iv_integral_free})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_right:
@@ -62,9 +62,9 @@ public class ActivityManagerActivity extends BaseActivity {
             case R.id.iv_send_red_packet:
                 ShopRedPacketActivity.actionStart(ActivityManagerActivity.this);
                 break;
-            case R.id.iv_consume_free:
-                ConsumeFreeListActivity.actionStart(this);
-                break;
+//            case R.id.iv_consume_free:
+//                ConsumeFreeListActivity.actionStart(this);
+//                break;
             case R.id.iv_share_free:
                 ShareFreeListActivity.actionStart(this);
                 break;

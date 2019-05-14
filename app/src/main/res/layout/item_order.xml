@@ -217,10 +217,10 @@
             android:layout_width="73dp"
             android:layout_height="32dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/ova_line_white"
+            android:background="@drawable/ova_line_red"
             android:gravity="center"
             android:text="订单详情"
-            android:textColor="@color/index_gray"
+            android:textColor="@color/red"
             android:textSize="13sp"
             android:visibility="visible" />
 

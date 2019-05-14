@@ -35,7 +35,7 @@
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="商家补贴"
+            android:text="商家分红"
             android:textSize="15sp" />
 
         <RelativeLayout
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="补贴总金额（元）"
+                android:text="分红总金额（元）"
                 android:textColor="#4c4b4b"
                 android:textSize="15sp" />
 

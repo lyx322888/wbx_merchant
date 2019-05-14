@@ -17,6 +17,10 @@
     <color name="actionsheet_blue">#037BFF</color>
     <color name="actionsheet_gray">#8F8F8F</color>
 
+    <color name="fenlei_gray">#F5F6F6</color>
+    <color name="fenlei_text">#24B4A4</color>
+    <color name="fenlei_text2">#333333</color>
+
     <!--象牙色 -->
 
     <color name="bg_video_controller">#A6000000</color>
@@ -452,4 +456,10 @@
     <color name="black">#000000</color><!--黑色 -->
     <color name="divider">#cdcdcd</color><!--分割线 -->
     <color name="light_divider">#f7f7f7</color><!--浅色分割线 -->
+
+    <!--自定义进度条背景颜色-->
+    <color name="white_alpha">#0c000000</color>
+
+    <!--自定义进度条渐变颜色-->
+    <color name="progress_color_1">#4BDCD2</color>
 </resources>

@@ -58,6 +58,7 @@ public class SeatActivity extends BaseActivity {
     private HashMap<String, Object> mParams = new HashMap<>();
     private Dialog qrCodeDialog;
     private ImageView showQrCodeIm;
+    private TextView showName;
     private View inflate;
     private Bitmap mBitmap;
     private boolean isEdit = false;
@@ -135,6 +136,7 @@ public class SeatActivity extends BaseActivity {
             public void onItemClicked(View view, int position) {
                 if (null == qrCodeDialog) {
                     inflate = getLayoutInflater().inflate(R.layout.dialog_qrcode_seat, null);
+                    showName = inflate.findViewById(R.id.shop_name_tv);
                     showQrCodeIm = inflate.findViewById(R.id.show_qrcode_im);
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     builder.setView(inflate);

@@ -361,7 +361,9 @@
         <activity android:name=".activity.ShareFreeListActivity" />
         <activity android:name=".activity.AddShareFreeActivity" />
         <activity android:name=".activity.AddIntegralFreeActivity" />
-        <activity android:name=".activity.IntegralFreeListActivity"></activity>
+        <activity android:name=".activity.IntegralFreeListActivity" />
+        <activity android:name=".activity.AwardCashActivity" />
+        <activity android:name=".activity.ChooseShopTypeActivity2"></activity>
     </application>
 
 </manifest>
