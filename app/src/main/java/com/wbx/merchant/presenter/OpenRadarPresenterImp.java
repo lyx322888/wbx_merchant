@@ -12,7 +12,7 @@ public class OpenRadarPresenterImp implements OpenRadarPresenter {
 
     public OpenRadarPresenterImp(OpenRadarView openRadarView) {
         this.openRadarView = openRadarView;
-        openRadarModelImp=new OpenRadarModelImp();
+        openRadarModelImp = new OpenRadarModelImp();
     }
 
     @Override
@@ -20,7 +20,10 @@ public class OpenRadarPresenterImp implements OpenRadarPresenter {
         openRadarModelImp.getOpenRadar(login_token, new OnNetListener() {
             @Override
             public void onSuccess(Object o) {
+
                 openRadarView.getOpenRadar((OpenRadarBean) o);
+
+
             }
         });
     }

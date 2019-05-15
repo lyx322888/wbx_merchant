@@ -14,6 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+        <ImageView
+            android:id="@+id/radar_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:src="@drawable/radar_img"/>
 
         <Button
             android:id="@+id/all_bind"
@@ -21,8 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@drawable/shape_radar_button"
-            android:text="全部绑定"
             android:onClick="all_bind"
+            android:text="全部绑定"
             android:textColor="@color/white" />
     </LinearLayout>
 

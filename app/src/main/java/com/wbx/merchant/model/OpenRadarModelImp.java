@@ -28,7 +28,7 @@ public class OpenRadarModelImp implements OpenRadarModel {
 
                     @Override
                     public void onNext(OpenRadarBean openRadarBean) {
-                        if (openRadarBean!=null){
+                        if (openRadarBean.getMsg().equals("成功")){
                             onNetListener.onSuccess(openRadarBean);
                         }
                     }

@@ -35,7 +35,6 @@ public class OpenRadarAdapter extends RecyclerView.Adapter<OpenRadarAdapter.VH> 
     public OpenRadarAdapter(Context context, List<OpenRadarBean.DataBean> list) {
         this.context = context;
         this.list = list;
-        notifyDataSetChanged();
     }
 
     @NonNull

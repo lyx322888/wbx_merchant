@@ -61,7 +61,7 @@ public class CustomerManagerActivity extends BaseActivity implements OpenRadarVi
     private Button all_bind;
     private Dialog mLoadingDialog;
     private List<OpenRadarBean.DataBean> list = new ArrayList<>();
-
+    private  ImageView radar_img;
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, CustomerManagerActivity.class);
         context.startActivity(intent);
@@ -113,13 +113,18 @@ public class CustomerManagerActivity extends BaseActivity implements OpenRadarVi
             }
         });
         mRecyclerView = view.findViewById(R.id.recycler_radar);
+        radar_img=view.findViewById(R.id.radar_img);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         OpenRadarPresenterImp openRadarPresenterImp = new OpenRadarPresenterImp(this);
-        if (openRadarPresenterImp != null) {
+        if (openRadarPresenterImp!=null){
             openRadarPresenterImp.getOpenRadar(LoginUtil.getLoginToken());
+            mRecyclerView.setVisibility(View.VISIBLE);
+            radar_img.setVisibility(View.GONE);
         }else{
-            LoadingDialog.showDialogForLoading(this);
+            mRecyclerView.setVisibility(View.GONE);
+            radar_img.setVisibility(View.VISIBLE);
         }
+
         p.setFocusable(true);
         p.setOutsideTouchable(true);
 
@@ -140,9 +145,6 @@ public class CustomerManagerActivity extends BaseActivity implements OpenRadarVi
         OpenRadarAdapter openRadarAdapter = new OpenRadarAdapter(mContext, openRadarBean.getData());
         mRecyclerView.setAdapter(openRadarAdapter);
         list.addAll(openRadarBean.getData());
-        if (openRadarBean.getData() == null) {
-            LoadingDialog.showDialogForLoading(this);
-        }
         openRadarAdapter.notifyDataSetChanged();
     }
 
