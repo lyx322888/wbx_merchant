@@ -41,11 +41,12 @@ public class ProprietaryGoodsAdapter extends BaseAdapter<ProprietaryGoodsBean.Da
         TextView tvPrice = holder.getView(R.id.tv_price);
 
         ImageView tvPhoto = holder.getView(R.id.iv_photo);
-        CicleAddAndSubView addorsub = holder.getView(R.id.addorsub);
+        final CicleAddAndSubView addorsub = holder.getView(R.id.addorsub);
         tvName.setText(dataBean.getTitle());
         tvPs.setText(dataBean.getDescribe());
         tvPrice.setText("¥" + (float) dataBean.getPrice() / 100 + "");
         GlideUtils.showMediumPic(mContext, tvPhoto, dataBean.getPhoto());
+        addorsub.setNum(dataBean.getOrder_num());
         addorsub.setOnNumChangeListener(new CicleAddAndSubView.OnNumChangeListener() {
             @Override
             public void onNumChange(View view, String stype, final int num) {
