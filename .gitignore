@@ -70,5 +70,5 @@ fastlane/test_output
 fastlane/readme.md
 debug/output.json
 
-build
+/build
 
