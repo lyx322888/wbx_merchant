@@ -6,6 +6,7 @@ import com.wbx.merchant.bean.BindAllUserBean;
 import com.wbx.merchant.bean.BindUserBean;
 import com.wbx.merchant.bean.CateBean;
 import com.wbx.merchant.bean.CateInfo;
+import com.wbx.merchant.bean.GoodsDetailsInfo;
 import com.wbx.merchant.bean.GradeInfoBean;
 import com.wbx.merchant.bean.OpenRadarBean;
 import com.wbx.merchant.bean.ProprietaryGoodsBean;
@@ -46,6 +47,8 @@ public interface ApiServices {
     @POST("/sjapi/interiorshop/list_goods")
     Observable<ProprietaryGoodsBean> getProprietaryGoods(@Field("sj_login_token") String login_token, @Field("page") int page, @Field("num") int num);
 
-
+    @FormUrlEncoded
+    @POST("/sjapi/interiorshop/get_goods_details")
+    Observable<GoodsDetailsInfo> getGoodsDetails(@Field("sj_login_token") String login_token, @Field("goods_id") int goods_id);
 
 }

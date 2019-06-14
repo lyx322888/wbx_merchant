@@ -864,5 +864,8 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST(" /sjapi/interiorshop/update_order_num")
-    Observable<JSONObject> getUpdate(@Field("sj_login_token") String login_token,@Field("goods_id") int goods_id,@Field("type") String type);
+    Observable<JSONObject> getUpdate(@Field("sj_login_token") String login_token, @Field("goods_id") int goods_id, @Field("type") String type);
+
+
+
 }

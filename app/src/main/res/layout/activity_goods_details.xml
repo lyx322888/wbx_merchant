@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.GoodsDetailsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/app_color"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:onClick="back">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_arrow_black"
+                android:tint="@color/colorWhite" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="微百姓自营店"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"></RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:background="@color/app_color" />
+
+        <ImageView
+            android:padding="20dp"
+            android:id="@+id/goods_photo"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_goods_imger"
+            android:layout_marginRight="15dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_weight="1"
+        android:padding="15dp"
+        android:background="@drawable/shape_goods_details"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/goods_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:text="24小时无人接单价"/>
+        <TextView
+            android:id="@+id/goods_ps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:layout_marginTop="9dp"
+            android:textStyle="bold"
+            android:textColor="#AAAAAA"
+            android:text="防蛀 清新口气"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="价格："
+                android:textColor="#ff000000"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/goods_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥589"
+                android:textStyle="bold"
+                android:textColor="#ff0000"
+                android:textSize="15sp"
+                />
+            <TextView
+                android:id="@+id/goods_original"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥2580"
+                android:textColor="#ff7c7c7c"
+                android:textSize="12sp"
+                android:layout_marginLeft="12dp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="免运费"
+                android:textColor="#ff7c7c7c"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                />
+            <TextView
+                android:id="@+id/goods_volume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="销量 589"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="#ff7c7c7c"
+                android:textSize="12sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="厦门"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:textColor="#ff7c7c7c"
+                android:textSize="12sp"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="购买过的商家"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginTop="25dp"
+            android:textColor="#333333"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="共"
+                android:textSize="12sp"
+                android:layout_marginTop="25dp"
+                android:textColor="#333333"/>
+            <TextView
+                android:id="@+id/goods_shop_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123456"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+                android:textColor="@color/app_color"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="家"
+                android:textSize="12sp"
+                android:layout_marginTop="25dp"
+                android:textColor="#333333"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/button_buy"
+        android:layout_width="300dp"
+        android:layout_height="38dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/shape_button"
+        android:gravity="center"
+        android:onClick="buy"
+        android:text="立即购买"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+</LinearLayout>

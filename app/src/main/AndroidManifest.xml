@@ -364,7 +364,8 @@
         <activity android:name=".activity.IntegralFreeListActivity" />
         <activity android:name=".activity.AwardCashActivity" />
         <activity android:name=".activity.ChooseShopTypeActivity2" />
-        <activity android:name=".activity.BusinessMustActivity"></activity>
+        <activity android:name=".activity.BusinessMustActivity" />
+        <activity android:name=".activity.GoodsDetailsActivity"></activity>
     </application>
 
 </manifest>
