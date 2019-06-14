@@ -363,7 +363,8 @@
         <activity android:name=".activity.AddIntegralFreeActivity" />
         <activity android:name=".activity.IntegralFreeListActivity" />
         <activity android:name=".activity.AwardCashActivity" />
-        <activity android:name=".activity.ChooseShopTypeActivity2"></activity>
+        <activity android:name=".activity.ChooseShopTypeActivity2" />
+        <activity android:name=".activity.BusinessMustActivity"></activity>
     </application>
 
 </manifest>

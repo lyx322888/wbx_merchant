@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:hyphenate="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".activity.BusinessMustActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +38,7 @@
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="消息"
+            android:text="微百姓自营商品"
             android:textColor="@color/colorWhite"
             android:textSize="15sp" />
 
@@ -44,11 +47,31 @@
             android:layout_height="60dp"></RelativeLayout>
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/content_container"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/goods_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:padding="8dp">-->
+
+        <TextView
+            android:id="@+id/button_buy"
+            android:layout_width="300dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_button"
+            android:gravity="center"
+            android:text="立即购买"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:onClick="buy"
+            android:textSize="15sp" />
+    <!--</LinearLayout>-->
 
 
-    </FrameLayout>
 </LinearLayout>

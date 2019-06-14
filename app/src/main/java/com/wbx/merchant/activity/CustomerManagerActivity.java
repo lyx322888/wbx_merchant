@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.wbx.merchant.utils.RetrofitUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.view.OpenRadarView;
 import com.wbx.merchant.widget.LoadingDialog;
+import com.wbx.merchant.widget.refresh.PullToRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,14 +56,14 @@ public class CustomerManagerActivity extends BaseActivity implements OpenRadarVi
     @Bind(R.id.order_view_pager)
     ViewPager mOrderViewPager;
     //    private String[] mTitles = new String[]{"最近消费", "次数最多", "金额最多", "购买过的客户", "关注过的客户"};
-    private String[] mTitles = new String[]{"购买客户", "关注客户","雷达客户"};
+    private String[] mTitles = new String[]{"购买客户", "关注客户", "雷达客户"};
     private CustomerFragmentStateAdapter mAdapter;
     private PopupWindow p;
     private RecyclerView mRecyclerView;
     private Button all_bind;
     private Dialog mLoadingDialog;
     private List<OpenRadarBean.DataBean> list = new ArrayList<>();
-    private  ImageView radar_img;
+    private OpenRadarAdapter openRadarAdapter;
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, CustomerManagerActivity.class);
         context.startActivity(intent);
@@ -113,17 +115,9 @@ public class CustomerManagerActivity extends BaseActivity implements OpenRadarVi
             }
         });
         mRecyclerView = view.findViewById(R.id.recycler_radar);
-        radar_img=view.findViewById(R.id.radar_img);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         OpenRadarPresenterImp openRadarPresenterImp = new OpenRadarPresenterImp(this);
-        if (openRadarPresenterImp!=null){
-            openRadarPresenterImp.getOpenRadar(LoginUtil.getLoginToken());
-            mRecyclerView.setVisibility(View.VISIBLE);
-            radar_img.setVisibility(View.GONE);
-        }else{
-            mRecyclerView.setVisibility(View.GONE);
-            radar_img.setVisibility(View.VISIBLE);
-        }
+        openRadarPresenterImp.getOpenRadar(LoginUtil.getLoginToken());
 
         p.setFocusable(true);
         p.setOutsideTouchable(true);
@@ -142,7 +136,7 @@ public class CustomerManagerActivity extends BaseActivity implements OpenRadarVi
 
     @Override
     public void getOpenRadar(final OpenRadarBean openRadarBean) {
-        OpenRadarAdapter openRadarAdapter = new OpenRadarAdapter(mContext, openRadarBean.getData());
+        openRadarAdapter = new OpenRadarAdapter(mContext, openRadarBean.getData());
         mRecyclerView.setAdapter(openRadarAdapter);
         list.addAll(openRadarBean.getData());
         openRadarAdapter.notifyDataSetChanged();

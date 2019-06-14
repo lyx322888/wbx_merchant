@@ -8,6 +8,7 @@ import com.wbx.merchant.bean.CateBean;
 import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GradeInfoBean;
 import com.wbx.merchant.bean.OpenRadarBean;
+import com.wbx.merchant.bean.ProprietaryGoodsBean;
 import com.wbx.merchant.bean.ShopGradeInfo;
 
 import retrofit2.http.Field;
@@ -23,7 +24,7 @@ public interface ApiServices {
     //获取店铺分类
     @FormUrlEncoded
     @POST("/sjapi/apply/get_shop_cate")
-    Observable<CateBean> getShopCate(@Field("sj_login_token") String login_token,@Field("grade_id") int gradeId);
+    Observable<CateBean> getShopCate(@Field("sj_login_token") String login_token, @Field("grade_id") int gradeId);
 
     //扫描雷达
     @FormUrlEncoded
@@ -33,10 +34,18 @@ public interface ApiServices {
     //绑定用户
     @FormUrlEncoded
     @POST("/sjapi/user/bind_radar_user")
-    Observable<BindUserBean> getBindUser(@Field("sj_login_token") String login_token,@Field("user_id") String user_id);
+    Observable<BindUserBean> getBindUser(@Field("sj_login_token") String login_token, @Field("user_id") String user_id);
 
     //绑定全部用户
     @FormUrlEncoded
     @POST("/sjapi/user/bind_all_radar_user")
     Observable<BindAllUserBean> getBindAllUser(@Field("sj_login_token") String login_token);
+
+    //自营商品列表
+    @FormUrlEncoded
+    @POST("/sjapi/interiorshop/list_goods")
+    Observable<ProprietaryGoodsBean> getProprietaryGoods(@Field("sj_login_token") String login_token, @Field("page") int page, @Field("num") int num);
+
+
+
 }

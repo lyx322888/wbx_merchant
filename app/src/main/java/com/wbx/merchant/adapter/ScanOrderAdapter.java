@@ -12,6 +12,7 @@ import com.wbx.merchant.R;
 import com.wbx.merchant.activity.ScanOrderActivity;
 import com.wbx.merchant.activity.ScanOrderDetailActivity;
 import com.wbx.merchant.bean.ScanOrderBean;
+import com.wbx.merchant.utils.UniCodeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,8 @@ public class ScanOrderAdapter extends RecyclerView.Adapter<ScanOrderAdapter.MyVi
             holder.tvState.setText("已完成");
         }
         final ScanOrderBean data = lstData.get(position);
-        holder.tvTableNum.setText(data.getSeat());
+        String seat = UniCodeUtils.decode(data.getSeat());
+        holder.tvTableNum.setText(seat);
         holder.tvOrderNum.setText("订单编号：" + data.getOut_trade_no());
         holder.tvTime.setText("就餐时间：" + data.getCreate_time());
         holder.tvPeopleNum.setText("就餐人数：" + data.getPeople_num());

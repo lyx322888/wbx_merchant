@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.autonavi.amap.mapcore.interfaces.IText;
@@ -47,6 +48,13 @@ public class OpenRadarAdapter extends RecyclerView.Adapter<OpenRadarAdapter.VH> 
 
     @Override
     public void onBindViewHolder(@NonNull final VH holder, final int position) {
+        if (list.size() == 0) {
+            holder.radar.setVisibility(View.VISIBLE);
+            holder.ll_user.setVisibility(View.GONE);
+        } else {
+            holder.radar.setVisibility(View.GONE);
+            holder.ll_user.setVisibility(View.VISIBLE);
+        }
         holder.tv_name.setText(list.get(position).getNickname());
         if (list.get(position).getIs_shop_member() == 1) {
             holder.iv_vip.setVisibility(View.VISIBLE);
@@ -105,6 +113,8 @@ public class OpenRadarAdapter extends RecyclerView.Adapter<OpenRadarAdapter.VH> 
         TextView tv_name;
         TextView tv_bind;
         TextView tv_distance;
+        ImageView radar;
+        LinearLayout ll_user;
 
         public VH(View itemView) {
             super(itemView);
@@ -113,6 +123,9 @@ public class OpenRadarAdapter extends RecyclerView.Adapter<OpenRadarAdapter.VH> 
             iv_vip = itemView.findViewById(R.id.iv_vip);
             tv_bind = itemView.findViewById(R.id.tv_bind);
             tv_distance = itemView.findViewById(R.id.tv_distance);
+
+            radar = itemView.findViewById(R.id.img_radar);
+            ll_user = itemView.findViewById(R.id.ll_user);
         }
     }
 }
