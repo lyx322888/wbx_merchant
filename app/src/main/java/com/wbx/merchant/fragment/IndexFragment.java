@@ -278,7 +278,7 @@ public class IndexFragment extends BaseFragment {
             Boolean flag = SPUtils.getSharedBooleanData(getContext(), "flag");
             if (Awardflag == flag) {
                 ll_award.setVisibility(View.VISIBLE);
-                tv_customized.setText((int) shopInfo.getOrder_money() + "");
+                tv_customized.setText((int) shopInfo.getOrder_money()/100 + "");
                 customized.setMaxCount(progressMax);
                 customized.setCurrentCount(shopInfo.getOrder_money());
                 bt_cash_withdrawal.setOnClickListener(new View.OnClickListener() {
@@ -350,7 +350,7 @@ public class IndexFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager,R.id.ll_video_study,R.id.rl_business_must})
+    @OnClick({R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager,R.id.ll_video_study})
     public void onViewClicked(View view) {
         if (shopInfo == null) {
             return;
@@ -443,9 +443,9 @@ public class IndexFragment extends BaseFragment {
             case R.id.ll_video_study:
                 WebActivity.actionStart(getContext(), "http://www.wbx365.com/Wbxwaphome/video");
                 break;
-            case R.id.rl_business_must:
-                startActivity(new Intent(getActivity(), BusinessMustActivity.class));
-                break;
+//            case R.id.rl_business_must:
+//                startActivity(new Intent(getActivity(), BusinessMustActivity.class));
+//                break;
         }
     }
 

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ import com.wbx.merchant.base.BaseFragment;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GoodsInfo;
+import com.wbx.merchant.utils.SPUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
@@ -292,6 +294,7 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
         mAdapter.setOnItemClickListener(R.id.edit_btn, new BaseAdapter.ItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
+                goodsIndex = position;
                 Intent intent = new Intent(getActivity(), ReleaseActivity.class);
                 intent.putExtra("goods", goodsInfoList.get(position));
                 getActivity().startActivityForResult(intent, GoodsManagerActivity.REQUEST_UPDATE_GOODS);
@@ -613,6 +616,8 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
         });
     }
 
+    private int goodsIndex;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -621,8 +626,12 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
         }
         switch (requestCode) {
             case GoodsManagerActivity.REQUEST_UPDATE_GOODS:
-                refresh();
+                GoodsInfo goodsInfo = (GoodsInfo) data.getSerializableExtra(ReleaseActivity.RESULT_GOODS);
+                goodsInfoList.set(goodsIndex,goodsInfo);
+                mAdapter.notifyItemChanged(goodsIndex);
+//                refresh();
                 break;
+
             case GoodsManagerActivity.REQUEST_ADD_GOODS:
                 refresh();
                 break;

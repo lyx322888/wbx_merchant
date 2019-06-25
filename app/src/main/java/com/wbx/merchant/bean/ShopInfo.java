@@ -40,7 +40,7 @@ public class ShopInfo implements Serializable {
     private int audit;
     private int is_open;
     private int shop_id;
-    private int end_date;
+    private long end_date;
     private String notice;
     private int is_subscribe;
     private int is_dispatching_money_activity;
@@ -159,11 +159,11 @@ public class ShopInfo implements Serializable {
         this.notice = notice;
     }
 
-    public int getEnd_date() {
+    public long getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(int end_date) {
+    public void setEnd_date(long end_date) {
         this.end_date = end_date;
     }
 

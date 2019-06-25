@@ -365,7 +365,10 @@
         <activity android:name=".activity.AwardCashActivity" />
         <activity android:name=".activity.ChooseShopTypeActivity2" />
         <activity android:name=".activity.BusinessMustActivity" />
-        <activity android:name=".activity.GoodsDetailsActivity"></activity>
+        <activity android:name=".activity.GoodsDetailsActivity" />
+        <activity android:name=".activity.ShopCartActivity" />
+        <activity android:name=".activity.ShopCartNoCardActivity" />
+        <activity android:name=".activity.GoodsOrderActivity"></activity>
     </application>
 
 </manifest>

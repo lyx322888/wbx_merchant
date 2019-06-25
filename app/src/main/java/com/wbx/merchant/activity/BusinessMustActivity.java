@@ -1,25 +1,22 @@
 package com.wbx.merchant.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
 import com.wbx.merchant.R;
 import com.wbx.merchant.adapter.ProprietaryGoodsAdapter;
-import com.wbx.merchant.api.Api;
-import com.wbx.merchant.api.HttpListener;
-import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseAdapter;
 import com.wbx.merchant.baseapp.AppConfig;
+import com.wbx.merchant.bean.OrderBean;
 import com.wbx.merchant.bean.ProprietaryGoodsBean;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.presenter.ProprietaryGoodsPresenterImp;
+import com.wbx.merchant.utils.RetrofitUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.view.ProprietaryGoodsView;
 
@@ -27,6 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class BusinessMustActivity extends BaseActivity implements ProprietaryGoodsView {
 
@@ -34,8 +36,9 @@ public class BusinessMustActivity extends BaseActivity implements ProprietaryGoo
     RecyclerView mRecycler;
     @Bind(R.id.button_buy)
     TextView mTextView;
-
     private List<ProprietaryGoodsBean.DataBean> dataList = new ArrayList<>();
+
+    public static String order = "interiorshop_order";
 
     @Override
 
@@ -45,7 +48,6 @@ public class BusinessMustActivity extends BaseActivity implements ProprietaryGoo
 
     @Override
     public void initPresenter() {
-
     }
 
     @Override
@@ -53,7 +55,6 @@ public class BusinessMustActivity extends BaseActivity implements ProprietaryGoo
         ProprietaryGoodsPresenterImp presenterImp = new ProprietaryGoodsPresenterImp(this);
         presenterImp.getProprietaryGoods(LoginUtil.getLoginToken(), AppConfig.pageNum, AppConfig.pageSize);
         mRecycler.setLayoutManager(new LinearLayoutManager(mContext));
-
 
     }
 
@@ -69,13 +70,15 @@ public class BusinessMustActivity extends BaseActivity implements ProprietaryGoo
 
     @Override
     public void getProprietaryGoods(final ProprietaryGoodsBean goodsBean) {
-        dataList.addAll(goodsBean.getData());
+
         ProprietaryGoodsAdapter adapter = new ProprietaryGoodsAdapter(goodsBean.getData(), mContext);
         mRecycler.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        dataList.addAll(goodsBean.getData());
         adapter.setOnItemClickListener(R.id.root_view, new BaseAdapter.ItemClickListener() {
             @Override
             public void onItemClicked(View view, final int position) {
+                shopIndex = position;
                 Intent intent = new Intent(mContext, GoodsDetailsActivity.class);
                 intent.putExtra("details_goods_id", goodsBean.getData().get(position).getGoods_id());
                 startActivity(intent);
@@ -83,11 +86,43 @@ public class BusinessMustActivity extends BaseActivity implements ProprietaryGoo
         });
     }
 
-    public void buy(View view) {
-        if (dataList.size() == 0) {
-            ToastUitl.showShort("请选择商品");
-            return;
-        }
+    private static int shopIndex;
 
+    @OnClick({R.id.button_buy})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_buy:
+//                Intent intent = new Intent(BusinessMustActivity.this, ShopCartActivity.class);
+//                startActivity(intent);
+                order();
+                break;
+
+            default:
+        }
+    }
+
+    private void order() {
+        RetrofitUtils.getInstance().server().getOeder(LoginUtil.getLoginToken())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<OrderBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(OrderBean orderBean) {
+                        Intent intent = new Intent(BusinessMustActivity.this, ShopCartActivity.class);
+                        intent.putExtra(order, orderBean);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
     }
 }

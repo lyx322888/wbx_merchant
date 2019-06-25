@@ -63,6 +63,9 @@ public class AppConfig {
         String wxpay = "weixinpay";//微信支付
         String alipay = "alipay";//支付宝
         String bank = "bank";//银行卡
+
+        String wxpayapp = "weixinapp";
+        String alipayapp = "alipayapp";
     }
 
     public interface CollectionType {

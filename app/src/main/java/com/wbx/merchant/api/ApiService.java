@@ -863,9 +863,15 @@ public interface ApiService {
     Observable<JSONObject> addShareFreeGoods(@Field("sj_login_token") String login_token, @Field("share_free_num") int share_free_num, @Field("share_free_amount") int share_free_amount, @Field("share_free_duration") long share_free_duration, @Field("goods_id") String goods_id);
 
     @FormUrlEncoded
-    @POST(" /sjapi/interiorshop/update_order_num")
+    @POST("/sjapi/interiorshop/update_order_num")
     Observable<JSONObject> getUpdate(@Field("sj_login_token") String login_token, @Field("goods_id") int goods_id, @Field("type") String type);
 
+    @FormUrlEncoded
+    @POST("/sjapi/interiorshop/edit_order_info")
+    Observable<JSONObject> getOrderInfo(@FieldMap Map<String, Object> params);
 
+    @FormUrlEncoded
+    @POST("/sjapi/interiorshop/pay")
+    Observable<JSONObject> getOrderPay(@Field("sj_login_token") String login_token, @Field("order_id") String order_id, @Field("code") String code);
 
 }

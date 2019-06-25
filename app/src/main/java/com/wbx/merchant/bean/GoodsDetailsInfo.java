@@ -66,6 +66,8 @@ public class GoodsDetailsInfo {
         private int buy_shop_num;
         private int cart_num;
         private List<String> buy_shop_photo;
+        private int has_printing;
+
 
         public int getGoods_id() {
             return goods_id;
@@ -161,6 +163,14 @@ public class GoodsDetailsInfo {
 
         public void setBuy_shop_photo(List<String> buy_shop_photo) {
             this.buy_shop_photo = buy_shop_photo;
+        }
+
+        public int getHas_printing() {
+            return has_printing;
+        }
+
+        public void setHas_printing(int has_printing) {
+            this.has_printing = has_printing;
         }
     }
 }

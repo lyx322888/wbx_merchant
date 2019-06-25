@@ -125,6 +125,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     private boolean isSpec;
     private List<SpecInfo> specList;
     private boolean canRelease = true;
+    public static String RESULT_GOODS = "result_goods";
 
     @Override
     public int getLayoutId() {
@@ -630,6 +631,9 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                 canRelease = true;
                 showShortToast(goods == null ? "商品添加成功！" : "更改成功！");
                 Intent intent = new Intent();
+//                intent.putExtra("goods",goods);
+//                intent.putExtra("price",priceEdit.getText().toString());
+                intent.putExtra(RESULT_GOODS, goods);
                 setResult(RESULT_OK, intent);
                 finish();
             }

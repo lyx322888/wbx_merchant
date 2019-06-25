@@ -22,7 +22,7 @@ public class GoodsInfo implements Serializable {
     private String photo;
     private List<String> goods_photo;
     private String product_name;
-    private int price;
+    private float price;
     private String cate_name;
     private boolean isSelect;
     private int closed;
@@ -37,7 +37,7 @@ public class GoodsInfo implements Serializable {
     //实体店返回的数据
     private int goods_id;
     private String title;//名称
-    private int mall_price;//金额
+    private float mall_price;//金额
     private String intro;//介绍
     private int sales_promotion_is;//是否促销
     private int sales_promotion_price;//促销价
@@ -253,11 +253,11 @@ public class GoodsInfo implements Serializable {
         this.title = title;
     }
 
-    public int getMall_price() {
+    public float getMall_price() {
         return mall_price;
     }
 
-    public void setMall_price(int mall_price) {
+    public void setMall_price(float mall_price) {
         this.mall_price = mall_price;
     }
 
@@ -357,11 +357,11 @@ public class GoodsInfo implements Serializable {
         this.product_name = product_name;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

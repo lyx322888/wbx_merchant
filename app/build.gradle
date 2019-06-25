@@ -11,7 +11,7 @@ android {
         release {
             keyAlias 'wbx365'
             keyPassword 'wbx365888'
-            storeFile file('D:/Android Project/keystore/wbxmerchant.jks')
+            storeFile file('G:/project/keystore/wbxmerchant.jks')
             storePassword 'wbx365888'
         }
     }

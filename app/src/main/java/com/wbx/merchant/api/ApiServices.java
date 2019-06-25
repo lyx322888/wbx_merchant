@@ -9,6 +9,7 @@ import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GoodsDetailsInfo;
 import com.wbx.merchant.bean.GradeInfoBean;
 import com.wbx.merchant.bean.OpenRadarBean;
+import com.wbx.merchant.bean.OrderBean;
 import com.wbx.merchant.bean.ProprietaryGoodsBean;
 import com.wbx.merchant.bean.ShopGradeInfo;
 
@@ -50,5 +51,10 @@ public interface ApiServices {
     @FormUrlEncoded
     @POST("/sjapi/interiorshop/get_goods_details")
     Observable<GoodsDetailsInfo> getGoodsDetails(@Field("sj_login_token") String login_token, @Field("goods_id") int goods_id);
+
+    @FormUrlEncoded
+    @POST("/sjapi/interiorshop/order")
+    Observable<OrderBean> getOeder(@Field("sj_login_token") String login_token);
+
 
 }
