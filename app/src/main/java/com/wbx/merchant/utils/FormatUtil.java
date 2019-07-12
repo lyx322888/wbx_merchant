@@ -380,6 +380,9 @@ public class FormatUtil {
         return res;
     }
 
+
+
+
     /*
      * 将时间转换为时间戳
      */
@@ -392,6 +395,17 @@ public class FormatUtil {
         return res;
     }
 
+    /*
+     * 将时间转换为时间戳
+     */
+    public static String dateToStamp3(String s) throws ParseException {
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = simpleDateFormat.parse(s);
+        long ts = date.getTime() / 1000;
+        res = String.valueOf(ts);
+        return res;
+    }
     /*
      * 将时间转换为时间戳
      */

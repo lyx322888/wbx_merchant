@@ -37,8 +37,8 @@ public class BusinessMustActivity extends BaseActivity implements ProprietaryGoo
     @Bind(R.id.button_buy)
     TextView mTextView;
     private List<ProprietaryGoodsBean.DataBean> dataList = new ArrayList<>();
+    private ProprietaryGoodsAdapter adapter;
 
-    public static String order = "interiorshop_order";
 
     @Override
 
@@ -71,7 +71,7 @@ public class BusinessMustActivity extends BaseActivity implements ProprietaryGoo
     @Override
     public void getProprietaryGoods(final ProprietaryGoodsBean goodsBean) {
 
-        ProprietaryGoodsAdapter adapter = new ProprietaryGoodsAdapter(goodsBean.getData(), mContext);
+        adapter = new ProprietaryGoodsAdapter(goodsBean.getData(), mContext);
         mRecycler.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         dataList.addAll(goodsBean.getData());
@@ -90,15 +90,23 @@ public class BusinessMustActivity extends BaseActivity implements ProprietaryGoo
 
     @OnClick({R.id.button_buy})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.button_buy:
-//                Intent intent = new Intent(BusinessMustActivity.this, ShopCartActivity.class);
-//                startActivity(intent);
-                order();
-                break;
+//        if (isNext()) {
+//            order();
+//        } else {
+//            ToastUitl.showShort("请选择商品");
+//        }
+        order();
+    }
 
-            default:
+    private int mCount;
+
+    private boolean isNext() {
+        mCount = 0;
+        for (ProprietaryGoodsBean.DataBean dataBean : dataList) {
+            mCount = mCount + dataBean.getOrder_num();
         }
+
+        return mCount != 0;
     }
 
     private void order() {
@@ -119,7 +127,7 @@ public class BusinessMustActivity extends BaseActivity implements ProprietaryGoo
                     @Override
                     public void onNext(OrderBean orderBean) {
                         Intent intent = new Intent(BusinessMustActivity.this, ShopCartActivity.class);
-                        intent.putExtra(order, orderBean);
+                        intent.putExtra(ShopCartActivity.order, orderBean);
                         startActivity(intent);
                         finish();
                     }

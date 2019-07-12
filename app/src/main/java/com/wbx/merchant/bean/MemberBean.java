@@ -27,6 +27,15 @@ public class MemberBean implements Serializable {
     private int sum_money;
     private String last_order_time;
     private String last_order_money;
+    private int is_first_bind;
+
+    public int getIs_first_bind() {
+        return is_first_bind;
+    }
+
+    public void setIs_first_bind(int is_first_bind) {
+        this.is_first_bind = is_first_bind;
+    }
 
     public String getLast_order_time() {
         return last_order_time;

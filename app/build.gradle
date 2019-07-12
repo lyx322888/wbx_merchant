@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.bugtags.library.plugin'
 
 def releaseTime() {
     return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
@@ -74,17 +73,6 @@ android {
     }
 }
 
-//Bugtags 插件配置
-bugtags {
-    //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考帮助中心->符号表->Android 符号表->配置自动上传符号表
-    appKey "d5c298ea42ab257e459d766eec29543b"  //这里是你的 appKey
-    appSecret "7a35aebb2fe746d4cee53286d98f0f81"    //这里是你的 appSecret，管理员在设置页可以查看
-    mappingUploadEnabled true
-
-    //网络跟踪功能配置(企业版)
-    //trackingNetworkEnabled true
-}
-
 //统一除multidex外的support包的版本号
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
@@ -125,7 +113,6 @@ dependencies {
     implementation 'com.qiniu:qiniu-android-sdk:7.2.+'
     implementation 'com.huangdali:mricheditor:1.0.1'
     implementation 'com.kyleduo.switchbutton:library:1.4.6'
-    implementation project(':easeui')
     implementation 'com.umeng.analytics:analytics:latest.integration'
     implementation 'cn.carbs.android:SegmentControlView:1.0.0'
     implementation 'me.everything:overscroll-decor-android:1.0.4'
@@ -134,9 +121,6 @@ dependencies {
     implementation 'com.github.Aspsine:SwipeToLoadLayout:1.0.4'
     implementation 'org.greenrobot:greendao:3.2.0'
     implementation 'com.github.chihane:JDAddressSelector:1.1.4'
-    implementation 'com.bugtags.library:bugtags-lib:latest.integration'
-    //线上使用，如果不需要使用手动提交 issue，可以选择 metrics 包
-    //compile 'com.bugtags.metrics:bugtags-lib:latest.integration'
     implementation 'com.nineoldandroids:library:2.4.0'
     implementation 'cn.jiguang.sdk:jpush:3.1.5'
     implementation 'cn.jiguang.sdk:jcore:1.2.3'
@@ -154,4 +138,6 @@ dependencies {
 
     implementation 'com.ethanhua:skeleton:1.1.2'
     implementation 'io.supercharge:shimmerlayout:2.1.0'
+
+    implementation 'org.jaaksi:pickerview:1.0.0'
 }

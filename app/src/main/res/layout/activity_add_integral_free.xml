@@ -235,6 +235,7 @@
         app:layout_constraintLeft_toLeftOf="@id/et_consume_num"
         app:layout_constraintRight_toRightOf="@id/et_consume_num"
         app:layout_constraintTop_toTopOf="@id/view_7" />
+    
 
     <TextView
         android:id="@+id/view_8"

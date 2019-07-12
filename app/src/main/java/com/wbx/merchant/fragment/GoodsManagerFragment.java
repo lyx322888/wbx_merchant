@@ -629,7 +629,7 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                 GoodsInfo goodsInfo = (GoodsInfo) data.getSerializableExtra(ReleaseActivity.RESULT_GOODS);
                 goodsInfoList.set(goodsIndex,goodsInfo);
                 mAdapter.notifyItemChanged(goodsIndex);
-//                refresh();
+                refresh();
                 break;
 
             case GoodsManagerActivity.REQUEST_ADD_GOODS:

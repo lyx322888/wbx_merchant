@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.bugtags.library.Bugtags;
 import com.umeng.analytics.MobclickAgent;
 import com.wbx.merchant.activity.SplashActivity;
 import com.wbx.merchant.baseapp.AppManager;
@@ -100,14 +99,12 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         super.onResume();
         userInfo = BaseApplication.getInstance().readLoginUser();
         MobclickAgent.onResume(this);
-        Bugtags.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        Bugtags.onPause(this);
     }
 
     /**
@@ -150,7 +147,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 hideKeyboard(v.getWindowToken());
             }
         }
-        Bugtags.onDispatchTouchEvent(this, ev);
         return super.dispatchTouchEvent(ev);
     }
 

@@ -38,10 +38,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void initPresenter() {
-//        EMClient.getInstance().chatManager().addMessageListener(this);
-//        EMClient.getInstance().addConnectionListener(this);
-    }
+    public void initPresenter() { }
 
     @Override
     public void initView() {
@@ -83,7 +80,6 @@ public class MainActivity extends BaseActivity {
         View mainTabView = getTabItemView(R.drawable.yst_index_tab_btn_selector, "首页");
         TabHost.TabSpec tabSpec = mTabHost.newTabSpec("index").setIndicator(mainTabView);
         mTabHost.addTab(tabSpec, IndexFragment.class, null);
-
     }
 
     @Override

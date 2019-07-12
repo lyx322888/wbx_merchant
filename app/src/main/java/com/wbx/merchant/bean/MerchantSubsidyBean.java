@@ -76,6 +76,15 @@ public class MerchantSubsidyBean {
         private int user_id;
         private String face;
         private String nickname;
+        private int is_first_bind;
+
+        public int getIs_first_bind() {
+            return is_first_bind;
+        }
+
+        public void setIs_first_bind(int is_first_bind) {
+            this.is_first_bind = is_first_bind;
+        }
 
         public int getMoney() {
             return money;

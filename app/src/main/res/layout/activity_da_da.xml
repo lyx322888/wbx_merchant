@@ -97,6 +97,13 @@
                 android:text="提现"
                 android:textColor="@color/colorWhite"
                 android:visibility="gone" />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="配送重量不超过5kg,不配送大体积货品"/>
         </LinearLayout>
 
         <LinearLayout

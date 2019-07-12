@@ -112,7 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="达达一下 专业速达"
+                        android:text="达达一下 专业速达(配送重量不超过5kg,不配送大体积货品)"
                         android:textColor="#A1A1A1"
                         android:textSize="11sp" />
                 </LinearLayout>

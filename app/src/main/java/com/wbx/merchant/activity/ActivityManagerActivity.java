@@ -44,7 +44,7 @@ public class ActivityManagerActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_right, R.id.iv_coupon, R.id.iv_full_reduce, R.id.iv_seckill, R.id.iv_send_red_packet, R.id.iv_share_free, R.id.iv_integral_free})
+    @OnClick({R.id.tv_right, R.id.iv_coupon, R.id.iv_full_reduce, R.id.iv_seckill, R.id.iv_send_red_packet, R.id.iv_share_free, R.id.iv_integral_free,R.id.iv_no_delivery_fee})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_right:
@@ -55,6 +55,7 @@ public class ActivityManagerActivity extends BaseActivity {
                 break;
             case R.id.iv_full_reduce:
                 startActivity(new Intent(mContext, FullActivity.class));
+
                 break;
             case R.id.iv_seckill:
                 startActivity(new Intent(mContext, SeckillActivity.class));
@@ -70,6 +71,9 @@ public class ActivityManagerActivity extends BaseActivity {
                 break;
             case R.id.iv_integral_free:
                 IntegralFreeListActivity.actionStart(this);
+                break;
+            case R.id.iv_no_delivery_fee:
+                startActivity(new Intent(mContext, NoDeliveryFeeActivity.class));
                 break;
         }
     }

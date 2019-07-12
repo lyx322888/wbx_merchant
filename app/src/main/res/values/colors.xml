@@ -20,7 +20,8 @@
     <color name="fenlei_gray">#F5F6F6</color>
     <color name="fenlei_text">#24B4A4</color>
     <color name="fenlei_text2">#333333</color>
-
+    <color name="divider_list">#d4d4d4</color>
+    <color name="gray_normal">#666667</color>
     <!--象牙色 -->
 
     <color name="bg_video_controller">#A6000000</color>

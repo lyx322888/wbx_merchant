@@ -124,6 +124,7 @@ public class IntegralFreeListActivity extends BaseActivity implements OnRefreshL
 
     /**
      * 删除
+     *
      * @param position
      */
     private void toDelete(final int position) {

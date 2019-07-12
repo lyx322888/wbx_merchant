@@ -33,6 +33,7 @@ import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GoodsInfo;
 import com.wbx.merchant.bean.SpecInfo;
+import com.wbx.merchant.utils.ArithUtils;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.utils.UpLoadPicUtils;
@@ -108,6 +109,8 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     EditText numEdit;
     @Bind(R.id.sales_price_edit)
     EditText salesPriceEdit;
+    @Bind(R.id.selling_subhead_edit)
+    EditText sellingSubhedEdit;
     private static final int REQUEST_GOODS_PIC = 1001;//商品图
     private static final int REQUEST_GOODS_INTRODUCE_PIC = 1002;//商品介绍图l
     public static final int MAX_GOODS_PIC_NUM = 5; //商品图最多5张
@@ -177,6 +180,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             picPagerAdapter.notifyDataSetChanged();
             goodsNameEdit.setText(goods.getProduct_name());
             goodsCateTv.setText(goods.getCate_name());
+            sellingSubhedEdit.setText(goods.getSubhead());
             if (goods.getSales_promotion_is() == 1) {
                 salesPriceEdit.setText(String.format("%.2f", goods.getSales_promotion_price() / 100.00));
             }
@@ -216,7 +220,8 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                 mParams.put("title", goods.getTitle());
                 mParams.put("shopcate_id", goods.getCate_id());
                 mParams.put("goods_id", goods.getProduct_id());
-                priceEdit.setText(String.format("%.2f", goods.getMall_price() / 100.00));
+//                priceEdit.setText(String.format("%.2f", goods.getMall_price() / 100.00));
+                priceEdit.setText((float) ArithUtils.round(goods.getMall_price() / 100, 2) + "");
                 sellingPriceEdit.setText(String.format("%.2f", goods.getPrice() / 100.00));
                 goodsDescEdit.setText(goods.getDetails());
                 if (null != goods.getPhotos()) {

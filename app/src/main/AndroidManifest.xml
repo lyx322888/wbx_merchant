@@ -198,8 +198,6 @@
         <activity android:name=".activity.AddSpecActivity" />
         <!-- 客户管理 -->
         <activity android:name=".activity.CustomerManagerActivity" />
-        <!-- 聊天列表 -->
-        <activity android:name=".activity.MessageListActivity" />
         <!-- 库存分析 -->
         <activity android:name=".activity.InventoryAnalyzeActivity" />
         <!-- 经营分析 -->
@@ -243,9 +241,6 @@
         <activity android:name=".activity.ChooseFinanceWayActivity" />
         <activity android:name=".activity.ActivitySettingsActivity" />
         <!-- 聊天界面 -->
-        <activity
-            android:name=".activity.ChatActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
         <!-- 帮助中心 -->
         <activity android:name=".activity.TestActivity" />
         <activity
@@ -255,10 +250,6 @@
         <activity android:name=".activity.AddFullActivity" />
         <activity android:name=".activity.FullActivity" />
         <activity android:name=".activity.ThridOrderDetailActivity" />
-        <!-- 发送地图 -->
-        <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity" />
-        <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity" />
-
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="oLNScgBLbcCLQzld6BSlNYLb861qqLns" />
@@ -292,83 +283,89 @@
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
-
-        <!-- 设置环信应用的AppKey -->
-        <meta-data
-            android:name="EASEMOB_APPKEY"
-            android:value="1163170724115702#wbx365" />
-        <!-- 声明SDK所需的service SDK核心功能 -->
-        <service
-            android:name="com.hyphenate.chat.EMChatService"
-            android:exported="true" />
-        <service
-            android:name="com.hyphenate.chat.EMJobService"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <!-- 声明SDK所需的receiver -->
-        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-            <!-- 可选filter -->
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-        </receiver>
-
         <service android:name="com.amap.api.location.APSService" />
         <!-- 版本更新服务 -->
         <service android:name=".service.DownloadService" />
         <service android:name=".update.UpdateService" />
-
+        <!-- 商家分红 -->
         <activity android:name=".activity.MerchantSubsidiesActivity" />
+        <!-- 说明 -->
         <activity android:name=".activity.SubsidyExplainActivity" />
+        <!-- 智能收款 -->
         <activity android:name=".activity.IntelligentReceiveActivity" />
         <activity android:name=".activity.ElectronicContractActivity" />
         <activity android:name=".activity.ContractSignActivity" />
+        <!-- 接单器设置 -->
         <activity android:name=".activity.ReceiverListActivity" />
+        <!-- 扫码订单 -->
         <activity android:name=".activity.ScanOrderActivity" />
         <activity android:name=".activity.ScanOrderDetailActivity" />
+        <!-- 菜单 -->
         <activity android:name=".activity.AddFoodActivity" />
+        <!-- 资质认证 -->
         <activity android:name=".activity.GoodsAccreditationActivity" />
+        <!-- 我的会员 -->
         <activity android:name=".activity.MyMemberActivity" />
+        <!-- 设置会员 -->
         <activity android:name=".activity.MemberSettingActivity" />
+        <!-- 商品列表 -->
         <activity android:name=".activity.MemberGoodsActivity" />
+        <!-- 选择商品 -->
         <activity android:name=".activity.SelectGoodsActivity" />
         <activity android:name=".activity.PublishBusinessCircleActivity" />
+        <!-- 我的商圈 -->
         <activity android:name=".activity.MyBusinessCircleActivity" />
+        <!-- 商品图片 -->
         <activity android:name=".activity.GoodsPictureActivity" />
+        <!-- 会员详情 -->
         <activity android:name=".activity.MemberDetailActivity" />
+        <!-- 店铺红包 -->
         <activity android:name=".activity.ShopRedPacketActivity" />
         <activity android:name=".activity.InviteActivity" />
+        <!-- 领取记录 -->
         <activity android:name=".activity.ShopRedPacketReceiveRecordActivity" />
+        <!-- 扫码设置 -->
         <activity android:name=".activity.ScanOrderPayTypeSettingActivity" />
+        <!-- 呼叫订单 -->
         <activity android:name=".activity.NumberOrderActivity" />
         <activity android:name=".activity.NumberOrderDetailActivity" />
+        <!-- 呼叫设置 -->
         <activity android:name=".activity.NumberOrderSettingActivity" />
+        <!-- 配送设置 -->
         <activity android:name=".activity.SendSettingActivity" />
+        <!-- 选择规格 -->
         <activity android:name=".activity.SelectSubSpecActivity" />
+        <!-- 选择规格项目 -->
         <activity android:name=".activity.SelectNatureActivity" />
+        <!-- 编辑规格项目 -->
         <activity android:name=".activity.EditNatureActivity" />
+        <!-- 编辑规格属性 -->
         <activity android:name=".activity.SelectNatureAttrActivity" />
+        <!-- 新增规格项目 -->
         <activity android:name=".activity.AddNatureAttrActivity" />
+        <!-- 消费免单 -->
         <activity android:name=".activity.ConsumeFreeListActivity" />
         <activity android:name=".activity.SelectFreeActivityGoodsListActivity" />
         <activity android:name=".activity.AddConsumeFreeActivity" />
+        <!-- 分享免单 -->
         <activity android:name=".activity.ShareFreeListActivity" />
         <activity android:name=".activity.AddShareFreeActivity" />
+        <!-- 积分免单 -->
         <activity android:name=".activity.AddIntegralFreeActivity" />
         <activity android:name=".activity.IntegralFreeListActivity" />
+        <!-- 提现 -->
         <activity android:name=".activity.AwardCashActivity" />
+        <!-- 选择分类 -->
         <activity android:name=".activity.ChooseShopTypeActivity2" />
+        <!-- 商家必备 -->
         <activity android:name=".activity.BusinessMustActivity" />
         <activity android:name=".activity.GoodsDetailsActivity" />
         <activity android:name=".activity.ShopCartActivity" />
         <activity android:name=".activity.ShopCartNoCardActivity" />
-        <activity android:name=".activity.GoodsOrderActivity"></activity>
+        <activity android:name=".activity.GoodsOrderActivity" />
+        <!-- 免费配送费设置 -->
+        <activity android:name=".activity.GiftGivingActivity" />
+        <activity android:name=".activity.NoDeliveryFeeActivity"></activity>
     </application>
 
 </manifest>

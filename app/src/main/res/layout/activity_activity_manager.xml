@@ -120,6 +120,13 @@
             app:layout_constraintLeft_toLeftOf="@id/iv_coupon"
             app:layout_constraintRight_toRightOf="@id/iv_coupon"
             app:layout_constraintTop_toBottomOf="@id/iv_seckill" />
-
+        <ImageView
+            android:id="@+id/iv_no_delivery_fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/icon_no_delivery_fee"
+            app:layout_constraintRight_toRightOf="@id/iv_coupon"
+            app:layout_constraintTop_toBottomOf="@id/iv_integral_free" />
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.NestedScrollView>

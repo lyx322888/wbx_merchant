@@ -2,23 +2,12 @@ package com.wbx.merchant.base;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 
-import com.bugtags.library.Bugtags;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMOptions;
-import com.hyphenate.easeui.EaseConstant;
-import com.hyphenate.easeui.EaseUI;
-import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.model.EaseNotifier;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
-import com.hyphenate.easeui.utils.UserDao;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -30,9 +19,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.squareup.leakcanary.LeakCanary;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.wbx.merchant.BuildConfig;
-import com.wbx.merchant.R;
-import com.wbx.merchant.activity.ChatActivity;
-import com.wbx.merchant.api.ApiConstants;
 import com.wbx.merchant.baseapp.ThreadPoolManager;
 import com.wbx.merchant.bean.UserInfo;
 import com.wbx.merchant.chat.BaseManager;
@@ -96,8 +82,6 @@ public class BaseApplication extends MultiDexApplication {
         initJPush();
         initXunFei();
         initRefresh();
-        //        Bugtags.start("d5c298ea42ab257e459d766eec29543b", this, Bugtags.BTGInvocationEventBubble);
-        Bugtags.start("d5c298ea42ab257e459d766eec29543b", instance, ApiConstants.DEBUG ? Bugtags.BTGInvocationEventBubble : Bugtags.BTGInvocationEventNone);
     }
 
     private void initRefresh() {
@@ -126,80 +110,6 @@ public class BaseApplication extends MultiDexApplication {
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5ad82bdf");
     }
 
-    //初始化 环信
-    private void initHxChat() {
-        EaseUI instance = EaseUI.getInstance();
-
-        EMOptions options = new EMOptions();
-        // 默认添加好友时，是不需要验证的，改成需要验证
-        options.setAcceptInvitationAlways(false);
-        options.setAutoLogin(true);
-        int pid = android.os.Process.myPid();
-        String processAppName = getAppName(pid);
-        // 如果APP启用了远程的service，此application:onCreate会被调用2次
-        // 为了防止环信SDK被初始化2次，加此判断会保证SDK被初始化1次
-        // 默认的APP会在以包名为默认的process name下运行，如果查到的process name不是APP的process name就立即返回
-        if (processAppName == null || !processAppName.equalsIgnoreCase(this.getPackageName())) {
-            // 则此application::onCreate 是被service 调用的，直接返回
-            return;
-        }
-        //初始化
-        instance.init(this, options);
-        instance.setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
-            @Override
-            public EaseUser getUser(String username) {
-                EaseUser easeUser = new EaseUser(username);
-
-//
-//                if(null!=userInfo){
-//                    easeUser.setAvatar(userInfo.getFace());
-//                    easeUser.setNickname(userInfo.getNickname());
-//                }
-                return getUserInfo(username);
-            }
-        });
-        //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
-        EMClient.getInstance().setDebugMode(false);
-
-        EaseUI.getInstance().getNotifier().setNotificationInfoProvider(new EaseNotifier.EaseNotificationInfoProvider() {
-            @Override
-            public String getDisplayedText(EMMessage message) {
-                String ticker = EaseCommonUtils.getMessageDigest(message, BaseApplication.instance);
-                if (message.getType() == EMMessage.Type.TXT) {
-                    ticker = ticker.replaceAll("\\[.{2,3}\\]", "[表情]");
-                }
-                EaseUser user = getUserInfo(message.getFrom());
-                if (user != null) {
-                    return getUserInfo(message.getFrom()).getNick() + ": " + ticker;
-                } else {
-                    return message.getFrom() + ": " + ticker;
-                }
-            }
-
-            @Override
-            public String getLatestText(EMMessage message, int fromUsersNum, int messageNum) {
-                return String.format("用户%s发来%d条消息，请注意查收！", getUserInfo(message.getFrom()), messageNum);
-            }
-
-            @Override
-            public String getTitle(EMMessage message) {
-                return null;
-            }
-
-            @Override
-            public int getSmallIcon(EMMessage message) {
-                return R.drawable.ic_launcher;
-            }
-
-            @Override
-            public Intent getLaunchIntent(EMMessage message) {
-                Intent intent = new Intent(BaseApplication.instance, ChatActivity.class);
-                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
-                intent.putExtra(EaseConstant.EXTRA_USER_ID, message.getFrom());
-                return intent;
-            }
-        });
-    }
 
     //初始化极光
     private void initJPush() {
@@ -300,19 +210,5 @@ public class BaseApplication extends MultiDexApplication {
             }
         }
         return processName;
-    }
-
-    private EaseUser getUserInfo(String username) {
-        EaseUser easeUser = new EaseUser(username);
-        UserInfo userInfo = readLoginUser();
-        if (username.equals(userInfo.getHx_username())) {
-            easeUser.setNickname(userInfo.getNickname());
-            easeUser.setAvatar(userInfo.getFace());
-        } else {
-            UserDao userDao = new UserDao(getApplicationContext());
-            userDao.openDataBase();
-            easeUser = userDao.queryData(username);
-        }
-        return easeUser;
     }
 }

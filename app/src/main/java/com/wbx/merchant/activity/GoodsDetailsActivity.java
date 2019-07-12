@@ -2,31 +2,31 @@ package com.wbx.merchant.activity;
 
 import android.content.Intent;
 import android.graphics.Paint;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+
 import com.wbx.merchant.R;
-import com.wbx.merchant.api.Api;
-import com.wbx.merchant.api.HttpListener;
-import com.wbx.merchant.api.MyHttp;
+
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.bean.GoodsDetailsInfo;
+import com.wbx.merchant.bean.OrderBean;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.presenter.GoodsDetailsPresenterImp;
 import com.wbx.merchant.utils.GlideUtils;
+import com.wbx.merchant.utils.RetrofitUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.view.GoodsDetailsView;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import org.jaaksi.pickerview.picker.MixedTimePicker;
 
 import butterknife.Bind;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class GoodsDetailsActivity extends BaseActivity implements GoodsDetailsView {
     @Bind(R.id.goods_photo)
@@ -88,9 +88,9 @@ public class GoodsDetailsActivity extends BaseActivity implements GoodsDetailsVi
             @Override
             public void onClick(View v) {
                 if (goodInfo.getData().getHas_printing() == 1 && goodInfo.getData().getCart_num() > 0) {
-
+                    order();
                 } else if (goodInfo.getData().getHas_printing() == 0 && goodInfo.getData().getCart_num() > 0) {
-
+                    order();
                 } else {
                     ToastUitl.showShort("请返回选择商品");
                     return;
@@ -98,5 +98,30 @@ public class GoodsDetailsActivity extends BaseActivity implements GoodsDetailsVi
             }
         });
 
+    }
+
+    private void order() {
+        RetrofitUtils.getInstance().server().getOeder(LoginUtil.getLoginToken())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<OrderBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(OrderBean orderBean) {
+                        Intent intent = new Intent(GoodsDetailsActivity.this, ShopCartActivity.class);
+                        intent.putExtra(ShopCartActivity.order, orderBean);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
     }
 }

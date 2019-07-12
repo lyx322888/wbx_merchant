@@ -18,6 +18,7 @@ public class SpecInfo implements Serializable {
     private float seckill_price;
     private int seckill_num;
     private float shop_member_price;//会员价
+    private String subhead;
 
     public float getShop_member_price() {
         return shop_member_price;
@@ -109,5 +110,13 @@ public class SpecInfo implements Serializable {
 
     public void setCasing_price(double casing_price) {
         this.casing_price = casing_price;
+    }
+
+    public String getSubhead() {
+        return subhead;
+    }
+
+    public void setSubhead(String subhead) {
+        this.subhead = subhead;
     }
 }

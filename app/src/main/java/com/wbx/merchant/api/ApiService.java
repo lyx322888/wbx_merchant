@@ -874,4 +874,11 @@ public interface ApiService {
     @POST("/sjapi/interiorshop/pay")
     Observable<JSONObject> getOrderPay(@Field("sj_login_token") String login_token, @Field("order_id") String order_id, @Field("code") String code);
 
+    @FormUrlEncoded
+    @POST("/sjapi/interiorshop/list_order")
+    Observable<JSONObject> getListOrder(@Field("sj_login_token") String login_token, @Field("page") int page, @Field("num") int num);
+
+    @FormUrlEncoded
+    @POST("/sjapi/user/update_full_minus_shipping_fee")
+    Observable<JSONObject> getNoDeliveryFee(@Field("sj_login_token") String login_token, @Field("is_full_minus_shipping_fee") int is_check, @Field("full_minus_shipping_fee") String money);
 }

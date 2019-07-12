@@ -22,7 +22,7 @@ public class GoodsInfo implements Serializable {
     private String photo;
     private List<String> goods_photo;
     private String product_name;
-    private float price;
+    private int price;
     private String cate_name;
     private boolean isSelect;
     private int closed;
@@ -58,6 +58,16 @@ public class GoodsInfo implements Serializable {
     private float shop_member_price;//会员价
     private ArrayList<Nature> nature;
     private String nature_name;
+    private String subhead;
+
+
+    public String getSubhead() {
+        return subhead;
+    }
+
+    public void setSubhead(String subhead) {
+        this.subhead = subhead;
+    }
 
     public String getNature_name() {
         return nature_name;
@@ -67,9 +77,6 @@ public class GoodsInfo implements Serializable {
         this.nature_name = nature_name;
     }
 
-    public void setSeckill_price(float seckill_price) {
-        this.seckill_price = seckill_price;
-    }
 
     public ArrayList<Nature> getNature() {
         return nature;
@@ -147,8 +154,8 @@ public class GoodsInfo implements Serializable {
         return seckill_price;
     }
 
-    public void setSeckill_price(int seckill_price) {
-        this.seckill_price = (float) (seckill_price / 100.00);
+    public void setSeckill_price(float seckill_price) {
+        this.seckill_price = (int) (seckill_price / 100.00);
     }
 
     public void setFloatSeckill_price(float seckill_price) {
@@ -357,11 +364,11 @@ public class GoodsInfo implements Serializable {
         this.product_name = product_name;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

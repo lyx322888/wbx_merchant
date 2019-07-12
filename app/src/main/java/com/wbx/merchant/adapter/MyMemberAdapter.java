@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wbx.merchant.R;
-import com.wbx.merchant.activity.ChatActivity;
 import com.wbx.merchant.activity.MemberDetailActivity;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
@@ -39,6 +38,7 @@ import butterknife.ButterKnife;
  */
 
 public class MyMemberAdapter extends RecyclerView.Adapter<MyMemberAdapter.MyViewHolder> {
+
     private Fragment fragment;
     private Context mContext;
     private int type;
@@ -66,6 +66,7 @@ public class MyMemberAdapter extends RecyclerView.Adapter<MyMemberAdapter.MyView
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final MemberBean data = lstData.get(position);
+
         holder.llContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +98,11 @@ public class MyMemberAdapter extends RecyclerView.Adapter<MyMemberAdapter.MyView
             holder.tvConsumeMoney.setText("¥" + data.getLast_order_money());
         } else {
             ((View) holder.tvConsumeTime.getParent()).setVisibility(View.GONE);
+        }
+        if (data.getIs_first_bind()==1){
+            holder.ivBind.setVisibility(View.VISIBLE);
+        }else{
+            holder.ivBind.setVisibility(View.GONE);
         }
     }
 
@@ -133,7 +139,6 @@ public class MyMemberAdapter extends RecyclerView.Adapter<MyMemberAdapter.MyView
             Toast.makeText(mContext, "该客户暂时无法在线聊天！", Toast.LENGTH_SHORT).show();
             return;
         }
-        ChatActivity.actionStart(mContext, userInfo.getHx_username(), userInfo.getNickname(), userInfo.getFace());
     }
 
     private void callPhone(MemberBean userInfo) {
@@ -187,6 +192,8 @@ public class MyMemberAdapter extends RecyclerView.Adapter<MyMemberAdapter.MyView
         TextView tvConsumeTime;
         @Bind(R.id.tv_consume_money)
         TextView tvConsumeMoney;
+        @Bind(R.id.iv_bind)
+        ImageView ivBind;
 
         public MyViewHolder(View itemView) {
             super(itemView);

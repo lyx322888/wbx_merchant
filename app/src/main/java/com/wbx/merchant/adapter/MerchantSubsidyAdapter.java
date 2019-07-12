@@ -2,6 +2,7 @@ package com.wbx.merchant.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.wbx.merchant.R;
@@ -31,11 +32,19 @@ public class MerchantSubsidyAdapter extends BaseAdapter<MerchantSubsidyBean.List
         holder.setText(R.id.tv_name, data.getNickname());
         holder.setText(R.id.tv_date, data.getOrder_time());
         holder.setText(R.id.tv_type, data.getSubsidy_type());
+
         holder.setText(R.id.tv_money, "+" + String.format("%.2f", (float) data.getMoney() / 100));
         if (TextUtils.isEmpty(data.getFace())) {
             ((ImageView) holder.getView(R.id.iv_user)).setImageResource(R.drawable.logo);
         } else {
             GlideUtils.showSmallPic(mContext, (ImageView) holder.getView(R.id.iv_user), data.getFace());
         }
+        ImageView ivBindRed=holder.getView(R.id.iv_bind_red);
+        if (data.getIs_first_bind()==1){
+            ivBindRed.setVisibility(View.VISIBLE);
+        }else {
+            ivBindRed.setVisibility(View.INVISIBLE);
+        }
+
     }
 }

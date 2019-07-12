@@ -65,7 +65,7 @@
                 android:id="@+id/addorsub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"></com.wbx.merchant.widget.CicleAddAndSubView>
+                android:layout_gravity="center"/>
         </LinearLayout>
     </LinearLayout>
 

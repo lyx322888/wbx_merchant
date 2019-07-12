@@ -3,7 +3,6 @@ package com.wbx.merchant.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Looper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.EMError;
-import com.hyphenate.chat.EMClient;
 import com.wbx.merchant.MainActivity;
 import com.wbx.merchant.R;
 import com.wbx.merchant.api.Api;
@@ -24,7 +20,6 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.baseapp.AppConfig;
-import com.wbx.merchant.bean.ShopEnterParameter;
 import com.wbx.merchant.bean.UserInfo;
 import com.wbx.merchant.fragment.UpdateDialogFragment;
 import com.wbx.merchant.utils.DeviceUtils;
@@ -187,48 +182,12 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    //登录环信
-    private void loginHxChat() {
-        if (TextUtils.isEmpty(userInfo.getHx_username())) {
-            nextStep();
-        } else {
-            EMClient.getInstance().login(userInfo.getHx_username(), userInfo.getHx_password(), new EMCallBack() {
-                @Override
-                public void onSuccess() {
-                    nextStep();
-                }
-
-                @Override
-                public void onError(int error, String s) {
-                    if (error == EMError.USER_ALREADY_LOGIN) {
-                        hxErrorCount++;
-                        if (hxErrorCount >= 3) {
-                            nextStep();
-                        } else {
-                            EMClient.getInstance().logout(true);
-                            loginHxChat();
-                        }
-                    } else {
-                        dimissLoading();
-                        Looper.prepare();
-                        ToastUitl.showShort("环信异常：" + error + "," + s);
-                        Looper.loop();
-                    }
-                }
-
-                @Override
-                public void onProgress(int i, String s) {
-                }
-            });
-        }
-    }
-
     private void nextStep() {
         dimissLoading();
         if (0 == userInfo.getShop_id()) {
             //未填写信息
             startActivity(new Intent(mContext, InputShopInfoActivity.class));
-        }  else if (0 == userInfo.getEnd_date()) {
+        } else if (0 == userInfo.getEnd_date()) {
             //未缴费
             startActivity(new Intent(mContext, ChooseShopTypeActivity.class));
         } else if (userInfo.getEnd_date() <= System.currentTimeMillis() / 1000) {

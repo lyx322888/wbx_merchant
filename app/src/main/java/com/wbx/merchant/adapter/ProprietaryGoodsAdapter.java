@@ -1,13 +1,11 @@
 package com.wbx.merchant.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bumptech.glide.Glide;
 import com.wbx.merchant.R;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
@@ -24,10 +22,12 @@ import java.util.List;
 
 public class ProprietaryGoodsAdapter extends BaseAdapter<ProprietaryGoodsBean.DataBean, Context> {
 
+    static CicleAddAndSubView addorsub;
 
     public ProprietaryGoodsAdapter(List<ProprietaryGoodsBean.DataBean> dataList, Context context) {
         super(dataList, context);
     }
+
 
     @Override
     public int getLayoutId(int viewType) {
@@ -41,15 +41,15 @@ public class ProprietaryGoodsAdapter extends BaseAdapter<ProprietaryGoodsBean.Da
         TextView tvPrice = holder.getView(R.id.tv_price);
 
         ImageView tvPhoto = holder.getView(R.id.iv_photo);
-        final CicleAddAndSubView addorsub = holder.getView(R.id.addorsub);
+        addorsub = holder.getView(R.id.addorsub);
         tvName.setText(dataBean.getTitle());
         tvPs.setText(dataBean.getDescribe());
-        tvPrice.setText("¥" + (float) dataBean.getPrice() / 100 + "");
+        tvPrice.setText("¥" + (float) dataBean.getPrice() / 100);
         addorsub.setNum(dataBean.getOrder_num());
         GlideUtils.showRoundSmallPic(mContext, tvPhoto, dataBean.getPhoto());
         addorsub.setOnNumChangeListener(new CicleAddAndSubView.OnNumChangeListener() {
             @Override
-            public void onNumChange(View view, String stype, final int num) {
+            public void onNumChange(View view, String stype, int num) {
                 new MyHttp().doPost(Api.getDefault().getUpdate(LoginUtil.getLoginToken(), dataBean.getGoods_id(), stype), new HttpListener() {
                     @Override
                     public void onSuccess(JSONObject result) {
@@ -63,5 +63,9 @@ public class ProprietaryGoodsAdapter extends BaseAdapter<ProprietaryGoodsBean.Da
                 });
             }
         });
+    }
+
+    public static void getNum() {
+        addorsub.getNum();
     }
 }
