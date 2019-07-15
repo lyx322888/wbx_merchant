@@ -212,11 +212,8 @@
         <activity android:name=".activity.AddCouponActivity" />
         <!-- 录制视频 -->
         <activity android:name=".activity.VideoRecordActivity" />
-        <!-- 录制播放 -->
         <!-- 重置支付密码 -->
         <activity android:name=".activity.ResetPayPswActivity" />
-        <!-- 第三方配送订单 -->
-        <activity android:name=".activity.ThirdDeliveryActivity" />
         <!-- 设置打印机 -->
         <activity android:name=".activity.SettingsPrinterActivity" />
         <!-- 配送订单列表 -->
