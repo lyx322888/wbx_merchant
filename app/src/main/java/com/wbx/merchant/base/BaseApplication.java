@@ -16,7 +16,6 @@ import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.squareup.leakcanary.LeakCanary;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.wbx.merchant.BuildConfig;
 import com.wbx.merchant.baseapp.ThreadPoolManager;
@@ -55,11 +54,6 @@ public class BaseApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
         instance = this;
         init();
     }
@@ -76,9 +70,7 @@ public class BaseApplication extends MultiDexApplication {
     }
 
     private void initInUiThread() {
-//        LeakCanary.install(this);
         LogUtils.logInit(BuildConfig.LOG_DEBUG);
-//        initHxChat();
         initJPush();
         initXunFei();
         initRefresh();

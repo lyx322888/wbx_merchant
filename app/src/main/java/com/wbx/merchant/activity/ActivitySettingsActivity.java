@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * Created by wushenghui on 2017/11/29.
@@ -27,7 +26,6 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 public class ActivitySettingsActivity extends BaseActivity {
     @Bind(R.id.scroll_view)
     ScrollView mScrollView;
-
     @Bind({R.id.full_reduction_is_seckill_sb, R.id.full_reduction_is_sales_sb, R.id.coupon_is_seckill_sb, R.id.coupon_is_sales_sb, R.id.coupon_is_full_reduction_sb})
     List<SwitchButton> switchButtonList;
 
@@ -40,7 +38,6 @@ public class ActivitySettingsActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-        OverScrollDecoratorHelper.setUpOverScroll(mScrollView);
     }
 
     @Override

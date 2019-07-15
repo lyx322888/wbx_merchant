@@ -32,7 +32,6 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * Created by wushenghui on 2017/6/20.
@@ -76,7 +75,6 @@ public class CashActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-        OverScrollDecoratorHelper.setUpOverScroll(scrollView);
         inputMoneyEdit.addTextChangedListener(new TextWatcher() {
 
             @Override

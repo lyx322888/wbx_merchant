@@ -127,7 +127,6 @@ public class IndexFragment extends BaseFragment {
         myReceiver = new MyReceiver();
         getActivity().registerReceiver(myReceiver, filter);
         Log.e("TAG", LoginUtil.getLoginToken());
-        getShopInfo();
     }
 
 
@@ -143,7 +142,6 @@ public class IndexFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         getShopInfo();
-//        refresh();
     }
 
     @Override
@@ -182,7 +180,6 @@ public class IndexFragment extends BaseFragment {
                 loginUser.setScan_order_type(shopInfo.getScan_order_type());
                 BaseApplication.getInstance().saveUserInfo(loginUser);
                 setData();
-
             }
 
             @Override
@@ -253,11 +250,9 @@ public class IndexFragment extends BaseFragment {
                 }
             }
         }
-
         if (shopInfo.getIs_dispatching_money_activity() == 0) {
             DaDaCouponDialog.newInstance().show(getFragmentManager(), "");
         }
-
         if (shopInfo.getShop_grade() == 6) {
             Boolean flag = SPUtils.getSharedBooleanData(getContext(), "flag");
             if (Awardflag == flag) {
@@ -278,11 +273,9 @@ public class IndexFragment extends BaseFragment {
             } else {
                 ll_award.setVisibility(View.GONE);
             }
-
         } else {
             ll_award.setVisibility(View.GONE);
         }
-
     }
 
     @Override

@@ -33,7 +33,6 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class AwardCashActivity extends BaseActivity {
     public static final String TYPE_DA_DA = "dada_money";
@@ -73,7 +72,6 @@ public class AwardCashActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-        OverScrollDecoratorHelper.setUpOverScroll(scrollView);
         inputMoneyEdit.setKeyListener(null);
         inputMoneyEdit.setFocusableInTouchMode(false);
         inputMoneyEdit.addTextChangedListener(new TextWatcher() {

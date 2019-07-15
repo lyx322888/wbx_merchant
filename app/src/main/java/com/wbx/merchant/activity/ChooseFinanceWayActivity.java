@@ -17,7 +17,6 @@ import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.LoadingDialog;
 
 import butterknife.Bind;
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * Created by wushenghui on 2017/11/16.
@@ -56,7 +55,6 @@ public class ChooseFinanceWayActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-        OverScrollDecoratorHelper.setUpOverScroll(scrollView);
     }
 
     @Override
@@ -102,8 +100,6 @@ public class ChooseFinanceWayActivity extends BaseActivity {
                 bankCheckIm.setImageResource(R.drawable.ic_ok);
                 break;
         }
-
-
     }
 
     @Override

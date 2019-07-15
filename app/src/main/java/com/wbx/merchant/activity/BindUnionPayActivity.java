@@ -22,7 +22,6 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * Created by wushenghui on 2017/11/17.
@@ -54,7 +53,6 @@ public class BindUnionPayActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-        OverScrollDecoratorHelper.setUpOverScroll(scrollView);
     }
 
     @Override

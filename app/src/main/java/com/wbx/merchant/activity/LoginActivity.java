@@ -150,7 +150,6 @@ public class LoginActivity extends BaseActivity {
                 BaseApplication.getInstance().saveUserInfo(userInfo);
                 //保存登录的手机
                 SPUtils.setSharedStringData(mContext, AppConfig.LOGIN_MOBILE, accountEdit.getText().toString());
-//                loginHxChat();
                 nextStep();
             }
 
