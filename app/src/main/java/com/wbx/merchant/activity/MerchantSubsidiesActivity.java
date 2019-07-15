@@ -18,6 +18,7 @@ import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.MerchantSubsidyBean;
+import com.wbx.merchant.widget.decoration.DividerItemDecoration;
 import com.wbx.merchant.widget.refresh.BaseRefreshListener;
 import com.wbx.merchant.widget.refresh.PullToRefreshLayout;
 import com.wbx.merchant.widget.refresh.ViewStatus;
@@ -64,6 +65,7 @@ public class MerchantSubsidiesActivity extends BaseActivity implements BaseRefre
     public void initView() {
         ptrl.showView(ViewStatus.LOADING_STATUS);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         mAdapter = new MerchantSubsidyAdapter(lstData, this);
         recyclerView.setAdapter(mAdapter);
     }

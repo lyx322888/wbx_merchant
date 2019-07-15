@@ -10,10 +10,6 @@ import com.wbx.merchant.bean.GoodsInfo;
 
 import java.util.List;
 
-/**
- * Created by wushenghui on 2017/6/27.
- */
-
 public class OrderGoodsAdapter extends BaseAdapter<GoodsInfo, Context> {
     private List<GoodsInfo> mList;
     private boolean isExpand = false;

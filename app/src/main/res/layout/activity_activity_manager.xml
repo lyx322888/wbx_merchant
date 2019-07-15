@@ -23,7 +23,7 @@
             android:onClick="back"
             android:paddingTop="35dp"
             android:paddingBottom="10dp"
-            android:src="@drawable/ic_arrow_black"
+            android:src="@drawable/ic_arrow"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/tv_title" />
@@ -92,14 +92,14 @@
             app:layout_constraintTop_toBottomOf="@id/iv_coupon" />
 
         <!--<ImageView-->
-            <!--android:id="@+id/iv_consume_free"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="15dp"-->
-            <!--android:src="@drawable/icon_consume_free"-->
-            <!--app:layout_constraintLeft_toLeftOf="@id/iv_coupon"-->
-            <!--app:layout_constraintRight_toRightOf="@id/iv_coupon"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/iv_seckill" />-->
+        <!--android:id="@+id/iv_consume_free"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:src="@drawable/icon_consume_free"-->
+        <!--app:layout_constraintLeft_toLeftOf="@id/iv_coupon"-->
+        <!--app:layout_constraintRight_toRightOf="@id/iv_coupon"-->
+        <!--app:layout_constraintTop_toBottomOf="@id/iv_seckill" />-->
 
         <ImageView
             android:id="@+id/iv_share_free"
@@ -120,6 +120,7 @@
             app:layout_constraintLeft_toLeftOf="@id/iv_coupon"
             app:layout_constraintRight_toRightOf="@id/iv_coupon"
             app:layout_constraintTop_toBottomOf="@id/iv_seckill" />
+
         <ImageView
             android:id="@+id/iv_no_delivery_fee"
             android:layout_width="wrap_content"

@@ -49,24 +49,17 @@
         app:layout_constraintLeft_toRightOf="@id/tv_title"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <View
+    <TextView
         android:id="@+id/view_play_rule"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="25dp"
         android:background="#FCF9DA"
-        app:layout_constraintTop_toBottomOf="@id/title_bar" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:gravity="end|center"
+        android:paddingEnd="16dp"
         android:text="玩法简介>"
         android:textColor="#DE6A1C"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/view_play_rule"
-        app:layout_constraintRight_toRightOf="@id/view_play_rule"
-        app:layout_constraintTop_toTopOf="@id/view_play_rule" />
+        app:layout_constraintTop_toBottomOf="@id/title_bar" />
 
     <View
         android:id="@+id/view_2"
@@ -235,7 +228,7 @@
         app:layout_constraintLeft_toLeftOf="@id/et_consume_num"
         app:layout_constraintRight_toRightOf="@id/et_consume_num"
         app:layout_constraintTop_toTopOf="@id/view_7" />
-    
+
 
     <TextView
         android:id="@+id/view_8"

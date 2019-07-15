@@ -862,6 +862,14 @@ public interface ApiService {
     @POST("/sjapi/sharefreegoods/add_share_free_goods")
     Observable<JSONObject> addShareFreeGoods(@Field("sj_login_token") String login_token, @Field("share_free_num") int share_free_num, @Field("share_free_amount") int share_free_amount, @Field("share_free_duration") long share_free_duration, @Field("goods_id") String goods_id);
 
+    /**
+     * 26.3.	修改数量
+     *
+     * @param login_token
+     * @param goods_id    商品id
+     * @param type        plus加  minus减
+     * @return
+     */
     @FormUrlEncoded
     @POST("/sjapi/interiorshop/update_order_num")
     Observable<JSONObject> getUpdate(@Field("sj_login_token") String login_token, @Field("goods_id") int goods_id, @Field("type") String type);
@@ -878,6 +886,7 @@ public interface ApiService {
     @POST("/sjapi/interiorshop/list_order")
     Observable<JSONObject> getListOrder(@Field("sj_login_token") String login_token, @Field("page") int page, @Field("num") int num);
 
+    //1.40.	设置满多少免配送费
     @FormUrlEncoded
     @POST("/sjapi/user/update_full_minus_shipping_fee")
     Observable<JSONObject> getNoDeliveryFee(@Field("sj_login_token") String login_token, @Field("is_full_minus_shipping_fee") int is_check, @Field("full_minus_shipping_fee") String money);

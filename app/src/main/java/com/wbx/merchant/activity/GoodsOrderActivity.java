@@ -1,20 +1,28 @@
 package com.wbx.merchant.activity;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wbx.merchant.R;
-import com.wbx.merchant.adapter.GoodsOrderAdapter;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.base.BaseAdapter;
+import com.wbx.merchant.base.BaseViewHolder;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.OrderGoodsBean;
 import com.wbx.merchant.common.LoginUtil;
+import com.wbx.merchant.utils.FormatUtil;
+import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.ToastUitl;
+import com.wbx.merchant.widget.CopyButtonView;
 import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.refresh.BaseRefreshListener;
 import com.wbx.merchant.widget.refresh.PullToRefreshLayout;
@@ -24,15 +32,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
+/**
+ * 微百姓自营商品--- 我的订单
+ */
 public class GoodsOrderActivity extends BaseActivity implements BaseRefreshListener {
-
-
-    @Bind(R.id.goods_order_recycler_view)
-    RecyclerView goodsOrderRecyclerView;
-    @Bind(R.id.ptrl)
-    PullToRefreshLayout ptrl;
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @Bind(R.id.refresh_layout)
+    PullToRefreshLayout refreshLayout;
     private List<OrderGoodsBean> lstData = new ArrayList<>();
     private GoodsOrderAdapter mAdapter;
     private boolean canLoadMore = true;//控制下次是否加载更多
@@ -51,17 +59,11 @@ public class GoodsOrderActivity extends BaseActivity implements BaseRefreshListe
 
     @Override
     public void initView() {
-        ptrl.setRefreshListener(this);
-
-        goodsOrderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        refreshLayout.setRefreshListener(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
         mAdapter = new GoodsOrderAdapter(lstData, mContext);
-        goodsOrderRecyclerView.setAdapter(mAdapter);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadData();
+        recyclerView.setAdapter(mAdapter);
     }
 
     private void loadData() {
@@ -69,10 +71,9 @@ public class GoodsOrderActivity extends BaseActivity implements BaseRefreshListe
         new MyHttp().doPost(Api.getDefault().getListOrder(LoginUtil.getLoginToken(), pageNum, pageSize), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                ptrl.finishRefresh();
-                ptrl.finishLoadMore();
+                refreshLayout.finishRefresh();
+                refreshLayout.finishLoadMore();
                 List<OrderGoodsBean> lstarray = JSONObject.parseArray(result.getString("data"), OrderGoodsBean.class);
-
                 if (pageNum == 1) {
                     lstData.clear();
                 }
@@ -86,17 +87,17 @@ public class GoodsOrderActivity extends BaseActivity implements BaseRefreshListe
 
             @Override
             public void onError(int code) {
-                if (ptrl == null) {
+                if (refreshLayout == null) {
                     return;
                 }
-                ptrl.finishLoadMore();
-                ptrl.finishRefresh();
+                refreshLayout.finishLoadMore();
+                refreshLayout.finishRefresh();
                 if (code == AppConfig.ERROR_STATE.NULLDATA) {
-                    ptrl.showView(ViewStatus.EMPTY_STATUS);
-                    ptrl.buttonClickNullData(GoodsOrderActivity.this, "loadData");
+                    refreshLayout.showView(ViewStatus.EMPTY_STATUS);
+                    refreshLayout.buttonClickNullData(GoodsOrderActivity.this, "loadData");
                 } else {
-                    ptrl.showView(ViewStatus.ERROR_STATUS);
-                    ptrl.buttonClickError(GoodsOrderActivity.this, "loadData");
+                    refreshLayout.showView(ViewStatus.ERROR_STATUS);
+                    refreshLayout.buttonClickError(GoodsOrderActivity.this, "loadData");
                 }
             }
         });
@@ -104,12 +105,11 @@ public class GoodsOrderActivity extends BaseActivity implements BaseRefreshListe
 
     @Override
     public void fillData() {
-
+        loadData();
     }
 
     @Override
     public void setListener() {
-
     }
 
     @Override
@@ -123,10 +123,55 @@ public class GoodsOrderActivity extends BaseActivity implements BaseRefreshListe
     public void loadMore() {
         if (!canLoadMore) {
             ToastUitl.showShort("没有更多数据");
-            ptrl.finishLoadMore();
+            refreshLayout.finishLoadMore();
             return;
         }
         pageNum++;
         loadData();
+    }
+
+    public class GoodsOrderAdapter extends BaseAdapter<OrderGoodsBean, Context> {
+        GoodsOrderAdapter(List<OrderGoodsBean> dataList, Context context) {
+            super(dataList, context);
+        }
+
+        @Override
+        public int getLayoutId(int viewType) {
+            return R.layout.item_goods_order;
+        }
+
+        @Override
+        public void convert(BaseViewHolder holder, OrderGoodsBean orderGoodsBean, int position) {
+            holder.setText(R.id.order_id_tv, "单号：" + orderGoodsBean.getOrder_id());
+            holder.setText(R.id.create_time_tv, FormatUtil.myStampToDate1(orderGoodsBean.getCreate_time() + "", "yyyy-MM-dd HH:mm"));
+            holder.setText(R.id.tv_title, orderGoodsBean.getGoods().get(position).getTitle());
+            holder.setText(R.id.order_num_tv, "x" + orderGoodsBean.getGoods().get(position).getOrder_num());
+            holder.setText(R.id.tv_price, String.format("¥%.2f", orderGoodsBean.getGoods().get(position).getPrice() / 100));
+            TextView originalTv = holder.getView(R.id.tv_original_price);
+            holder.setText(R.id.all_order_num_tv, "共" + orderGoodsBean.getAll_order_num() + "件商品");
+            holder.setText(R.id.need_pay_tv, String.format("¥%.2f", orderGoodsBean.getNeed_pay() / 100));
+            final TextView expressNumberTv = holder.getView(R.id.express_number_tv);
+            TextView copyTv = holder.getView(R.id.copy_tv);
+            TextView shipmentsTv = holder.getView(R.id.tv_shipments);
+            ImageView photoIv = holder.getView(R.id.iv_photo);
+            GlideUtils.showSmallPic(mContext, photoIv, orderGoodsBean.getGoods().get(position).getPhoto());
+            originalTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
+            originalTv.getPaint().setAntiAlias(true);//抗锯齿
+            originalTv.setText(String.format("¥%.2f", orderGoodsBean.getGoods().get(position).getOriginal_price() / 100));
+            expressNumberTv.setText(orderGoodsBean.getExpress_number());
+            copyTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //中划线
+            copyTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CopyButtonView copyButtonView = new CopyButtonView(mContext, expressNumberTv);
+                    copyButtonView.init();
+                }
+            });
+            if (orderGoodsBean.getIs_shipments() == 0) {
+                shipmentsTv.setText("未发货");
+            } else {
+                shipmentsTv.setText("已发货");
+            }
+        }
     }
 }

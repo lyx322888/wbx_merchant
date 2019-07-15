@@ -1,9 +1,8 @@
 package com.wbx.merchant.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -31,8 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-
-import javax.xml.transform.Result;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -98,14 +95,12 @@ public class AwardCashActivity extends BaseActivity {
                     //判断第二位不是“.”
                     if (!s.toString().substring(1, 2).equals(".")) {
 
-                        s = s.toString().substring(1, s.toString().length());
+                        s = s.toString().substring(1);
                         inputMoneyEdit.setText(s);
                         inputMoneyEdit.setSelection(s.length());
                         return;
                     }
                 }
-
-
                 //判断小数点后两位
                 if (s.toString().contains(".")) {
                     if (s.length() - 1 - s.toString().indexOf(".") > 2) {
@@ -115,7 +110,6 @@ public class AwardCashActivity extends BaseActivity {
                         return;
                     }
                 }
-
                 //判断输入位数
                 if (s.toString().length() > PRICE_LENGTH) {
                     if (s.toString().contains(".")) {
@@ -194,7 +188,7 @@ public class AwardCashActivity extends BaseActivity {
             inputMoneyEdit.setText(String.format("%.2f", (float) getIntent().getIntExtra("balance", 1) / 100.00));
         }
 //        showMoneyTv.setText(String.format("可提现余额%.2f元", getIntent().getIntExtra("balance", 1) / 100.00));
-        float commission = Float.valueOf(480) * 0.007f;
+        float commission = 480f * 0.007f;
         showMoneyTv.setText("实际提现" + format.format(Float.valueOf(480) - commission) + "元（手续费¥" + format.format(commission) + "元/费率0.7%）");
     }
 
@@ -288,7 +282,7 @@ public class AwardCashActivity extends BaseActivity {
             dialog = builder.create();
         }
         dialog.show();
-        final EditText payEdit = (EditText) inflate.findViewById(R.id.pay_balance_edit);
+        final EditText payEdit = inflate.findViewById(R.id.pay_balance_edit);
         inflate.findViewById(R.id.cancel_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -323,14 +317,13 @@ public class AwardCashActivity extends BaseActivity {
         mParams.put("sj_login_token", userInfo.getSj_login_token());
         mParams.put("money", inputMoneyEdit.getText().toString());
         mParams.put("pay_password", md5PayPsw);
-        mParams.put("cash_type","order_award");
+        mParams.put("cash_type", "order_award");
         mParams.put("pay_code", cashType);
         new MyHttp().doPost(Api.getDefault().applyCash(mParams), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 showShortToast(result.getString("msg"));
-                setResult(0);
-
+                setResult(Activity.RESULT_OK);
                 finish();
             }
 

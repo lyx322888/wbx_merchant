@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,19 +22,17 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wbx.merchant.R;
-import com.wbx.merchant.adapter.OrderGoodsAadpter;
+import com.wbx.merchant.adapter.ShopCartAdapter;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.OrderBean;
-import com.wbx.merchant.bean.OrderInfoBean;
 import com.wbx.merchant.bean.PayResult;
 import com.wbx.merchant.bean.WxPayInfo;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.presenter.OrderPresenterImp;
-import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.view.OrderView;
 
 import java.util.ArrayList;
@@ -56,8 +55,8 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
     LinearLayout updataUser;
     @Bind(R.id.shop_name_edit)
     EditText shopNameEdit;
-    @Bind(R.id.timepicker)
-    EditText timepicker;
+    @Bind(R.id.et_time)
+    EditText etTime;
     @Bind(R.id.shop_phone_edit)
     EditText shopPhoneEdit;
     @Bind(R.id.shop_address_edit)
@@ -72,19 +71,14 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
     TextView orderMonetTv;
     @Bind(R.id.order_btn)
     Button orderBtn;
-    private Dialog timeDialog;
     private IWXAPI msgApi;
     private PayReq request;
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_CHECK_FLAG = 2;
     private OrderBean orderBean;
     private HashMap<String, Object> mParams = new HashMap<>();
-    private OrderInfoBean data;
-    private String order_id;
     private List<OrderBean> dataBeans = new ArrayList<>();
-    private String wxPay = AppConfig.PayMode.wxpay;
-    private String alPay = AppConfig.PayMode.alipay;
-    private String payCode = "";
+    private String payCode = AppConfig.PayMode.wxpay;
     public static String order = "interiorshop_order";
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -134,7 +128,6 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
 
     @Override
     public void initPresenter() {
-
     }
 
     @Override
@@ -143,6 +136,7 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
         OrderPresenterImp orderPresenterImp = new OrderPresenterImp(this);
         orderPresenterImp.getOrder(LoginUtil.getLoginToken());
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        orderRecyclerView.setHasFixedSize(true);
     }
 
     @Override
@@ -154,86 +148,63 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
         } else {
             hasPrinting.setVisibility(View.VISIBLE);
         }
-        timepicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     @Override
     public void setListener() {
-
     }
 
-    private void canNext() {
+    private boolean canNext() {
         if (TextUtils.isEmpty(etName.getText().toString())) {
             showShortToast("请输入姓名");
-            return;
+            return false;
         }
         if (TextUtils.isEmpty(etPhone.getText().toString())) {
             showShortToast("请输入联系人电话");
-            return;
+            return false;
         }
         if (TextUtils.isEmpty(etAddress.getText().toString())) {
             showShortToast("请输入收货地址");
-            return;
+            return false;
         }
         if (orderBean.getData().getShop_info().getHas_printing() == 1) {
             if (TextUtils.isEmpty(shopNameEdit.getText().toString())) {
                 showShortToast("请输入店铺名称");
-                return;
+                return false;
             }
-//        if (TextUtils.isEmpty(shopShopGradeTv.getText().toString())) {
-//            showShortToast("请选择店铺分类");
-//            return false;
-//        }
-            if (TextUtils.isEmpty(timepicker.getText().toString())) {
+            if (TextUtils.isEmpty(etTime.getText().toString())) {
                 showShortToast("请选择营业时间");
-                return;
+                return false;
             }
             if (TextUtils.isEmpty(shopPhoneEdit.getText().toString())) {
                 showShortToast("请输入名片联系电话");
-                return;
+                return false;
             }
             if (TextUtils.isEmpty(shopAddressEdit.getText().toString())) {
                 showShortToast("请输入名片详细地址");
-                return;
+                return false;
             }
             if (TextUtils.isEmpty(shopScopeEdit.getText().toString())) {
                 showShortToast("请输入店铺的经营范围");
-                return;
+                return false;
             }
-            return;
         }
-        return;
-
+        return true;
     }
 
     @Override
     public void getOrder(OrderBean orderBean) {
         dataBeans.add(orderBean);
-        OrderGoodsAadpter orderGoodsAadpter = new OrderGoodsAadpter(orderBean.getData().getOrder_goods(), mContext);
-        orderRecyclerView.setAdapter(orderGoodsAadpter);
-        orderGoodsAadpter.notifyDataSetChanged();
+        ShopCartAdapter adapter = new ShopCartAdapter(orderBean.getData().getOrder_goods(), mContext);
+        orderRecyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         orderMonetTv.setText("¥:" + (float) orderBean.getData().getAll_money() / 100);
     }
 
-    @OnClick(R.id.order_btn)
+    @OnClick({R.id.order_btn})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.order_btn:
-                if (TextUtils.isEmpty(etName.getText().toString())) {
-                    showShortToast("请输入姓名");
-                    return;
-                }
-                canNext();
-                orderPay();
-                showBottomDialog();
-                break;
-
-            default:
+        if (canNext()) {
+            orderPay();
         }
     }
 
@@ -248,15 +219,15 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
         } else {
             hasPrinting.setVisibility(View.VISIBLE);
             mParams.put("shop_name", shopNameEdit.getText().toString());
-            mParams.put("business_hours", shopScopeEdit.getText().toString());
+            mParams.put("business_hours", etTime.getText().toString());
             mParams.put("shop_phone", shopPhoneEdit.getText().toString());
-            mParams.put("shop_address", shopNameEdit.getText().toString());
-            mParams.put("business_scope", shopNameEdit.getText().toString());
+            mParams.put("shop_address", shopAddressEdit.getText().toString());
+            mParams.put("business_scope", shopScopeEdit.getText().toString());
         }
         new MyHttp().doPost(Api.getDefault().getOrderInfo(mParams), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                ToastUitl.showShort(result.getString("msg"));
+                showBottomDialog();
             }
 
             @Override
@@ -273,7 +244,6 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
         //2、设置布局
         View view = View.inflate(this, R.layout.dialog_custom_layout, null);
         dialog.setContentView(view);
-
         Window window = dialog.getWindow();
         //设置弹出位置
         window.setGravity(Gravity.BOTTOM);
@@ -284,28 +254,27 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
         dialog.show();
         TextView tv_price = dialog.findViewById(R.id.tv_dialog_price);
         Button btn_price = dialog.findViewById(R.id.btn_dialog_price);
-        tv_price.setText((float) dataBeans.get(0).getData().getAll_money() + "");
-        btn_price.setText("确认支付" + (float) dataBeans.get(0).getData().getAll_money() + "元");
+        tv_price.setText((float) dataBeans.get(0).getData().getAll_money() / 100 + "");
+        btn_price.setText("确认支付" + (float) dataBeans.get(0).getData().getAll_money() / 100 + "元");
         LinearLayout llWxPay = dialog.findViewById(R.id.ll_wxpay);
         LinearLayout llZfbPay = dialog.findViewById(R.id.ll_zfbpay);
-        final Button radioWX = dialog.findViewById(R.id.rb_wx_pay);
-        final Button radioZFB = dialog.findViewById(R.id.rb_zfb_pay);
+        final ImageView radioWX = dialog.findViewById(R.id.rb_wx_pay);
+        final ImageView radioZFB = dialog.findViewById(R.id.rb_zfb_pay);
         //点击切换支付方式
-        radioWX.setSelected(true);
         llWxPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                payCode = wxPay;
-                radioWX.setSelected(true);
-                radioZFB.setSelected(false);
+                payCode = AppConfig.PayMode.wxpay;
+                radioWX.setImageResource(R.drawable.ic_ok);
+                radioZFB.setImageResource(R.drawable.ic_round);
             }
         });
         llZfbPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                payCode = alPay;
-                radioWX.setSelected(false);
-                radioZFB.setSelected(true);
+                payCode = AppConfig.PayMode.alipay;
+                radioWX.setImageResource(R.drawable.ic_round);
+                radioZFB.setImageResource(R.drawable.ic_ok);
             }
         });
 
@@ -351,7 +320,6 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
                 dialog.dismiss();
             }
         });
-
     }
 
     //调取微信
@@ -372,5 +340,4 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
         request.timeStamp = data.getTime() + "";
         request.sign = data.getTwo_sign();
     }
-
 }

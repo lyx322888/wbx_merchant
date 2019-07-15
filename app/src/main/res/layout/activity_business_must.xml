@@ -1,77 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
+    android:background="@color/page_background"
     tools:context=".activity.BusinessMustActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <View
+        android:id="@+id/title_bar"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@color/app_color"
-        android:orientation="horizontal">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
-        <RelativeLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:onClick="back">
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:onClick="back"
+        android:paddingTop="35dp"
+        android:paddingBottom="10dp"
+        android:src="@drawable/ic_arrow"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tv_title" />
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/ic_arrow_black"
-                android:tint="@color/colorWhite" />
-
-
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="4dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="微百姓自营商品"
-            android:textColor="@color/colorWhite"
-            android:textSize="15sp" />
-
-        <RelativeLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/goods_recycler"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_marginBottom="8dp"
+        android:text="微百姓自营商品"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/title_bar"
+        app:layout_constraintLeft_toRightOf="@id/iv_back"
+        app:layout_constraintRight_toLeftOf="@id/tv_right" />
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:padding="8dp">-->
+    <TextView
+        android:id="@+id/tv_right"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:gravity="center_horizontal|bottom"
+        android:paddingBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:text="我的订单"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintLeft_toRightOf="@id/tv_title"
+        app:layout_constraintRight_toRightOf="parent" />
 
-        <TextView
-            android:id="@+id/button_buy"
-            android:layout_width="300dp"
-            android:layout_height="38dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/shape_button"
-            android:gravity="center"
-            android:text="立即购买"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:onClick="buy"
-            android:textSize="15sp" />
-    <!--</LinearLayout>-->
+    <com.wbx.merchant.widget.refresh.PullToRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_buy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_bar">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/goods_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.wbx.merchant.widget.refresh.PullToRefreshLayout>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/button_buy"
+        android:layout_width="300dp"
+        android:layout_height="38dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/shape_button"
+        android:text="立即购买"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>

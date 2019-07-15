@@ -39,7 +39,7 @@ public class RetrofitUtils {
         return instance;
     }
 
-    public static ApiServices server() {
+    public  ApiServices server() {
         return apiServer;
     }
 }

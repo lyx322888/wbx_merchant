@@ -282,20 +282,23 @@
                     android:layout_marginRight="10dp"
                     android:src="@drawable/icon_publish_business_circle" />
             </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/ll_video_study"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <ImageView
 
                     android:layout_width="match_parent"
-                    android:scaleType="fitXY"
+                    android:layout_height="110dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_height="110dp"
+                    android:scaleType="fitXY"
                     android:src="@drawable/vidio_study" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
@@ -863,6 +866,7 @@
                             android:textSize="11sp" />
                     </RelativeLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -891,7 +895,6 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
-
 
 
                     </RelativeLayout>

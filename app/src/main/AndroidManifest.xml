@@ -161,7 +161,7 @@
         <!-- 绑定提现账号 -->
         <activity android:name=".activity.BindAccountActivity" />
         <!-- 绑定阿里账号 -->
-        <activity android:name=".activity.BindALIActivity" />
+        <activity android:name=".activity.BindAliActivity" />
         <!-- 绑定银联账号 -->
         <activity android:name=".activity.BindUnionPayActivity" />
         <!-- 修改密码 -->
@@ -241,8 +241,6 @@
         <activity android:name=".activity.ChooseFinanceWayActivity" />
         <activity android:name=".activity.ActivitySettingsActivity" />
         <!-- 聊天界面 -->
-        <!-- 帮助中心 -->
-        <activity android:name=".activity.TestActivity" />
         <activity
             android:name=".activity.VideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -364,8 +362,7 @@
         <activity android:name=".activity.ShopCartNoCardActivity" />
         <activity android:name=".activity.GoodsOrderActivity" />
         <!-- 免费配送费设置 -->
-        <activity android:name=".activity.GiftGivingActivity" />
-        <activity android:name=".activity.NoDeliveryFeeActivity"></activity>
+        <activity android:name=".activity.NoDeliveryFeeActivity"/>
     </application>
 
 </manifest>

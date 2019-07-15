@@ -14,7 +14,7 @@ import com.wbx.merchant.R;
 public class CicleAddAndSubView extends LinearLayout implements View.OnClickListener {
     public static final String TYPE_SUBTRACT = "minus";//减
     public static final String TYPE_ADD = "plus";//加
-    private static final int DEFAULT_NUM=0;//默认num值
+    private static final int DEFAULT_NUM = 0;//默认num值
 
     private View mLayoutView;
     private Context mContext;
@@ -35,49 +35,47 @@ public class CicleAddAndSubView extends LinearLayout implements View.OnClickList
 
     public CicleAddAndSubView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mLayoutView=LayoutInflater.from(context).inflate(R.layout.add_sub_view, this);
-        this.mContext=context;
+        mLayoutView = LayoutInflater.from(context).inflate(R.layout.add_sub_view, this);
+        this.mContext = context;
 
         initView();
         initData();
         setListener();
     }
 
-    private void initView(){
-        mBtnAdd = (ImageView) mLayoutView.findViewById(R.id.btn_add);
-        mBtnSub = (ImageView) mLayoutView.findViewById(R.id.btn_sub);
-        mTvCount = (TextView) mLayoutView.findViewById(R.id.tv_count);
-
+    private void initView() {
+        mBtnAdd = mLayoutView.findViewById(R.id.btn_add);
+        mBtnSub = mLayoutView.findViewById(R.id.btn_sub);
+        mTvCount = mLayoutView.findViewById(R.id.tv_count);
         setPadding(1, 1, 1, 1);
         //重新设置mBtnAdd，mBtnSub宽高，用来保证显示正方形
         setViewSize(mBtnAdd);
         setViewSize(mBtnSub);
     }
 
-    private void initData(){
+    private void initData() {
         setAddBtnImageResource(R.drawable.add);
         setSubBtnImageResource(R.drawable.sub);
-        mNum=DEFAULT_NUM;
+        mNum = DEFAULT_NUM;
         setNum(mNum);//设置默认数量
     }
 
-    private void setListener(){
+    private void setListener() {
         mBtnAdd.setOnClickListener(this);
         mBtnSub.setOnClickListener(this);
     }
 
-    private void setViewSize(final View view){
-        view.post(new Runnable(){
+    private void setViewSize(final View view) {
+        view.post(new Runnable() {
             @Override
             public void run() {//这里获取宽高
-                int width=view.getWidth();
-                int height=view.getHeight();
-
-                LinearLayout.LayoutParams params= (LayoutParams) view.getLayoutParams();
-                if(width<height){
-                    params.height=width;
-                }else if(width>height){
-                    params.width=height;
+                int width = view.getWidth();
+                int height = view.getHeight();
+                LinearLayout.LayoutParams params = (LayoutParams) view.getLayoutParams();
+                if (width < height) {
+                    params.height = width;
+                } else if (width > height) {
+                    params.width = height;
                 }
                 view.setLayoutParams(params);
             }
@@ -92,7 +90,7 @@ public class CicleAddAndSubView extends LinearLayout implements View.OnClickList
             mTvCount.setText(String.valueOf(mNum));
             return;
         }
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.btn_add://加号
                 mNum++;
                 setNum(mNum);
@@ -145,7 +143,7 @@ public class CicleAddAndSubView extends LinearLayout implements View.OnClickList
      * @return
      */
     public int getNum() {
-        String countText=mTvCount.getText().toString().trim();
+        String countText = mTvCount.getText().toString().trim();
         if (!TextUtils.isEmpty(countText)) {
             return Integer.parseInt(countText);
         } else {

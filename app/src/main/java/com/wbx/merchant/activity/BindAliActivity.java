@@ -18,7 +18,7 @@ import butterknife.OnClick;
  * 绑定支付宝
  */
 
-public class BindALIActivity extends BaseActivity {
+public class BindAliActivity extends BaseActivity {
     @Bind(R.id.pay_account_edit)
     EditText payAccountEdit;
     @Bind(R.id.pay_account_tv)

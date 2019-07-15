@@ -2,33 +2,25 @@ package com.wbx.merchant.activity;
 
 import android.content.Intent;
 import android.graphics.Paint;
-
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.wbx.merchant.R;
-
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.bean.GoodsDetailsInfo;
 import com.wbx.merchant.bean.OrderBean;
 import com.wbx.merchant.common.LoginUtil;
-import com.wbx.merchant.presenter.GoodsDetailsPresenterImp;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.RetrofitUtils;
 import com.wbx.merchant.utils.ToastUitl;
-import com.wbx.merchant.view.GoodsDetailsView;
-
-
-import org.jaaksi.pickerview.picker.MixedTimePicker;
 
 import butterknife.Bind;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class GoodsDetailsActivity extends BaseActivity implements GoodsDetailsView {
+public class GoodsDetailsActivity extends BaseActivity {
     @Bind(R.id.goods_photo)
     ImageView ivGoods;
     @Bind(R.id.goods_name)
@@ -60,44 +52,52 @@ public class GoodsDetailsActivity extends BaseActivity implements GoodsDetailsVi
     @Override
     public void initView() {
         goods_id = getIntent().getIntExtra("details_goods_id", 1);
-        GoodsDetailsPresenterImp presenterImp = new GoodsDetailsPresenterImp(this);
-        presenterImp.getGoodsDetails(LoginUtil.getLoginToken(), goods_id);
     }
 
     @Override
     public void fillData() {
+        RetrofitUtils.getInstance().server().getGoodsDetails(LoginUtil.getLoginToken(), goods_id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<GoodsDetailsInfo>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(final GoodsDetailsInfo goodsInfo) {
+                        GlideUtils.showRoundBigPic(mContext, ivGoods, goodsInfo.getData().getPhoto());
+                        tvName.setText(goodsInfo.getData().getTitle());
+                        tvPs.setText(goodsInfo.getData().getSubhead());
+                        tvPrice.setText("¥" + goodsInfo.getData().getPrice() / 100 + "");
+                        tvOriginal.setText("¥" + goodsInfo.getData().getOriginal_price() / 100 + "");
+                        tvOriginal.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+                        tvVolume.setText("销量 " + goodsInfo.getData().getSales_volume() + "");
+                        tvShopNum.setText(goodsInfo.getData().getBuy_shop_num() + "");
+                        tvBuy.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (goodsInfo.getData().getHas_printing() == 1 && goodsInfo.getData().getCart_num() > 0) {
+                                    order();
+                                } else if (goodsInfo.getData().getHas_printing() == 0 && goodsInfo.getData().getCart_num() > 0) {
+                                    order();
+                                } else {
+                                    ToastUitl.showShort("请返回选择商品");
+                                }
+                            }
+                        });
+                    }
+                });
     }
 
     @Override
     public void setListener() {
-
-    }
-
-    @Override
-    public void getGoodsDetails(final GoodsDetailsInfo goodInfo) {
-        GlideUtils.showRoundBigPic(mContext, ivGoods, goodInfo.getData().getPhoto());
-        tvName.setText(goodInfo.getData().getTitle());
-        tvPs.setText(goodInfo.getData().getSubhead());
-        tvPrice.setText("¥" + goodInfo.getData().getPrice() / 100 + "");
-        tvOriginal.setText("¥" + goodInfo.getData().getOriginal_price() / 100 + "");
-        tvOriginal.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-        tvVolume.setText("销量 " + goodInfo.getData().getSales_volume() + "");
-        tvShopNum.setText(goodInfo.getData().getBuy_shop_num() + "");
-        tvBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (goodInfo.getData().getHas_printing() == 1 && goodInfo.getData().getCart_num() > 0) {
-                    order();
-                } else if (goodInfo.getData().getHas_printing() == 0 && goodInfo.getData().getCart_num() > 0) {
-                    order();
-                } else {
-                    ToastUitl.showShort("请返回选择商品");
-                    return;
-                }
-            }
-        });
-
     }
 
     private void order() {

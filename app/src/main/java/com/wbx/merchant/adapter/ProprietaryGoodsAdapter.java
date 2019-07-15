@@ -39,9 +39,8 @@ public class ProprietaryGoodsAdapter extends BaseAdapter<ProprietaryGoodsBean.Da
         TextView tvName = holder.getView(R.id.tv_name);
         TextView tvPs = holder.getView(R.id.tv_ps);
         TextView tvPrice = holder.getView(R.id.tv_price);
-
         ImageView tvPhoto = holder.getView(R.id.iv_photo);
-        addorsub = holder.getView(R.id.addorsub);
+        addorsub = holder.getView(R.id.ASView);
         tvName.setText(dataBean.getTitle());
         tvPs.setText(dataBean.getDescribe());
         tvPrice.setText("¥" + (float) dataBean.getPrice() / 100);

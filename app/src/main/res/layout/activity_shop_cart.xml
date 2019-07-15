@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -98,7 +97,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:layout_weight="1"
@@ -109,37 +108,41 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-
                             <EditText
                                 android:id="@+id/et_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:gravity="center|left"
                                 android:hint="请输入姓名"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:textColor="#ff8a8a8a"
                                 android:textSize="14sp" />
 
                             <EditText
                                 android:id="@+id/et_phone"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
                                 android:background="@null"
-                                android:gravity="center|left"
                                 android:hint="请输入电话"
-                                android:layout_marginLeft="30dp"
-                                android:inputType="number"
+                                android:inputType="phone"
+                                android:maxLength="11"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:textColor="#ff8a8a8a"
                                 android:textSize="14sp" />
                         </LinearLayout>
+
                         <EditText
                             android:id="@+id/et_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@null"
                             android:layout_marginTop="18dp"
-                            android:gravity="center|left"
+                            android:background="@null"
                             android:hint="请输入地址"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
                             android:textColor="#ff8a8a8a"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -202,11 +205,9 @@
 
                     <EditText
                         android:id="@+id/shop_name_edit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:background="@null"
-                        android:gravity="center|left"
                         android:hint="请填写店铺名称"
                         android:padding="10dp"
                         android:textSize="13sp" />
@@ -215,9 +216,11 @@
                 <View style="@style/lineViewStyle" />
 
                 <LinearLayout
+                    android:id="@+id/ll_time"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@color/colorWhite"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
@@ -228,12 +231,12 @@
                         android:textSize="15sp" />
 
                     <EditText
-                        android:id="@+id/timepicker"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_time"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:gravity="center|left"
+                        android:gravity="center_vertical"
                         android:hint="请选择营业时间"
                         android:padding="10dp"
                         android:textSize="13sp" />
@@ -263,13 +266,11 @@
 
                     <EditText
                         android:id="@+id/shop_phone_edit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:background="@null"
-                        android:gravity="center|left"
                         android:hint="请填写联系电话"
-                        android:inputType="number"
+                        android:inputType="phone"
                         android:padding="10dp"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -282,10 +283,9 @@
 
                     <EditText
                         android:id="@+id/shop_address_edit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:background="@color/colorWhite"
                         android:hint="请填写详细地址(街道、楼牌号等)"
                         android:textColor="#AAAAAA"
@@ -300,10 +300,9 @@
 
                     <EditText
                         android:id="@+id/shop_scope_edit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:background="@color/colorWhite"
                         android:hint="请填写店铺经营范围(例如：水果、蔬菜等)"
                         android:textColor="#AAAAAA"
@@ -314,14 +313,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="16dp"
                 android:background="@drawable/shape_shop_cart"
                 android:orientation="vertical"
-                android:paddingLeft="15dp"
+                android:paddingStart="16dp"
                 android:paddingTop="20dp"
-                android:paddingRight="30dp"
+                android:paddingEnd="16dp"
                 android:paddingBottom="20dp">
 
                 <TextView
@@ -347,16 +346,11 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="20dp"
-            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="end|center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -379,6 +373,7 @@
             android:id="@+id/order_btn"
             android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
             android:background="@drawable/shape_shop_cart_btn"
             android:text="立即付款"
             android:textColor="#ffffffff"
