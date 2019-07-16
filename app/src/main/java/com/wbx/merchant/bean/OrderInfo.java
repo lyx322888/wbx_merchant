@@ -11,6 +11,7 @@ public class OrderInfo implements Serializable {
     private OrderAddressInfo addr;
     private int addr_id;
     private int create_time;
+    private long dispatching_time;//配送时间
     private List<GoodsInfo> goods;
     private int is_daofu;
     private int logistics;
@@ -206,5 +207,13 @@ public class OrderInfo implements Serializable {
 
     public void setDada(List<DaDaOrderTrackBean> dada) {
         this.dada = dada;
+    }
+
+    public long getDispatching_time() {
+        return dispatching_time;
+    }
+
+    public void setDispatching_time(long dispatching_time) {
+        this.dispatching_time = dispatching_time;
     }
 }

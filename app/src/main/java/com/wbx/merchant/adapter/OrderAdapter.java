@@ -42,6 +42,11 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
         holder.setText(R.id.tv_order_id, "订单号：" + orderInfo.getOrder_id());
         TextView tvOrderState = holder.getView(R.id.tv_order_state);
         String orderState = "";
+        String str = "立即配送";
+        if (orderInfo.getDispatching_time() != 0) {
+            str = FormatUtil.stampToDate(orderInfo.getDispatching_time() + "");
+        }
+        holder.setText(R.id.tv_dispatching_time, "配送时间: " + str);
         TextView tvRefuseOrder = holder.getView(R.id.tv_refuse_order);//拒单
         TextView tvSend = holder.getView(R.id.tv_send);//发货
         TextView tvSendByDaDa = holder.getView(R.id.tv_send_by_dada);//达达发货

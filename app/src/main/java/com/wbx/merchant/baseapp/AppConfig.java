@@ -120,7 +120,7 @@ public class AppConfig {
                 stateStr = "待付款";
                 break;
             case 1:
-                stateStr = "待发货";
+                stateStr = "待配送";
                 break;
             case 2:
                 stateStr = "待收货";

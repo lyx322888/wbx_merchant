@@ -1,7 +1,9 @@
 package com.wbx.merchant.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -12,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wbx.merchant.R;
@@ -22,10 +23,15 @@ import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.baseapp.AppConfig;
+import com.wbx.merchant.bean.GoodsInfo;
+import com.wbx.merchant.bean.OrderAddressInfo;
 import com.wbx.merchant.bean.OrderInfo;
 import com.wbx.merchant.utils.FormatUtil;
 import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -38,48 +44,45 @@ import rx.Observable;
 
 public class OrderDetailActivity extends BaseActivity {
     @Bind(R.id.root_view)
-    LinearLayout rootView;
-    @Bind(R.id.is_default_address_tv)
-    TextView isDefaultAddressTv;
-    @Bind(R.id.support_address_ll)
-    LinearLayout supportAddressLl;
-    @Bind(R.id.tv_packing_fee)
-    TextView tvPackingFee;
-    @Bind(R.id.tv_red_packet)
-    TextView tvRedPacket;
-    @Bind(R.id.tv_shop_red_packet)
-    TextView tvShopRedPacket;
+    ConstraintLayout rootView;
+    @Bind(R.id.tv_order_state)
+    TextView tvOrderState;
+    @Bind(R.id.tv_receiver_name)
+    TextView tvReceiverName;
+    @Bind(R.id.tv_receiver_address)
+    TextView tvReceiverAddress;
+    @Bind(R.id.tv_receiver_time)
+    TextView tvReceiverTime;
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @Bind(R.id.tv_logistics_price)
+    TextView tvLogisticsPrice;
     @Bind(R.id.tv_money_coupon)
     TextView tvMoneyCoupon;
-    @Bind(R.id.tv_money_full_discount)
-    TextView tvMoneyFullDiscount;
-    @Bind(R.id.order_detail_state_tv)
-    TextView orderStateTv;
-    @Bind(R.id.order_detail_total_price_tv)
-    TextView totalPriceTv;
-    @Bind(R.id.order_detail_logistics_price_tv)
-    TextView logisticsPriceTv;
-    @Bind(R.id.remark_tv)
-    TextView messageTv;
-    @Bind(R.id.oder_num_tv)
-    TextView orderNumTv;
-    @Bind(R.id.order_create_time_tv)
-    TextView createTimeTv;
-    @Bind(R.id.receiver_name_tv)
-    TextView receiverTv;
-    @Bind(R.id.receiver_phone_tv)
-    TextView receiverPhoneTv;
-    @Bind(R.id.receiver_address_tv)
-    TextView receiverAddressTv;
-    @Bind(R.id.order_detail_goods_rv)
-    RecyclerView mRecyclerView;
-    @Bind(R.id.order_detail_btn1)
-    Button orderDetailBtn1;
-    @Bind(R.id.order_detail_btn2)
-    Button orderDetailBtn2;
+    @Bind(R.id.tv_full_discount)
+    TextView tvFullDiscount;
+    @Bind(R.id.tv_subsidy_money)
+    TextView tvSubsidyMoney;
+    @Bind(R.id.tv_casing_price)
+    TextView tvCasingPrice;
+    @Bind(R.id.tv_shop_red_packet)
+    TextView tvShopRedPacket;
+    @Bind(R.id.tv_sum)
+    TextView tvSum;
+    @Bind(R.id.tv_remark)
+    TextView tvRemark;
+    @Bind(R.id.tv_order_no)
+    TextView tvOrderNo;
+    @Bind(R.id.tv_order_time)
+    TextView tvOrderTime;
+    @Bind(R.id.btn_submit)
+    Button btnSubmit;
+
     private OrderInfo orderDetail;
     private OrderDetailAdapter mAdapter;
     private MyHttp myHttp;
+    private List<GoodsInfo> list = new ArrayList<>();
+
 
     @Override
     public int getLayoutId() {
@@ -93,122 +96,62 @@ public class OrderDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setHasFixedSize(true);
+        mAdapter = new OrderDetailAdapter(list, this);
+        recyclerView.setAdapter(mAdapter);
     }
 
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     public void fillData() {
         orderDetail = (OrderInfo) getIntent().getSerializableExtra("orderDetail");
         if (null != orderDetail) {
-            orderStateTv.setText(AppConfig.orderStateStr(orderDetail.getStatus()));
-            totalPriceTv.setText(String.format("¥%.2f", orderDetail.getNeed_pay() / 100.00));
-            logisticsPriceTv.setText(String.format("¥%.2f", orderDetail.getLogistics() / 100.00));
-            tvPackingFee.setText(String.format("¥%.2f", orderDetail.getCasing_price() / 100.00));
-            tvMoneyCoupon.setText(String.format("-¥%.2f", orderDetail.getCoupon_money() / 100.00));
-            tvMoneyFullDiscount.setText(String.format("-¥%.2f", orderDetail.getFull_money_reduce() / 100.00));
-            tvRedPacket.setText(String.format("-¥%.2f", orderDetail.getUser_subsidy_money() / 100.00));
-            tvShopRedPacket.setText(String.format("-¥%.2f", orderDetail.getRed_packet_money() / 100.00));
-            if (null != orderDetail.getMessage()) {
-                messageTv.setText("买家备注：" + orderDetail.getMessage());
+            OrderAddressInfo addr = orderDetail.getAddr();
+            tvOrderState.setText("订单详情：" + AppConfig.orderStateStr(orderDetail.getStatus()));
+            tvReceiverName.setText("联系人：         " + addr.getXm() + "    " + addr.getTel());
+            tvReceiverAddress.setText("配送地址：     " + addr.getAddr());
+            String str = "立即配送";
+            if (orderDetail.getDispatching_time() != 0) {
+                str = FormatUtil.stampToDate(orderDetail.getDispatching_time() + "");
             }
-            orderNumTv.setText(String.format("订单编号:%d", orderDetail.getOrder_id()));
-            createTimeTv.setText(String.format("下单时间:%s", FormatUtil.stampToDate(orderDetail.getCreate_time() + "")));
-            receiverTv.setText(orderDetail.getAddr().getXm());
-            receiverPhoneTv.setText(orderDetail.getAddr().getTel());
-            receiverAddressTv.setText(orderDetail.getAddr().getAddr());
-            mAdapter = new OrderDetailAdapter(orderDetail.getGoods(), mContext);
-            mRecyclerView.setAdapter(mAdapter);
+            tvReceiverTime.setText("配送时间：     " + str);
+            tvLogisticsPrice.setText("运费：             " + orderDetail.getLogistics() / 100.00 + "元");
+            tvMoneyCoupon.setText("优惠券：         " + orderDetail.getCoupon_money() / 100.00 + "元");
+            tvFullDiscount.setText("满减：             " + orderDetail.getFull_money_reduce() / 100.00 + "元");
+            tvSubsidyMoney.setText("奖励金：         " + orderDetail.getUser_subsidy_money() / 100.00 + "元");
+            tvCasingPrice.setText("包装费：         " + orderDetail.getCasing_price() / 100.00 + "元");
+            tvShopRedPacket.setText("店铺红包：     " + orderDetail.getRed_packet_money() / 100.00 + "元");
+            tvSum.setText("合计：             " + orderDetail.getNeed_pay() / 100.00 + "元");
+            tvRemark.setText("买家留言：     " + orderDetail.getMessage());
+            tvOrderNo.setText("订单编号：     " + orderDetail.getOrder_id());
+            tvOrderTime.setText("下单时间：     " + FormatUtil.stampToDate(orderDetail.getCreate_time() + ""));
+            list.addAll(orderDetail.getGoods());
+            mAdapter.notifyDataSetChanged();
+            switch (orderDetail.getStatus()) {
+                case 1:
+                    btnSubmit.setVisibility(View.VISIBLE);
+                    btnSubmit.setText("发货");
+                    break;
+                case 2:
+                    btnSubmit.setVisibility(View.VISIBLE);
+                    btnSubmit.setText("拒单");
+                    break;
+                case 3:
+                    btnSubmit.setVisibility(View.VISIBLE);
+                    btnSubmit.setText("退款");
+                    break;
+            }
         }
-
-        switch (orderDetail.getStatus()) {
-            case 1:
-                orderDetailBtn1.setVisibility(View.VISIBLE);
-                orderDetailBtn2.setVisibility(View.VISIBLE);
-                orderDetailBtn1.setText("拒单");
-                orderDetailBtn2.setText("配送");
-                break;
-            case 2:
-                orderDetailBtn1.setVisibility(View.VISIBLE);
-                orderDetailBtn1.setText("拒单");
-                break;
-            case 3:
-                orderDetailBtn1.setVisibility(View.VISIBLE);
-                orderDetailBtn1.setText("退款");
-                break;
-            case 8:
-                orderDetailBtn1.setVisibility(View.VISIBLE);
-                orderDetailBtn1.setText("打印订单");
-                break;
-        }
-
     }
 
     @Override
     public void setListener() {
-
     }
 
-    @OnClick({R.id.order_detail_btn1, R.id.order_detail_btn2})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.order_detail_btn1:
-                switch (orderDetail.getStatus()) {
-                    case 1:
-                    case 2:
-                        //拒单
-                        refuse();
-                        break;
-                    case 3:
-                    case 4:
-                        //退款
-                        refund();
-                        break;
-                    case 8:
-                        printOrder();
-                        break;
-                }
-                break;
-            case R.id.order_detail_btn2:
-                if (orderDetail.getStatus() == 1) {
-                    //配送
-                    showSendPop();
-                } else {
-                    //退款
-                    refund();
-                }
-
-                break;
-        }
-    }
-
-    private void printOrder() {
-        new AlertDialog(this).builder()
-                .setTitle("提示")
-                .setMsg("是否确定打印该订单？")
-                .setNegativeButton("不了", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                    }
-                })
-                .setPositiveButton("确定", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        myHttp.doPost(Api.getDefault().printOrder(userInfo.getSj_login_token(), String.valueOf(orderDetail.getOrder_id())), new HttpListener() {
-                            @Override
-                            public void onSuccess(JSONObject result) {
-                                Toast.makeText(mContext, result.getString("msg"), Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onError(int code) {
-
-                            }
-                        });
-                    }
-                }).show();
-    }
-
-    //拒单
+    /**
+     * 拒单
+     */
     private void refuse() {
         new AlertDialog(mContext).builder()
                 .setTitle("提示")
@@ -239,7 +182,10 @@ public class OrderDetailActivity extends BaseActivity {
                 }).show();
     }
 
-    //退款
+    /**
+     * 退款
+     */
+
     private void refund() {
         new AlertDialog(mContext).builder()
                 .setTitle("提示")
@@ -269,6 +215,9 @@ public class OrderDetailActivity extends BaseActivity {
                 }).show();
     }
 
+    /**
+     * 发货
+     */
     private void showSendPop() {
         final View popView = getLayoutInflater().inflate(R.layout.pop_goods_send_layout, null);
         final PopupWindow mPopUpWindow = new PopupWindow();
@@ -406,5 +355,23 @@ public class OrderDetailActivity extends BaseActivity {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getWindow().setAttributes(lp);
+    }
+
+
+    @OnClick(R.id.btn_submit)
+    public void onViewClicked() {
+        if (orderDetail != null) {
+            switch (orderDetail.getStatus()) {
+                case 1://发货
+                    showSendPop();
+                    break;
+                case 2://拒单
+                    refuse();
+                    break;
+                case 3://退款
+                    refund();
+                    break;
+            }
+        }
     }
 }

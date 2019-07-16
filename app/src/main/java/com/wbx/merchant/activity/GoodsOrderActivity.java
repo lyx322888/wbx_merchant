@@ -92,13 +92,8 @@ public class GoodsOrderActivity extends BaseActivity implements BaseRefreshListe
                 }
                 refreshLayout.finishLoadMore();
                 refreshLayout.finishRefresh();
-                if (code == AppConfig.ERROR_STATE.NULLDATA) {
-                    refreshLayout.showView(ViewStatus.EMPTY_STATUS);
-                    refreshLayout.buttonClickNullData(GoodsOrderActivity.this, "loadData");
-                } else {
-                    refreshLayout.showView(ViewStatus.ERROR_STATUS);
-                    refreshLayout.buttonClickError(GoodsOrderActivity.this, "loadData");
-                }
+                refreshLayout.showView(ViewStatus.EMPTY_STATUS);
+                refreshLayout.buttonClickNullData(GoodsOrderActivity.this, "loadData");
             }
         });
     }

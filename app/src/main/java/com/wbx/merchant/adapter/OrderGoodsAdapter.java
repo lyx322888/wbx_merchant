@@ -50,7 +50,7 @@ public class OrderGoodsAdapter extends BaseAdapter<GoodsInfo, Context> {
             }
             sbNature.append(")");
         }
-        holder.setText(R.id.order_goods_name_tv, goodsInfo.getProduct_name() + sbNature.toString()).setText(R.id.order_goods_num_tv, "X" + goodsInfo.getNum()).setText(R.id.order_goods_price_tv, String.format("%.2f", goodsInfo.getPrice() / 100.00));
+        holder.setText(R.id.order_goods_name_tv, goodsInfo.getProduct_name() + sbNature.toString()).setText(R.id.order_goods_num_tv, "x" + goodsInfo.getNum()).setText(R.id.order_goods_price_tv, String.format("%.2f", goodsInfo.getPrice() / 100.00));
     }
 
     @Override

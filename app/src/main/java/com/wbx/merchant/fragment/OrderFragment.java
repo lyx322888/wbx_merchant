@@ -629,11 +629,7 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
             packageInfo = null;
             e.printStackTrace();
         }
-        if (null == packageInfo) {
-            return false;
-        } else {
-            return true;
-        }
+        return null != packageInfo;
     }
 
     AMapLocationListener mLocationListener = new AMapLocationListener() {

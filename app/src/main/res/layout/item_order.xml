@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -23,13 +23,13 @@
 
         <TextView
             android:id="@+id/tv_order_id"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:drawableLeft="@drawable/number"
             android:drawablePadding="5dp"
-            android:text="订单号：1234"
+            android:text="订单号："
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="待配送"
+            tools:text="待配送"
             android:textColor="@color/app_color"
             android:textSize="14sp" />
 
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="[蜂鸟配送]"
+            tools:text="[蜂鸟配送]"
             android:textColor="@color/app_color"
             android:textSize="14sp" />
     </LinearLayout>
@@ -70,7 +70,7 @@
         android:paddingRight="15dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="林景先生"
+                tools:text="林景先生"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -90,8 +90,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="下单时间：2018年1月1日 00:00"
+                tools:text="下单时间：2018年1月1日 00:00"
                 android:textColor="#919191"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_dispatching_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                tools:text="配送时间：2018年1月1日 00:00"
+                android:textColor="#06C1AE"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -115,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:text="福建省厦门市思明区鸿星尔克集团大厦16层"
+        tools:text="福建省厦门市思明区鸿星尔克集团大厦16层"
         android:textColor="@color/gray"
         android:textSize="14sp" />
 
@@ -188,7 +197,7 @@
             android:id="@+id/tv_goods_total_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="共 3 件商品，实付款"
+            tools:text="共 3 件商品，实付款"
             android:textColor="#BFBFBF"
             android:textSize="12sp" />
 
@@ -198,7 +207,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:text="￥40.00"
+            tools:text="￥40.00"
             android:textColor="@color/app_color"
             android:textSize="16sp" />
     </LinearLayout>
