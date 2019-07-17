@@ -1,13 +1,15 @@
 package com.wbx.merchant.adapter;
 
 import android.content.Context;
+import android.view.View;
 
 import com.wbx.merchant.R;
-import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.base.BaseAdapter;
+import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.base.BaseViewHolder;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CateInfo;
+import com.wbx.merchant.widget.sideslip.SwipeLayout;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ import java.util.List;
  * Created by wushenghui on 2017/6/26.
  */
 
-public class AddClassifyAdapter extends BaseAdapter<CateInfo,Context> {
+public class AddClassifyAdapter extends BaseAdapter<CateInfo, Context> {
 
     public AddClassifyAdapter(List<CateInfo> dataList, Context context) {
         super(dataList, context);
@@ -28,7 +30,14 @@ public class AddClassifyAdapter extends BaseAdapter<CateInfo,Context> {
 
     @Override
     public void convert(BaseViewHolder holder, CateInfo cateInfo, int position) {
-           holder.setText(R.id.classify_name_tv,cateInfo.getCate_name()).setText(R.id.classify_order_tv, BaseApplication.getInstance().readLoginUser().getGrade_id()== AppConfig.StoreGrade.MARKET?cateInfo.getOrderby_cate()+"":cateInfo.getOrderby()+"");
-    }
+        holder.setText(R.id.classify_name_tv, cateInfo.getCate_name()).setText(R.id.classify_order_tv, BaseApplication.getInstance().readLoginUser().getGrade_id() == AppConfig.StoreGrade.MARKET ? cateInfo.getOrderby_cate() + "" : cateInfo.getOrderby() + "");
 
+        final SwipeLayout layout = holder.getView(R.id.swipeLayout);
+        layout.setOnSwipeLayoutClickListener(new SwipeLayout.OnSwipeLayoutClickListener() {
+            @Override
+            public void onClick() {
+                layout.openDeleteMenu();
+            }
+        });
+    }
 }
