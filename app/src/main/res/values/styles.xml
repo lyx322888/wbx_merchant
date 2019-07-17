@@ -184,8 +184,10 @@
     </style>
 
     <style name="main_menu_animStyle">
-
         <item name="android:windowEnterAnimation">@anim/dialog_in_anim</item>
         <item name="android:windowExitAnimation">@anim/dialog_out_anim</item>
+    </style>
+    <style name="SplashDialog" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:background">@color/white</item>
     </style>
 </resources>

@@ -35,8 +35,8 @@ task clean(type: Delete) {
 ext {
     compileSdkVersion = 27
     applicationId = "com.wbx.merchant"
-    minSdkVersion = 17
-    targetSdkVersion = 22
+    minSdkVersion = 19
+    targetSdkVersion = 26
     versionCode = 40
     versionName = "3.6.4"
     supportVersion = "27.1.1"
