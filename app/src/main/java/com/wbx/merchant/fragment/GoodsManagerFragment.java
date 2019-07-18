@@ -363,7 +363,7 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                 } else {
                     selectGoodsInfoList.remove(goodsInfo);
                 }
-                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyItemChanged(position);
                 if (selectGoodsInfoList.size() == goodsInfoList.size()) {
                     goodsManagerActivity.setSelectAll(true);
                 } else {

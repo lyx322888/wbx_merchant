@@ -67,6 +67,8 @@ public class GoodsManagerActivity extends BaseActivity {
     TextView selectAllCb;
     @Bind(R.id.sold_out_tv)
     TextView soldOutTv;
+    @Bind(R.id.tv_menu)
+    TextView tvMenu;
     private int cateId;
 
     public static void actionStart(Context context) {
@@ -111,10 +113,10 @@ public class GoodsManagerActivity extends BaseActivity {
                     mFragment.get(mOrderViewPager.getCurrentItem()).cancelSelectAll();
                     mFragment.get(mOrderViewPager.getCurrentItem()).batchManager(false);
                 }
-                editedLayout.startAnimation(hidAnim());
+//                editedLayout.startAnimation(hidAnim());
                 editedLayout.setVisibility(View.GONE);
-                rlRight.setVisibility(View.INVISIBLE);
-                doEditLayout.startAnimation(showAnim());
+                tvMenu.setText("添加分类");
+//                doEditLayout.startAnimation(showAnim());
                 doEditLayout.setVisibility(View.VISIBLE);
                 if (position == 0) {
                     soldOutTv.setText("下架");
@@ -152,18 +154,22 @@ public class GoodsManagerActivity extends BaseActivity {
                 doEditLayout.setVisibility(View.GONE);
                 editedLayout.startAnimation(showAnim());
                 editedLayout.setVisibility(View.VISIBLE);
-                rlRight.setVisibility(View.VISIBLE);
+                tvMenu.setText("取消");
                 break;
             case R.id.rl_right:
-                selectAllCb.setSelected(false);
-                mFragment.get(mOrderViewPager.getCurrentItem()).cancelSelectAll();
-                isEdit = !isEdit;
-                mFragment.get(mOrderViewPager.getCurrentItem()).batchManager(isEdit);
-                editedLayout.startAnimation(hidAnim());
-                editedLayout.setVisibility(View.GONE);
-                rlRight.setVisibility(View.INVISIBLE);
-                doEditLayout.startAnimation(showAnim());
-                doEditLayout.setVisibility(View.VISIBLE);
+                if (tvMenu.getText().toString().trim().equals("添加分类")) {
+                    startActivity(new Intent(mContext, GoodsClassifyActivity.class));
+                } else {
+                    selectAllCb.setSelected(false);
+                    mFragment.get(mOrderViewPager.getCurrentItem()).cancelSelectAll();
+                    isEdit = !isEdit;
+                    mFragment.get(mOrderViewPager.getCurrentItem()).batchManager(isEdit);
+                    editedLayout.startAnimation(hidAnim());
+                    editedLayout.setVisibility(View.GONE);
+                    tvMenu.setText("添加分类");
+                    doEditLayout.startAnimation(showAnim());
+                    doEditLayout.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.rl_all_check:
                 selectAllCb.setSelected(!selectAllCb.isSelected());

@@ -20,8 +20,8 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
                 android:src="@drawable/ic_arrow_black"
                 android:tint="@color/colorWhite" />
 
@@ -41,17 +41,17 @@
 
         <RelativeLayout
             android:id="@+id/rl_right"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:visibility="invisible">
+            android:layout_width="80dp"
+            android:layout_height="60dp">
 
             <TextView
+                android:id="@+id/tv_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
-                android:text="取消"
+                android:text="添加分类"
                 android:textColor="@color/colorWhite" />
         </RelativeLayout>
     </LinearLayout>
