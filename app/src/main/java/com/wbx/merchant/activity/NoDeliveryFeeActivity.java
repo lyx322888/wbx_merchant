@@ -32,6 +32,7 @@ public class NoDeliveryFeeActivity extends BaseActivity {
     @Bind(R.id.delivery_btn)
     Button deliveryBtn;
     private int flag; //判断是否开启功能
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_no_delivery_fee;
@@ -67,11 +68,9 @@ public class NoDeliveryFeeActivity extends BaseActivity {
                 setDrawable(tvClose, R.drawable.ic_ok);
                 break;
             case R.id.delivery_btn:
-                if (flag==1) {
-                    if (TextUtils.isEmpty(moneyEdit.getText().toString())) {
-                        ToastUitl.showShort("请输入金额");
-                        return;
-                    }
+                if (flag == 0 && TextUtils.isEmpty(moneyEdit.getText().toString())) {
+                    ToastUitl.showShort("请输入金额");
+                    return;
                 }
                 getNoDeliveryFee();
                 break;
