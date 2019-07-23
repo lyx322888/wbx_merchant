@@ -115,8 +115,8 @@ public class MineFragment extends BaseFragment {
 
     private void logout() {
         new AlertDialog(getActivity()).builder()
-                .setTitle("提示")
-                .setMsg("注销当前账号？")
+                .setTitle("温馨提示")
+                .setMsg("确定注销登录吗？")
                 .setNegativeButton("再想想", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -127,23 +127,6 @@ public class MineFragment extends BaseFragment {
                     @Override
                     public void onClick(View view) {
                         clearUserData();
-//                        EMClient.getInstance().logout(true, new EMCallBack() {
-//
-//                            @Override
-//                            public void onSuccess() {
-//                                clearUserData();
-//                            }
-//
-//                            @Override
-//                            public void onProgress(int progress, String status) {
-//                            }
-//
-//                            @Override
-//                            public void onError(int code, String message) {
-//                                //退出失败暂时也退出登录
-//                                clearUserData();
-//                            }
-//                        });
                     }
                 }).show();
     }

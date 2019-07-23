@@ -38,7 +38,8 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void initPresenter() { }
+    public void initPresenter() {
+    }
 
     @Override
     public void initView() {
@@ -93,15 +94,16 @@ public class MainActivity extends BaseActivity {
                 int appVersion = Integer.parseInt(version.replace(".", ""));
                 if (appVersion < serviceVersion) {
                     upDateApp(JSONObject.toJSONString(result));
+                } else {
+                    getNotice();
                 }
             }
 
             @Override
             public void onError(int code) {
-
+                getNotice();
             }
         });
-
     }
 
     private void upDateApp(String jsonStr) {
@@ -154,12 +156,6 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.iv_publish)
     public void onViewClicked() {
         showMoreWindow(mTabHost);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getNotice();
     }
 
     private void getNotice() {
