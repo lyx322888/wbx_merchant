@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.iflytek.cloud.SpeechConstant;
@@ -16,11 +17,13 @@ import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.wbx.merchant.BuildConfig;
 import com.wbx.merchant.baseapp.ThreadPoolManager;
 import com.wbx.merchant.bean.UserInfo;
 import com.wbx.merchant.chat.BaseManager;
+import com.wbx.merchant.utils.APPUtil;
 import com.wbx.merchant.utils.LogUtils;
 import com.wbx.merchant.widget.refresh.AppRefreshFoot;
 import com.wbx.merchant.widget.refresh.AppRefreshHead;
@@ -67,6 +70,7 @@ public class BaseApplication extends MultiDexApplication {
             }
         });
         initInUiThread();
+
     }
 
     private void initInUiThread() {
@@ -74,6 +78,21 @@ public class BaseApplication extends MultiDexApplication {
         initJPush();
         initXunFei();
         initRefresh();
+        initBugly();
+    }
+
+    private void initBugly() {
+        Context context = getApplicationContext();
+        // 获取当前包名
+        String packageName = context.getPackageName();
+        // 获取当前进程名
+        String processName = APPUtil.getProcessName(android.os.Process.myPid());
+        // 设置是否为上报进程
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
+        strategy.setUploadProcess(processName == null || processName.equals(packageName));
+        strategy.setAppReportDelay(20000);
+        // 初始化Bugly
+        CrashReport.initCrashReport(context, "2d73fcc0a2", true, strategy);
     }
 
     private void initRefresh() {
@@ -202,5 +221,11 @@ public class BaseApplication extends MultiDexApplication {
             }
         }
         return processName;
+    }
+
+    @Override
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        MultiDex.install(this);
     }
 }

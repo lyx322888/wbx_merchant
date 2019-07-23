@@ -135,6 +135,7 @@ public class IntegralFreeListActivity extends BaseActivity implements OnRefreshL
                 ToastUitl.showShort("删除成功");
                 lstData.remove(position);
                 adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeChanged(position, lstData.size() - position);
             }
 
             @Override

@@ -61,6 +61,9 @@
     <!-- 极光end -->
     <!-- DownloadManager下载时不显示Notification -->
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <!--Bugly-->
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
 
     <application
         android:name=".base.BaseApplication"
@@ -245,6 +248,7 @@
         <activity android:name=".activity.AddFullActivity" />
         <activity android:name=".activity.FullActivity" />
         <activity android:name=".activity.ThridOrderDetailActivity" />
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="oLNScgBLbcCLQzld6BSlNYLb861qqLns" />
@@ -278,6 +282,7 @@
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
+
         <service android:name="com.amap.api.location.APSService" />
         <!-- 版本更新服务 -->
         <service android:name=".service.DownloadService" />
@@ -359,7 +364,7 @@
         <activity android:name=".activity.ShopCartNoCardActivity" />
         <activity android:name=".activity.GoodsOrderActivity" />
         <!-- 免费配送费设置 -->
-        <activity android:name=".activity.NoDeliveryFeeActivity"/>
+        <activity android:name=".activity.NoDeliveryFeeActivity" />
     </application>
 
 </manifest>

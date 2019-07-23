@@ -101,11 +101,9 @@ public class AddIntegralFreeActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.view_play_rule, R.id.tv_save, R.id.iv_delete})
+    @OnClick({R.id.tv_save, R.id.iv_delete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.view_play_rule:
-                break;
             case R.id.tv_save:
                 save();
                 break;

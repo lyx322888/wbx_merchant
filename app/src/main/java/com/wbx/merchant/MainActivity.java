@@ -151,67 +151,6 @@ public class MainActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-//    @Override
-//    public void onMessageReceived(List<EMMessage> list) {
-//        for (EMMessage emMessage : list) {
-//            Map<String, Object> ext = emMessage.ext();
-//            EaseUser easeUser = new EaseUser(emMessage.getFrom());
-//            easeUser.setAvatar((String) ext.get("fromAvatar"));
-//            easeUser.setNick((String) ext.get("fromNickname"));
-//            easeUser.setNickname((String) ext.get("fromNickname"));
-//            UserDao userDao = new UserDao(mContext);
-//            userDao.openDataBase();
-//            userDao.insertData(easeUser);
-//        }
-//        EaseUI.getInstance().getNotifier().onNewMesg(list);
-//        //收到消息
-//        Intent intent = new Intent();
-//        intent.setAction(AppConfig.REFRESH_UI);
-//        //发送广播
-//        sendBroadcast(intent);
-//    }
-//
-//    @Override
-//    public void onCmdMessageReceived(List<EMMessage> list) {
-//
-//    }
-//
-//    @Override
-//    public void onMessageRead(List<EMMessage> list) {
-//
-//    }
-//
-//    @Override
-//    public void onMessageDelivered(List<EMMessage> list) {
-//
-//    }
-//
-//    @Override
-//    public void onMessageRecalled(List<EMMessage> list) {
-//
-//    }
-//
-//    @Override
-//    public void onMessageChanged(EMMessage emMessage, Object o) {
-//
-//    }
-//
-//    @Override
-//    public void onConnected() {
-//
-//    }
-//
-//    @Override
-//    public void onDisconnected(final int error) {
-//    }
-//
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        EMClient.getInstance().removeConnectionListener(this);
-//        EMClient.getInstance().chatManager().removeMessageListener(this);
-//    }
-
     @OnClick(R.id.iv_publish)
     public void onViewClicked() {
         showMoreWindow(mTabHost);

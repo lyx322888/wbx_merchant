@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.wbx.merchant.R;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
