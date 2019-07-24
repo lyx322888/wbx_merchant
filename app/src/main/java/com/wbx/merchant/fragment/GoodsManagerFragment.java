@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +34,6 @@ import com.wbx.merchant.base.BaseFragment;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GoodsInfo;
-import com.wbx.merchant.utils.SPUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
@@ -153,14 +151,6 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                         goodsInfo.setCate_id(goodsInfo.getShopcate_id());
                     }
                 }
-//                for(GoodsInfo mGoods : goodsInfoList){
-//                    for(GoodsInfo goodsInfo: dataList){
-//                        if(mGoods.getProduct_id()==mGoods.getProduct_id()){
-//                            goodsInfoList.remove(mGoods);
-//                            goodsInfoList.add(goodsInfo);
-//                        }
-//                    }
-//                }
                 goodsInfoList.addAll(dataList);
                 mAdapter.notifyDataSetChanged();
             }
@@ -184,8 +174,6 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                 } else if (code == AppConfig.ERROR_STATE.NO_NETWORK || code == AppConfig.ERROR_STATE.SERVICE_ERROR) {
                     mRefreshLayout.showView(ViewStatus.ERROR_STATUS);
                     mRefreshLayout.buttonClickError(GoodsManagerFragment.this, "getServiceData");
-                } else {
-
                 }
                 mRefreshLayout.finishRefresh();
                 mRefreshLayout.finishLoadMore();
@@ -248,8 +236,8 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                         dialog.show();
                     }
 
-                    TextView shopNameTv = (TextView) inflate.findViewById(R.id.shop_name_tv);
-                    final EditText salesPriceEdit = (EditText) inflate.findViewById(R.id.sales_price_edit);
+                    TextView shopNameTv = inflate.findViewById(R.id.shop_name_tv);
+                    final EditText salesPriceEdit = inflate.findViewById(R.id.sales_price_edit);
                     shopNameTv.setText(String.format("促销商品：%s", goodsInfoList.get(position).getProduct_name()));
                     inflate.findViewById(R.id.sure_btn).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -363,7 +351,7 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                 } else {
                     selectGoodsInfoList.remove(goodsInfo);
                 }
-                mAdapter.notifyItemChanged(position);
+                mAdapter.notifyDataSetChanged();
                 if (selectGoodsInfoList.size() == goodsInfoList.size()) {
                     goodsManagerActivity.setSelectAll(true);
                 } else {
@@ -377,7 +365,7 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
         View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.popwin_cate_layout, null);
         popWnd = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popWnd.setWidth(typeLayout.getWidth());
-        RecyclerView cateRecyclerView = (RecyclerView) contentView.findViewById(R.id.cate_recycler_view);
+        RecyclerView cateRecyclerView = contentView.findViewById(R.id.cate_recycler_view);
         cateRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         ScreenCateAdapter screenCateAdapter = new ScreenCateAdapter(cateList, getActivity());
         cateRecyclerView.setAdapter(screenCateAdapter);
@@ -621,20 +609,17 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
-        switch (requestCode) {
-            case GoodsManagerActivity.REQUEST_UPDATE_GOODS:
-                GoodsInfo goodsInfo = (GoodsInfo) data.getSerializableExtra(ReleaseActivity.RESULT_GOODS);
-                goodsInfoList.set(goodsIndex,goodsInfo);
-                mAdapter.notifyItemChanged(goodsIndex);
-                refresh();
-                break;
-
-            case GoodsManagerActivity.REQUEST_ADD_GOODS:
-                refresh();
-                break;
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case GoodsManagerActivity.REQUEST_UPDATE_GOODS:
+                    GoodsInfo goodsInfo = (GoodsInfo) data.getSerializableExtra(ReleaseActivity.RESULT_GOODS);
+                    goodsInfoList.set(goodsIndex, goodsInfo);
+                    mAdapter.notifyItemChanged(goodsIndex);
+                    break;
+                case GoodsManagerActivity.REQUEST_ADD_GOODS:
+                    refresh();
+                    break;
+            }
         }
     }
 

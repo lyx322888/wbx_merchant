@@ -64,7 +64,7 @@ public class UpDateNumActivity extends BaseActivity {
         } else {
             SpecInfo specInfo = new SpecInfo();
             specInfo.setAttr_name(goods.getProduct_name());
-            specInfo.setNum(goods.getNum());
+            specInfo.setNum((int)goods.getNum());
             specInfo.setLoss(goods.getLoss());
             specInfoList.add(specInfo);
             mParams.put("num", goods.getNum());

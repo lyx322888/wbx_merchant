@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -146,62 +147,38 @@
                 android:layout_marginLeft="15dp" />
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:text="市场价    " />
+
+                <com.wbx.merchant.widget.PriceEditText
+                    android:id="@+id/selling_price_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="请输入市场价"
+                    android:inputType="numberDecimal"
+                    android:padding="8dp"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <View
+                style="@style/lineViewStyle"
+                android:layout_marginLeft="15dp" />
+
+            <LinearLayout
                 android:id="@+id/open_spec_to_gone_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="15dp"
-                        android:text="市场价    " />
-
-                    <com.wbx.merchant.widget.PriceEditText
-                        android:id="@+id/selling_price_edit"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@null"
-                        android:hint="请输入市场价"
-                        android:inputType="numberDecimal"
-                        android:padding="8dp"
-                        android:textSize="13sp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="15dp"
-                        android:text="副标题    " />
-
-                    <EditText
-                        android:id="@+id/selling_subhead_edit"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@null"
-                        android:hint="请输入副标题"
-                        android:layout_gravity="center_vertical"
-                        android:inputType="numberDecimal"
-                        android:padding="8dp"
-                        android:textSize="13sp" />
-                </LinearLayout>
-
-                <View
-                    style="@style/lineViewStyle"
-                    android:layout_marginLeft="15dp" />
 
                 <LinearLayout
                     android:id="@+id/market_price_layout"
@@ -209,7 +186,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorWhite"
                     android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -235,7 +213,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <View
                         style="@style/lineViewStyle"
@@ -268,158 +247,12 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/seckill_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorWhite"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="15dp"
-                            android:text="秒杀价           "
-                            android:textColor="@color/app_color" />
-
-                        <com.wbx.merchant.widget.PriceEditText
-                            android:id="@+id/seckill_money_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            android:hint="请输入秒杀价"
-                            android:inputType="numberDecimal"
-                            android:padding="8dp"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/colorWhite"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="15dp"
-                            android:text="秒杀开始时间" />
-
-                        <TextView
-                            android:id="@+id/seckill_start_time_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            android:gravity="center|left"
-                            android:hint="请选择秒杀开始时间"
-                            android:padding="8dp"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-
-                    <View
-                        style="@style/lineViewStyle"
-                        android:layout_marginLeft="15dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorWhite"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="15dp"
-                            android:text="秒杀结束时间" />
-
-                        <TextView
-                            android:id="@+id/seckill_end_time_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            android:gravity="center|left"
-                            android:hint="请选择秒杀结束时间"
-                            android:padding="8dp"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-
-                    <View
-                        style="@style/lineViewStyle"
-                        android:layout_marginLeft="15dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorWhite"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="15dp"
-                            android:text="秒杀限购数量" />
-
-                        <EditText
-                            android:id="@+id/limitation_num_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            android:hint="请输入秒杀限购数量"
-                            android:inputType="number"
-                            android:padding="8dp"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-
-                    <View
-                        style="@style/lineViewStyle"
-                        android:layout_marginLeft="15dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorWhite"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="15dp"
-                            android:text="秒杀库存       " />
-
-                        <EditText
-                            android:id="@+id/seckill_num_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            android:hint="请输入秒杀库存"
-                            android:inputType="number"
-                            android:padding="8dp"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-
-                    <View
-                        style="@style/lineViewStyle"
-                        android:layout_marginLeft="15dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/ll_packing_fee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <View
                         style="@style/lineViewStyle"
@@ -456,7 +289,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <View
                         style="@style/lineViewStyle"
@@ -473,7 +307,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="15dp"
-                            android:text="库存      " />
+                            android:text="库  存      " />
 
                         <EditText
                             android:id="@+id/num_edit"
@@ -481,7 +315,7 @@
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:hint="请输入库存"
-                            android:inputType="numberDecimal"
+                            android:inputType="numberSigned"
                             android:padding="8dp"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -498,7 +332,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -569,33 +404,6 @@
 
                     <com.kyleduo.switchbutton.SwitchButton
                         android:id="@+id/open_sales_sb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="15dp" />
-                </LinearLayout>
-
-                <View
-                    style="@style/lineViewStyle"
-                    android:layout_marginLeft="15dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="15dp"
-                        android:layout_weight="1"
-                        android:text="是否秒杀" />
-
-                    <com.kyleduo.switchbutton.SwitchButton
-                        android:id="@+id/open_seckill_sb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

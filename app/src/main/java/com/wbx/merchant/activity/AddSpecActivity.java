@@ -1,7 +1,6 @@
 package com.wbx.merchant.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -70,7 +69,6 @@ public class AddSpecActivity extends BaseActivity {
         } else {
             addSpec();
         }
-
     }
 
     @Override
@@ -96,7 +94,6 @@ public class AddSpecActivity extends BaseActivity {
                             public void onClick(View view) {
                                 specInfoList.remove(selectPosition);
                                 mAdapter.setListData(specInfoList);
-//                             mAdapter.notifyDataSetChanged();
                             }
                         }).show();
             }
@@ -120,19 +117,15 @@ public class AddSpecActivity extends BaseActivity {
                 save();
                 break;
         }
-
     }
 
     private void save() {
         if (canSave()) {
             Intent intent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("specList", (Serializable) specInfoList);
-            intent.putExtras(bundle);
+            intent.putExtra("specList", (Serializable) specInfoList);
             setResult(1004, intent);
             finish();
         }
-
     }
 
     private boolean canSave() {
@@ -144,15 +137,5 @@ public class AddSpecActivity extends BaseActivity {
             }
         }
         return true;
-    }
-
-    @Override
-    public void finish() {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("specList", (Serializable) specInfoList);
-        intent.putExtras(bundle);
-        setResult(1004, intent);
-        super.finish();
     }
 }

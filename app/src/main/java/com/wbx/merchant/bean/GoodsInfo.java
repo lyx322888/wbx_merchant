@@ -22,14 +22,14 @@ public class GoodsInfo implements Serializable {
     private String photo;
     private List<String> goods_photo;
     private String product_name;
-    private int price;
+    private float price;
     private String cate_name;
     private boolean isSelect;
     private int closed;
     private String desc;
     private int cate_id;
     private int audit;//0审核中 //1审核通过
-    private int num;
+    private float num;
     private int create_time;
     private int sold_num;
     private int loss;//耗损
@@ -40,7 +40,7 @@ public class GoodsInfo implements Serializable {
     private float mall_price;//金额
     private String intro;//介绍
     private int sales_promotion_is;//是否促销
-    private int sales_promotion_price;//促销价
+    private float sales_promotion_price;//促销价
     private List<String> photos;//商品详情图
     private int shopcate_id;
     private int is_attr;//是否启用多规格
@@ -54,7 +54,7 @@ public class GoodsInfo implements Serializable {
     private String seckill_num;//秒杀库存
     private String limitations_num;//秒杀限购数量
     private float seckill_price;//秒杀价格
-    private int casing_price;//包装费
+    private float casing_price;//包装费
     private float shop_member_price;//会员价
     private ArrayList<Nature> nature;
     private String nature_name;
@@ -236,11 +236,11 @@ public class GoodsInfo implements Serializable {
         this.sales_promotion_is = sales_promotion_is;
     }
 
-    public int getSales_promotion_price() {
+    public float getSales_promotion_price() {
         return sales_promotion_price;
     }
 
-    public void setSales_promotion_price(int sales_promotion_price) {
+    public void setSales_promotion_price(float sales_promotion_price) {
         this.sales_promotion_price = sales_promotion_price;
     }
 
@@ -292,11 +292,11 @@ public class GoodsInfo implements Serializable {
         this.sold_num = sold_num;
     }
 
-    public int getNum() {
+    public float getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(float num) {
         this.num = num;
     }
 
@@ -364,11 +364,11 @@ public class GoodsInfo implements Serializable {
         this.product_name = product_name;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -380,11 +380,11 @@ public class GoodsInfo implements Serializable {
         this.cate_name = cate_name;
     }
 
-    public int getCasing_price() {
+    public float getCasing_price() {
         return casing_price;
     }
 
-    public void setCasing_price(int casing_price) {
+    public void setCasing_price(float casing_price) {
         this.casing_price = casing_price;
     }
 

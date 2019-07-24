@@ -109,8 +109,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     EditText numEdit;
     @Bind(R.id.sales_price_edit)
     EditText salesPriceEdit;
-    @Bind(R.id.selling_subhead_edit)
-    EditText sellingSubhedEdit;
     private static final int REQUEST_GOODS_PIC = 1001;//商品图
     private static final int REQUEST_GOODS_INTRODUCE_PIC = 1002;//商品介绍图l
     public static final int MAX_GOODS_PIC_NUM = 5; //商品图最多5张
@@ -127,7 +125,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     private boolean isSales;
     private boolean isSpec;
     private List<SpecInfo> specList;
-    private boolean canRelease = true;
     public static String RESULT_GOODS = "result_goods";
 
     @Override
@@ -180,7 +177,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             picPagerAdapter.notifyDataSetChanged();
             goodsNameEdit.setText(goods.getProduct_name());
             goodsCateTv.setText(goods.getCate_name());
-            sellingSubhedEdit.setText(goods.getSubhead());
             if (goods.getSales_promotion_is() == 1) {
                 salesPriceEdit.setText(String.format("%.2f", goods.getSales_promotion_price() / 100.00));
             }
@@ -209,13 +205,13 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                     lstSelectNature.addAll(goods.getNature());
                 }
             }
+            goodsDescEdit.setText(goods.getDesc());
             if (userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET) {
                 //菜市场
                 mParams.put("product_name", goods.getProduct_name());
                 mParams.put("cate_id", goods.getCate_id());
                 mParams.put("product_id", goods.getProduct_id());
                 mParams.put("price", goods.getPrice());
-                goodsDescEdit.setText(goods.getDesc());
             } else {
                 mParams.put("title", goods.getTitle());
                 mParams.put("shopcate_id", goods.getCate_id());
@@ -223,7 +219,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
 //                priceEdit.setText(String.format("%.2f", goods.getMall_price() / 100.00));
                 priceEdit.setText((float) ArithUtils.round(goods.getMall_price() / 100, 2) + "");
                 sellingPriceEdit.setText(String.format("%.2f", goods.getPrice() / 100.00));
-                goodsDescEdit.setText(goods.getDetails());
                 if (null != goods.getPhotos()) {
                     lstGoodsIntroducePic.addAll(goods.getPhotos());
                     photoSelectNumTv.setText(lstGoodsIntroducePic.size() - 1 + "/" + MAX_INTRODUCE_PIC_NUM);
@@ -350,9 +345,9 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             }
         });
         if (null != goods) {
-            openSpecSb.setChecked(goods.getIs_attr() == 0 ? false : true);//是否开启多规格
-            openInventorySb.setChecked(goods.getIs_use_num() == 0 ? false : true);//是否开启库存
-            openSalesSb.setChecked(goods.getSales_promotion_is() == 0 ? false : true);//是否开启促销
+            openSpecSb.setChecked(goods.getIs_attr() != 0);//是否开启多规格
+            openInventorySb.setChecked(goods.getIs_use_num() != 0);//是否开启库存
+            openSalesSb.setChecked(goods.getSales_promotion_is() != 0);//是否开启促销
         }
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -438,13 +433,9 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                         .start(mActivity, REQUEST_GOODS_PIC);
                 break;
             case R.id.release_btn:
-                if (!canRelease) {
-                    return;
-                }
                 if (!canRelease()) {
                     return;
                 }
-                canRelease = false;
                 upLoadGoodsPic();
                 break;
             case R.id.add_classify_layout:
@@ -519,13 +510,11 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                 if (null != goods) {
                     goods.setPhoto(qiNiuPath.get(0));
                     goods.setGoods_photo(qiNiuPath);
+                    goods.setProduct_name(goodsNameEdit.getText().toString());
                 }
                 if (userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET) {
                     //菜市场所需参数
                     mParams.put("product_name", goodsNameEdit.getText().toString());
-                    if (null != goods) {
-                        goods.setProduct_name(goodsNameEdit.getText().toString());
-                    }
                     doRelease();
                 } else {
                     uploadGoodsDetailPic();
@@ -535,7 +524,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             @Override
             public void error() {
                 LoadingDialog.cancelDialogForLoading();
-                canRelease = true;
                 showShortToast("图片上传失败，请重试。");
             }
         });
@@ -553,7 +541,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             mParams.put("mall_price", priceEdit.getText().toString());//商城价格
             mParams.put("details", goodsDescEdit.getText().toString());//商品描述
             if (null != goods) {
-                goods.setTitle(goodsNameEdit.getText().toString());
                 if (TextUtils.isEmpty(priceEdit.getText().toString())) {
                     goods.setMall_price(0);
                 } else {
@@ -573,7 +560,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                     mParams.put("mall_price", priceEdit.getText().toString());//商城价格
                     mParams.put("details", goodsDescEdit.getText().toString());//商品描述
                     if (null != goods) {
-                        goods.setTitle(goodsNameEdit.getText().toString());
                         goods.setPhotos(qiNiuPath);
                         if (TextUtils.isEmpty(priceEdit.getText().toString())) {
                             goods.setMall_price(0);
@@ -589,7 +575,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                 @Override
                 public void error() {
                     LoadingDialog.cancelDialogForLoading();
-                    canRelease = true;
                     showShortToast("图片上传失败，请重试。");
                 }
             });
@@ -602,11 +587,27 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         }
         mParams.put("is_attr", isSpec ? 1 : 0);
         addNature();
-        mParams.put("sales_promotion_is", isSales ? 1 : 0);
-        mParams.put("is_use_num", isInventory ? 1 : 0);//是否启用库存
-        mParams.put("num", TextUtils.isEmpty(numEdit.getText().toString()) ? 0 : numEdit.getText().toString());
+        mParams.put("sales_promotion_is", isSales ? 1 : 0);//是否开启促销
+        goods.setSales_promotion_is(isSales ? 1 : 0);
+        float sales = TextUtils.isEmpty(salesPriceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(salesPriceEdit.getText().toString().trim()) * 100;//促销价格
+        goods.setSales_promotion_price(sales);
         mParams.put("sales_promotion_price", salesPriceEdit.getText().toString());
-        mParams.put("casing_price", etPackingFee.getText().toString());
+
+        mParams.put("is_use_num", isInventory ? 1 : 0);//是否启用库存
+        goods.setIs_use_num(isInventory ? 1 : 0);
+        float num = TextUtils.isEmpty(numEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(numEdit.getText().toString().trim());//库存
+        goods.setNum(num);
+        mParams.put("num", numEdit.getText().toString());
+
+        mParams.put("casing_price", etPackingFee.getText().toString());//包装费
+        float casing = TextUtils.isEmpty(etPackingFee.getText().toString().trim()) ? 0.0f : Float.valueOf(etPackingFee.getText().toString().trim()) * 100;//包装费用
+        goods.setCasing_price(casing);
+
+        float price = TextUtils.isEmpty(sellingPriceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(sellingPriceEdit.getText().toString().trim()) * 100;//包装费用
+        goods.setPrice(price);//市场价
+
+        goods.setDesc(goodsDescEdit.getText().toString());
+
         if (!isSpec) {
             //启用多规格
             if (isSales) {
@@ -633,11 +634,8 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         new MyHttp().doPost(Api.getDefault().releaseGoods(mParams), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                canRelease = true;
                 showShortToast(goods == null ? "商品添加成功！" : "更改成功！");
                 Intent intent = new Intent();
-//                intent.putExtra("goods",goods);
-//                intent.putExtra("price",priceEdit.getText().toString());
                 intent.putExtra(RESULT_GOODS, goods);
                 setResult(RESULT_OK, intent);
                 finish();
@@ -645,7 +643,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
 
             @Override
             public void onError(int code) {
-                canRelease = true;
             }
         });
     }
@@ -683,7 +680,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             showShortToast("请添加产品图");
             return false;
         }
-        if (TextUtils.isEmpty(goodsNameEdit.getText().toString()) || TextUtils.isEmpty(goodsNameEdit.getText().toString().replaceAll(" ", ""))) {
+        if (TextUtils.isEmpty(goodsNameEdit.getText().toString().trim())) {
             showShortToast("请输入商品名称");
             return false;
         }
@@ -718,27 +715,23 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             tvIndexPic.setText(viewPager.getCurrentItem() + 1 + "/" + lstGoodsPic.size());
             picPagerAdapter.notifyDataSetChanged();
         } else if (resultCode == RESULT_OK && requestCode == REQUEST_GOODS_INTRODUCE_PIC) {
-            if (data != null) {
-                ArrayList<String> stringArrayListExtra = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-                lstGoodsIntroducePic.addAll(stringArrayListExtra);
-                photoSelectNumTv.setText(lstGoodsIntroducePic.size() - 1 + "/" + MAX_INTRODUCE_PIC_NUM);
-                mAdapter.notifyDataSetChanged();
-            }
+            ArrayList<String> stringArrayListExtra = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+            lstGoodsIntroducePic.addAll(stringArrayListExtra);
+            photoSelectNumTv.setText(lstGoodsIntroducePic.size() - 1 + "/" + MAX_INTRODUCE_PIC_NUM);
+            mAdapter.notifyDataSetChanged();
         } else if (resultCode == RESULT_OK && requestCode == GoodsPictureActivity.REQUEST_CODE_SHOW_AND_CHANGE_PICTURE) {
-            if (data != null) {
-                ArrayList<String> lstPhoto = data.getStringArrayListExtra("photos");
-                lstGoodsPic.clear();
-                lstGoodsPic.addAll(lstPhoto);
-                picPagerAdapter.notifyDataSetChanged();
-                viewPager.setCurrentItem(0, true);
-                tvIndexPic.setText(1 + "/" + lstGoodsPic.size());
-                if (lstGoodsPic.size() == 0) {
-                    rlAddPic.setVisibility(View.VISIBLE);
-                    ((View) viewPager.getParent()).setVisibility(View.GONE);
-                } else {
-                    rlAddPic.setVisibility(View.GONE);
-                    ((View) viewPager.getParent()).setVisibility(View.VISIBLE);
-                }
+            ArrayList<String> lstPhoto = data.getStringArrayListExtra("photos");
+            lstGoodsPic.clear();
+            lstGoodsPic.addAll(lstPhoto);
+            picPagerAdapter.notifyDataSetChanged();
+            viewPager.setCurrentItem(0, true);
+            tvIndexPic.setText(1 + "/" + lstGoodsPic.size());
+            if (lstGoodsPic.size() == 0) {
+                rlAddPic.setVisibility(View.VISIBLE);
+                ((View) viewPager.getParent()).setVisibility(View.GONE);
+            } else {
+                rlAddPic.setVisibility(View.GONE);
+                ((View) viewPager.getParent()).setVisibility(View.VISIBLE);
             }
         } else if (resultCode == RESULT_OK && requestCode == SelectSubSpecActivity.REQUEST_SELECT_SUB_SPEC) {
             ArrayList<GoodsInfo.Nature> nature = (ArrayList<GoodsInfo.Nature>) data.getSerializableExtra("nature");
@@ -766,5 +759,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             mParams.put("shopcate_id", cateInfoList.get(options1).getCate_id());
         }
         goodsCateTv.setText(cateInfoList.get(options1).getCate_name());
+        goods.setCate_name(cateInfoList.get(options1).getCate_name());
     }
 }

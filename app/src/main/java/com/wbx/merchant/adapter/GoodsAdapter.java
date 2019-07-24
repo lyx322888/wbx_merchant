@@ -1,7 +1,6 @@
 package com.wbx.merchant.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -78,7 +77,7 @@ public class GoodsAdapter extends BaseAdapter<GoodsInfo, Context> {
         checkCb.setChecked(goodsInfo.isSelect());
         ImageView goodsPicIm = holder.getView(R.id.goods_pic_im);
         GlideUtils.showRoundMediumPic(mContext, goodsPicIm, goodsInfo.getPhoto());
-        holder.setText(R.id.goods_name_tv, TextUtils.isEmpty(goodsInfo.getProduct_name()) ? goodsInfo.getTitle() : goodsInfo.getProduct_name());
+        holder.setText(R.id.goods_name_tv, goodsInfo.getProduct_name());
         setButtonShow(holder, goodsInfo);
     }
 
