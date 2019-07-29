@@ -9,10 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wbx.merchant.R;
-import com.wbx.merchant.base.BaseAdapter;
-import com.wbx.merchant.base.BaseViewHolder;
 import com.wbx.merchant.bean.CateBean;
-import com.wbx.merchant.bean.CateInfo;
 
 import java.util.List;
 
@@ -23,15 +20,11 @@ import java.util.List;
 public class CateAdapter extends RecyclerView.Adapter<CateAdapter.VH> {
     Context context;
     List<CateBean.DataBean.CatesBean> list;
-    public static int getPosition;
+    private static int getPosition;
 
     public CateAdapter(Context context, List<CateBean.DataBean.CatesBean> list) {
         this.context = context;
         this.list = list;
-    }
-
-    public static int getGetPosition() {
-        return getPosition;
     }
 
     public static void setGetPosition(int getPosition) {
@@ -41,49 +34,32 @@ public class CateAdapter extends RecyclerView.Adapter<CateAdapter.VH> {
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(context).inflate(R.layout.item_cate, parent, false);
-        final VH vh = new VH(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recyclerViewItemClieck.recyclerViewItemClieck(vh.getAdapterPosition(), view, vh);
-            }
-        });
-        return vh;
+        View view = LayoutInflater.from(context).inflate(R.layout.item_cate, parent, false);
+        return new VH(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VH holder, int position) {
+    public void onBindViewHolder(@NonNull final VH holder, int position) {
         if (getPosition == position) {
             holder.nameTV.setTextColor(context.getResources().getColor(R.color.fenlei_text));
         } else {
             holder.nameTV.setTextColor(context.getResources().getColor(R.color.fenlei_text2));
         }
         holder.nameTV.setText(list.get(position).getCate_name());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (recyclerViewItemClick != null) {
+                    recyclerViewItemClick.recyclerViewItemClick(holder.getAdapterPosition(), v);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return list.size();
     }
-//    public CateAdapter(List<CateInfo> dataList, Context context) {
-//        super(dataList, context);
-//    }
-
-//    @Override
-//    public int getLayoutId(int viewType) {
-//        return R.layout.item_cate;
-//    }
-
-//    @Override
-//    public void convert(BaseViewHolder holder, CateInfo cateInfo, int position) {
-////        if (cateInfo.isSelect()) {
-////            holder.setImageResource(R.id.sel_im, R.drawable.ic_ok);
-////        } else {
-////            holder.setImageResource(R.id.sel_im, R.drawable.ic_round);
-////        }
-//        holder.setText(R.id.cate_name_tv, cateInfo.getCate_name());
-//    }
 
     class VH extends RecyclerView.ViewHolder {
         TextView nameTV;
@@ -94,13 +70,13 @@ public class CateAdapter extends RecyclerView.Adapter<CateAdapter.VH> {
         }
     }
 
-    RecyclerViewItemClieck recyclerViewItemClieck;
+    RecyclerViewItemClick recyclerViewItemClick;
 
-    public interface RecyclerViewItemClieck {
-        void recyclerViewItemClieck(int position, View view, RecyclerView.ViewHolder viewHolder);
+    public interface RecyclerViewItemClick {
+        void recyclerViewItemClick(int position, View view);
     }
 
-    public void setRecyclerViewItemClieck(RecyclerViewItemClieck recyclerViewItemClieck) {
-        this.recyclerViewItemClieck = recyclerViewItemClieck;
+    public void setRecyclerViewItemClick(RecyclerViewItemClick recyclerViewItemClick) {
+        this.recyclerViewItemClick = recyclerViewItemClick;
     }
 }

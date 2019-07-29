@@ -356,8 +356,6 @@
         <activity android:name=".activity.IntegralFreeListActivity" />
         <!-- 提现 -->
         <activity android:name=".activity.AwardCashActivity" />
-        <!-- 选择分类 -->
-        <activity android:name=".activity.ChooseShopTypeActivity2" />
         <!-- 商家必备 -->
         <activity android:name=".activity.BusinessMustActivity" />
         <activity android:name=".activity.GoodsDetailsActivity" />

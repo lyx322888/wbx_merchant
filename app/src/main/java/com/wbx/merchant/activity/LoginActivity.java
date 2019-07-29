@@ -186,8 +186,9 @@ public class LoginActivity extends BaseActivity {
         if (0 == userInfo.getShop_id()) {
             //未填写信息
             startActivity(new Intent(mContext, InputShopInfoActivity.class));
-        } else if (0 == userInfo.getEnd_date()) {
-            //未缴费
+        } else if (0 == userInfo.getEnd_date()) { //未缴费
+            startActivity(new Intent(mContext, ChooseShopTypeActivity.class));
+        }else if(0 == userInfo.getGrade_id()){
             startActivity(new Intent(mContext, ChooseShopTypeActivity.class));
         } else if (userInfo.getEnd_date() <= System.currentTimeMillis() / 1000) {
             //过期

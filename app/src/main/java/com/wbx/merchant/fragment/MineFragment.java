@@ -144,7 +144,10 @@ public class MineFragment extends BaseFragment {
 
             @Override
             public void onError(int code) {
-
+                SPUtils.setSharedBooleanData(getActivity(), AppConfig.LOGIN_STATE, false);
+                SPUtils.setSharedBooleanData(getContext(), AppConfig.NO_ASK_AGAIN_ACCREDITATION, false);
+                AppManager.getAppManager().finishAllActivity();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
     }

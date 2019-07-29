@@ -1,6 +1,5 @@
 package com.wbx.merchant.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,11 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wbx.merchant.R;
-import com.wbx.merchant.base.BaseAdapter;
-import com.wbx.merchant.base.BaseViewHolder;
-import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GradeInfoBean;
-import com.wbx.merchant.bean.ShopGradeInfo;
 
 import java.util.List;
 
@@ -44,7 +39,7 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.VH> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerViewItemClieck.recyclerViewItemClieck(vh.getAdapterPosition(),view,vh);
+                recyclerViewItemClick.recyclerViewItemClick(vh.getAdapterPosition(),view,vh);
             }
         });
         return vh;
@@ -77,13 +72,13 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.VH> {
     }
 
 
-    RecyclerViewItemClieck recyclerViewItemClieck;
+    RecyclerViewItemClick recyclerViewItemClick;
 
-    public interface RecyclerViewItemClieck{
-        void recyclerViewItemClieck(int position, View view, RecyclerView.ViewHolder viewHolder);
+    public interface RecyclerViewItemClick {
+        void recyclerViewItemClick(int position, View view, RecyclerView.ViewHolder viewHolder);
     }
 
-    public void setRecyclerViewItemClieck(RecyclerViewItemClieck recyclerViewItemClieck) {
-        this.recyclerViewItemClieck = recyclerViewItemClieck;
+    public void setRecyclerViewItemClick(RecyclerViewItemClick recyclerViewItemClick) {
+        this.recyclerViewItemClick = recyclerViewItemClick;
     }
 }
