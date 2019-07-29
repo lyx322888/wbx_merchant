@@ -595,7 +595,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
 
         mParams.put("is_use_num", isInventory ? 1 : 0);//是否启用库存
         goods.setIs_use_num(isInventory ? 1 : 0);
-        float num = TextUtils.isEmpty(numEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(numEdit.getText().toString().trim());//库存
+        int num = TextUtils.isEmpty(numEdit.getText().toString().trim()) ? 0 : Integer.valueOf(numEdit.getText().toString().trim());//库存
         goods.setNum(num);
         mParams.put("num", numEdit.getText().toString());
 

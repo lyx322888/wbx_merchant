@@ -29,7 +29,7 @@ public class GoodsInfo implements Serializable {
     private String desc;
     private int cate_id;
     private int audit;//0审核中 //1审核通过
-    private float num;
+    private int num;
     private int create_time;
     private int sold_num;
     private int loss;//耗损
@@ -292,11 +292,11 @@ public class GoodsInfo implements Serializable {
         this.sold_num = sold_num;
     }
 
-    public float getNum() {
+    public int getNum() {
         return num;
     }
 
-    public void setNum(float num) {
+    public void setNum(int num) {
         this.num = num;
     }
 
