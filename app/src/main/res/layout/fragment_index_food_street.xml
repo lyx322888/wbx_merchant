@@ -791,6 +791,24 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
+                        android:id="@+id/rl_business_must"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:drawableTop="@drawable/icon_business_must"
+                            android:drawablePadding="13dp"
+                            android:text="商家必备"
+                            android:textColor="#333333"
+                            android:textSize="11sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:id="@+id/rl_dada"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -809,24 +827,6 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:id="@+id/rl_make_money_by_share"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:drawableTop="@drawable/icon_make_money_by_share"
-                            android:drawablePadding="13dp"
-                            android:text="分享赚钱"
-                            android:textColor="#333333"
-                            android:textSize="11sp" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
                         android:id="@+id/rl_share_shop"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -838,7 +838,7 @@
                             android:layout_centerInParent="true"
                             android:drawableTop="@drawable/icon_share_shop"
                             android:drawablePadding="13dp"
-                            android:text="分享店铺"
+                            android:text="店铺二维码"
                             android:textColor="#333333"
                             android:textSize="11sp" />
 
@@ -869,7 +869,7 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:id="@+id/rl_business_must"
+                        android:id="@+id/rl_make_money_by_share"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
@@ -878,13 +878,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:drawableTop="@drawable/icon_business_must"
+                            android:drawableTop="@drawable/icon_make_money_by_share"
                             android:drawablePadding="13dp"
-                            android:text="商家必备"
+                            android:text="分享赚钱"
                             android:textColor="#333333"
                             android:textSize="11sp" />
 
                     </RelativeLayout>
+
 
                     <RelativeLayout
                         android:layout_width="0dp"
