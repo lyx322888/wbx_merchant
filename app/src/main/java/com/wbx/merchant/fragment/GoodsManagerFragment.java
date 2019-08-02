@@ -285,7 +285,7 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                 goodsIndex = position;
                 Intent intent = new Intent(getActivity(), ReleaseActivity.class);
                 intent.putExtra("goods", goodsInfoList.get(position));
-                getActivity().startActivityForResult(intent, GoodsManagerActivity.REQUEST_UPDATE_GOODS);
+                startActivityForResult(intent, GoodsManagerActivity.REQUEST_UPDATE_GOODS);
             }
         });
         //上下架

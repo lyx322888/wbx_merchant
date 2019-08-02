@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+
+import com.wbx.merchant.base.BaseApplication;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -67,11 +71,19 @@ public class UpdateService extends Service {
      * @return
      */
     private static Intent installIntent(String path) {
-        Uri uri = Uri.fromFile(new File(path));
-        Intent installIntent = new Intent(Intent.ACTION_VIEW);
-        installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        installIntent.setDataAndType(uri, "application/vnd.android.package-archive");
-        return installIntent;
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        File file = new File(path);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri apkUri = FileProvider.getUriForFile(BaseApplication.getInstance(), "com.wbx.merchant.fileProvider", file);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Uri uri = Uri.fromFile(file);
+            intent.setDataAndType(uri, "application/vnd.android.package-archive");
+        }
+        return intent;
     }
 
     private static String getSaveFileName(String downloadUrl) {
@@ -221,7 +233,7 @@ public class UpdateService extends Service {
                 file.createNewFile();
                 is = httpConnection.getInputStream();
                 fos = new FileOutputStream(file, false);
-                byte buffer[] = new byte[4096];
+                byte[] buffer = new byte[4096];
 
                 int readSize = 0;
                 long currentSize = 0;

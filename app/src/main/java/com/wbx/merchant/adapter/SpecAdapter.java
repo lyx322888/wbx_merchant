@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
-    private List<SpecInfo> mListData = new ArrayList<>();
+    private List<SpecInfo> mListData;
     private boolean mIsInventory;//是否启用库存
     private boolean mIsSales;//是否促销
     private boolean mIsShop;//是否实体店

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config>
+        <domain includeSubdomains="true">app.vrzff.com</domain>
+        <domain includeSubdomains="true">app.xm32.cn</domain>
+        <domain includeSubdomains="true">app.wbx365.com</domain>
+        <trust-anchors>
+            <certificates src="user" />
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+</network-security-config>

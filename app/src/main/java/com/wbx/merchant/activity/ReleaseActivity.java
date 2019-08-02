@@ -588,26 +588,28 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         mParams.put("is_attr", isSpec ? 1 : 0);
         addNature();
         mParams.put("sales_promotion_is", isSales ? 1 : 0);//是否开启促销
-        goods.setSales_promotion_is(isSales ? 1 : 0);
+
         float sales = TextUtils.isEmpty(salesPriceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(salesPriceEdit.getText().toString().trim()) * 100;//促销价格
-        goods.setSales_promotion_price(sales);
+
         mParams.put("sales_promotion_price", salesPriceEdit.getText().toString());
 
         mParams.put("is_use_num", isInventory ? 1 : 0);//是否启用库存
-        goods.setIs_use_num(isInventory ? 1 : 0);
+
         int num = TextUtils.isEmpty(numEdit.getText().toString().trim()) ? 0 : Integer.valueOf(numEdit.getText().toString().trim());//库存
-        goods.setNum(num);
         mParams.put("num", numEdit.getText().toString());
 
         mParams.put("casing_price", etPackingFee.getText().toString());//包装费
         float casing = TextUtils.isEmpty(etPackingFee.getText().toString().trim()) ? 0.0f : Float.valueOf(etPackingFee.getText().toString().trim()) * 100;//包装费用
-        goods.setCasing_price(casing);
-
         float price = TextUtils.isEmpty(sellingPriceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(sellingPriceEdit.getText().toString().trim()) * 100;//包装费用
-        goods.setPrice(price);//市场价
-
-        goods.setDesc(goodsDescEdit.getText().toString());
-
+        if (goods != null) {
+            goods.setSales_promotion_is(isSales ? 1 : 0);
+            goods.setSales_promotion_price(sales);
+            goods.setDesc(goodsDescEdit.getText().toString());
+            goods.setPrice(price);//市场价
+            goods.setCasing_price(casing);
+            goods.setNum(num);
+            goods.setIs_use_num(isInventory ? 1 : 0);
+        }
         if (!isSpec) {
             //启用多规格
             if (isSales) {
@@ -759,6 +761,8 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             mParams.put("shopcate_id", cateInfoList.get(options1).getCate_id());
         }
         goodsCateTv.setText(cateInfoList.get(options1).getCate_name());
-        goods.setCate_name(cateInfoList.get(options1).getCate_name());
+        if (goods != null) {
+            goods.setCate_name(cateInfoList.get(options1).getCate_name());
+        }
     }
 }
