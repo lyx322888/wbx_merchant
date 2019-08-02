@@ -94,7 +94,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     @Bind(R.id.is_inventory_layout)
     LinearLayout isInventoryLayout;//开启库存
     @Bind(R.id.open_inventory_sb)
-    SwitchButton openInventorySb;
+    SwitchButton openInventorySb;//是否开启库存
     @Bind(R.id.is_spec_layout)
     LinearLayout isSpecLayout;//添加多规格
     @Bind(R.id.ll_spec_attr)
@@ -121,9 +121,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     private ArrayList<String> lstGoodsIntroducePic = new ArrayList<>();//商品介绍图
     private ArrayList<String> lstGoodsPic = new ArrayList<>();
     ArrayList<GoodsInfo.Nature> lstSelectNature = new ArrayList<>();//多属性
-    private boolean isInventory;
-    private boolean isSales;
-    private boolean isSpec;
     private List<SpecInfo> specList;
     public static String RESULT_GOODS = "result_goods";
 
@@ -192,10 +189,10 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                 List<SpecInfo> goods_attr = new ArrayList<>();
                 goods_attr.addAll(goods.getGoods_attr());
                 for (SpecInfo specInfo : goods_attr) {
-                    specInfo.setMall_price(specInfo.getMall_price() / 100.00);
-                    specInfo.setPrice(specInfo.getPrice() / 100.00);
-                    specInfo.setSales_promotion_price(specInfo.getSales_promotion_price() / 100.00);
-                    specInfo.setCasing_price(specInfo.getCasing_price() / 100.00);
+                    specInfo.setMall_price(specInfo.getMall_price());
+                    specInfo.setPrice(specInfo.getPrice());
+                    specInfo.setSales_promotion_price(specInfo.getSales_promotion_price());
+                    specInfo.setCasing_price(specInfo.getCasing_price());
                 }
                 mParams.put("goods_attr", JSONArray.toJSON(goods.getGoods_attr()));
             }
@@ -257,8 +254,8 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, AddSpecActivity.class);
-                intent.putExtra("isInventory", isInventory);//是否启用库存
-                intent.putExtra("isSales", isSales);//是否启用多规格
+                intent.putExtra("isInventory", openInventorySb.isChecked());//是否启用库存
+                intent.putExtra("isSales", openSalesSb.isChecked());//是否启用多规格
                 intent.putExtra("isShop", userInfo.getGrade_id() != AppConfig.StoreGrade.MARKET);//是否是实体店
                 intent.putExtra("isFoodStreet", userInfo.getGrade_id() == AppConfig.StoreType.FOOD_STREET);//是否是美食街
                 if (null != specList) {
@@ -282,7 +279,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         openSpecSb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                isSpec = b;
                 if (b) {
                     isSpecLayout.setVisibility(View.VISIBLE);
                     openSpecToGoneLayout.setVisibility(View.GONE);
@@ -295,7 +291,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         openInventorySb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                isInventory = b;
                 if (b) {
                     isInventoryLayout.setVisibility(View.VISIBLE);
                 } else {
@@ -306,7 +301,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         openSalesSb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                isSales = b;
                 if (b) {
                     isSalesLayout.setVisibility(View.VISIBLE);
                 } else {
@@ -345,9 +339,9 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             }
         });
         if (null != goods) {
-            openSpecSb.setChecked(goods.getIs_attr() != 0);//是否开启多规格
-            openInventorySb.setChecked(goods.getIs_use_num() != 0);//是否开启库存
-            openSalesSb.setChecked(goods.getSales_promotion_is() != 0);//是否开启促销
+            openSpecSb.setChecked(goods.getIs_attr() == 1);//是否开启多规格
+            openInventorySb.setChecked(goods.getIs_use_num() == 1);//是否开启库存
+            openSalesSb.setChecked(goods.getSales_promotion_is() == 1);//是否开启促销
         }
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -582,18 +576,18 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     }
 
     private void doRelease() {
-        if (!isSpec) {
+        if (!openSpecSb.isChecked()) {
             mParams.remove("goods_attr");
         }
-        mParams.put("is_attr", isSpec ? 1 : 0);
+        mParams.put("is_attr", openSpecSb.isChecked() ? 1 : 0);
         addNature();
-        mParams.put("sales_promotion_is", isSales ? 1 : 0);//是否开启促销
+        mParams.put("sales_promotion_is", openSalesSb.isChecked() ? 1 : 0);//是否开启促销
 
         float sales = TextUtils.isEmpty(salesPriceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(salesPriceEdit.getText().toString().trim()) * 100;//促销价格
 
         mParams.put("sales_promotion_price", salesPriceEdit.getText().toString());
 
-        mParams.put("is_use_num", isInventory ? 1 : 0);//是否启用库存
+        mParams.put("is_use_num", openInventorySb.isChecked() ? 1 : 0);//是否启用库存
 
         int num = TextUtils.isEmpty(numEdit.getText().toString().trim()) ? 0 : Integer.valueOf(numEdit.getText().toString().trim());//库存
         mParams.put("num", numEdit.getText().toString());
@@ -602,17 +596,18 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         float casing = TextUtils.isEmpty(etPackingFee.getText().toString().trim()) ? 0.0f : Float.valueOf(etPackingFee.getText().toString().trim()) * 100;//包装费用
         float price = TextUtils.isEmpty(sellingPriceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(sellingPriceEdit.getText().toString().trim()) * 100;//包装费用
         if (goods != null) {
-            goods.setSales_promotion_is(isSales ? 1 : 0);
+            goods.setSales_promotion_is(openSalesSb.isChecked() ? 1 : 0);//是否开启促销
             goods.setSales_promotion_price(sales);
             goods.setDesc(goodsDescEdit.getText().toString());
             goods.setPrice(price);//市场价
             goods.setCasing_price(casing);
+            goods.setIs_use_num(openInventorySb.isChecked() ? 1 : 0);//是否开启库存
             goods.setNum(num);
-            goods.setIs_use_num(isInventory ? 1 : 0);
+            goods.setIs_attr(openSpecSb.isChecked() ? 1 : 0);//是否开启多规格
         }
-        if (!isSpec) {
+        if (!openSpecSb.isChecked()) {
             //启用多规格
-            if (isSales) {
+            if (openSalesSb.isChecked()) {
                 if (TextUtils.isEmpty(salesPriceEdit.getText().toString())) {
                     showShortToast("请输入促销价");
                     LoadingDialog.cancelDialogForLoading();
@@ -686,7 +681,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             showShortToast("请输入商品名称");
             return false;
         }
-        if (TextUtils.isEmpty(sellingPriceEdit.getText().toString()) && !isSpec) {
+        if (TextUtils.isEmpty(sellingPriceEdit.getText().toString()) && !openSpecSb.isChecked()) {
             showShortToast("请输入商品价格");
             return false;
         }

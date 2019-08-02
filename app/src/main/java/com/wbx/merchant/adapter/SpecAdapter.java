@@ -63,11 +63,11 @@ public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
         stockEdit.setTag(position);
         etPackingFee.setTag(position);
         specNameEdit.setText(specInfoData.getAttr_name());
-        marketPriceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getPrice()));
-        priceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getMall_price()));
-        promotionalPriceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getSales_promotion_price()));
+        marketPriceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getPrice()/100));
+        priceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getMall_price()/100));
+        promotionalPriceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getSales_promotion_price()/100));
         stockEdit.setText(specInfoData.getNum() + "");
-        etPackingFee.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getCasing_price()));
+        etPackingFee.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getCasing_price()/100));
         specNameEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

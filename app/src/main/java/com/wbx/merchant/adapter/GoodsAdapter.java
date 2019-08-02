@@ -50,7 +50,6 @@ public class GoodsAdapter extends BaseAdapter<GoodsInfo, Context> {
                     priceTv.setText(String.format("%.2f", BaseApplication.getInstance().readLoginUser().getGrade_id() != AppConfig.StoreGrade.MARKET ? goodsInfo.getMall_price() / 100.00 : goodsInfo.getPrice() / 100.00));
                 }
             }
-
         } else {
             if (goodsInfo.getSales_promotion_is() == 1) {
                 //是否促销
