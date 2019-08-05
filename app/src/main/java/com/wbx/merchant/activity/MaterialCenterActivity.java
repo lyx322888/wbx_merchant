@@ -58,7 +58,6 @@ public class MaterialCenterActivity extends BaseActivity {
     RecyclerView rvAllClassify;
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    private int cateId;
     private PopupWindow popupWindow;
     /**
      * 这个id是 商品分类id
@@ -216,6 +215,8 @@ public class MaterialCenterActivity extends BaseActivity {
     }
 
     //弹出pop显示分类列表
+    int cateId = -1;
+
     private void showCatePop(final List<CateInfo> dataList) {
         View inflate = getLayoutInflater().inflate(R.layout.pop_product_type, null);
         popupWindow = new PopupWindow();
@@ -240,7 +241,7 @@ public class MaterialCenterActivity extends BaseActivity {
         ensure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cateId == 0) {
+                if (cateId == -1) {
                     showShortToast("请选择选中商品所属分类");
                     return;
                 }
@@ -293,9 +294,8 @@ public class MaterialCenterActivity extends BaseActivity {
                 //如果是选中 把选中的cateId赋值上去
                 if (cateInfo.isSelect()) {
                     cateId = cateInfo.getCate_id();
-                } else {
-                    //否则 为反选 把id置为0 为了点击下一步的时候判断 用户是否有选择分类
-                    cateId = 0;
+                } else { //否则 为反选 把id置为-1 为了点击下一步的时候判断 用户是否有选择分类
+                    cateId = -1;
                 }
                 productnewAdapter.notifyDataSetChanged();
             }
@@ -312,12 +312,14 @@ public class MaterialCenterActivity extends BaseActivity {
             @Override
             public void onSuccess(JSONObject result) {
                 List<CateInfo> dataList = JSONArray.parseArray(result.getString("data"), CateInfo.class);
+                cateId = -1;
                 showCatePop(dataList);
             }
 
             @Override
             public void onError(int code) {
-                List<CateInfo> cateInfoList = new ArrayList<CateInfo>();
+                List<CateInfo> cateInfoList = new ArrayList<>();
+                cateId = -1;
                 showCatePop(cateInfoList);
             }
         });
@@ -327,7 +329,7 @@ public class MaterialCenterActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_see_all:
-                drawerLayout.openDrawer(Gravity.RIGHT);
+                drawerLayout.openDrawer(Gravity.END);
                 break;
             case R.id.iv_close_drawer:
                 drawerLayout.closeDrawers();

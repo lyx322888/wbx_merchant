@@ -38,8 +38,7 @@ public class GoodsAdapter extends BaseAdapter<GoodsInfo, Context> {
     public void convert(BaseViewHolder holder, final GoodsInfo goodsInfo, int position) {
         holder.getView(R.id.edit_check_im).setClickable(false);
         TextView priceTv = holder.getView(R.id.selling_price_tv);
-        if (goodsInfo.getIs_attr() == 1) {
-            //启用多规格
+        if (goodsInfo.getIs_attr() == 1) {//启用多规格
             if (goodsInfo.getMin_price() != 0) {
                 priceTv.setText(String.format("%.2f", goodsInfo.getMin_price() / 100.00));
             } else {

@@ -30,6 +30,5 @@ public class ProductAdapter extends BaseAdapter<CateInfo, Context> {
     public void convert(BaseViewHolder holder, CateInfo cate, int position) {
         ImageView img_product = holder.getView(R.id.img_product);
         GlideUtils.showMediumPic(mContext, img_product, cate.getPhoto());
-
     }
 }

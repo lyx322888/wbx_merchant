@@ -4,6 +4,7 @@ package com.wbx.merchant.activity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import rx.Observable;
 
 /**
@@ -33,7 +35,9 @@ public class ProductReleaseActivity extends BaseActivity {
     private List<ProductJson> productJsonList = new ArrayList<>();
     private ProductReleaseAdapter mReleaseAdapter;
     @Bind(R.id.produt_view_release)
-    RecyclerView mReleaseview;
+    RecyclerView mReleaseView;
+    @Bind(R.id.release_bt)
+    Button btnRelease;
     private int selectPosition;
     private int cateId;
 
@@ -49,9 +53,10 @@ public class ProductReleaseActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mReleaseview.setLayoutManager(new GridLayoutManager(mContext, 2));
+        mReleaseView.setLayoutManager(new GridLayoutManager(mContext, 2));
+        mReleaseView.setHasFixedSize(true);
         mReleaseAdapter = new ProductReleaseAdapter(dataList, mContext);
-        mReleaseview.setAdapter(mReleaseAdapter);
+        mReleaseView.setAdapter(mReleaseAdapter);
     }
 
     @Override
@@ -90,38 +95,12 @@ public class ProductReleaseActivity extends BaseActivity {
                         }).show();
             }
         });
-        findViewById(R.id.release_bt).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                productJsonList.clear();
-                for (MaterialInfoBean.ProductBean productInfo : dataList) {
-                    ProductJson productJson = new ProductJson();
-                    productJson.setPrice(productInfo.getPrice());
-                    productJson.setName(productInfo.getName());
-                    productJson.setCate_id(cateId);
-                    productJson.setPhoto(productInfo.getPhoto());
-                    productJsonList.add(productJson);
-                }
-                String jsonString = JSON.toJSONString(productJsonList);
-                Observable<JSONObject> j = Api.getDefault().getproductrelease(userInfo.getSj_login_token(),
-                        jsonString);
-                new MyHttp().doPost(j, new HttpListener() {
-                    @Override
-                    public void onSuccess(JSONObject result) {
-                        showHintDialog();
-                    }
-
-                    @Override
-                    public void onError(int code) {
-                    }
-                });
-            }
-        });
     }
 
     private void showHintDialog() {
         new AlertDialog(mActivity).builder()
                 .setTitle("提示")
+                .setCancelable(false)
                 .setMsg("产品已经发布成功，正在等待审核，是否立即查看？")
                 .setNegativeButton("继续发布", new View.OnClickListener() {
                     @Override
@@ -136,5 +115,34 @@ public class ProductReleaseActivity extends BaseActivity {
                         finish();
                     }
                 }).show();
+    }
+
+    @OnClick(R.id.release_bt)
+    public void onViewClicked(View view) {
+        btnRelease.setClickable(false);
+        productJsonList.clear();
+        for (MaterialInfoBean.ProductBean productInfo : dataList) {
+            ProductJson productJson = new ProductJson();
+            productJson.setPrice(productInfo.getPrice());
+            productJson.setName(productInfo.getName());
+            productJson.setCate_id(cateId);
+            productJson.setPhoto(productInfo.getPhoto());
+            productJsonList.add(productJson);
+        }
+        String jsonString = JSON.toJSONString(productJsonList);
+        Observable<JSONObject> j = Api.getDefault().getproductrelease(userInfo.getSj_login_token(),
+                jsonString);
+        new MyHttp().doPost(j, new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                btnRelease.setClickable(true);
+                showHintDialog();
+            }
+
+            @Override
+            public void onError(int code) {
+                btnRelease.setClickable(true);
+            }
+        });
     }
 }

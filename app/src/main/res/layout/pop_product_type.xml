@@ -59,13 +59,9 @@
             android:drawableTint="@color/app_color"
             android:gravity="center"
             android:text="新建分类"
-
             android:textColor="@color/black" />
     </LinearLayout>
 
-    <View
-        style="@style/lineViewStyle"
-        android:layout_height="1dp"></View>
 
     <LinearLayout
         android:layout_width="match_parent"

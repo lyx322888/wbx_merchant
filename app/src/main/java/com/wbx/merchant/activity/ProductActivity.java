@@ -44,7 +44,8 @@ public class ProductActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        recyclerProduct.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerProduct.setLayoutManager(new LinearLayoutManager(this));
+        recyclerProduct.setHasFixedSize(true);
         productAdapter = new ProductAdapter(dataList, mContext);
         recyclerProduct.setAdapter(productAdapter);
     }
@@ -59,7 +60,6 @@ public class ProductActivity extends BaseActivity {
                 List<CateInfo> cateInfos = JSONArray.parseArray(result.getString("data"), CateInfo.class);
                 dataList.addAll(cateInfos);
                 productAdapter.notifyDataSetChanged();
-
             }
 
             @Override
