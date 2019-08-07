@@ -399,6 +399,9 @@ public class GoodsManagerActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (mFragment.isEmpty()) {
+            return;
+        }
         if (resultCode == RESULT_OK) {
             mFragment.get(mOrderViewPager.getCurrentItem()).onActivityResult(requestCode, resultCode, data);
         }

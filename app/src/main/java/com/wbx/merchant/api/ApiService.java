@@ -450,6 +450,11 @@ public interface ApiService {
     @POST("/sjapi/user/get_print_info")
     Observable<JSONObject> getPrinter(@Field("sj_login_token") String loginToken);
 
+    //1.34.	获取打印机品牌
+    @FormUrlEncoded
+    @POST("/sjapi/user/get_print_brand")
+    Observable<JSONObject> getPrintBrand(@Field("sj_login_token") String loginToken);
+
     // 获取打印菜单
     @FormUrlEncoded
     @POST("/sjapi/goods/list_print_goods_cate")

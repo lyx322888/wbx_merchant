@@ -4,12 +4,9 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
-
-import java.text.DecimalFormat;
 
 /**
  * Created by wushenghui on 2018/1/26.
@@ -23,7 +20,6 @@ public class PriceEditText extends AppCompatEditText {
      */
     private final int PRICE_LENGTH = 9;
     private CharSequence defaultHint;
-    private DecimalFormat decimalFormat;
     private String hint = "输入数据过大，请重新输入";
 
     public PriceEditText(Context context) {
@@ -54,29 +50,23 @@ public class PriceEditText extends AppCompatEditText {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 //判断第一位输入是否是“.”
                 if (s.toString().startsWith(".")) {
                     s = "0" + s;
                     setText(s);
-                    if (s.toString().length() == 2) {
-                        setSelection(s.length());
-                    }
+                    setSelection(s.length());
                     return;
                 }
                 //判断首位是否是“0”
                 if (s.toString().startsWith("0") && s.toString().length() > 1) {
                     //判断第二位不是“.”
                     if (!s.toString().substring(1, 2).equals(".")) {
-
-                        s = s.toString().substring(1, s.toString().length());
+                        s = s.toString().substring(1);
                         setText(s);
                         setSelection(s.length());
                         return;
                     }
                 }
-
-
                 //判断小数点后两位
                 if (s.toString().contains(".")) {
                     if (s.length() - 1 - s.toString().indexOf(".") > 2) {
@@ -86,7 +76,6 @@ public class PriceEditText extends AppCompatEditText {
                         return;
                     }
                 }
-
                 //判断输入位数
                 if (s.toString().length() > PRICE_LENGTH) {
                     if (s.toString().contains(".")) {
@@ -132,94 +121,5 @@ public class PriceEditText extends AppCompatEditText {
 
             }
         });
-
-    }
-
-    /**
-     * 获取double类型的价格
-     *
-     * @return
-     */
-    public double getDoublePrice() {
-        String s = getText().toString();
-        if (TextUtils.isEmpty(s)) {
-            return 0.00;
-        }
-        return Double.parseDouble(s);
-
-    }
-
-    /**
-     * 获取string类型的价格
-     *
-     * @return
-     */
-    public String getStringPrice() {
-        String s = getText().toString();
-        if (TextUtils.isEmpty(s)) {
-            return "0.00";
-        }
-        if (decimalFormat == null) {
-            decimalFormat = new DecimalFormat("#0.00");
-        }
-        return decimalFormat.format(Double.parseDouble(s));
-
-    }
-
-    /**
-     * 获取string类型的价格(带¥符号)
-     *
-     * @return
-     */
-    public String getStringYuan() {
-        String s = getText().toString();
-        if (TextUtils.isEmpty(s)) {
-            return "¥:0.00";
-        }
-        if (decimalFormat == null) {
-            decimalFormat = new DecimalFormat("#0.00");
-        }
-        return "¥:" + decimalFormat.format(Double.parseDouble(s));
-
-    }
-
-    /**
-     * 设置价格
-     *
-     * @param text
-     */
-    public void setPrice(String text) {
-        double price = 0;
-        try {
-
-            price = Double.parseDouble(text);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-        setPrice(price);
-    }
-
-    /**
-     * 设置价格
-     *
-     * @param d
-     */
-    public void setPrice(Double d) {
-        if (decimalFormat == null) {
-            decimalFormat = new DecimalFormat("#0.00");
-        }
-        setText(decimalFormat.format(d));
-    }
-
-    /**
-     * 设置价格
-     *
-     * @param l
-     */
-    public void setPrice(long l) {
-        if (decimalFormat == null) {
-            decimalFormat = new DecimalFormat("#0.00");
-        }
-        setText(decimalFormat.format(l));
     }
 }
