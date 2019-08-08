@@ -94,14 +94,15 @@ public class MainActivity extends BaseActivity {
                 int appVersion = Integer.parseInt(version.replace(".", ""));
                 if (appVersion < serviceVersion) {
                     upDateApp(JSONObject.toJSONString(result));
-                } else {
-                    getNotice();
                 }
+//                else {
+//                    getNotice();
+//                }
             }
 
             @Override
             public void onError(int code) {
-                getNotice();
+//                getNotice();
             }
         });
     }
