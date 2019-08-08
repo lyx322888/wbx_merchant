@@ -38,18 +38,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:text="待配送"
             android:textColor="@color/app_color"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="待配送" />
 
         <TextView
             android:id="@+id/tv_send_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            tools:text="[蜂鸟配送]"
             android:textColor="@color/app_color"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="[蜂鸟配送]" />
     </LinearLayout>
 
     <View
@@ -81,27 +81,27 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
-                tools:text="林景先生"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                tools:text="林景先生" />
 
             <TextView
                 android:id="@+id/tv_create_order_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                tools:text="下单时间：2018年1月1日 00:00"
                 android:textColor="#919191"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="下单时间：2018年1月1日 00:00" />
 
             <TextView
                 android:id="@+id/tv_dispatching_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                tools:text="配送时间：2018年1月1日 00:00"
                 android:textColor="#06C1AE"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="配送时间：2018年1月1日 00:00" />
         </LinearLayout>
 
         <ImageView
@@ -124,9 +124,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        tools:text="福建省厦门市思明区鸿星尔克集团大厦16层"
         android:textColor="@color/gray"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:text="福建省厦门市思明区鸿星尔克集团大厦16层" />
 
     <View
         android:layout_width="match_parent"
@@ -197,9 +197,9 @@
             android:id="@+id/tv_goods_total_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="共 3 件商品，实付款"
             android:textColor="#BFBFBF"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="共 3 件商品，实付款" />
 
         <TextView
             android:id="@+id/tv_money"
@@ -207,9 +207,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            tools:text="￥40.00"
             android:textColor="@color/app_color"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="￥40.00" />
     </LinearLayout>
 
     <LinearLayout
@@ -220,6 +220,18 @@
         android:background="@color/colorWhite"
         android:gravity="right|center_vertical"
         android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_copy_order"
+            android:layout_width="73dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ova_line_white"
+            android:gravity="center"
+            android:text="一键复制"
+            android:textColor="@color/index_gray"
+            android:textSize="13sp"
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/tv_order_detail"

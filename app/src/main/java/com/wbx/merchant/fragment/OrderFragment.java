@@ -1,5 +1,8 @@
 package com.wbx.merchant.fragment;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -428,6 +431,26 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
                     Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + orderInfo.getDada().get(0).getDm_mobile()));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                }
+            }
+        });
+        //一键复制订单信息
+        mAdapter.setOnItemClickListener(R.id.tv_copy_order, new BaseAdapter.ItemClickListener() {
+            @Override
+            public void onItemClicked(View view, int position) {
+                OrderInfo orderInfo = orderInfoList.get(position);
+                if (orderInfo.getAddr() == null) {
+                    return;
+                }
+                String addr = orderInfo.getAddr().getAddr();
+                if (!TextUtils.isEmpty(addr)) {
+                    //获取剪贴板管理器：
+                    ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    // 创建普通字符型ClipData
+                    ClipData mClipData = ClipData.newPlainText("Label", addr);
+                    // 将ClipData内容放到系统剪贴板里。
+                    cm.setPrimaryClip(mClipData);
+                    ToastUitl.showShort("订单复制成功");
                 }
             }
         });

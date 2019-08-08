@@ -54,6 +54,7 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
         TextView tvRefuseRefund = holder.getView(R.id.tv_refuse_refund);//拒绝退款
         TextView tvPrintOrder = holder.getView(R.id.tv_print_order);//打印订单
         TextView tvRefund = holder.getView(R.id.tv_refund);//退款
+        TextView tvCopy = holder.getView(R.id.tv_copy_order);//一键复制
         tvRefuseOrder.setVisibility(View.GONE);
         tvSend.setVisibility(View.GONE);
         tvSendByDaDa.setVisibility(View.GONE);
@@ -61,11 +62,13 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
         tvRefund.setVisibility(View.GONE);
         tvCancelSendByDaDa.setVisibility(View.GONE);
         tvPrintOrder.setVisibility(View.GONE);
+        tvCopy.setVisibility(View.GONE);
         switch (orderInfo.getStatus()) {
             case 1:
                 orderState = "待配送";
                 tvRefuseOrder.setVisibility(View.VISIBLE);
                 tvSend.setVisibility(View.VISIBLE);
+                tvCopy.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 orderState = "配送中";
