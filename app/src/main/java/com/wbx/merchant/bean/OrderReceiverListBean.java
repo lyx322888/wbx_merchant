@@ -24,6 +24,14 @@ public class OrderReceiverListBean {
     private int print_num;
     private List<OrderReceiverBean> assistant_print;
 
+    private String fe_sn;
+    private String fe_key;
+    private String print_brand;
+    private String print_brand_logo;
+    private String print_z_logo;
+    private String print_f_logo;
+
+
     public String getApiKey() {
         return apiKey;
     }

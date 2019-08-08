@@ -57,10 +57,10 @@
     <Button
         android:id="@+id/coupon_full_bt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="15dp"
         android:background="@drawable/ova_bg_app_color"
         android:text="完成"
         android:textColor="@color/colorWhite" />
+
 </LinearLayout>

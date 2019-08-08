@@ -75,7 +75,7 @@ public class UpdateService extends Service {
         File file = new File(path);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri apkUri = FileProvider.getUriForFile(BaseApplication.getInstance(), "com.wbx.merchant.fileProvider", file);
+            Uri apkUri = FileProvider.getUriForFile(BaseApplication.getInstance(), "com.wbx.merchant.provider", file);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
         } else {

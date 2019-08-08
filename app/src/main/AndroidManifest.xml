@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -85,17 +84,14 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="167dd241a8344728ace1b456b8aeaa85" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.wbx.merchant.fileProvider"
-            android:exported="false"
+            android:authorities="com.wbx.merchant.provider"
             android:grantUriPermissions="true"
+            android:exported="false"
             tools:replace="android:authorities">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"
-                tools:replace="android:resource" />
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/__picker_provider_paths"/>
         </provider>
 
         <activity

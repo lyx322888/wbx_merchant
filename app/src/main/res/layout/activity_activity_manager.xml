@@ -127,6 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:src="@drawable/icon_no_delivery_fee"
+            android:visibility="gone"
             app:layout_constraintRight_toRightOf="@id/iv_coupon"
             app:layout_constraintTop_toBottomOf="@id/iv_integral_free" />
     </android.support.constraint.ConstraintLayout>

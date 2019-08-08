@@ -37,7 +37,7 @@ ext {
     applicationId = "com.wbx.merchant"
     minSdkVersion = 19
     targetSdkVersion = 26
-    versionCode = 42
-    versionName = "3.6.6"
+    versionCode = 43
+    versionName = "3.6.7"
     supportVersion = "27.1.1"
 }
