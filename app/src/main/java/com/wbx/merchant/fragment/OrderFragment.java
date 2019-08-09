@@ -443,11 +443,14 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
                     return;
                 }
                 String addr = orderInfo.getAddr().getAddr();
-                if (!TextUtils.isEmpty(addr)) {
+                String xm = orderInfo.getAddr().getXm();
+                String tel = orderInfo.getAddr().getTel();
+                String lable = xm + tel + addr;
+                if (!TextUtils.isEmpty(lable)) {
                     //获取剪贴板管理器：
                     ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                     // 创建普通字符型ClipData
-                    ClipData mClipData = ClipData.newPlainText("Label", addr);
+                    ClipData mClipData = ClipData.newPlainText("Label", lable);
                     // 将ClipData内容放到系统剪贴板里。
                     cm.setPrimaryClip(mClipData);
                     ToastUitl.showShort("订单复制成功");
