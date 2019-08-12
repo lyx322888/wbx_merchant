@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.wbx.merchant.R;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
@@ -22,6 +21,9 @@ import com.wbx.merchant.bean.OrderReceiverListBean;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+/**
+ * 接单器设置(打印机)
+ */
 public class ReceiverListActivity extends BaseActivity {
     @Bind(R.id.iv_receiver_main)
     ImageView ivMainReceiver;
