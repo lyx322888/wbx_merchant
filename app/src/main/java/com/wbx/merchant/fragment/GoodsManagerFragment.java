@@ -24,6 +24,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.GoodsManagerActivity;
 import com.wbx.merchant.activity.ReleaseActivity;
+import com.wbx.merchant.activity.ReleaseActivity2;
 import com.wbx.merchant.adapter.GoodsAdapter;
 import com.wbx.merchant.adapter.ScreenCateAdapter;
 import com.wbx.merchant.api.Api;
@@ -283,8 +284,8 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
             @Override
             public void onItemClicked(View view, int position) {
                 goodsIndex = position;
-                Intent intent = new Intent(getActivity(), ReleaseActivity.class);
-                intent.putExtra("goods", goodsInfoList.get(position));
+                Intent intent = new Intent(getActivity(), ReleaseActivity2.class);
+                intent.putExtra(ReleaseActivity2.GOOD_INFO, goodsInfoList.get(position));
                 startActivityForResult(intent, GoodsManagerActivity.REQUEST_UPDATE_GOODS);
             }
         });

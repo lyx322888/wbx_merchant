@@ -123,7 +123,7 @@ public class AddSpecActivity extends BaseActivity {
         if (canSave()) {
             Intent intent = new Intent();
             intent.putExtra("specList", (Serializable) specInfoList);
-            setResult(1004, intent);
+            setResult(RESULT_OK, intent);
             finish();
         }
     }

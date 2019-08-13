@@ -215,10 +215,10 @@
     <Button
         android:id="@+id/bind_submit_btn"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="30dp"
+        android:layout_height="35dp"
+        android:layout_margin="16dp"
         android:background="@drawable/ova_bg_app_color"
         android:text="绑定"
         android:textColor="@color/colorWhite"
-        android:textSize="15sp" />
+        android:textSize="14sp" />
 </LinearLayout>

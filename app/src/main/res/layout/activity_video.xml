@@ -77,8 +77,8 @@
     <Button
         android:id="@+id/up_load_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="16dp"
         android:background="@drawable/ova_bg_app_color"
         android:text="上传视频"
         android:textColor="@color/colorWhite"
@@ -87,8 +87,8 @@
     <Button
         android:id="@+id/btn_modify"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="16dp"
         android:background="@drawable/ova_bg_app_color"
         android:text="修改视频"
         android:textColor="@color/colorWhite"

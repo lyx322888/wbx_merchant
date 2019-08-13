@@ -81,8 +81,8 @@
             android:id="@+id/ll_dont_need"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingTop="20dp">
@@ -103,8 +103,8 @@
         <Button
             android:id="@+id/btn_complete"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="30dp"
+            android:layout_height="35dp"
+            android:layout_margin="16dp"
             android:background="@drawable/ova_bg_app_color"
             android:text="完成"
             android:textColor="@color/colorWhite"

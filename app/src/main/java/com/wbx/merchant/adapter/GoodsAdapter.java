@@ -38,24 +38,10 @@ public class GoodsAdapter extends BaseAdapter<GoodsInfo, Context> {
     public void convert(BaseViewHolder holder, final GoodsInfo goodsInfo, int position) {
         holder.getView(R.id.edit_check_im).setClickable(false);
         TextView priceTv = holder.getView(R.id.selling_price_tv);
-        if (goodsInfo.getIs_attr() == 1) {//启用多规格
-            if (goodsInfo.getMin_price() != 0) {
-                priceTv.setText(String.format("%.2f", goodsInfo.getMin_price() / 100.00));
-            } else {
-                if (goodsInfo.getSales_promotion_is() == 1) {
-                    //是否促销
-                    priceTv.setText(String.format("%.2f", goodsInfo.getSales_promotion_price() / 100.00));
-                } else {
-                    priceTv.setText(String.format("%.2f", BaseApplication.getInstance().readLoginUser().getGrade_id() != AppConfig.StoreGrade.MARKET ? goodsInfo.getMall_price() / 100.00 : goodsInfo.getPrice() / 100.00));
-                }
-            }
-        } else {
-            if (goodsInfo.getSales_promotion_is() == 1) {
-                //是否促销
-                priceTv.setText(String.format("%.2f", goodsInfo.getSales_promotion_price() / 100.00));
-            } else {
-                priceTv.setText(String.format("%.2f", BaseApplication.getInstance().readLoginUser().getGrade_id() != AppConfig.StoreGrade.MARKET ? goodsInfo.getMall_price() / 100.00 : goodsInfo.getPrice() / 100.00));
-            }
+        if (goodsInfo.getSales_promotion_is() == 1 ) {//是否促销
+            priceTv.setText(String.format("¥%.2f", goodsInfo.getSales_promotion_price() / 100.00));
+        } else {//启用多规格
+            priceTv.setText(String.format("¥%.2f", BaseApplication.getInstance().readLoginUser().getGrade_id() != AppConfig.StoreGrade.MARKET ? goodsInfo.getMall_price() / 100.00 : goodsInfo.getPrice() / 100.00));
         }
         holder.setText(R.id.sold_num_tv, String.format("销量 %d", goodsInfo.getSold_num()));
         holder.setText(R.id.create_time_tv, String.format("上架时间 %s", FormatUtil.stampToDate(goodsInfo.getCreate_time() + "")));

@@ -64,7 +64,7 @@
         android:id="@+id/save_btn"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_margin="30dp"
+        android:layout_margin="16dp"
         android:background="@drawable/ova_bg_app_color"
         android:text="保存"
         android:textColor="@color/colorWhite"

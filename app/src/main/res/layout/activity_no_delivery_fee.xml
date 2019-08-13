@@ -134,14 +134,13 @@
 
     <Button
         android:id="@+id/delivery_btn"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_margin="16dp"
         android:background="@drawable/ova_bg_app_color"
         android:text="保存"
         android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/view_bg"
         app:layout_constraintStart_toStartOf="@+id/view_bg"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />

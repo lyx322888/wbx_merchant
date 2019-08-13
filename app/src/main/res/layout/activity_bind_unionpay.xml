@@ -228,11 +228,12 @@
             <Button
                 android:id="@+id/submit_btn"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_margin="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="16dp"
                 android:background="@drawable/ova_bg_app_color"
                 android:text="绑定"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </ScrollView>
@@ -253,8 +254,8 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
                 android:src="@drawable/ic_back_white"
                 android:tint="@color/colorWhite" />
 
@@ -275,6 +276,6 @@
 
         <RelativeLayout
             android:layout_width="60dp"
-            android:layout_height="60dp"></RelativeLayout>
+            android:layout_height="60dp" />
     </LinearLayout>
 </RelativeLayout>

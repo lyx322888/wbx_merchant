@@ -1,155 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:orientation="horizontal"
         android:background="@color/app_color"
-        >
+        android:orientation="horizontal">
+
         <RelativeLayout
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:onClick="back"
-            >
+            android:onClick="back">
+
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@drawable/ic_arrow_black"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
-                android:tint="@color/colorWhite"
-                />
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_arrow_black"
+                android:tint="@color/colorWhite" />
 
 
         </RelativeLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/colorWhite"
-            android:text="修改密码"
-            android:layout_weight="1"
             android:layout_gravity="bottom"
-            android:gravity="center"
             android:layout_marginBottom="4dp"
-            />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="修改密码"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
+
         <RelativeLayout
             android:layout_width="60dp"
-            android:layout_height="60dp"
-            >
-        </RelativeLayout>
+            android:layout_height="60dp"></RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal"
-        android:background="@color/colorWhite"
         android:layout_marginTop="20dp"
-        >
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13dp"
             android:layout_gravity="center"
-            android:text="旧密码"
             android:layout_marginLeft="10dp"
-            />
+            android:text="旧密码"
+            android:textSize="13dp" />
+
         <EditText
             android:id="@+id/reset_psw_old_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center|left"
             android:layout_marginLeft="43dp"
-            android:hint="请输入原密码"
-            android:textSize="13sp"
             android:background="@color/colorWhite"
-            />
+            android:gravity="center|left"
+            android:hint="请输入原密码"
+            android:textSize="13sp" />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/color_gray_line"
         android:layout_marginLeft="10dp"
-        />
+        android:background="@color/color_gray_line" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal"
         android:background="@color/colorWhite"
-        >
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13dp"
             android:layout_gravity="center"
-            android:text="新设密码"
             android:layout_marginLeft="10dp"
-            />
+            android:text="新设密码"
+            android:textSize="13dp" />
+
         <EditText
             android:id="@+id/reset_psw_new_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center|left"
             android:layout_marginLeft="28dp"
-            android:hint="请输入新的密码"
-            android:textSize="13sp"
             android:background="@color/colorWhite"
-            />
+            android:gravity="center|left"
+            android:hint="请输入新的密码"
+            android:textSize="13sp" />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/color_gray_line"
         android:layout_marginLeft="10dp"
-        />
+        android:background="@color/color_gray_line" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal"
         android:background="@color/colorWhite"
-        >
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13dp"
             android:layout_gravity="center"
-            android:text="确认密码"
             android:layout_marginLeft="10dp"
-            />
+            android:text="确认密码"
+            android:textSize="13dp" />
+
         <EditText
             android:id="@+id/reset_psw_affirm_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center|left"
             android:layout_marginLeft="28dp"
-            android:hint="再次确认密码"
-            android:textSize="13sp"
             android:background="@color/colorWhite"
-            />
+            android:gravity="center|left"
+            android:hint="再次确认密码"
+            android:textSize="13sp" />
 
     </LinearLayout>
-  <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:layout_margin="15dp"
-      android:textSize="12sp"
-      android:text="密码可为6~20位字母、数字或特殊字符的任意组合"
-      />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:text="密码可为6~20位字母、数字或特殊字符的任意组合"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/reset_psw_submit_btn"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
+        android:layout_margin="16dp"
         android:background="@drawable/ova_bg_app_color"
-        android:textColor="@color/colorWhite"
-        android:layout_margin="30dp"
         android:text="确认修改"
-        />
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp" />
 </LinearLayout>

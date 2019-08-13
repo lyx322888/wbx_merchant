@@ -173,6 +173,9 @@
         <activity android:name=".activity.StoreManagerActivity" />
         <!-- 发布商品 -->
         <activity android:name=".activity.ReleaseActivity" />
+        <!-- 发布商品2 -->
+        <activity android:name=".activity.ReleaseActivity2" />
+
         <!-- 绑定提现账号 -->
         <activity android:name=".activity.BindAccountActivity" />
         <!-- 绑定阿里账号 -->

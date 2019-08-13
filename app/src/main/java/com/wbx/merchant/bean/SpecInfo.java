@@ -1,5 +1,7 @@
 package com.wbx.merchant.bean;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 
 /**
@@ -19,6 +21,8 @@ public class SpecInfo implements Serializable {
     private int seckill_num;
     private float shop_member_price;//会员价
     private String subhead;
+    @JSONField(serialize = false)
+    private double min_price;
 
     public float getShop_member_price() {
         return shop_member_price;
@@ -118,5 +122,13 @@ public class SpecInfo implements Serializable {
 
     public void setSubhead(String subhead) {
         this.subhead = subhead;
+    }
+
+    public double getMin_price() {
+        return min_price;
+    }
+
+    public void setMin_price(double min_price) {
+        this.min_price = min_price;
     }
 }

@@ -39,7 +39,7 @@
 
         <RelativeLayout
             android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_height="60dp" />
     </LinearLayout>
 
     <android.support.design.widget.TabLayout
@@ -60,12 +60,10 @@
     <Button
         android:id="@+id/add_seckill_btn"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginBottom="15dp"
+        android:layout_height="35dp"
+        android:layout_margin="16dp"
         android:background="@drawable/ova_bg_app_color"
         android:text="添加限时秒杀"
-        android:textColor="@color/colorWhite" />
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp" />
 </LinearLayout>

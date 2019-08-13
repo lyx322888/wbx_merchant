@@ -13,7 +13,6 @@ import com.wbx.merchant.base.BaseViewHolder;
 import com.wbx.merchant.bean.SpecInfo;
 import com.wbx.merchant.utils.PriceUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,11 +62,11 @@ public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
         stockEdit.setTag(position);
         etPackingFee.setTag(position);
         specNameEdit.setText(specInfoData.getAttr_name());
-        marketPriceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getPrice()/100));
-        priceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getMall_price()/100));
-        promotionalPriceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getSales_promotion_price()/100));
+        marketPriceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getPrice() / 100));
+        priceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getMall_price() / 100));
+        promotionalPriceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getSales_promotion_price() / 100));
         stockEdit.setText(specInfoData.getNum() + "");
-        etPackingFee.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getCasing_price()/100));
+        etPackingFee.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getCasing_price() / 100));
         specNameEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -79,7 +78,7 @@ public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
                 if (TextUtils.isEmpty(charSequence)) {
                     mListData.get(tag).setAttr_name("");
                 } else {
-                    mListData.get(tag).setAttr_name(charSequence.toString());
+                    mListData.get(tag).setAttr_name(charSequence.toString().trim());
                 }
             }
 
@@ -101,7 +100,7 @@ public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
                 if (TextUtils.isEmpty(charSequence)) {
                     mListData.get(tag).setPrice(0.0);
                 } else {
-                    mListData.get(tag).setPrice(Double.valueOf(charSequence.toString()));
+                    mListData.get(tag).setPrice(Double.valueOf(charSequence.toString().trim()));
                 }
             }
 
@@ -123,7 +122,7 @@ public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
                 if (TextUtils.isEmpty(charSequence)) {
                     mListData.get(tag).setMall_price(0.0);
                 } else {
-                    mListData.get(tag).setMall_price(Double.valueOf(charSequence.toString()));
+                    mListData.get(tag).setMall_price(Double.valueOf(charSequence.toString().trim()));
                 }
             }
 
@@ -145,7 +144,7 @@ public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
                 if (TextUtils.isEmpty(charSequence)) {
                     mListData.get(tag).setSales_promotion_price(0.0);
                 } else {
-                    mListData.get(tag).setSales_promotion_price(Double.valueOf(charSequence.toString()));
+                    mListData.get(tag).setSales_promotion_price(Double.valueOf(charSequence.toString().trim()));
                 }
             }
 
@@ -164,7 +163,7 @@ public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
                 if (TextUtils.isEmpty(charSequence)) {
                     mListData.get(tag).setNum(0);
                 } else {
-                    mListData.get(tag).setNum(Integer.valueOf(charSequence.toString()));
+                    mListData.get(tag).setNum(Integer.valueOf(charSequence.toString().trim()));
                 }
             }
 
@@ -186,7 +185,7 @@ public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
                 if (TextUtils.isEmpty(charSequence)) {
                     mListData.get(tag).setCasing_price(0.0);
                 } else {
-                    mListData.get(tag).setCasing_price(Double.valueOf(charSequence.toString()));
+                    mListData.get(tag).setCasing_price(Double.valueOf(charSequence.toString().trim()));
                 }
             }
 

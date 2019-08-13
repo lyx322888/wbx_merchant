@@ -128,7 +128,7 @@
     <TextView
         android:id="@+id/tv_cancel"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:layout_margin="12dp"
         android:background="@drawable/rect_app_color_3dp"
         android:gravity="center"

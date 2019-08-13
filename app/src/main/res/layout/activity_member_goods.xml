@@ -139,11 +139,11 @@
     <TextView
         android:id="@+id/tv_ensure"
         android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:layout_margin="15dp"
+        android:layout_height="35dp"
+        android:layout_margin="16dp"
         android:background="@drawable/rect_app_color_3dp"
         android:gravity="center"
         android:text="确认"
         android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 </LinearLayout>

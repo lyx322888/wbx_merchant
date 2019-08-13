@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:orientation="horizontal"
         android:background="@color/app_color"
-        >
+        android:orientation="horizontal">
+
         <RelativeLayout
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:onClick="back"
-            >
+            android:onClick="back">
+
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@drawable/ic_arrow_black"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
-                android:tint="@color/colorWhite"
-                />
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_arrow_black"
+                android:tint="@color/colorWhite" />
 
 
         </RelativeLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/colorWhite"
-            android:text="优惠券"
-            android:layout_weight="1"
             android:layout_gravity="bottom"
-            android:gravity="center"
             android:layout_marginBottom="4dp"
-            />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="优惠券"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
+
         <RelativeLayout
             android:layout_width="60dp"
-            android:layout_height="60dp"
-            >
-        </RelativeLayout>
+            android:layout_height="60dp"></RelativeLayout>
     </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/coupon_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_marginTop="15dp"
-        />
+        android:layout_weight="1" />
+
     <Button
         android:id="@+id/add_coupon_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
+        android:layout_margin="16dp"
         android:background="@drawable/ova_bg_app_color"
-        android:layout_margin="30dp"
-        android:textColor="@color/colorWhite"
         android:text="添加"
-        android:textSize="16sp"
-        />
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp" />
 
 </LinearLayout>

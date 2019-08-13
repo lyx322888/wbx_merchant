@@ -22,7 +22,7 @@ public class GoodsInfo implements Serializable {
     private String photo;
     private List<String> goods_photo;
     private String product_name;
-    private float price;
+    private double price;
     private String cate_name;
     private boolean isSelect;
     private int closed;
@@ -37,7 +37,7 @@ public class GoodsInfo implements Serializable {
     //实体店返回的数据
     private int goods_id;
     private String title;//名称
-    private float mall_price;//金额
+    private double mall_price;//金额
     private String intro;//介绍
     private int sales_promotion_is;//是否促销
     private float sales_promotion_price;//促销价
@@ -45,7 +45,7 @@ public class GoodsInfo implements Serializable {
     private int shopcate_id;
     private int is_attr;//是否启用多规格
     private int is_use_num;//是否开启库存
-    private int min_price;//最小价格
+    private double min_price;//最小价格
     private String attr_name;//规格名称
     private String details;
     private String seckill_start_time;//秒杀开始时间
@@ -178,11 +178,11 @@ public class GoodsInfo implements Serializable {
         this.attr_name = attr_name;
     }
 
-    public int getMin_price() {
+    public double getMin_price() {
         return min_price;
     }
 
-    public void setMin_price(int min_price) {
+    public void setMin_price(double min_price) {
         this.min_price = min_price;
     }
 
@@ -260,11 +260,11 @@ public class GoodsInfo implements Serializable {
         this.title = title;
     }
 
-    public float getMall_price() {
+    public double getMall_price() {
         return mall_price;
     }
 
-    public void setMall_price(float mall_price) {
+    public void setMall_price(double mall_price) {
         this.mall_price = mall_price;
     }
 
@@ -364,11 +364,11 @@ public class GoodsInfo implements Serializable {
         this.product_name = product_name;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

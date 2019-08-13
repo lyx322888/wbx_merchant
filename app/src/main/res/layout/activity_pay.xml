@@ -19,8 +19,8 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
                 android:src="@drawable/ic_arrow_black"
                 android:tint="@color/colorWhite" />
 
@@ -67,6 +67,7 @@
                 android:hint="请输入您需充值的金额"
                 android:inputType="numberDecimal"
                 android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/grade_name_tv"
                 android:layout_width="wrap_content"
@@ -178,9 +179,10 @@
         android:id="@+id/pay_btn"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_margin="30dp"
+        android:layout_margin="16dp"
         android:background="@drawable/ova_bg_app_color"
         android:text="支付"
-        android:textColor="@color/colorWhite" />
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp" />
 
 </LinearLayout>

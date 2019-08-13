@@ -70,17 +70,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="184dp">
 
-                <RelativeLayout
+                <ImageView
                     android:id="@+id/rl_add_pic"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/icon_add_pic_big" />
-                </RelativeLayout>
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
+                    android:src="@drawable/icon_add_pic_big" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -574,10 +569,10 @@
     <Button
         android:id="@+id/release_btn"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="30dp"
+        android:layout_height="35dp"
+        android:layout_margin="16dp"
         android:background="@drawable/ova_bg_app_color"
         android:text="发布"
         android:textColor="@color/colorWhite"
-        android:textSize="15sp" />
+        android:textSize="14sp" />
 </LinearLayout>

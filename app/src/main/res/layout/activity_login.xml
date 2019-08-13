@@ -90,10 +90,8 @@
             <Button
                 android:id="@+id/login_login_btn"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="40dp"
+                android:layout_height="35dp"
+                android:layout_margin="16dp"
                 android:background="@drawable/ova_bg_app_color"
                 android:text="登录"
                 android:textColor="@color/colorWhite"
