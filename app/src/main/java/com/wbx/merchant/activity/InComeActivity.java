@@ -92,6 +92,7 @@ public class InComeActivity extends BaseActivity {
                 }
                 Intent intentCash = new Intent(mContext, CashActivity.class);
                 intentCash.putExtra("balance", data.getIntValue("gold"));
+                intentCash.putExtra("cash_commission",data.getFloatValue("cash_commission"));
                 intentCash.putExtra("type", CashActivity.TYPE_SHOP);
                 startActivity(intentCash);
                 break;

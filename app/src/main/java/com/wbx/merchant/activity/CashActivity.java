@@ -94,7 +94,7 @@ public class CashActivity extends BaseActivity {
                     //判断第二位不是“.”
                     if (!s.toString().substring(1, 2).equals(".")) {
 
-                        s = s.toString().substring(1, s.toString().length());
+                        s = s.toString().substring(1);
                         inputMoneyEdit.setText(s);
                         inputMoneyEdit.setSelection(s.length());
                         return;
@@ -167,8 +167,9 @@ public class CashActivity extends BaseActivity {
                 //免手续费
                 showMoneyTv.setText("实际提现" + format.format(Float.valueOf(money)) + "元（推广期间无需手续费）");
             } else {
-                float commission = Float.valueOf(money) * 0.007f;
-                showMoneyTv.setText("实际提现" + format.format(Float.valueOf(money) - commission) + "元（手续费¥" + format.format(commission) + "元/费率0.7%）");
+                float cash_commission = getIntent().getFloatExtra("cash_commission", 3);//手续费
+                double commission = Float.valueOf(money) * cash_commission * 0.01;
+                showMoneyTv.setText("实际提现" + format.format(Float.valueOf(money) - commission) + "元（手续费¥" + format.format(commission) + "元/费率" + cash_commission + "%）");
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -282,7 +283,7 @@ public class CashActivity extends BaseActivity {
             dialog = builder.create();
         }
         dialog.show();
-        final EditText payEdit = (EditText) inflate.findViewById(R.id.pay_balance_edit);
+        final EditText payEdit = inflate.findViewById(R.id.pay_balance_edit);
         inflate.findViewById(R.id.cancel_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
