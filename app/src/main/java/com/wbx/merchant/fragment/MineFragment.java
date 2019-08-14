@@ -74,7 +74,7 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), ResetPayPswActivity.class));
                 break;
             case R.id.ll_printer:
-                ReceiverListActivity.actionStart(getActivity());
+                startActivity(new Intent(getActivity(), ReceiverListActivity.class));
                 break;
             case R.id.ll_renewal:
                 Intent intent = new Intent(getActivity(), PayActivity.class);

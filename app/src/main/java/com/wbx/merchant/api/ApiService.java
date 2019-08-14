@@ -431,14 +431,12 @@ public interface ApiService {
     // 添加/修改打印机
     @FormUrlEncoded
     @POST
-    Observable<JSONObject> addPrinter(@Url String url, @Field("print_id") String print_id, @Field("sj_login_token") String loginToken, @Field("apiKey") String apiKey,
-                                      @Field("mKey") String mKey, @Field("partner") String partner,
-                                      @Field("machine_code") String machine_code, @Field("print_num") String print_num, @Field("print_name") String print_name, @Field("is_edit") int is_edit, @Field("cate") String cate);
+    Observable<JSONObject> addPrinter(@Url String url,@FieldMap Map<String, Object> params);
 
     // 删除主打印机
     @FormUrlEncoded
     @POST("/sjapi/user/delete_print")
-    Observable<JSONObject> deletePrinter(@Field("sj_login_token") String loginToken);
+    Observable<JSONObject> deletePrinter(@Field("sj_login_token") String loginToken, @Field("print_brand") String print_brand);
 
     // 删除副打印机
     @FormUrlEncoded

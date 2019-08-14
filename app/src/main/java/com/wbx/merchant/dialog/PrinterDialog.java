@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -13,12 +14,18 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wbx.merchant.R;
+import com.wbx.merchant.api.Api;
+import com.wbx.merchant.api.HttpListener;
+import com.wbx.merchant.api.MyHttp;
+import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.bean.PrinterBrandBean;
 import com.wbx.merchant.utils.GlideUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,14 +34,16 @@ import java.util.List;
 public class PrinterDialog extends Dialog {
     private Context mContext;
     private View layout;
-    private List<PrinterBrandBean.PrinterBean> mPrinterList;
-    private PrintBrandAdapter adapter;
+    private List<PrinterBrandBean.PrinterBean> mPrinterList = new ArrayList<>();
+    private PrintBrandAdapter mPrintAdapter;
     private DialogListener listener;
 
-    public PrinterDialog(Context context, List<PrinterBrandBean.PrinterBean> list, DialogListener listener) {
+    public PrinterDialog(Context context) {
         super(context, R.style.DialogTheme);
-        this.mPrinterList = list;
         this.mContext = context;
+    }
+
+    public void setDialogListener(DialogListener listener) {
         this.listener = listener;
     }
 
@@ -45,6 +54,25 @@ public class PrinterDialog extends Dialog {
         setContentView(layout);
         init();
         initView();
+        getPrintBrand();
+    }
+
+    /**
+     * 获取打印机品牌列表
+     */
+    private void getPrintBrand() {
+        new MyHttp().doPost(Api.getDefault().getPrintBrand(BaseApplication.getInstance().readLoginUser().getSj_login_token()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                PrinterBrandBean bean = JSONObject.parseObject(result.toJSONString(), PrinterBrandBean.class);
+                mPrinterList.addAll(bean.getData());
+                mPrintAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(int code) {
+            }
+        });
     }
 
     private void initView() {
@@ -61,14 +89,14 @@ public class PrinterDialog extends Dialog {
         RecyclerView recyclerView = layout.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        adapter = new PrintBrandAdapter(mPrinterList);
-        adapter.bindToRecyclerView(recyclerView);
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        mPrintAdapter = new PrintBrandAdapter(mPrinterList);
+        mPrintAdapter.bindToRecyclerView(recyclerView);
+        mPrintAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (checkIndex != position) {
                     checkIndex = position;
-                    adapter.notifyDataSetChanged();
+                    mPrintAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -92,6 +120,7 @@ public class PrinterDialog extends Dialog {
     private int checkIndex;
 
     private class PrintBrandAdapter extends BaseQuickAdapter<PrinterBrandBean.PrinterBean, BaseViewHolder> {
+
         PrintBrandAdapter(@Nullable List<PrinterBrandBean.PrinterBean> data) {
             super(R.layout.item_printer_brand, data);
         }
@@ -101,7 +130,7 @@ public class PrinterDialog extends Dialog {
             ImageView ivLogo = holder.getView(R.id.iv_logo);
             GlideUtils.showRoundMediumPic(mContext, ivLogo, printerBean.getShop_brand_logo());
             ImageView ivCheck = holder.getView(R.id.iv_check);
-            ImageView clLayout = holder.getView(R.id.cl_layout);
+            ConstraintLayout clLayout = holder.getView(R.id.cl_layout);
             if (checkIndex == holder.getAdapterPosition()) {
                 ivCheck.setBackgroundResource(R.drawable.ic_ok);
                 clLayout.setBackgroundResource(R.drawable.ova_line_green);
