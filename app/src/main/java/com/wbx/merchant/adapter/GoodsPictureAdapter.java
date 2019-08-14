@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.GoodsPictureActivity;
-import com.wbx.merchant.activity.ReleaseActivity;
+import com.wbx.merchant.activity.ReleaseActivity2;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.widget.SquareLayout;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
@@ -70,7 +70,7 @@ public class GoodsPictureAdapter extends RecyclerView.Adapter<GoodsPictureAdapte
                             return;
                         }
                         lstData.remove(data);
-                        if (lstData.size() == ReleaseActivity.MAX_GOODS_PIC_NUM - 1 && !TextUtils.isEmpty(lstData.get(ReleaseActivity.MAX_GOODS_PIC_NUM - 2))) {
+                        if (lstData.size() == ReleaseActivity2.MAX_GOODS_PIC_NUM - 1 && !TextUtils.isEmpty(lstData.get(ReleaseActivity2.MAX_GOODS_PIC_NUM - 2))) {
                             lstData.add("");
                         }
                         notifyDataSetChanged();

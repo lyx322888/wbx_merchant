@@ -23,7 +23,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.GoodsManagerActivity;
-import com.wbx.merchant.activity.ReleaseActivity;
 import com.wbx.merchant.activity.ReleaseActivity2;
 import com.wbx.merchant.adapter.GoodsAdapter;
 import com.wbx.merchant.adapter.ScreenCateAdapter;
@@ -613,7 +612,7 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case GoodsManagerActivity.REQUEST_UPDATE_GOODS:
-                    GoodsInfo goodsInfo = (GoodsInfo) data.getSerializableExtra(ReleaseActivity.RESULT_GOODS);
+                    GoodsInfo goodsInfo = (GoodsInfo) data.getSerializableExtra(ReleaseActivity2.RESULT_GOODS);
                     goodsInfoList.set(goodsIndex, goodsInfo);
                     mAdapter.notifyItemChanged(goodsIndex);
                     break;
