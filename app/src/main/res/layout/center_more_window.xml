@@ -1,41 +1,67 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_centerHorizontal="true"
-    android:background="#90FFFFFF"
-    android:gravity="bottom|center_horizontal">
+    android:background="#90FFFFFF">
+
+    <TextView
+        android:id="@+id/product"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/round_bg_red"
+        android:gravity="center"
+        android:text="发布\n特供产品"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/guideline1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/product_library_btn"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="80dp"
-        android:layout_marginLeft="15dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="25dp"
         android:background="@drawable/round_bg_red"
         android:gravity="center"
         android:text="产品库"
-        android:textColor="@color/colorWhite" />
+        android:textColor="@color/colorWhite"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/guideline1" />
 
     <TextView
         android:id="@+id/release_btn"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="80dp"
-        android:layout_marginRight="15dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="25dp"
         android:background="@drawable/round_bg_red"
         android:gravity="center"
-        android:text="拍照上传"
-        android:textColor="@color/colorWhite" />
+        android:text="发布"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/guideline1" />
 
     <ImageView
         android:id="@+id/close_im"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/product_library_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginBottom="78dip"
-        android:src="@drawable/tabbar_compose_background_icon_close" />
-</RelativeLayout>
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/tabbar_compose_background_icon_close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</android.support.constraint.ConstraintLayout>

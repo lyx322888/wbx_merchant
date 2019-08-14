@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import android.widget.RelativeLayout;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.ProductActivity;
 import com.wbx.merchant.activity.ReleaseActivity;
+import com.wbx.merchant.activity.ReleaseActivity2;
 import com.wbx.merchant.utils.KickBackAnimator;
 
 import jp.wasabeef.glide.transformations.internal.FastBlur;
@@ -92,52 +94,19 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
         return overlay;
     }
 
-    private Animation showAnimation1(final View view, int fromY, int toY) {
-        AnimationSet set = new AnimationSet(true);
-        TranslateAnimation go = new TranslateAnimation(0, 0, fromY, toY);
-        go.setDuration(300);
-        TranslateAnimation go1 = new TranslateAnimation(0, 0, -10, 2);
-        go1.setDuration(100);
-        go1.setStartOffset(250);
-        set.addAnimation(go1);
-        set.addAnimation(go);
-
-        set.setAnimationListener(new AnimationListener() {
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-        });
-        return set;
-    }
-
-
-    public void showMoreWindow(View anchor, int bottomMargin) {
-        final RelativeLayout layout = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.center_more_window, null);
+    public void showMoreWindow(View anchor) {
+        final ConstraintLayout layout = (ConstraintLayout) LayoutInflater.from(mContext).inflate(R.layout.center_more_window, null);
         setContentView(layout);
-
         layout.findViewById(R.id.close_im).setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 if (isShowing()) {
-                    closeAnimation(layout);
+                    dismiss();
                 }
             }
 
         });
-
         showAnimation(layout);
         setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), blur()));
         setOutsideTouchable(true);
@@ -170,94 +139,23 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
 
     }
 
-
-    private void closeAnimation(ViewGroup layout) {
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            final View child = layout.getChildAt(i);
-            if (child.getId() == R.id.close_im) {
-                continue;
-            }
-            child.setOnClickListener(this);
-            mHandler.postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    child.setVisibility(View.VISIBLE);
-                    ValueAnimator fadeAnim = ObjectAnimator.ofFloat(child, "translationY", 0, 600);
-                    fadeAnim.setDuration(200);
-                    KickBackAnimator kickAnimator = new KickBackAnimator();
-                    kickAnimator.setDuration(100);
-                    fadeAnim.setEvaluator(kickAnimator);
-                    fadeAnim.start();
-                    fadeAnim.addListener(new AnimatorListener() {
-
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            // TODO Auto-generated method stub
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-                            // TODO Auto-generated method stub
-
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            child.setVisibility(View.INVISIBLE);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                            // TODO Auto-generated method stub
-
-                        }
-                    });
-                }
-            }, (layout.getChildCount() - i - 1) * 30);
-
-            if (child.getId() == R.id.product_library_btn) {
-                mHandler.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        dismiss();
-                    }
-                }, (layout.getChildCount() - i) * 30 + 80);
-            }
-        }
-
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.release_btn:
-                mContext.startActivity(new Intent(mContext, ReleaseActivity.class));
+                mContext.startActivity(new Intent(mContext, ReleaseActivity2.class));
                 dismiss();
                 break;
             case R.id.product_library_btn:
                 mContext.startActivity(new Intent(mContext, ProductActivity.class));
                 dismiss();
                 break;
-
+            case R.id.product:
+                mContext.startActivity(new Intent(mContext, ProductActivity.class));
+                dismiss();
+                break;
             default:
                 break;
-        }
-    }
-
-
-    public void destroy() {
-        if (null != overlay) {
-            overlay.recycle();
-            overlay = null;
-            System.gc();
-        }
-        if (null != mBitmap) {
-            mBitmap.recycle();
-            mBitmap = null;
-            System.gc();
         }
     }
 }

@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity {
     private void showMoreWindow(View view) {
         mMoreWindow = new MoreWindow(this);
         mMoreWindow.init();
-        mMoreWindow.showMoreWindow(view, 100);
+        mMoreWindow.showMoreWindow(view);
     }
 
     private View getTabItemView(int tabImageId, String tabStr) {
