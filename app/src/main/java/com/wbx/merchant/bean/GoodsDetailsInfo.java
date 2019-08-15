@@ -59,9 +59,9 @@ public class GoodsDetailsInfo {
         private String subhead;
         private String photo;
         private String details;
-        private int price;
+        private float price;
         private int is_handpick;
-        private int original_price;
+        private float original_price;
         private int sales_volume;
         private int buy_shop_num;
         private int cart_num;
@@ -109,11 +109,11 @@ public class GoodsDetailsInfo {
             this.details = details;
         }
 
-        public int getPrice() {
+        public float getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public void setPrice(float price) {
             this.price = price;
         }
 
@@ -125,11 +125,11 @@ public class GoodsDetailsInfo {
             this.is_handpick = is_handpick;
         }
 
-        public int getOriginal_price() {
+        public float getOriginal_price() {
             return original_price;
         }
 
-        public void setOriginal_price(int original_price) {
+        public void setOriginal_price(float original_price) {
             this.original_price = original_price;
         }
 

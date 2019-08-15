@@ -41,32 +41,20 @@
 
         <RelativeLayout
             android:layout_width="60dp"
-            android:layout_height="60dp"></RelativeLayout>
+            android:layout_height="60dp" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:background="@color/app_color" />
-
-        <ImageView
-            android:id="@+id/goods_photo"
-            android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/shape_goods_imger"
-            android:padding="20dp" />
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/goods_photo"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_goods_imger" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="0dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="15dp"
@@ -79,20 +67,20 @@
             android:id="@+id/goods_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="24小时无人接单价"
             android:textColor="#000000"
             android:textSize="17sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="24小时无人接单价" />
 
         <TextView
             android:id="@+id/goods_ps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
-            android:text="防蛀 清新口气"
             android:textColor="#AAAAAA"
             android:textSize="13sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="防蛀 清新口气" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -112,19 +100,19 @@
                 android:id="@+id/goods_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¥589"
                 android:textColor="#ff0000"
                 android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="¥589" />
 
             <TextView
                 android:id="@+id/goods_original"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="￥2580"
                 android:textColor="#ff7c7c7c"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:text="￥2580" />
         </LinearLayout>
 
         <LinearLayout
@@ -147,9 +135,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="销量 589"
                 android:textColor="#ff7c7c7c"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:text="销量 589" />
 
             <TextView
                 android:layout_width="wrap_content"

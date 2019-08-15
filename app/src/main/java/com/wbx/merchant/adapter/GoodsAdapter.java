@@ -38,10 +38,10 @@ public class GoodsAdapter extends BaseAdapter<GoodsInfo, Context> {
     public void convert(BaseViewHolder holder, final GoodsInfo goodsInfo, int position) {
         holder.getView(R.id.edit_check_im).setClickable(false);
         TextView priceTv = holder.getView(R.id.selling_price_tv);
-        if (goodsInfo.getSales_promotion_is() == 1 ) {//是否促销
+        if (goodsInfo.getSales_promotion_is() == 1) {//是否促销
             priceTv.setText(String.format("¥%.2f", goodsInfo.getSales_promotion_price() / 100.00));
-        } else {//启用多规格
-            priceTv.setText(String.format("¥%.2f", BaseApplication.getInstance().readLoginUser().getGrade_id() != AppConfig.StoreGrade.MARKET ? goodsInfo.getMall_price() / 100.00 : goodsInfo.getPrice() / 100.00));
+        } else {
+            priceTv.setText(String.format("¥%.2f", BaseApplication.getInstance().readLoginUser().getGrade_id() == AppConfig.StoreGrade.MARKET ? goodsInfo.getPrice() / 100.00 :  goodsInfo.getMall_price() / 100.00));
         }
         holder.setText(R.id.sold_num_tv, String.format("销量 %d", goodsInfo.getSold_num()));
         holder.setText(R.id.create_time_tv, String.format("上架时间 %s", FormatUtil.stampToDate(goodsInfo.getCreate_time() + "")));
@@ -71,9 +71,8 @@ public class GoodsAdapter extends BaseAdapter<GoodsInfo, Context> {
         Button soldOutInBtn = holder.getView(R.id.sold_out_in_btn);
         Button deleteBtn = holder.getView(R.id.delete_btn);
         ImageView isSalesProIm = holder.getView(R.id.is_sales_pro_im);
-        if (goodsInfo.getClosed() == 0) {
-            //已上架
-//            if(BaseApplication.getInstance().readLoginUser().getGrade_id()!=AppConfig.StoreGrade.MARKET){
+        ImageView ivSpecial = holder.getView(R.id.iv_special);
+        if (goodsInfo.getClosed() == 0) {//已上架
             //是否是促销中的商品
             if (goodsInfo.getSales_promotion_is() == 1) {
                 isSalesProIm.setVisibility(View.VISIBLE);
@@ -82,20 +81,20 @@ public class GoodsAdapter extends BaseAdapter<GoodsInfo, Context> {
                 isSalesProIm.setVisibility(View.GONE);
                 promotionBtn.setText("促销");
             }
-//                promotionBtn.setVisibility(View.GONE);
-//            }
-            editBtn.setVisibility(View.VISIBLE);
             soldOutInBtn.setVisibility(View.VISIBLE);
             deleteBtn.setVisibility(View.VISIBLE);
         } else {
             //已下架
             promotionBtn.setVisibility(View.GONE);
-            editBtn.setVisibility(View.VISIBLE);
             soldOutInBtn.setText("上架");
             soldOutInBtn.setVisibility(View.VISIBLE);
             deleteBtn.setVisibility(View.VISIBLE);
         }
-
+        if (goodsInfo.getSpecial_supply_goods_id() > 0) {
+            ivSpecial.setVisibility(View.VISIBLE);
+        } else {
+            ivSpecial.setVisibility(View.GONE);
+        }
     }
 
     public void setIsBath(boolean isBath) {

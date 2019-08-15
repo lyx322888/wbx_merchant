@@ -65,13 +65,12 @@
                 android:orientation="vertical"
                 android:paddingLeft="15dp"
                 android:paddingTop="20dp"
-                android:paddingRight="30dp"
+                android:paddingRight="15dp"
                 android:paddingBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:orientation="horizontal">
 
                     <ImageView
@@ -115,6 +114,8 @@
                                 android:background="@null"
                                 android:hint="请输入姓名"
                                 android:paddingTop="5dp"
+                                android:maxEms="5"
+                                android:minEms="5"
                                 android:paddingBottom="5dp"
                                 android:textColor="#ff8a8a8a"
                                 android:textSize="14sp" />
@@ -123,7 +124,7 @@
                                 android:id="@+id/et_phone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="30dp"
+                                android:layout_marginStart="15dp"
                                 android:background="@null"
                                 android:hint="请输入电话"
                                 android:inputType="phone"
@@ -147,11 +148,6 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="9dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/right" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -167,7 +163,7 @@
                 android:orientation="vertical"
                 android:paddingLeft="15dp"
                 android:paddingTop="20dp"
-                android:paddingRight="30dp"
+                android:paddingRight="15dp"
                 android:paddingBottom="20dp">
 
                 <LinearLayout

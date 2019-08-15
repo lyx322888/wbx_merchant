@@ -126,6 +126,7 @@ public class GoodsOrderActivity extends BaseActivity implements BaseRefreshListe
     }
 
     public class GoodsOrderAdapter extends BaseAdapter<OrderGoodsBean, Context> {
+
         GoodsOrderAdapter(List<OrderGoodsBean> dataList, Context context) {
             super(dataList, context);
         }
@@ -139,20 +140,11 @@ public class GoodsOrderActivity extends BaseActivity implements BaseRefreshListe
         public void convert(BaseViewHolder holder, OrderGoodsBean orderGoodsBean, int position) {
             holder.setText(R.id.order_id_tv, "单号：" + orderGoodsBean.getOrder_id());
             holder.setText(R.id.create_time_tv, FormatUtil.myStampToDate1(orderGoodsBean.getCreate_time() + "", "yyyy-MM-dd HH:mm"));
-            holder.setText(R.id.tv_title, orderGoodsBean.getGoods().get(position).getTitle());
-            holder.setText(R.id.order_num_tv, "x" + orderGoodsBean.getGoods().get(position).getOrder_num());
-            holder.setText(R.id.tv_price, String.format("¥%.2f", orderGoodsBean.getGoods().get(position).getPrice() / 100));
-            TextView originalTv = holder.getView(R.id.tv_original_price);
             holder.setText(R.id.all_order_num_tv, "共" + orderGoodsBean.getAll_order_num() + "件商品");
             holder.setText(R.id.need_pay_tv, String.format("¥%.2f", orderGoodsBean.getNeed_pay() / 100));
             final TextView expressNumberTv = holder.getView(R.id.express_number_tv);
             TextView copyTv = holder.getView(R.id.copy_tv);
             TextView shipmentsTv = holder.getView(R.id.tv_shipments);
-            ImageView photoIv = holder.getView(R.id.iv_photo);
-            GlideUtils.showSmallPic(mContext, photoIv, orderGoodsBean.getGoods().get(position).getPhoto());
-            originalTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
-            originalTv.getPaint().setAntiAlias(true);//抗锯齿
-            originalTv.setText(String.format("¥%.2f", orderGoodsBean.getGoods().get(position).getOriginal_price() / 100));
             expressNumberTv.setText(orderGoodsBean.getExpress_number());
             copyTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //中划线
             copyTv.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +159,35 @@ public class GoodsOrderActivity extends BaseActivity implements BaseRefreshListe
             } else {
                 shipmentsTv.setText("已发货");
             }
+            RecyclerView recyclerView = holder.getView(R.id.recyclerView);
+            recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setAdapter(new GoodItemAdapter(orderGoodsBean.getGoods(), mContext));
+        }
+    }
+
+
+    public class GoodItemAdapter extends BaseAdapter<OrderGoodsBean.GoodsBean, Context> {
+        GoodItemAdapter(List<OrderGoodsBean.GoodsBean> dataList, Context context) {
+            super(dataList, context);
+        }
+
+        @Override
+        public int getLayoutId(int viewType) {
+            return R.layout.item_business_must;
+        }
+
+        @Override
+        public void convert(BaseViewHolder holder, OrderGoodsBean.GoodsBean goodsBean, int position) {
+            ImageView photoIv = holder.getView(R.id.iv_photo);
+            GlideUtils.showSmallPic(mContext, photoIv, goodsBean.getPhoto());
+            holder.setText(R.id.tv_title, goodsBean.getTitle());
+            holder.setText(R.id.order_num_tv, "x" + goodsBean.getOrder_num());
+            holder.setText(R.id.tv_price, String.format("¥ %.2f", goodsBean.getPrice() / 100));
+            TextView originalTv = holder.getView(R.id.tv_original_price);
+            originalTv.setText(String.format("¥ %.2f", goodsBean.getOriginal_price() / 100));
+            originalTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
+            originalTv.getPaint().setAntiAlias(true);//抗锯齿
         }
     }
 }

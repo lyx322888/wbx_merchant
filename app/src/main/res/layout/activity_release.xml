@@ -125,14 +125,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:text="商品名称" />
+                    android:text="标  题      " />
 
                 <EditText
                     android:id="@+id/goods_name_edit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:hint="请输入商品名称"
+                    android:hint="请输入标题"
                     android:padding="8dp"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -264,14 +264,14 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="15dp"
-                            android:text="包装费    " />
+                            android:text="副标题    " />
 
                         <EditText
                             android:id="@+id/et_packing_fee"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"
-                            android:hint="请输入包装费"
+                            android:hint="请输入副标题"
                             android:inputType="numberDecimal"
                             android:maxLength="10"
                             android:padding="8dp"

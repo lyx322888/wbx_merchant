@@ -1,6 +1,7 @@
 package com.wbx.merchant.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -95,6 +96,8 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
 //                        paySuccess();
+                        startActivity(new Intent(ShopCartActivity.this, GoodsOrderActivity.class));
+                        finish();
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
@@ -302,8 +305,11 @@ public class ShopCartActivity extends BaseActivity implements OrderView {
                             payThread.start();
                         } else if (payCode.equals(AppConfig.PayMode.wxpay)) {
                             //微信支付
+                            AppConfig.RESULT_PAY_TYPE = false;
+                            AppConfig.isBuy = true;
                             WxPayInfo data = result.getObject("data", WxPayInfo.class);
                             startWxPay(data);
+                            finish();
                         }
                     }
 

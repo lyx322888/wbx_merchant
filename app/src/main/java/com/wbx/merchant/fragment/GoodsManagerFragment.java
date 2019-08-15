@@ -23,7 +23,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.GoodsManagerActivity;
-import com.wbx.merchant.activity.ReleaseActivity2;
+import com.wbx.merchant.activity.ReleaseActivity;
 import com.wbx.merchant.adapter.GoodsAdapter;
 import com.wbx.merchant.adapter.ScreenCateAdapter;
 import com.wbx.merchant.api.Api;
@@ -34,6 +34,7 @@ import com.wbx.merchant.base.BaseFragment;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GoodsInfo;
+import com.wbx.merchant.bean.SpecInfo;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
@@ -105,7 +106,6 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new GoodsAdapter(goodsInfoList, getActivity());
         mRecyclerView.setAdapter(mAdapter);
-
     }
 
     @Override
@@ -149,6 +149,18 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                         goodsInfo.setProduct_name(goodsInfo.getTitle());
                         goodsInfo.setDesc(goodsInfo.getIntro());
                         goodsInfo.setCate_id(goodsInfo.getShopcate_id());
+                        List<SpecInfo> goods_attr = goodsInfo.getGoods_attr();
+                        if (goods_attr != null && goods_attr.size() > 0) {
+                            for (SpecInfo info : goods_attr) {
+                                info.setPrice(info.getPrice() / 100);
+                                info.setCasing_price(info.getCasing_price() / 100);
+                                info.setSeckill_price(info.getSeckill_price() / 100);
+                                info.setMall_price(info.getMall_price() / 100);
+                                info.setSales_promotion_price(info.getSales_promotion_price() / 100);
+                                info.setShop_member_price(info.getShop_member_price() / 100);
+                                info.setMin_price(info.getMin_price() / 100);
+                            }
+                        }
                     }
                 }
                 goodsInfoList.addAll(dataList);
@@ -282,9 +294,14 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
         mAdapter.setOnItemClickListener(R.id.edit_btn, new BaseAdapter.ItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
+                GoodsInfo goodsInfo = goodsInfoList.get(position);
+                if (goodsInfo.getSpecial_supply_goods_id() > 0) {
+                    ToastUitl.showShort("特供产品不能编辑");
+                    return;
+                }
                 goodsIndex = position;
-                Intent intent = new Intent(getActivity(), ReleaseActivity2.class);
-                intent.putExtra(ReleaseActivity2.GOOD_INFO, goodsInfoList.get(position));
+                Intent intent = new Intent(getActivity(), ReleaseActivity.class);
+                intent.putExtra(ReleaseActivity.GOOD_INFO, goodsInfoList.get(position));
                 startActivityForResult(intent, GoodsManagerActivity.REQUEST_UPDATE_GOODS);
             }
         });
@@ -612,7 +629,7 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case GoodsManagerActivity.REQUEST_UPDATE_GOODS:
-                    GoodsInfo goodsInfo = (GoodsInfo) data.getSerializableExtra(ReleaseActivity2.RESULT_GOODS);
+                    GoodsInfo goodsInfo = (GoodsInfo) data.getSerializableExtra(ReleaseActivity.RESULT_GOODS);
                     goodsInfoList.set(goodsIndex, goodsInfo);
                     mAdapter.notifyItemChanged(goodsIndex);
                     break;

@@ -431,7 +431,7 @@ public interface ApiService {
     // 添加/修改打印机
     @FormUrlEncoded
     @POST
-    Observable<JSONObject> addPrinter(@Url String url,@FieldMap Map<String, Object> params);
+    Observable<JSONObject> addPrinter(@Url String url, @FieldMap Map<String, Object> params);
 
     // 删除主打印机
     @FormUrlEncoded
@@ -893,4 +893,15 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/sjapi/user/update_full_minus_shipping_fee")
     Observable<JSONObject> getNoDeliveryFee(@Field("sj_login_token") String login_token, @Field("is_full_minus_shipping_fee") int is_check, @Field("full_minus_shipping_fee") String money);
+
+    //27.1.	特供商品列表
+    @FormUrlEncoded
+    @POST("/sjapi/Specialsupplygoods/list_special_supply_goods")
+    Observable<JSONObject> getSpecialSupply(@Field("sj_login_token") String login_token);
+
+    //27.2.	一键发布
+    @FormUrlEncoded
+    @POST("/sjapi/Specialsupplygoods/send_goods")
+    Observable<JSONObject> sendSpecial(@Field("sj_login_token") String login_token, @Field("goods_ids") String goodIDs);
+
 }

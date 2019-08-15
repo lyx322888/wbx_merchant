@@ -3,37 +3,10 @@ package com.wbx.merchant.baseapp;
 
 import com.wbx.merchant.base.BaseApplication;
 
-/**
- * ************************************************************************
- * **                              _oo0oo_                               **
- * **                             o8888888o                              **
- * **                             88" . "88                              **
- * **                             (| -_- |)                              **
- * **                             0\  =  /0                              **
- * **                           ___/'---'\___                            **
- * **                        .' \\\|     |// '.                          **
- * **                       / \\\|||  :  |||// \\                        **
- * **                      / _ ||||| -:- |||||- \\                       **
- * **                      | |  \\\\  -  /// |   |                       **
- * **                      | \_|  ''\---/''  |_/ |                       **
- * **                      \  .-\__  '-'  __/-.  /                       **
- * **                    ___'. .'  /--.--\  '. .'___                     **
- * **                 ."" '<  '.___\_<|>_/___.' >'  "".                  **
- * **                | | : '-  \'.;'\ _ /';.'/ - ' : | |                 **
- * **                \  \ '_.   \_ __\ /__ _/   .-' /  /                 **
- * **            ====='-.____'.___ \_____/___.-'____.-'=====             **
- * **                              '=---='                               **
- * ************************************************************************
- * **                        佛祖保佑      镇类之宝                         **
- * ************************************************************************
- */
+
 public class AppConfig {
 
-    /**
-     * The constant DEBUG_TAG.
-     */
     public static final String SP_DOWNLOAD_PATH = "download.path";
-    public static final String IS_OPENED = "is_opened";//是否是第一次启动应用
     public static final String DEBUG_TAG = "logger";// LogCat的标记
     public static final String VERSION = "VERSION";//保存服务端版本号
     public static final String WX_APP_ID = "wx07867153bc1d88fa";//  wx07867153bc1d88fa
@@ -46,6 +19,7 @@ public class AppConfig {
     public static final int TAKE_PHOTO_CODE = 10066;
     public static boolean RESULT_PAY_TYPE;
 
+    public static boolean isBuy;
     public static final int MAX_COUNT = 6;
 
     public static final int REQUEST_CONTACT = 10003;

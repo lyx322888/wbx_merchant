@@ -59,7 +59,7 @@ public class GoodsPictureActivity extends BaseActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
         recyclerView.addItemDecoration(new SpacesItemDecoration(8));
         recyclerView.setLayoutManager(layoutManager);
-        if (lstPhoto.size() != ReleaseActivity2.MAX_GOODS_PIC_NUM) {
+        if (lstPhoto.size() != ReleaseActivity.MAX_GOODS_PIC_NUM) {
             lstPhoto.add("");
         }
         adapter = new GoodsPictureAdapter(this, lstPhoto);
@@ -110,7 +110,7 @@ public class GoodsPictureActivity extends BaseActivity {
     }
 
     public void addPhoto() {
-        PhotoPicker.builder().setShowCamera(true).setPhotoCount(ReleaseActivity2.MAX_GOODS_PIC_NUM - lstPhoto.size() + 1).setPreviewEnabled(true).start(this, REQUEST_GET_BUSINESS_CIRCLE_PHOTO);
+        PhotoPicker.builder().setShowCamera(true).setPhotoCount(ReleaseActivity.MAX_GOODS_PIC_NUM - lstPhoto.size() + 1).setPreviewEnabled(true).start(this, REQUEST_GET_BUSINESS_CIRCLE_PHOTO);
     }
 
     public void showPicDetail(int position) {
@@ -132,8 +132,8 @@ public class GoodsPictureActivity extends BaseActivity {
                     lstPhoto.add(lstPhoto.size() - 1, pic);
                 }
             }
-            if (lstPhoto.size() == ReleaseActivity2.MAX_GOODS_PIC_NUM + 1) {
-                lstPhoto.remove(ReleaseActivity2.MAX_GOODS_PIC_NUM);
+            if (lstPhoto.size() == ReleaseActivity.MAX_GOODS_PIC_NUM + 1) {
+                lstPhoto.remove(ReleaseActivity.MAX_GOODS_PIC_NUM);
             }
             adapter.notifyDataSetChanged();
         }

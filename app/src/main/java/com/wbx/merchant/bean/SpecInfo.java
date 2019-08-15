@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 
 public class SpecInfo implements Serializable {
+
     private int attr_id;
     private String attr_name;
     private double price;//商城价
@@ -22,7 +23,7 @@ public class SpecInfo implements Serializable {
     private float shop_member_price;//会员价
     private String subhead;
     @JSONField(serialize = false)
-    private double min_price;
+    private float min_price;
 
     public float getShop_member_price() {
         return shop_member_price;
@@ -36,8 +37,8 @@ public class SpecInfo implements Serializable {
         return seckill_price;
     }
 
-    public void setSeckill_price(int seckill_price) {
-        this.seckill_price = (float) (seckill_price / 100.00);
+    public void setSeckill_price(float seckill_price) {
+        this.seckill_price = seckill_price;
     }
 
     public void setFloatSeckill_price(float seckill_price) {
@@ -124,11 +125,11 @@ public class SpecInfo implements Serializable {
         this.subhead = subhead;
     }
 
-    public double getMin_price() {
+    public float getMin_price() {
         return min_price;
     }
 
-    public void setMin_price(double min_price) {
+    public void setMin_price(float min_price) {
         this.min_price = min_price;
     }
 }

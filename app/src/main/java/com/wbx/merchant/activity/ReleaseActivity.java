@@ -15,7 +15,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -29,11 +28,11 @@ import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseAdapter;
+import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GoodsInfo;
 import com.wbx.merchant.bean.SpecInfo;
-import com.wbx.merchant.utils.ArithUtils;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.utils.UpLoadPicUtils;
@@ -46,6 +45,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -53,12 +53,12 @@ import me.iwf.photopicker.PhotoPicker;
 import me.iwf.photopicker.PhotoPreview;
 
 /**
- * Created by wushenghui on 2017/6/21.
+ * 发布商品/更新商品
  */
 
 public class ReleaseActivity extends BaseActivity implements OptionsPickerView.OnOptionsSelectListener {
     @Bind(R.id.take_photo_recycler_view)
-    RecyclerView takePhotoRecyclerView;
+    RecyclerView takePhotoRecyclerView;//商品详情图(底部)
     @Bind(R.id.goods_name_edit)
     EditText goodsNameEdit;
     @Bind(R.id.selling_price_edit)
@@ -76,13 +76,13 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     @Bind(R.id.goods_detail_pics_layout)
     LinearLayout goodsDetailPicsLayout;
     @Bind(R.id.photos_select_num_tv)
-    TextView photoSelectNumTv;
+    TextView photoSelectNumTv;//商品详情图数量(底部)
     @Bind(R.id.ll_packing_fee)
     LinearLayout llPackingFee;
     @Bind(R.id.et_packing_fee)
     EditText etPackingFee;
     @Bind(R.id.rl_add_pic)
-    RelativeLayout rlAddPic;
+    ImageView rlAddPic;
     @Bind(R.id.view_pager)
     ViewPager viewPager;
     @Bind(R.id.tv_index_pic)
@@ -90,7 +90,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     @Bind(R.id.is_sales_layout)
     LinearLayout isSalesLayout;//开启促销价
     @Bind(R.id.open_sales_sb)
-    SwitchButton openSalesSb;
+    SwitchButton openSalesSb;//是否促销
     @Bind(R.id.is_inventory_layout)
     LinearLayout isInventoryLayout;//开启库存
     @Bind(R.id.open_inventory_sb)
@@ -98,9 +98,9 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     @Bind(R.id.is_spec_layout)
     LinearLayout isSpecLayout;//添加多规格
     @Bind(R.id.ll_spec_attr)
-    LinearLayout llSpecAttr;
+    LinearLayout llSpecAttr;//多属性
     @Bind(R.id.open_spec_sb)
-    SwitchButton openSpecSb;
+    SwitchButton openSpecSb;//是否多规格
     @Bind(R.id.settings_spec_layout)
     LinearLayout settingsSpecLayout;
     @Bind(R.id.open_spec_to_gone_layout)
@@ -109,20 +109,21 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     EditText numEdit;
     @Bind(R.id.sales_price_edit)
     EditText salesPriceEdit;
+
+    private GoodsInfo mGoodInfo;
+    private PhotoAdapter mPhotoAdapter;//商品详情图(底部)
+    private OptionsPickerView catePickerView;//商品分类
     private static final int REQUEST_GOODS_PIC = 1001;//商品图
     private static final int REQUEST_GOODS_INTRODUCE_PIC = 1002;//商品介绍图l
+    public static final int REQUEST_GOODS_ATTR = 1004;//多规格
+    public static final String RESULT_GOODS = "result_goods";
+    public static final String GOOD_INFO = "Good_Info";
     public static final int MAX_GOODS_PIC_NUM = 5; //商品图最多5张
     private static final int MAX_INTRODUCE_PIC_NUM = 6; //介绍图最多6张
-    private PhotoAdapter mAdapter;
-    private HashMap<String, Object> mParams = new HashMap<>();
-    private List<CateInfo> cateInfoList = new ArrayList<>();
-    private OptionsPickerView catePickerView;
-    private GoodsInfo goods;
-    private ArrayList<String> lstGoodsIntroducePic = new ArrayList<>();//商品介绍图
-    private ArrayList<String> lstGoodsPic = new ArrayList<>();
-    ArrayList<GoodsInfo.Nature> lstSelectNature = new ArrayList<>();//多属性
-    private List<SpecInfo> specList;
-    public static String RESULT_GOODS = "result_goods";
+    private List<CateInfo> cateInfoList = new ArrayList<>();//商品分类
+    private List<String> lstGoodsIntroducePic = new ArrayList<>();//商品详情图(底部)
+    private ArrayList<String> lstGoodsPic = new ArrayList<>(); //商品图(头部)
+
 
     @Override
     public int getLayoutId() {
@@ -134,8 +135,15 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
 
     }
 
+    private boolean isRelease;
+
     @Override
     public void initView() {
+        mGoodInfo = (GoodsInfo) getIntent().getSerializableExtra(GOOD_INFO);
+        if (mGoodInfo == null) {
+            isRelease = true;
+            mGoodInfo = new GoodsInfo();
+        }
         if (userInfo.getGrade_id() != AppConfig.StoreGrade.MARKET) {
             marketPriceLayout.setVisibility(View.VISIBLE);
         } else {
@@ -148,88 +156,81 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             llPackingFee.setVisibility(View.GONE);
             llSpecAttr.setVisibility(View.GONE);
         }
-        catePickerView = new OptionsPickerView.Builder(mContext, ReleaseActivity.this).build();
-        viewPager.setAdapter(picPagerAdapter);
         lstGoodsIntroducePic.add("");
+        //商品分类
+        catePickerView = new OptionsPickerView.Builder(mContext, ReleaseActivity.this).build();
+        //商品图片(头部)
+        viewPager.setAdapter(picPagerAdapter);
+        //商品详情图(底部)
         takePhotoRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         takePhotoRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
         takePhotoRecyclerView.setHasFixedSize(true);
         takePhotoRecyclerView.setNestedScrollingEnabled(false);
-        mAdapter = new PhotoAdapter(lstGoodsIntroducePic, mContext);
-        takePhotoRecyclerView.setAdapter(mAdapter);
+        mPhotoAdapter = new PhotoAdapter(lstGoodsIntroducePic, mContext);
+        takePhotoRecyclerView.setAdapter(mPhotoAdapter);
     }
 
     @Override
     public void fillData() {
-        goods = (GoodsInfo) getIntent().getSerializableExtra("goods");
-        if (null != goods) {
+        if (!isRelease) { //更新商品
+            releaseBtn.setText("更新");
             rlAddPic.setVisibility(View.GONE);
             ((View) viewPager.getParent()).setVisibility(View.VISIBLE);
-            if (goods.getGoods_photo() == null || goods.getGoods_photo().size() == 0) {
-                lstGoodsPic.add(goods.getPhoto());
+            if (mGoodInfo.getGoods_photo() == null || mGoodInfo.getGoods_photo().size() == 0) {
+                lstGoodsPic.add(mGoodInfo.getPhoto());
             } else {
-                lstGoodsPic.addAll(goods.getGoods_photo());
+                lstGoodsPic.addAll(mGoodInfo.getGoods_photo());
             }
             tvIndexPic.setText(1 + "/" + lstGoodsPic.size());
             picPagerAdapter.notifyDataSetChanged();
-            goodsNameEdit.setText(goods.getProduct_name());
-            goodsCateTv.setText(goods.getCate_name());
-            if (goods.getSales_promotion_is() == 1) {
-                salesPriceEdit.setText(String.format("%.2f", goods.getSales_promotion_price() / 100.00));
+            goodsNameEdit.setText(mGoodInfo.getProduct_name());
+            goodsCateTv.setText(mGoodInfo.getCate_name());
+            if (mGoodInfo.getSales_promotion_is() == 1) {
+                salesPriceEdit.setText(String.format("%.2f", mGoodInfo.getSales_promotion_price() / 100.00));
             }
-            if (goods.getIs_use_num() == 1) {
-                numEdit.setText("" + goods.getNum());
+            if (mGoodInfo.getIs_use_num() == 1) {
+                numEdit.setText("" + mGoodInfo.getNum());
             }
-            mParams.put("sj_login_token", userInfo.getSj_login_token());//token
-            mParams.put("photo", TextUtils.join(",", lstGoodsPic));
-            sellingPriceEdit.setText(String.format("%.2f", goods.getPrice() / 100.00));
-            etPackingFee.setText(String.format("%.2f", goods.getCasing_price() / 100.00));
-            //实体店    mParams.put("photos",join);//商品详情图
-            if (null != goods.getGoods_attr()) {
-                List<SpecInfo> goods_attr = new ArrayList<>();
-                goods_attr.addAll(goods.getGoods_attr());
-                for (SpecInfo specInfo : goods_attr) {
-                    specInfo.setMall_price(specInfo.getMall_price());
-                    specInfo.setPrice(specInfo.getPrice());
-                    specInfo.setSales_promotion_price(specInfo.getSales_promotion_price());
-                    specInfo.setCasing_price(specInfo.getCasing_price());
-                }
-                mParams.put("goods_attr", JSONArray.toJSON(goods.getGoods_attr()));
-            }
-            if (userInfo.getGrade_id() == AppConfig.StoreType.FOOD_STREET) {
-                if (goods.getNature() != null && goods.getNature().size() > 0) {
-                    lstSelectNature.clear();
-                    lstSelectNature.addAll(goods.getNature());
-                }
-            }
-            goodsDescEdit.setText(goods.getDesc());
-            if (userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET) {
-                //菜市场
-                mParams.put("product_name", goods.getProduct_name());
-                mParams.put("cate_id", goods.getCate_id());
-                mParams.put("product_id", goods.getProduct_id());
-                mParams.put("price", goods.getPrice());
-            } else {
-                mParams.put("title", goods.getTitle());
-                mParams.put("shopcate_id", goods.getCate_id());
-                mParams.put("goods_id", goods.getProduct_id());
-//                priceEdit.setText(String.format("%.2f", goods.getMall_price() / 100.00));
-                priceEdit.setText((float) ArithUtils.round(goods.getMall_price() / 100, 2) + "");
-                sellingPriceEdit.setText(String.format("%.2f", goods.getPrice() / 100.00));
-                if (null != goods.getPhotos()) {
-                    lstGoodsIntroducePic.addAll(goods.getPhotos());
+            sellingPriceEdit.setText(String.format("%.2f", mGoodInfo.getPrice() / 100.00));
+            etPackingFee.setText(mGoodInfo.getSubhead());
+            goodsDescEdit.setText(mGoodInfo.getDesc());
+            if (userInfo.getGrade_id() != AppConfig.StoreGrade.MARKET) {
+                priceEdit.setText(String.format("%.2f", mGoodInfo.getMall_price() / 100.00));
+                if (null != mGoodInfo.getPhotos()) {
+                    lstGoodsIntroducePic.addAll(mGoodInfo.getPhotos());
                     photoSelectNumTv.setText(lstGoodsIntroducePic.size() - 1 + "/" + MAX_INTRODUCE_PIC_NUM);
-                    mAdapter.notifyDataSetChanged();
-                    mParams.put("photos", TextUtils.join(",", goods.getPhotos()));
+                    mPhotoAdapter.notifyDataSetChanged();
                 }
             }
-            releaseBtn.setText("更新");
         }
     }
 
     @Override
     public void setListener() {
-        mAdapter.setOnItemClickListener(R.id.iv_delete, new BaseAdapter.ItemClickListener() {
+        //是否促销
+        openSalesSb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                isSalesLayout.setVisibility(b ? View.VISIBLE : View.GONE);
+            }
+        });
+        //是否开启库存
+        openInventorySb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                isInventoryLayout.setVisibility(b ? View.VISIBLE : View.GONE);
+            }
+        });
+        //是否多规格
+        openSpecSb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                isSpecLayout.setVisibility(b ? View.VISIBLE : View.GONE);
+                openSpecToGoneLayout.setVisibility(b ? View.GONE : View.VISIBLE);
+            }
+        });
+        //商品详情图(底部)
+        mPhotoAdapter.setOnItemClickListener(R.id.iv_delete, new BaseAdapter.ItemClickListener() {
             @Override
             public void onItemClicked(View view, final int position) {
                 new AlertDialog(mContext).builder()
@@ -243,72 +244,15 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                         .setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                lstGoodsIntroducePic.remove(mAdapter.getItem(position));
-                                mAdapter.notifyDataSetChanged();
+                                lstGoodsIntroducePic.remove(mPhotoAdapter.getItem(position));
+                                mPhotoAdapter.notifyDataSetChanged();
                                 photoSelectNumTv.setText(lstGoodsIntroducePic.size() - 1 + "/" + MAX_INTRODUCE_PIC_NUM);
                             }
                         }).show();
             }
         });
-        isSpecLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, AddSpecActivity.class);
-                intent.putExtra("isInventory", openInventorySb.isChecked());//是否启用库存
-                intent.putExtra("isSales", openSalesSb.isChecked());//是否启用多规格
-                intent.putExtra("isShop", userInfo.getGrade_id() != AppConfig.StoreGrade.MARKET);//是否是实体店
-                intent.putExtra("isFoodStreet", userInfo.getGrade_id() == AppConfig.StoreType.FOOD_STREET);//是否是美食街
-                if (null != specList) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("specList", (Serializable) specList);
-                    intent.putExtras(bundle);
-                } else if (null != goods) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("specList", (Serializable) goods.getGoods_attr());
-                    intent.putExtras(bundle);
-                }
-                startActivityForResult(intent, 1004);
-            }
-        });
-        llSpecAttr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SelectSubSpecActivity.actionStart(mActivity, lstSelectNature);
-            }
-        });
-        openSpecSb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    isSpecLayout.setVisibility(View.VISIBLE);
-                    openSpecToGoneLayout.setVisibility(View.GONE);
-                } else {
-                    isSpecLayout.setVisibility(View.GONE);
-                    openSpecToGoneLayout.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        openInventorySb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    isInventoryLayout.setVisibility(View.VISIBLE);
-                } else {
-                    isInventoryLayout.setVisibility(View.GONE);
-                }
-            }
-        });
-        openSalesSb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    isSalesLayout.setVisibility(View.VISIBLE);
-                } else {
-                    isSalesLayout.setVisibility(View.GONE);
-                }
-            }
-        });
-        mAdapter.setOnItemClickListener(R.id.root_view, new BaseAdapter.ItemClickListener() {
+        //商品详情图(底部)
+        mPhotoAdapter.setOnItemClickListener(R.id.root_view, new BaseAdapter.ItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
                 if (position == 0) {
@@ -338,11 +282,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                 }
             }
         });
-        if (null != goods) {
-            openSpecSb.setChecked(goods.getIs_attr() == 1);//是否开启多规格
-            openInventorySb.setChecked(goods.getIs_use_num() == 1);//是否开启库存
-            openSalesSb.setChecked(goods.getSales_promotion_is() == 1);//是否开启促销
-        }
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -359,8 +298,12 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
 
             }
         });
+        openSpecSb.setChecked(mGoodInfo.getIs_attr() == 1);//是否开启多规格
+        openInventorySb.setChecked(mGoodInfo.getIs_use_num() == 1);//是否开启库存
+        openSalesSb.setChecked(mGoodInfo.getSales_promotion_is() == 1);//是否开启促销
     }
 
+    //商品图(头部)
     protected PagerAdapter picPagerAdapter = new PagerAdapter() {
         @Override
         public int getCount() {
@@ -405,7 +348,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         }
     };
 
-    @OnClick({R.id.rl_add_pic, R.id.iv_add_pic, R.id.release_btn, R.id.add_classify_layout, R.id.choose_cate_layout})
+    @OnClick({R.id.rl_add_pic, R.id.iv_add_pic, R.id.release_btn, R.id.add_classify_layout, R.id.choose_cate_layout, R.id.is_spec_layout, R.id.ll_spec_attr})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_add_pic:
@@ -426,21 +369,36 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                         .setPreviewEnabled(true)
                         .start(mActivity, REQUEST_GOODS_PIC);
                 break;
-            case R.id.release_btn:
-                if (!canRelease()) {
-                    return;
-                }
-                upLoadGoodsPic();
-                break;
             case R.id.add_classify_layout:
                 startActivity(new Intent(mContext, GoodsClassifyActivity.class));
                 break;
             case R.id.choose_cate_layout:
                 getCateListInfo();
                 break;
+            case R.id.release_btn:
+                if (canRelease())
+                    upLoadGoodsPic();
+                break;
+            case R.id.is_spec_layout:
+                Intent intent = new Intent(mContext, AddSpecActivity.class);
+                intent.putExtra("isInventory", openInventorySb.isChecked());//是否启用库存
+                intent.putExtra("isSales", openSalesSb.isChecked());//是否启用多规格
+                intent.putExtra("isShop", userInfo.getGrade_id() != AppConfig.StoreGrade.MARKET);//是否是实体店
+                intent.putExtra("isFoodStreet", userInfo.getGrade_id() == AppConfig.StoreType.FOOD_STREET);//是否是美食街
+                List<SpecInfo> goodsAttr = mGoodInfo.getGoods_attr();
+                if (null != goodsAttr && goodsAttr.size() > 0) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("specList", (Serializable) goodsAttr);
+                    intent.putExtras(bundle);
+                }
+                startActivityForResult(intent, REQUEST_GOODS_ATTR);
+                break;
+            case R.id.ll_spec_attr:
+                ArrayList<GoodsInfo.Nature> goodsNature = mGoodInfo.getNature();
+                SelectSubSpecActivity.actionStart(mActivity, goodsNature);
+                break;
         }
     }
-
 
     //获取分类数据
     private void getCateListInfo() {
@@ -498,17 +456,9 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         UpLoadPicUtils.batchUpload(lstGoodsPic, new UpLoadPicUtils.BatchUpLoadPicListener() {
             @Override
             public void success(List<String> qiNiuPath) {
-                //通用参数
-                mParams.put("photo", TextUtils.join(",", qiNiuPath));//商品图
-                mParams.put("sj_login_token", userInfo.getSj_login_token());//token
-                if (null != goods) {
-                    goods.setPhoto(qiNiuPath.get(0));
-                    goods.setGoods_photo(qiNiuPath);
-                    goods.setProduct_name(goodsNameEdit.getText().toString());
-                }
+                mGoodInfo.setPhoto(qiNiuPath.get(0));
+                mGoodInfo.setGoods_photo(qiNiuPath);
                 if (userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET) {
-                    //菜市场所需参数
-                    mParams.put("product_name", goodsNameEdit.getText().toString());
                     doRelease();
                 } else {
                     uploadGoodsDetailPic();
@@ -531,38 +481,12 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         temp.addAll(lstGoodsIntroducePic);
         temp.remove(0);
         if (temp.size() == 0) {
-            mParams.put("title", goodsNameEdit.getText().toString());//商品名称
-            mParams.put("mall_price", priceEdit.getText().toString());//商城价格
-            mParams.put("details", goodsDescEdit.getText().toString());//商品描述
-            if (null != goods) {
-                if (TextUtils.isEmpty(priceEdit.getText().toString())) {
-                    goods.setMall_price(0);
-                } else {
-                    float aDouble = Float.valueOf(priceEdit.getText().toString()) * 100;
-                    goods.setMall_price((int) aDouble);
-                }
-                goods.setDetails(goodsDescEdit.getText().toString());
-            }
             doRelease();//开始发布
-        } else {
+        } else {//上传商品详情介绍图
             UpLoadPicUtils.batchUpload(temp, new UpLoadPicUtils.BatchUpLoadPicListener() {
                 @Override
                 public void success(List<String> qiNiuPath) {
-                    String strGoodsDetailPics = TextUtils.join(",", qiNiuPath);
-                    mParams.put("title", goodsNameEdit.getText().toString());//商品名称
-                    mParams.put("photos", strGoodsDetailPics);//商品详情图
-                    mParams.put("mall_price", priceEdit.getText().toString());//商城价格
-                    mParams.put("details", goodsDescEdit.getText().toString());//商品描述
-                    if (null != goods) {
-                        goods.setPhotos(qiNiuPath);
-                        if (TextUtils.isEmpty(priceEdit.getText().toString())) {
-                            goods.setMall_price(0);
-                        } else {
-                            float aDouble = Float.valueOf(priceEdit.getText().toString()) * 100;
-                            goods.setMall_price((int) aDouble);
-                        }
-                        goods.setDetails(goodsDescEdit.getText().toString());
-                    }
+                    mGoodInfo.setPhotos(qiNiuPath);
                     doRelease();//开始发布
                 }
 
@@ -576,65 +500,81 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     }
 
     private void doRelease() {
-        if (!openSpecSb.isChecked()) {
-            mParams.remove("goods_attr");
-        }
-        mParams.put("is_attr", openSpecSb.isChecked() ? 1 : 0);
-        addNature();
+        Map<String, Object> mParams = new HashMap<>();
+        mParams.put("sj_login_token", userInfo.getSj_login_token());
+        mParams.put("is_attr", openSpecSb.isChecked() ? 1 : 0);//是否开启多规格
+        mGoodInfo.setIs_attr(openSpecSb.isChecked() ? 1 : 0);
+        mParams.put("nature", addNature());
+
         mParams.put("sales_promotion_is", openSalesSb.isChecked() ? 1 : 0);//是否开启促销
-
-        float sales = TextUtils.isEmpty(salesPriceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(salesPriceEdit.getText().toString().trim()) * 100;//促销价格
-
-        mParams.put("sales_promotion_price", salesPriceEdit.getText().toString());
+        mGoodInfo.setSales_promotion_is(openSalesSb.isChecked() ? 1 : 0);
+        float sales = TextUtils.isEmpty(salesPriceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(salesPriceEdit.getText().toString().trim());//促销价格
+        mParams.put("sales_promotion_price", sales);//促销价格
+        mGoodInfo.setSales_promotion_price(sales * 100);
 
         mParams.put("is_use_num", openInventorySb.isChecked() ? 1 : 0);//是否启用库存
+        mGoodInfo.setIs_use_num(openInventorySb.isChecked() ? 1 : 0);
+        int num = TextUtils.isEmpty(numEdit.getText().toString().trim()) ? 0 : Integer.valueOf(numEdit.getText().toString().trim());//库存数目
+        mParams.put("num", num);//库存数目
+        mGoodInfo.setNum(num);
 
-        int num = TextUtils.isEmpty(numEdit.getText().toString().trim()) ? 0 : Integer.valueOf(numEdit.getText().toString().trim());//库存
-        mParams.put("num", numEdit.getText().toString());
+        String subHead = etPackingFee.getText().toString().trim();//副标题
+        mParams.put("subhead", subHead);
+        mGoodInfo.setSubhead(subHead);
 
-        mParams.put("casing_price", etPackingFee.getText().toString());//包装费
-        float casing = TextUtils.isEmpty(etPackingFee.getText().toString().trim()) ? 0.0f : Float.valueOf(etPackingFee.getText().toString().trim()) * 100;//包装费用
-        float price = TextUtils.isEmpty(sellingPriceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(sellingPriceEdit.getText().toString().trim()) * 100;//包装费用
-        if (goods != null) {
-            goods.setSales_promotion_is(openSalesSb.isChecked() ? 1 : 0);//是否开启促销
-            goods.setSales_promotion_price(sales);
-            goods.setDesc(goodsDescEdit.getText().toString());
-            goods.setPrice(price);//市场价
-            goods.setCasing_price(casing);
-            goods.setIs_use_num(openInventorySb.isChecked() ? 1 : 0);//是否开启库存
-            goods.setNum(num);
-            goods.setIs_attr(openSpecSb.isChecked() ? 1 : 0);//是否开启多规格
-        }
-        if (!openSpecSb.isChecked()) {
-            //启用多规格
-            if (openSalesSb.isChecked()) {
-                if (TextUtils.isEmpty(salesPriceEdit.getText().toString())) {
-                    showShortToast("请输入促销价");
-                    LoadingDialog.cancelDialogForLoading();
-                    return;
-                } else {
-                    if (Double.valueOf(salesPriceEdit.getText().toString()) <= 0) {
-                        showShortToast("促销价格不能小于0");
-                        LoadingDialog.cancelDialogForLoading();
-                        return;
-                    }
-                }
-            }
-        }
-        mParams.put("sj_login_token", userInfo.getSj_login_token());
-        mParams.put("price", sellingPriceEdit.getText().toString());//市场价格
-        mParams.put(userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET ? "product_name" : "title", goodsNameEdit.getText().toString());
+        float price = TextUtils.isEmpty(sellingPriceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(sellingPriceEdit.getText().toString().trim());//包装费用
+        mParams.put("price", price);//市场价格
+        mGoodInfo.setPrice(price * 100);
+
+        String title = goodsNameEdit.getText().toString().trim();//商品名称
+        mParams.put(userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET ? "product_name" : "title", title);
+        mGoodInfo.setProduct_name(title);
+
         if (userInfo.getGrade_id() != AppConfig.StoreGrade.MARKET) {
-            mParams.put("mall_price", priceEdit.getText().toString());//实体店商城价格}
+            float mallPrice = TextUtils.isEmpty(priceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(priceEdit.getText().toString().trim());//实体店商城价格
+            mParams.put("mall_price", mallPrice);
+            mGoodInfo.setMall_price(mallPrice * 100);
         }
-        mParams.put(userInfo.getGrade_id() != AppConfig.StoreGrade.MARKET ? "details" : "desc", goodsDescEdit.getText().toString());//商品描述
+
+        String desc = goodsDescEdit.getText().toString().trim();//商品描述
+        mParams.put(userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET ? "desc" : "details", desc);
+        mGoodInfo.setDesc(desc);
+
+        mParams.put("photo", mGoodInfo.getGoods_photo() == null ? "" : TextUtils.join(",", mGoodInfo.getGoods_photo()));//商品图片(头部)
+        mParams.put("photos", mGoodInfo.getPhotos() == null ? "" : TextUtils.join(",", mGoodInfo.getPhotos()));//商品详情图(底部)
+        mParams.put("goods_attr", JSONArray.toJSON(mGoodInfo.getGoods_attr()));
+
+        mParams.put(userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET ? "cate_id" : "shopcate_id", mGoodInfo.getCate_id());//商品分类
+        mParams.put(userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET ? "product_id" : "goods_id", mGoodInfo.getProduct_id());//产品ID
         new MyHttp().doPost(Api.getDefault().releaseGoods(mParams), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                showShortToast(goods == null ? "商品添加成功！" : "更改成功！");
+                String da = result.getString("data");
+                if (!TextUtils.isEmpty(da)) {
+                    List<SpecInfo> data = JSONArray.parseArray(result.getString("data"), SpecInfo.class);
+                    if (BaseApplication.getInstance().readLoginUser().getGrade_id() == AppConfig.StoreGrade.MARKET) {
+                        mGoodInfo.setPrice(data.get(0).getMin_price());
+                    } else {
+                        mGoodInfo.setMall_price(data.get(0).getMin_price());
+                    }
+                    if (mGoodInfo.getSales_promotion_is() == 1) {
+                        mGoodInfo.setSales_promotion_price(data.get(0).getMin_price());
+                    }
+                    for (SpecInfo info:data) {
+                        info.setPrice(info.getPrice() / 100);
+                        info.setCasing_price(info.getCasing_price() / 100);
+                        info.setSeckill_price(info.getSeckill_price() / 100);
+                        info.setMall_price(info.getMall_price() / 100);
+                        info.setSales_promotion_price(info.getSales_promotion_price() / 100);
+                        info.setShop_member_price(info.getShop_member_price() / 100);
+                        info.setMin_price(info.getMin_price() / 100);
+                    }
+                    mGoodInfo.setGoods_attr(data);
+                }
                 Intent intent = new Intent();
-                intent.putExtra(RESULT_GOODS, goods);
+                intent.putExtra(RESULT_GOODS, mGoodInfo);
                 setResult(RESULT_OK, intent);
+                showShortToast(isRelease ? "商品添加成功！" : "更改成功！");
                 finish();
             }
 
@@ -644,11 +584,15 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         });
     }
 
-    private void addNature() {
-        if (lstSelectNature != null && lstSelectNature.size() > 0) {
+    private String addNature() {
+        if (mGoodInfo.getNature() == null) {
+            return "";
+        }
+        if (mGoodInfo.getNature().size() > 0) {
+            ArrayList<GoodsInfo.Nature> natureList = mGoodInfo.getNature();
             StringBuilder sbSubSpec = new StringBuilder();
             sbSubSpec.append("[");
-            for (GoodsInfo.Nature nature : lstSelectNature) {
+            for (GoodsInfo.Nature nature : natureList) {
                 sbSubSpec.append("{");
                 sbSubSpec.append("\"");
                 sbSubSpec.append(nature.getItem_id());
@@ -666,26 +610,26 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             }
             sbSubSpec.deleteCharAt(sbSubSpec.toString().length() - 1);
             sbSubSpec.append("]");
-            mParams.put("nature", sbSubSpec.toString());
+            return sbSubSpec.toString();
         } else {
-            mParams.put("nature", "");
+            return "";
         }
     }
 
     private boolean canRelease() {
-        if (lstGoodsPic.size() == 0 && null == goods) {
+        if (lstGoodsPic.size() == 0) {
             showShortToast("请添加产品图");
             return false;
         }
         if (TextUtils.isEmpty(goodsNameEdit.getText().toString().trim())) {
-            showShortToast("请输入商品名称");
+            showShortToast("请输入标题");
             return false;
         }
-        if (TextUtils.isEmpty(sellingPriceEdit.getText().toString()) && !openSpecSb.isChecked()) {
+        if (TextUtils.isEmpty(sellingPriceEdit.getText().toString().trim()) && !openSpecSb.isChecked()) {
             showShortToast("请输入商品价格");
             return false;
         }
-        if (TextUtils.isEmpty(goodsCateTv.getText().toString())) {
+        if (TextUtils.isEmpty(goodsCateTv.getText().toString().trim())) {
             showShortToast("请选择商品分类");
             return false;
         }
@@ -695,69 +639,56 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) {
-            return;
-        }
-        if (resultCode == RESULT_OK && requestCode == REQUEST_GOODS_PIC) {
-            if (((View) viewPager.getParent()).getVisibility() != View.VISIBLE) {
-                ((View) viewPager.getParent()).setVisibility(View.VISIBLE);
-                rlAddPic.setVisibility(View.GONE);
-            }
-            ArrayList<String> pics = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-            for (String pic : pics) {
-                if (!lstGoodsPic.contains(pic)) {
-                    lstGoodsPic.add(pic);
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == REQUEST_GOODS_PIC) {//商品图(头部)
+                if (((View) viewPager.getParent()).getVisibility() != View.VISIBLE) {
+                    ((View) viewPager.getParent()).setVisibility(View.VISIBLE);
+                    rlAddPic.setVisibility(View.GONE);
                 }
-            }
-            tvIndexPic.setText(viewPager.getCurrentItem() + 1 + "/" + lstGoodsPic.size());
-            picPagerAdapter.notifyDataSetChanged();
-        } else if (resultCode == RESULT_OK && requestCode == REQUEST_GOODS_INTRODUCE_PIC) {
-            ArrayList<String> stringArrayListExtra = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-            lstGoodsIntroducePic.addAll(stringArrayListExtra);
-            photoSelectNumTv.setText(lstGoodsIntroducePic.size() - 1 + "/" + MAX_INTRODUCE_PIC_NUM);
-            mAdapter.notifyDataSetChanged();
-        } else if (resultCode == RESULT_OK && requestCode == GoodsPictureActivity.REQUEST_CODE_SHOW_AND_CHANGE_PICTURE) {
-            ArrayList<String> lstPhoto = data.getStringArrayListExtra("photos");
-            lstGoodsPic.clear();
-            lstGoodsPic.addAll(lstPhoto);
-            picPagerAdapter.notifyDataSetChanged();
-            viewPager.setCurrentItem(0, true);
-            tvIndexPic.setText(1 + "/" + lstGoodsPic.size());
-            if (lstGoodsPic.size() == 0) {
-                rlAddPic.setVisibility(View.VISIBLE);
-                ((View) viewPager.getParent()).setVisibility(View.GONE);
-            } else {
-                rlAddPic.setVisibility(View.GONE);
-                ((View) viewPager.getParent()).setVisibility(View.VISIBLE);
-            }
-        } else if (resultCode == RESULT_OK && requestCode == SelectSubSpecActivity.REQUEST_SELECT_SUB_SPEC) {
-            ArrayList<GoodsInfo.Nature> nature = (ArrayList<GoodsInfo.Nature>) data.getSerializableExtra("nature");
-            lstSelectNature.clear();
-            if (nature != null && nature.size() > 0) {
-                lstSelectNature.addAll(nature);
-            }
-        } else {
-            //多规格返回
-            specList = (List<SpecInfo>) data.getSerializableExtra("specList");
-            if (null != specList) {
-                mParams.put("goods_attr", JSONArray.toJSON(specList));
-                if (null != goods) {
-                    goods.setGoods_attr(specList);
+                ArrayList<String> pics = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                for (String pic : pics) {
+                    if (!lstGoodsPic.contains(pic)) {
+                        lstGoodsPic.add(pic);
+                    }
                 }
+                tvIndexPic.setText(viewPager.getCurrentItem() + 1 + "/" + lstGoodsPic.size());
+                picPagerAdapter.notifyDataSetChanged();
+            } else if (requestCode == REQUEST_GOODS_INTRODUCE_PIC) {//商品详情图(底部)
+                ArrayList<String> stringArrayListExtra = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                lstGoodsIntroducePic.addAll(stringArrayListExtra);
+                photoSelectNumTv.setText(lstGoodsIntroducePic.size() - 1 + "/" + MAX_INTRODUCE_PIC_NUM);
+                mPhotoAdapter.notifyDataSetChanged();
+            } else if (requestCode == GoodsPictureActivity.REQUEST_CODE_SHOW_AND_CHANGE_PICTURE) {//拍照返回
+                ArrayList<String> lstPhoto = data.getStringArrayListExtra("photos");
+                lstGoodsPic.clear();
+                lstGoodsPic.addAll(lstPhoto);
+                picPagerAdapter.notifyDataSetChanged();
+                viewPager.setCurrentItem(0, true);
+                tvIndexPic.setText(1 + "/" + lstGoodsPic.size());
+                if (lstGoodsPic.size() == 0) {
+                    rlAddPic.setVisibility(View.VISIBLE);
+                    ((View) viewPager.getParent()).setVisibility(View.GONE);
+                } else {
+                    rlAddPic.setVisibility(View.GONE);
+                    ((View) viewPager.getParent()).setVisibility(View.VISIBLE);
+                }
+            } else if (requestCode == SelectSubSpecActivity.REQUEST_SELECT_SUB_SPEC) {//多属性
+                ArrayList<GoodsInfo.Nature> nature = (ArrayList<GoodsInfo.Nature>) data.getSerializableExtra("nature");
+                mGoodInfo.setNature(nature);
+            } else if (requestCode == REQUEST_GOODS_ATTR) {//多规格返回
+                List<SpecInfo> infos = (List<SpecInfo>) data.getSerializableExtra("specList");
+                mGoodInfo.setGoods_attr(infos);
             }
         }
     }
 
+    /**
+     * 添加商品分类回调,更新分类文本
+     */
     @Override
     public void onOptionsSelect(int options1, int options2, int options3, View v) {
-        if (userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET) {
-            mParams.put("cate_id", cateInfoList.get(options1).getCate_id());
-        } else {
-            mParams.put("shopcate_id", cateInfoList.get(options1).getCate_id());
-        }
+        mGoodInfo.setCate_id(cateInfoList.get(options1).getCate_id());
+        mGoodInfo.setCate_name(cateInfoList.get(options1).getCate_name());
         goodsCateTv.setText(cateInfoList.get(options1).getCate_name());
-        if (goods != null) {
-            goods.setCate_name(cateInfoList.get(options1).getCate_name());
-        }
     }
 }

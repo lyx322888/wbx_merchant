@@ -75,10 +75,10 @@ public class GoodsDetailsActivity extends BaseActivity {
                         GlideUtils.showRoundBigPic(mContext, ivGoods, goodsInfo.getData().getPhoto());
                         tvName.setText(goodsInfo.getData().getTitle());
                         tvPs.setText(goodsInfo.getData().getSubhead());
-                        tvPrice.setText("¥" + goodsInfo.getData().getPrice() / 100 + "");
-                        tvOriginal.setText("¥" + goodsInfo.getData().getOriginal_price() / 100 + "");
+                        tvPrice.setText(String.format("¥ %.2f", goodsInfo.getData().getPrice() / 100));
+                        tvOriginal.setText(String.format("¥ %.2f", goodsInfo.getData().getOriginal_price() / 100));
                         tvOriginal.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-                        tvVolume.setText("销量 " + goodsInfo.getData().getSales_volume() + "");
+                        tvVolume.setText("销量 " + goodsInfo.getData().getSales_volume());
                         tvShopNum.setText(goodsInfo.getData().getBuy_shop_num() + "");
                         tvBuy.setOnClickListener(new View.OnClickListener() {
                             @Override

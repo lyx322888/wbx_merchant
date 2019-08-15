@@ -22,7 +22,7 @@ public class GoodsInfo implements Serializable {
     private String photo;
     private List<String> goods_photo;
     private String product_name;
-    private double price;
+    private float price;
     private String cate_name;
     private boolean isSelect;
     private int closed;
@@ -59,7 +59,7 @@ public class GoodsInfo implements Serializable {
     private ArrayList<Nature> nature;
     private String nature_name;
     private String subhead;
-
+    private int special_supply_goods_id;//大于0就是特供
 
     public String getSubhead() {
         return subhead;
@@ -364,11 +364,11 @@ public class GoodsInfo implements Serializable {
         this.product_name = product_name;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -386,6 +386,14 @@ public class GoodsInfo implements Serializable {
 
     public void setCasing_price(float casing_price) {
         this.casing_price = casing_price;
+    }
+
+    public int getSpecial_supply_goods_id() {
+        return special_supply_goods_id;
+    }
+
+    public void setSpecial_supply_goods_id(int special_supply_goods_id) {
+        this.special_supply_goods_id = special_supply_goods_id;
     }
 
     public static class Nature implements Serializable {
@@ -425,6 +433,7 @@ public class GoodsInfo implements Serializable {
         public void setNature_arr(List<Nature_attr> nature_arr) {
             this.nature_arr = nature_arr;
         }
+
     }
 
     public static class Nature_attr implements Serializable {
@@ -464,5 +473,6 @@ public class GoodsInfo implements Serializable {
         public void setNature_name(String nature_name) {
             this.nature_name = nature_name;
         }
+
     }
 }

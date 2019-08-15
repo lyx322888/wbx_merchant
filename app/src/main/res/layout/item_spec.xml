@@ -199,7 +199,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
-                        android:text="包装费"
+                        android:text="损耗"
                         android:textSize="14sp" />
 
                     <EditText
@@ -207,7 +207,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:hint="请输入包装费"
+                        android:hint="请输入损耗"
                         android:inputType="numberDecimal"
                         android:maxLength="10"
                         android:textSize="12sp" />

@@ -142,7 +142,7 @@ public class GoodsManagerActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.publish_goods_btn:
-                startActivityForResult(new Intent(mContext, ReleaseActivity2.class), REQUEST_ADD_GOODS);
+                startActivityForResult(new Intent(mContext, ReleaseActivity.class), REQUEST_ADD_GOODS);
                 break;
             case R.id.batch_manager:
                 if (mFragment.size() < mOrderViewPager.getCurrentItem() + 1) {

@@ -21,7 +21,8 @@ import android.widget.PopupWindow;
 
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.ProductActivity;
-import com.wbx.merchant.activity.ReleaseActivity2;
+import com.wbx.merchant.activity.ReleaseActivity;
+import com.wbx.merchant.activity.SpecialSupplyActivity;
 import com.wbx.merchant.utils.KickBackAnimator;
 
 import jp.wasabeef.glide.transformations.internal.FastBlur;
@@ -135,7 +136,7 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.release_btn:
-                mContext.startActivity(new Intent(mContext, ReleaseActivity2.class));
+                mContext.startActivity(new Intent(mContext, ReleaseActivity.class));
                 dismiss();
                 break;
             case R.id.product_library_btn:
@@ -143,7 +144,7 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
                 dismiss();
                 break;
             case R.id.product:
-                mContext.startActivity(new Intent(mContext, ProductActivity.class));
+                mContext.startActivity(new Intent(mContext, SpecialSupplyActivity.class));
                 dismiss();
                 break;
             default:
