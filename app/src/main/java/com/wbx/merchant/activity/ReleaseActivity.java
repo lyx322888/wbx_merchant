@@ -558,7 +558,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                     if (mGoodInfo.getSales_promotion_is() == 1) {
                         mGoodInfo.setSales_promotion_price(data.get(0).getMin_price());
                     }
-                    for (SpecInfo info:data) {
+                    for (SpecInfo info : data) {
                         info.setPrice(info.getPrice() / 100);
                         info.setCasing_price(info.getCasing_price() / 100);
                         info.setSeckill_price(info.getSeckill_price() / 100);

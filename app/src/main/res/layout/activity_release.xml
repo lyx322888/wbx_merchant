@@ -270,8 +270,6 @@
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:hint="请输入副标题"
-                            android:inputType="numberDecimal"
-                            android:maxLength="10"
                             android:padding="8dp"
                             android:textSize="13sp" />
                     </LinearLayout>
