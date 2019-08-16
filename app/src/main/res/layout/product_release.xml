@@ -43,6 +43,17 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fcf9da"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:text="温馨提示: 特供产品为每日特供区引流产品，\n需联系销售人员调配"
+        android:textColor="#DE6A1C"
+        android:textSize="16sp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/produt_view_release"
         android:layout_width="match_parent"

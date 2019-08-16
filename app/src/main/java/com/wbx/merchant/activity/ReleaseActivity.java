@@ -150,10 +150,8 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             goodsDetailPicsLayout.setVisibility(View.GONE);
         }
         if (userInfo.getGrade_id() == AppConfig.StoreType.FOOD_STREET) {
-            llPackingFee.setVisibility(View.VISIBLE);
             llSpecAttr.setVisibility(View.VISIBLE);
         } else {
-            llPackingFee.setVisibility(View.GONE);
             llSpecAttr.setVisibility(View.GONE);
         }
         lstGoodsIntroducePic.add("");
