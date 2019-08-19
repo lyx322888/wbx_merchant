@@ -84,7 +84,6 @@ public class InventoryAnalyzeActivity extends BaseActivity implements BaseRefres
     @Override
     public void initView() {
         mParams.put("cate_id", 0);
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new InventoryAdapter(goodsInfoList, mContext);
         mRecyclerView.setAdapter(mAdapter);
@@ -143,12 +142,9 @@ public class InventoryAnalyzeActivity extends BaseActivity implements BaseRefres
                         //说明下次已经没有数据了
                         canLoadMore = false;
                     }
-
                 } else if (code == AppConfig.ERROR_STATE.NO_NETWORK || code == AppConfig.ERROR_STATE.SERVICE_ERROR) {
                     mRefreshLayout.showView(ViewStatus.ERROR_STATUS);
                     mRefreshLayout.buttonClickError(InventoryAnalyzeActivity.this, "getServiceData");
-                } else {
-
                 }
                 mRefreshLayout.finishRefresh();
                 mRefreshLayout.finishLoadMore();
@@ -173,26 +169,6 @@ public class InventoryAnalyzeActivity extends BaseActivity implements BaseRefres
                 startActivity(intent);
             }
         });
-
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (TextUtils.isEmpty(charSequence)) {
-                    mParams.put("keyword", "");
-                    mParams.put("page", AppConfig.pageNum);
-                    fillData();
-                    canLoadMore = true;
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -205,8 +181,6 @@ public class InventoryAnalyzeActivity extends BaseActivity implements BaseRefres
                 return false;
             }
         });
-
-
         mRefreshLayout.setRefreshListener(this);
         chooseTypeTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,6 +197,10 @@ public class InventoryAnalyzeActivity extends BaseActivity implements BaseRefres
             @Override
             public void onSuccess(JSONObject result) {
                 cateList = JSONArray.parseArray(result.getString("data"), CateInfo.class);
+                CateInfo cateInfo = new CateInfo();
+                cateInfo.setCate_id(0);
+                cateInfo.setCate_name("全部");
+                cateList.add(0,cateInfo);
                 showTypePop();
             }
 
@@ -237,7 +215,7 @@ public class InventoryAnalyzeActivity extends BaseActivity implements BaseRefres
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.popwin_cate_layout, null);
         popWnd = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popWnd.setWidth(typeLayout.getWidth());
-        RecyclerView cateRecyclerView = (RecyclerView) contentView.findViewById(R.id.cate_recycler_view);
+        RecyclerView cateRecyclerView = contentView.findViewById(R.id.cate_recycler_view);
         cateRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
         ScreenCateAdapter screenCateAdapter = new ScreenCateAdapter(cateList, mContext);
         cateRecyclerView.setAdapter(screenCateAdapter);
