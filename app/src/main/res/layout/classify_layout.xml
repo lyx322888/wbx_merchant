@@ -25,7 +25,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:text="分类名称" />
+                    android:text="分类名称"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/classify_name_tv"
@@ -33,6 +34,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center|start"
+                    android:textColor="@color/black"
                     android:textSize="13sp" />
 
             </LinearLayout>
@@ -51,7 +53,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:text="分类排序" />
+                    android:text="分类排序"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/classify_order_tv"
@@ -59,6 +62,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center|start"
+                    android:textColor="@color/black"
                     android:textSize="13sp" />
 
             </LinearLayout>

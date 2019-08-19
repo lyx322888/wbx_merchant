@@ -7,9 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -195,25 +193,6 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
 
     @Override
     protected void bindEven() {
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (TextUtils.isEmpty(charSequence)) {
-                    mParams.put("keyword", "");
-                    mParams.put("page", AppConfig.pageNum);
-                    getServiceData();
-                    canLoadMore = true;
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -226,7 +205,6 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                 return false;
             }
         });
-
         typeTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -611,6 +589,10 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
             @Override
             public void onSuccess(JSONObject result) {
                 cateList = JSONArray.parseArray(result.getString("data"), CateInfo.class);
+                CateInfo cateInfo = new CateInfo();
+                cateInfo.setCate_id(0);
+                cateInfo.setCate_name("全部");
+                cateList.add(0,cateInfo);
                 showTypePop();
             }
 
