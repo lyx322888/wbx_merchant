@@ -129,6 +129,9 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
             case OrderActivity.POSITION_SENDING:
                 status = 2;
                 break;
+            case OrderActivity.POSITION_SELF:
+                status = 77;
+                break;
             case OrderActivity.POSITION_WAIT_REFUND:
                 if (isVegetableMarket) {
                     status = 3;

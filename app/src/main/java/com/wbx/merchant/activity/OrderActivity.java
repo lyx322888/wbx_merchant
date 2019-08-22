@@ -18,14 +18,15 @@ import butterknife.Bind;
 public class OrderActivity extends BaseActivity {
     public static final int POSITION_WAIT_SEND = 0;//待配送
     public static final int POSITION_SENDING = 1;//配送中
-    public static final int POSITION_WAIT_REFUND = 2;//待退款
-    public static final int POSITION_REFUNDED = 3;//已退款
-    public static final int POSITION_COMPLETED = 4;//已完成
+    public static final int POSITION_SELF= 2;//待自提
+    public static final int POSITION_WAIT_REFUND = 3;//待退款
+    public static final int POSITION_REFUNDED = 4;//已退款
+    public static final int POSITION_COMPLETED = 5;//已完成
     @Bind(R.id.order_lab_layout)
     TabLayout mTabLayout;
     @Bind(R.id.order_view_pager)
     ViewPager mOrderViewPager;
-    private String[] mTitles = new String[]{"待配送", "配送中", "待退款", "已退款", "已完成"};
+    private String[] mTitles = new String[]{"待配送", "配送中", "待自提","待退款", "已退款", "已完成"};
     private OrderFragmentStateAdapter mPagerAdapter;
 
     public static void actionStart(Context context) {

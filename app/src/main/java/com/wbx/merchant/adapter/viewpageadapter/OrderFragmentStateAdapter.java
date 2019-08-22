@@ -38,12 +38,15 @@ public class OrderFragmentStateAdapter extends FragmentStatePagerAdapter {
                 fragment = OrderFragment.newInstance(OrderActivity.POSITION_SENDING);
                 break;
             case 2:
-                fragment = OrderFragment.newInstance(OrderActivity.POSITION_WAIT_REFUND);
+                fragment = OrderFragment.newInstance(OrderActivity.POSITION_SELF);
                 break;
             case 3:
-                fragment = OrderFragment.newInstance(OrderActivity.POSITION_REFUNDED);
+                fragment = OrderFragment.newInstance(OrderActivity.POSITION_WAIT_REFUND);
                 break;
             case 4:
+                fragment = OrderFragment.newInstance(OrderActivity.POSITION_REFUNDED);
+                break;
+            case 5:
                 fragment = OrderFragment.newInstance(OrderActivity.POSITION_COMPLETED);
                 break;
         }

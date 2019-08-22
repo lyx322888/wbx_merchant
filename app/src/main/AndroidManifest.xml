@@ -65,7 +65,6 @@
     <!--Bugly-->
     <uses-permission android:name="android.permission.READ_LOGS" />
 
-
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"

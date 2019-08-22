@@ -32,6 +32,7 @@ public class OrderInfo implements Serializable {
     private int express_price;//配送费（运费）
     private List<FengNiaoOrderTrackBean> fengniao;
     private List<DaDaOrderTrackBean> dada;
+    private int is_afhalen;//是否到店自提
 
     public int getUser_subsidy_money() {
         return user_subsidy_money;
@@ -215,5 +216,13 @@ public class OrderInfo implements Serializable {
 
     public void setDispatching_time(long dispatching_time) {
         this.dispatching_time = dispatching_time;
+    }
+
+    public int getIs_afhalen() {
+        return is_afhalen;
+    }
+
+    public void setIs_afhalen(int is_afhalen) {
+        this.is_afhalen = is_afhalen;
     }
 }

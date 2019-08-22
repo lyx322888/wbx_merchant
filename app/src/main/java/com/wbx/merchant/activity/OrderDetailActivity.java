@@ -107,27 +107,6 @@ public class OrderDetailActivity extends BaseActivity {
     public void fillData() {
         orderDetail = (OrderInfo) getIntent().getSerializableExtra("orderDetail");
         if (null != orderDetail) {
-            OrderAddressInfo addr = orderDetail.getAddr();
-            tvOrderState.setText("订单详情：" + AppConfig.orderStateStr(orderDetail.getStatus()));
-            tvReceiverName.setText("联系人：         " + addr.getXm() + "    " + addr.getTel());
-            tvReceiverAddress.setText("配送地址：     " + addr.getAddr());
-            String str = "立即配送";
-            if (orderDetail.getDispatching_time() != 0) {
-                str = FormatUtil.stampToDate(orderDetail.getDispatching_time() + "");
-            }
-            tvReceiverTime.setText("配送时间：     " + str);
-            tvLogisticsPrice.setText("运费：             " + orderDetail.getLogistics() / 100.00 + "元");
-            tvMoneyCoupon.setText("优惠券：         " + orderDetail.getCoupon_money() / 100.00 + "元");
-            tvFullDiscount.setText("满减：             " + orderDetail.getFull_money_reduce() / 100.00 + "元");
-            tvSubsidyMoney.setText("奖励金：         " + orderDetail.getUser_subsidy_money() / 100.00 + "元");
-            tvCasingPrice.setText("包装费：         " + orderDetail.getCasing_price() / 100.00 + "元");
-            tvShopRedPacket.setText("店铺红包：     " + orderDetail.getRed_packet_money() / 100.00 + "元");
-            tvSum.setText("合计：             " + orderDetail.getNeed_pay() / 100.00 + "元");
-            tvRemark.setText("买家留言：     " + orderDetail.getMessage());
-            tvOrderNo.setText("订单编号：     " + orderDetail.getOrder_id());
-            tvOrderTime.setText("下单时间：     " + FormatUtil.stampToDate(orderDetail.getCreate_time() + ""));
-            list.addAll(orderDetail.getGoods());
-            mAdapter.notifyDataSetChanged();
             switch (orderDetail.getStatus()) {
                 case 1:
                     btnSubmit.setVisibility(View.VISIBLE);
@@ -142,6 +121,36 @@ public class OrderDetailActivity extends BaseActivity {
                     btnSubmit.setText("退款");
                     break;
             }
+            OrderAddressInfo addr = orderDetail.getAddr();
+            tvReceiverName.setText("联系人：" + addr.getXm() + "    " + addr.getTel());
+            if (orderDetail.getIs_afhalen() == 1) {
+                tvReceiverAddress.setVisibility(View.GONE);
+                tvReceiverTime.setText("自提码：" + orderDetail.getOrder_id());
+                tvOrderState.setText("订单详情：" + "待自提");
+                btnSubmit.setVisibility(View.GONE);
+            } else {
+                tvOrderState.setText("订单详情：" + AppConfig.orderStateStr(orderDetail.getStatus()));
+                tvReceiverAddress.setText("配送地址：" + addr.getAddr());
+                tvReceiverAddress.setVisibility(View.VISIBLE);
+                String str = "立即配送";
+                if (orderDetail.getDispatching_time() != 0) {
+                    str = FormatUtil.stampToDate(orderDetail.getDispatching_time() + "");
+                }
+                tvReceiverTime.setText("配送时间：" + str);
+                btnSubmit.setVisibility(View.VISIBLE);
+            }
+            tvLogisticsPrice.setText("运费：             " + orderDetail.getLogistics() / 100.00 + "元");
+            tvMoneyCoupon.setText("优惠券：         " + orderDetail.getCoupon_money() / 100.00 + "元");
+            tvFullDiscount.setText("满减：             " + orderDetail.getFull_money_reduce() / 100.00 + "元");
+            tvSubsidyMoney.setText("奖励金：         " + orderDetail.getUser_subsidy_money() / 100.00 + "元");
+            tvCasingPrice.setText("包装费：         " + orderDetail.getCasing_price() / 100.00 + "元");
+            tvShopRedPacket.setText("店铺红包：     " + orderDetail.getRed_packet_money() / 100.00 + "元");
+            tvSum.setText("合计：            " + orderDetail.getNeed_pay() / 100.00 + "元");
+            tvRemark.setText("买家留言：     " + orderDetail.getMessage());
+            tvOrderNo.setText("订单编号：     " + orderDetail.getOrder_id());
+            tvOrderTime.setText("下单时间：     " + FormatUtil.stampToDate(orderDetail.getCreate_time() + ""));
+            list.addAll(orderDetail.getGoods());
+            mAdapter.notifyDataSetChanged();
         }
     }
 

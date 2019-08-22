@@ -154,29 +154,12 @@ public class StoreManagerActivity extends BaseActivity implements AMapLocationLi
         shopTelEdit.setText(data.getTel());
         shopOpenTime.setText(data.getBusiness_time());
         shopNameEdit.setText(data.getShop_name());
-        if (data.getIs_print_deliver() == 0) {
-            sbAutoSendBySeller.setChecked(false);
+        sbAutoSendBySeller.setChecked(data.getIs_print_deliver() != 0);
+        sbAutoSendByDaDa.setChecked(data.getIs_auto_dada() != 0);
+        if (userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET) {   //菜市场
+            sbAutoPrint.setChecked(data.getIs_ele_print() != 0);
         } else {
-            sbAutoSendBySeller.setChecked(true);
-        }
-        if (data.getIs_auto_dada() == 0) {
-            sbAutoSendByDaDa.setChecked(false);
-        } else {
-            sbAutoSendByDaDa.setChecked(true);
-        }
-        if (userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET) {
-            //菜市场
-            if (data.getIs_ele_print() == 0) {
-                sbAutoPrint.setChecked(false);
-            } else {
-                sbAutoPrint.setChecked(true);
-            }
-        } else {
-            if (data.getIs_goods_print() == 0) {
-                sbAutoPrint.setChecked(false);
-            } else {
-                sbAutoPrint.setChecked(true);
-            }
+            sbAutoPrint.setChecked(data.getIs_goods_print() != 0);
         }
         detailEdit.setText(data.getDetails());
         //必须传的参数

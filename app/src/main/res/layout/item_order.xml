@@ -102,6 +102,14 @@
                 android:textColor="#06C1AE"
                 android:textSize="14sp"
                 tools:text="配送时间：2018年1月1日 00:00" />
+            <TextView
+                android:id="@+id/tv_self_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="#06C1AE"
+                android:textSize="14sp"
+                tools:text="用户自提码：55555" />
         </LinearLayout>
 
         <ImageView
