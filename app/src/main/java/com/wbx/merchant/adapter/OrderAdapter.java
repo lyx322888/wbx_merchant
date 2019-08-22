@@ -46,7 +46,8 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
         if (orderInfo.getDispatching_time() != 0) {
             str = FormatUtil.stampToDate(orderInfo.getDispatching_time() + "");
         }
-
+        TextView tvDispatchTime = holder.getView(R.id.tv_dispatching_time);//配送时间
+        tvDispatchTime.setText("配送时间: " + str);
         TextView tvRefuseOrder = holder.getView(R.id.tv_refuse_order);//拒单
         TextView tvSend = holder.getView(R.id.tv_send);//发货
         TextView tvSendByDaDa = holder.getView(R.id.tv_send_by_dada);//达达发货
@@ -56,11 +57,9 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
         TextView tvRefund = holder.getView(R.id.tv_refund);//退款
         TextView tvCopy = holder.getView(R.id.tv_copy_order);//一键复制
 
-        TextView tvSelfNum = holder.getView(R.id.tv_self_num);//自提码
-        TextView tvCreateOrderTime = holder.getView(R.id.tv_create_order_time);//下单时间
-        TextView tvDispatchTime = holder.getView(R.id.tv_dispatching_time);//配送时间
-        TextView tvReceiverAddress = holder.getView(R.id.tv_receiver_address);//配送地址
+        TextView tvReceiverAddress = holder.getView(R.id.tv_receiver_address);//收货地址
 
+        tvReceiverAddress.setText(orderInfo.getAddr().getAddr());
         tvRefuseOrder.setVisibility(View.GONE);
         tvSend.setVisibility(View.GONE);
         tvSendByDaDa.setVisibility(View.GONE);
@@ -69,7 +68,14 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
         tvCancelSendByDaDa.setVisibility(View.GONE);
         tvPrintOrder.setVisibility(View.GONE);
         tvCopy.setVisibility(View.GONE);
-        switch (orderInfo.getStatus()) {
+        TextView tvSendType = holder.getView(R.id.tv_send_type);
+        if (orderInfo.getStatus() == 1) {//待配送
+            tvSendType.setVisibility(View.GONE);
+        } else {
+            tvSendType.setVisibility(View.VISIBLE);
+            tvSendType.setText(orderInfo.getIs_dada() == 1 ? "[达达配送]" : (orderInfo.getIs_fengniao() == 1 ? "[蜂鸟配送]" : "[商家配送]"));
+        }
+        switch (orderInfo.getOrder_status()) {
             case 1:
                 orderState = "待配送";
                 tvRefuseOrder.setVisibility(View.VISIBLE);
@@ -101,43 +107,36 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
                     tvRefuseRefund.setVisibility(View.VISIBLE);
                     tvRefund.setVisibility(View.VISIBLE);
                 }
+                if (orderInfo.getIs_afhalen() == 1) {
+                    tvDispatchTime.setText("用户自提码: " + orderInfo.getOrder_id());
+                    tvReceiverAddress.setVisibility(View.GONE);
+                    tvSendType.setVisibility(View.GONE);
+                }
                 break;
             case 5:
                 orderState = "已退款";
+                if (orderInfo.getIs_afhalen() == 1) {
+                    tvDispatchTime.setText("用户自提码: " + orderInfo.getOrder_id());
+                    tvReceiverAddress.setVisibility(View.GONE);
+                    tvSendType.setVisibility(View.GONE);
+                }
                 break;
             case 8:
                 orderState = "已完成";
                 tvPrintOrder.setVisibility(View.VISIBLE);
                 break;
+            case 77://待自提:
+                tvDispatchTime.setText("用户自提码: " + orderInfo.getOrder_id());
+                orderState = "待自提";
+                tvSendType.setVisibility(View.GONE);
+                tvReceiverAddress.setVisibility(View.GONE);
+                tvRefuseOrder.setVisibility(View.VISIBLE);
+                break;
         }
         tvOrderState.setText(orderState);
-        TextView tvSendType = holder.getView(R.id.tv_send_type);
-        if (orderInfo.getStatus() == 1) { //待配送
-            tvSendType.setVisibility(View.GONE);
-        } else {
-            tvSendType.setVisibility(View.VISIBLE);
-            tvSendType.setText(orderInfo.getIs_dada() == 1 ? "[达达配送]" : (orderInfo.getIs_fengniao() == 1 ? "[蜂鸟配送]" : "[商家配送]"));
-        }
-        holder.setText(R.id.tv_receiver_name, TextUtils.isEmpty(orderInfo.getAddr().getXm()) ? "" : orderInfo.getAddr().getXm());
+        holder.setText(R.id.tv_receiver_name, TextUtils.isEmpty(orderInfo.getAddr().getXm()) ? "" : orderInfo.getAddr().getXm())
+                .setText(R.id.tv_create_order_time, "下单时间: " + FormatUtil.stampToDate(orderInfo.getCreate_time() + ""));
         holder.setText(R.id.tv_goods_num, "商品(" + orderInfo.getNum() + ")");
-        tvCreateOrderTime.setText("下单时间: " + FormatUtil.stampToDate(orderInfo.getCreate_time() + ""));
-        tvDispatchTime.setText("配送时间: " + str);
-        tvReceiverAddress.setText(orderInfo.getAddr().getAddr());
-        if (orderInfo.getIs_afhalen() == 0) {
-            tvSelfNum.setVisibility(View.GONE);
-            tvDispatchTime.setVisibility(View.VISIBLE);
-            tvReceiverAddress.setVisibility(View.GONE);
-        } else {
-            tvSelfNum.setVisibility(View.VISIBLE);
-            tvSelfNum.setText("用户自提码：" + orderInfo.getOrder_id());
-            tvDispatchTime.setVisibility(View.GONE);
-            tvReceiverAddress.setVisibility(View.GONE);
-            tvOrderState.setText("待自提");
-            tvSendType.setText("");
-            tvSendByDaDa.setVisibility(View.GONE);
-            tvSend.setVisibility(View.GONE);
-            tvCopy.setVisibility(View.GONE);
-        }
         if (orderInfo.getGoods().size() <= 3) {
             holder.getView(R.id.ll_toggle_expand_state).setVisibility(View.GONE);
         } else {

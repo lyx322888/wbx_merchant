@@ -214,6 +214,7 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
                     }
                 }
                 for (OrderInfo orderInfo : dataList) {
+                    orderInfo.setOrder_status((Integer) mParams.get("status"));
                     if (orderInfo.getFengniao() != null && orderInfo.getFengniao().size() > 0) {
                         //将蜂鸟的model中转换成达达
                         List<DaDaOrderTrackBean> lstOrderTrack = new ArrayList<>();

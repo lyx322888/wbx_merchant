@@ -33,6 +33,8 @@ public class OrderInfo implements Serializable {
     private List<FengNiaoOrderTrackBean> fengniao;
     private List<DaDaOrderTrackBean> dada;
     private int is_afhalen;//是否到店自提
+    private int order_status;//请求的页面状态值
+
 
     public int getUser_subsidy_money() {
         return user_subsidy_money;
@@ -220,6 +222,14 @@ public class OrderInfo implements Serializable {
 
     public int getIs_afhalen() {
         return is_afhalen;
+    }
+
+    public int getOrder_status() {
+        return order_status;
+    }
+
+    public void setOrder_status(int order_status) {
+        this.order_status = order_status;
     }
 
     public void setIs_afhalen(int is_afhalen) {

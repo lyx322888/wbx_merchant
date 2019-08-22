@@ -123,22 +123,30 @@ public class OrderDetailActivity extends BaseActivity {
             }
             OrderAddressInfo addr = orderDetail.getAddr();
             tvReceiverName.setText("联系人：" + addr.getXm() + "    " + addr.getTel());
-            if (orderDetail.getIs_afhalen() == 1) {
+            tvOrderState.setText("订单详情：" + AppConfig.orderStateStr(orderDetail.getStatus()));
+            tvReceiverAddress.setText("配送地址：" + addr.getAddr());
+            tvReceiverAddress.setVisibility(View.VISIBLE);
+            String str = "立即配送";
+            if (orderDetail.getDispatching_time() != 0) {
+                str = FormatUtil.stampToDate(orderDetail.getDispatching_time() + "");
+            }
+            tvReceiverTime.setText("配送时间：" + str);
+            btnSubmit.setVisibility(View.VISIBLE);
+
+            if (orderDetail.getOrder_status()==4){
+                if (orderDetail.getIs_afhalen() == 1) {
+                    tvReceiverAddress.setVisibility(View.GONE);
+                    tvReceiverTime.setText("自提码：" + orderDetail.getOrder_id());
+                    tvOrderState.setText("订单详情：" + "已退款");
+                    btnSubmit.setVisibility(View.GONE);
+                }
+            } else if (orderDetail.getOrder_status() == 77) {
                 tvReceiverAddress.setVisibility(View.GONE);
                 tvReceiverTime.setText("自提码：" + orderDetail.getOrder_id());
                 tvOrderState.setText("订单详情：" + "待自提");
                 btnSubmit.setVisibility(View.GONE);
-            } else {
-                tvOrderState.setText("订单详情：" + AppConfig.orderStateStr(orderDetail.getStatus()));
-                tvReceiverAddress.setText("配送地址：" + addr.getAddr());
-                tvReceiverAddress.setVisibility(View.VISIBLE);
-                String str = "立即配送";
-                if (orderDetail.getDispatching_time() != 0) {
-                    str = FormatUtil.stampToDate(orderDetail.getDispatching_time() + "");
-                }
-                tvReceiverTime.setText("配送时间：" + str);
-                btnSubmit.setVisibility(View.VISIBLE);
             }
+
             tvLogisticsPrice.setText("运费：             " + orderDetail.getLogistics() / 100.00 + "元");
             tvMoneyCoupon.setText("优惠券：         " + orderDetail.getCoupon_money() / 100.00 + "元");
             tvFullDiscount.setText("满减：             " + orderDetail.getFull_money_reduce() / 100.00 + "元");
