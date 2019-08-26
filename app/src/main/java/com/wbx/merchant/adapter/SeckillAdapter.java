@@ -23,7 +23,6 @@ import java.util.List;
  */
 
 public class SeckillAdapter extends BaseAdapter<GoodsInfo, Context> {
-    private DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
     public SeckillAdapter(List<GoodsInfo> dataList, Context context) {
         super(dataList, context);
@@ -54,7 +53,7 @@ public class SeckillAdapter extends BaseAdapter<GoodsInfo, Context> {
         } else {
             holder.setText(R.id.state_tv, "进行中");
         }
-        holder.setText(R.id.product_name_tv, goodsInfo.getProduct_name()).setText(R.id.seckill_price_tv, Html.fromHtml("秒杀价:<font color = #ff0000 size=16> " + decimalFormat.format(goodsInfo.getSeckill_price() / 100.00) + "</font>"));
+        holder.setText(R.id.product_name_tv, goodsInfo.getProduct_name()).setText(R.id.seckill_price_tv, Html.fromHtml("秒杀价:<font color = #ff0000 size=16> " + String.format("原价:¥%.2f", goodsInfo.getSeckill_price()) + "</font>"));
         holder.setText(R.id.price_tv, String.format("原价:¥%.2f", goodsInfo.getPrice() / 100.00)).setText(R.id.limitations_tv, String.format("单人限购:%s", goodsInfo.getLimitations_num())).setText(R.id.seckill_num_tv, String.format("活动库存:%s", goodsInfo.getSeckill_num()));
         TextView priceTv = holder.getView(R.id.price_tv);
         priceTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
