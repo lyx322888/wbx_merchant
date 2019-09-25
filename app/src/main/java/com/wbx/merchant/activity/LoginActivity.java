@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -142,9 +143,13 @@ public class LoginActivity extends BaseActivity {
         params.put("version", BaseApplication.getInstance().getVersion());
         params.put("registration_id", JPushInterface.getRegistrationID(this));
         params.put("phone_type", DeviceUtils.getManufacturer() + "/" + DeviceUtils.getModel() + "/" + DeviceUtils.getSDKVersionName());
+        Log.e("dfdf", "onSuccess: "+"请求开始" );
+
+
         new MyHttp().doPost(Api.getDefault().login(params), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
+                Log.e("dfdf", "onSuccess: "+result );
                 userInfo = JSONObject.parseObject(result.getString("data"), UserInfo.class);
                 userInfo.setMobile(accountEdit.getText().toString());
                 BaseApplication.getInstance().saveUserInfo(userInfo);

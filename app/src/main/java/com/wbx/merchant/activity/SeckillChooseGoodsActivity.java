@@ -32,7 +32,7 @@ import butterknife.Bind;
 /**
  * Created by wushenghui on 2017/12/12.
  */
-
+//选择要设置的秒杀商品
 public class SeckillChooseGoodsActivity extends BaseActivity implements BaseRefreshListener {
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -138,6 +138,8 @@ public class SeckillChooseGoodsActivity extends BaseActivity implements BaseRefr
                 GoodsInfo item = mAdapter.getItem(position);
                 item.setSelect(!item.isSelect());
                 if (item.isSelect()) {
+                    //设置成秒杀
+                    item.setIs_seckill(1);
                     selectGoodsList.add(item);
                 } else {
                     selectGoodsList.remove(item);

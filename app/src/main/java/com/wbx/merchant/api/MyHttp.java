@@ -1,6 +1,7 @@
 package com.wbx.merchant.api;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wbx.merchant.activity.LoginActivity;
@@ -28,6 +29,7 @@ public class MyHttp {
     }
 
     public void doPost(Observable<JSONObject> observable, final HttpListener listener) {
+
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<JSONObject>() {

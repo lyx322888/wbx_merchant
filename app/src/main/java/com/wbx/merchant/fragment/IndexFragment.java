@@ -6,17 +6,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import com.hedgehog.ratingbar.RatingBar;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.AccreditationActivity;
 import com.wbx.merchant.activity.ActivityManagerActivity;
@@ -49,6 +54,7 @@ import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.base.BaseFragment;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.baseapp.AppManager;
+import com.wbx.merchant.bean.SalesmanCommentInfo;
 import com.wbx.merchant.bean.ShopInfo;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.dialog.AlertUploadAccreditationDialog;
@@ -65,13 +71,14 @@ import com.wbx.merchant.widget.LoadingDialog;
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.iwf.photopicker.PhotoPreview;
 
 /**
  * Created by wushenghui on 2017/6/20.
+ * 首页
  */
-
 public class IndexFragment extends BaseFragment {
     @Bind(R.id.has_message_tv)
     TextView hasMessageTv;
@@ -103,6 +110,16 @@ public class IndexFragment extends BaseFragment {
     TextView tvNumberOrderNum;
     @Bind(R.id.tv_goods_manager_num)
     TextView tvGoodsManagerNum;
+    @Bind(R.id.civ_xsdl_headimg)
+    CircleImageView civXsdlHeadimg;
+    @Bind(R.id.tv_lxxsdl)
+    TextView tvLxxsdl;
+    @Bind(R.id.rb_score)
+    RatingBar rbScore;
+    @Bind(R.id.tv_wypj)
+    TextView tvWypj;
+    @Bind(R.id.ll_xsdl_pj)
+    LinearLayout llXsdlPj;
     private ShopInfo shopInfo;
     private Dialog dialog;
     private EditText inputEdit;
@@ -186,10 +203,30 @@ public class IndexFragment extends BaseFragment {
             public void onError(int code) {
             }
         });
+//        //获取销售代理信息 评价
+//        new MyHttp().doPost(Api.getDefault().getSalesmanCommentInfo(loginUser.getSj_login_token()), new HttpListener() {
+//            @Override
+//            public void onSuccess(JSONObject result) {
+//                SalesmanCommentInfo info = new Gson().fromJson(result.toString(), SalesmanCommentInfo.class);
+//                //头像
+//
+//
+//            }
+//
+//            @Override
+//            public void onError(int code) {
+//
+//            }
+//        });
     }
 
     //填充数据
     private void setData() {
+        //销售代理头像
+        GlideUtils.showMediumPic(getActivity(), civXsdlHeadimg, shopInfo.getSalesman_headimg());
+        //星评
+        rbScore.setStar(shopInfo.getComment_rank());
+
         tvWaitSendNum.setText(String.valueOf(shopInfo.getNew_order_num()));
         tvWaitRefundNum.setText(String.valueOf(shopInfo.getDtk_order_num()));
         if (shopInfo.getNew_order_num() > 0) {
@@ -349,7 +386,8 @@ public class IndexFragment extends BaseFragment {
                 OrderActivity.actionStart(getContext(), 0);
                 break;
             case R.id.ll_wait_refund:
-                OrderActivity.actionStart(getContext(), 2);
+                //待退款
+                OrderActivity.actionStart(getContext(), 3);
                 break;
             case R.id.rl_send_order:
                 OrderActivity.actionStart(getContext());
@@ -463,6 +501,20 @@ public class IndexFragment extends BaseFragment {
                 openStateTv.setText(state == 0 ? "休息中" : (state == 1 ? "营业中" : "筹备中"));
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     class MyReceiver extends BroadcastReceiver {

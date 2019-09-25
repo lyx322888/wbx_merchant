@@ -55,6 +55,28 @@ public class ShopInfo implements Serializable {
     private int shop_grade;
     private float order_money;
 
+    private int comment_rank;
+
+    public int getComment_rank() {
+        return comment_rank;
+    }
+
+    public void setComment_rank(int comment_rank) {
+        this.comment_rank = comment_rank;
+    }
+
+    public String getSalesman_headimg() {
+        return salesman_headimg;
+    }
+
+    public void setSalesman_headimg(String salesman_headimg) {
+        this.salesman_headimg = salesman_headimg;
+    }
+
+    private String salesman_headimg;
+
+
+
     public int getShop_grade() {
         return shop_grade;
     }

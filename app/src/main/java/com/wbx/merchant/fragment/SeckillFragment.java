@@ -34,7 +34,7 @@ import butterknife.Bind;
 /**
  * Created by wushenghui on 2017/12/12.
  */
-
+//秒杀
 public class SeckillFragment extends BaseFragment implements BaseRefreshListener {
     @Bind(R.id.seckill_recycler_view)
     RecyclerView mRecyclerView;

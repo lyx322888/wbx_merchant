@@ -23,7 +23,7 @@ import butterknife.OnClick;
 /**
  * Created by wushenghui on 2017/12/12.
  */
-
+//添加秒杀
 public class AddSecKillActivity extends BaseActivity {
     @Bind(R.id.seckill_start_time_tv)
     TextView startTimeTv;

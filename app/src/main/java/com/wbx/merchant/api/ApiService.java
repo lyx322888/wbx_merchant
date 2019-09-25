@@ -904,4 +904,12 @@ public interface ApiService {
     @POST("/sjapi/Specialsupplygoods/send_goods")
     Observable<JSONObject> sendSpecial(@Field("sj_login_token") String login_token, @Field("goods_ids") String goodIDs);
 
+
+    //获取评价信息
+    @FormUrlEncoded
+    @POST("/sjapi/user/get_shop_salesman_comment")
+    Observable<JSONObject> getSalesmanCommentInfo(@Field("sj_login_token") String login_token);
+
+
+
 }

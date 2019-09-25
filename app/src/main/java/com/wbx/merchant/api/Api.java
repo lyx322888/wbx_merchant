@@ -2,6 +2,7 @@ package com.wbx.merchant.api;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.wbx.merchant.BuildConfig;
 import com.wbx.merchant.base.BaseApplication;
@@ -121,6 +122,21 @@ public class Api {
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override
                 public void log(String message) {
+                    //输出长日志
+                    if (message.length() > 4000) {
+                        for (int i = 0; i < message.length(); i += 4000) {
+                            //当前截取的长度<总长度则继续截取最大的长度来打印
+                            if (i + 4000 < message.length()) {
+                                Log.i("msg" + i, message.substring(i, i + 4000));
+                            } else {
+                                //当前截取的长度已经超过了总长度，则打印出剩下的全部信息
+                                Log.i("msg" + i, message.substring(i, message.length()));
+                            }
+                        }
+                    } else {
+                        //直接打印
+                        Log.i("msg", message);
+                    }
                     SPUtils.longLog("OkHTTP", message);
                 }
             });

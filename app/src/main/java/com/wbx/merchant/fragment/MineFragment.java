@@ -36,8 +36,6 @@ import cn.jpush.android.api.JPushInterface;
  */
 
 public class MineFragment extends BaseFragment {
-    @Bind(R.id.ll_renewal)
-    LinearLayout llSeat;
 
     @Override
     protected int getLayoutResource() {

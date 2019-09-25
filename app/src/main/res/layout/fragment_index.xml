@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:hedgehog="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -43,6 +44,60 @@
                         android:background="@drawable/ova_bg_red"
                         android:visibility="gone" />
                 </RelativeLayout>
+
+                <!--销售代理评价路口-->
+                <LinearLayout
+                    android:id="@+id/ll_xsdl_pj"
+                    android:layout_marginLeft="14dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.wbx.merchant.widget.CircleImageView
+                        android:id="@+id/civ_xsdl_headimg"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
+                    <LinearLayout
+                        android:layout_marginLeft="1dp"
+                        android:layout_width="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tv_lxxsdl"
+                            android:text="联系销售代理"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textColor="#4BC7B5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <com.hedgehog.ratingbar.RatingBar
+                                android:id="@+id/rb_score"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:focusable="true"
+                                hedgehog:clickable="false"
+                                hedgehog:starCount="5"
+                                hedgehog:starEmpty="@drawable/no_evaluation"
+                                hedgehog:starFill="@drawable/evaluation"
+                                hedgehog:starImageHeight="10dp"
+                                hedgehog:starImagePadding="5dp"
+                                hedgehog:starImageWidth="10dp" />
+                            <TextView
+                                android:id="@+id/tv_wypj"
+                                android:layout_marginLeft="1dp"
+                                android:text="我要评价 >"
+                                android:textColor="#ff4bc7b5"
+                                android:textSize="7sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

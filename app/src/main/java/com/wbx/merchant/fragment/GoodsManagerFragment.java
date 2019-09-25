@@ -50,7 +50,6 @@ import butterknife.Bind;
  * Created by wushenghui on 2017/6/21.
  * 商品管理
  */
-
 public class GoodsManagerFragment extends BaseFragment implements BaseRefreshListener {
     public static final String POSITION = "position";
     @Bind(R.id.refresh_layout)

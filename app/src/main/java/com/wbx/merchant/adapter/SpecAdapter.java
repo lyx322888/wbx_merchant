@@ -53,20 +53,20 @@ public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
         final EditText priceEdit = holder.getView(R.id.price_edit);
         final EditText promotionalPriceEdit = holder.getView(R.id.promotional_price_edit);
         final EditText stockEdit = holder.getView(R.id.stock_edit);
-//        final EditText etPackingFee = holder.getView(R.id.et_packing_fee);
-//        holder.getView(R.id.ll_packing_fee).setVisibility(blnIsFoodStreet ? View.VISIBLE : View.GONE);
+        final EditText etPackingFee = holder.getView(R.id.et_packing_fee);
+        holder.getView(R.id.ll_packing_fee).setVisibility(blnIsFoodStreet ? View.VISIBLE : View.GONE);
         specNameEdit.setTag(position);
         marketPriceEdit.setTag(position);
         priceEdit.setTag(position);
         promotionalPriceEdit.setTag(position);
         stockEdit.setTag(position);
-//        etPackingFee.setTag(position);
+        etPackingFee.setTag(position);
         specNameEdit.setText(specInfoData.getAttr_name());
         marketPriceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getPrice()));
         priceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getMall_price()));
         promotionalPriceEdit.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getSales_promotion_price()));
         stockEdit.setText(specInfoData.getNum() + "");
-//        etPackingFee.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getCasing_price()));
+        etPackingFee.setText(specInfoData.getPrice() == 0 ? "" : String.format("%.2f", specInfoData.getCasing_price()));
         specNameEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -171,28 +171,28 @@ public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
             public void afterTextChanged(Editable editable) {
             }
         });
-//        etPackingFee.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                if (!PriceUtil.isCorrectPrice(etPackingFee, charSequence)) {
-//                    return;
-//                }
-//                int tag = (int) etPackingFee.getTag();
-//                if (TextUtils.isEmpty(charSequence)) {
-//                    mListData.get(tag).setCasing_price(0.0);
-//                } else {
-//                    mListData.get(tag).setCasing_price(Double.valueOf(charSequence.toString().trim()));
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//            }
-//        });
+        etPackingFee.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!PriceUtil.isCorrectPrice(etPackingFee, charSequence)) {
+                    return;
+                }
+                int tag = (int) etPackingFee.getTag();
+                if (TextUtils.isEmpty(charSequence)) {
+                    mListData.get(tag).setCasing_price(0.0);
+                } else {
+                    mListData.get(tag).setCasing_price(Double.valueOf(charSequence.toString().trim()));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
     }
 
     public void setShowing(boolean isInventory, boolean isSales, boolean isShop, boolean isFoodStreet) {

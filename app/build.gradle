@@ -11,6 +11,7 @@ android {
             keyAlias 'wbx365'
             keyPassword 'wbx365888'
             storeFile file('G:/project/keystore/wbxmerchant.jks')
+//            storeFile file(' C:/Users/WBX/Desktop/密钥/wbxmerchant/wbxmerchant.jks')
             storePassword 'wbx365888'
         }
     }
@@ -25,7 +26,7 @@ android {
         versionName rootProject.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters 'armeabi-v7a'
+            abiFilters 'armeabi-v7a','x86'
         }
         manifestPlaceholders = [
                 JPUSH_PKGNAME: applicationId,
@@ -130,6 +131,7 @@ dependencies {
     implementation 'com.amap.api:search:6.1.0'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.42'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
+    implementation 'com.hedgehog.ratingbar:app:1.1.2'
     //权限
     implementation "com.github.hotchemi:permissionsdispatcher:3.3.1"
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.3.1"

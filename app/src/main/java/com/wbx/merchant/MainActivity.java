@@ -85,6 +85,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void fillData() {
+
         new MyHttp().doPost(Api.getDefault().getVersion(), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -105,6 +106,8 @@ public class MainActivity extends BaseActivity {
 //                getNotice();
             }
         });
+
+
     }
 
     private void upDateApp(String jsonStr) {

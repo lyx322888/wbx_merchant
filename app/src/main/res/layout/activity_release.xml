@@ -262,10 +262,44 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="15dp"
+                            android:text="包装费    " />
+
+                        <com.wbx.merchant.widget.PriceEditText
+                            android:id="@+id/et_packing_fee"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:hint="请输入包装费"
+                            android:inputType="numberDecimal"
+                            android:padding="8dp"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        style="@style/lineViewStyle"
+                        android:layout_marginLeft="15dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="15dp"
                             android:text="副标题    " />
 
                         <EditText
-                            android:id="@+id/et_packing_fee"
+                            android:id="@+id/et_sub_title"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"

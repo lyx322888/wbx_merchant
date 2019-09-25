@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -40,7 +41,6 @@ import butterknife.OnClick;
  * Created by wushenghui on 2017/12/12.
  * 发布秒杀
  */
-
 public class ReleaseSecKillActivity extends BaseActivity {
     @Bind(R.id.recycler_view)
     RecyclerView mRecycler;

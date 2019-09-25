@@ -134,7 +134,7 @@ public class PayActivity extends BaseActivity {
         isDaDa = getIntent().getBooleanExtra("isDaDa", false);
         if (!isDaDa) {
             moneyEditText.setVisibility(View.GONE);
-//            gradeId = getIntent().getIntExtra("gradeId", 0);
+            gradeId = getIntent().getIntExtra("gradeId", 0);
             isRenew = getIntent().getBooleanExtra("isRenew", false);
             shopGradeId = getIntent().getIntExtra("shopGradeId", 0);
             needPayTv.setText(String.format("¥%.2f", getIntent().getIntExtra("select_money", 1) / 100.00));
@@ -157,7 +157,7 @@ public class PayActivity extends BaseActivity {
 
     private void getStoreType() {
         LoadingDialog.showDialogForLoading(mActivity, "加载中...", true);
-        new MyHttp().doPost(Api.getDefault().getShopCate(SPUtils.getSharedIntData(mContext, "gradeId")), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().getShopCate(gradeId), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 JSONObject data = result.getJSONObject("data");
@@ -210,7 +210,7 @@ public class PayActivity extends BaseActivity {
 //                    }
                     goPay(Api.getDefault().daDaRecharge(userInfo.getSj_login_token(), payMode, money));
                 } else {
-                    goPay(Api.getDefault().goPay(userInfo.getSj_login_token(), SPUtils.getSharedIntData(mContext, "gradeId"), payMode, isRenew ? AppConfig.PAY_TYPE.RENEW : AppConfig.PAY_TYPE.APPLY, getIntent().getIntExtra("shopGradeId", 0)));
+                    goPay(Api.getDefault().goPay(userInfo.getSj_login_token(), gradeId, payMode, isRenew ? AppConfig.PAY_TYPE.RENEW : AppConfig.PAY_TYPE.APPLY, getIntent().getIntExtra("shopGradeId", 0)));
                 }
 
                 break;

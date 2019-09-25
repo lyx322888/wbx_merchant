@@ -80,7 +80,9 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     @Bind(R.id.ll_packing_fee)
     LinearLayout llPackingFee;
     @Bind(R.id.et_packing_fee)
-    EditText etPackingFee;
+    EditText etPackingFee;//包装费
+    @Bind(R.id.et_sub_title)
+    EditText etSubTitle;//副标题
     @Bind(R.id.rl_add_pic)
     ImageView rlAddPic;
     @Bind(R.id.view_pager)
@@ -190,16 +192,24 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                 numEdit.setText("" + mGoodInfo.getNum());
             }
             sellingPriceEdit.setText(String.format("%.2f", mGoodInfo.getPrice() / 100.00));
-            etPackingFee.setText(mGoodInfo.getSubhead());
+
+            etSubTitle.setText(mGoodInfo.getSubhead());
             goodsDescEdit.setText(mGoodInfo.getDesc());
-            if (userInfo.getGrade_id() != AppConfig.StoreGrade.MARKET) {
-                priceEdit.setText(String.format("%.2f", mGoodInfo.getMall_price() / 100.00));
-                if (null != mGoodInfo.getPhotos()) {
-                    lstGoodsIntroducePic.addAll(mGoodInfo.getPhotos());
-                    photoSelectNumTv.setText(lstGoodsIntroducePic.size() - 1 + "/" + MAX_INTRODUCE_PIC_NUM);
-                    mPhotoAdapter.notifyDataSetChanged();
-                }
+
+        }
+        if (userInfo.getGrade_id() != AppConfig.StoreGrade.MARKET) {
+            priceEdit.setText(String.format("%.2f", mGoodInfo.getMall_price() / 100.00));
+            if (null != mGoodInfo.getPhotos()) {
+                lstGoodsIntroducePic.addAll(mGoodInfo.getPhotos());
+                photoSelectNumTv.setText(lstGoodsIntroducePic.size() - 1 + "/" + MAX_INTRODUCE_PIC_NUM);
+                mPhotoAdapter.notifyDataSetChanged();
             }
+        }
+        if (userInfo.getGrade_id() == AppConfig.StoreType.FOOD_STREET) {//美食街
+            llPackingFee.setVisibility(View.VISIBLE);
+            etPackingFee.setText(String.format("%.2f", mGoodInfo.getCasing_price() / 100.00));
+        }else {
+            llPackingFee.setVisibility(View.GONE);
         }
     }
 
@@ -516,9 +526,15 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         mParams.put("num", num);//库存数目
         mGoodInfo.setNum(num);
 
-        String subHead = etPackingFee.getText().toString().trim();//副标题
+        String subHead = etSubTitle.getText().toString().trim();//副标题
         mParams.put("subhead", subHead);
         mGoodInfo.setSubhead(subHead);
+
+        if (userInfo.getGrade_id() == AppConfig.StoreType.FOOD_STREET) {//美食街
+            float CasingPrice = TextUtils.isEmpty(etPackingFee.getText().toString().trim()) ? 0.0f : Float.valueOf(etPackingFee.getText().toString().trim());//包装费
+            mParams.put("casing_price", CasingPrice);//包装费
+            mGoodInfo.setCasing_price(CasingPrice * 100);
+        }
 
         float price = TextUtils.isEmpty(sellingPriceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(sellingPriceEdit.getText().toString().trim());//包装费用
         mParams.put("price", price);//市场价格
@@ -550,13 +566,15 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                 String da = result.getString("data");
                 if (!TextUtils.isEmpty(da)) {
                     List<SpecInfo> data = JSONArray.parseArray(result.getString("data"), SpecInfo.class);
-                    if (BaseApplication.getInstance().readLoginUser().getGrade_id() == AppConfig.StoreGrade.MARKET) {
-                        mGoodInfo.setPrice(data.get(0).getMin_price());
-                    } else {
-                        mGoodInfo.setMall_price(data.get(0).getMin_price());
-                    }
-                    if (mGoodInfo.getSales_promotion_is() == 1) {
-                        mGoodInfo.setSales_promotion_price(data.get(0).getMin_price());
+                    if (data.get(0).getMin_price() != 0) {
+                        if (BaseApplication.getInstance().readLoginUser().getGrade_id() == AppConfig.StoreGrade.MARKET) {
+                            mGoodInfo.setPrice(data.get(0).getMin_price());
+                        } else {
+                            mGoodInfo.setMall_price(data.get(0).getMin_price());
+                        }
+                        if (mGoodInfo.getSales_promotion_is() == 1) {
+                            mGoodInfo.setSales_promotion_price(data.get(0).getMin_price());
+                        }
                     }
                     for (SpecInfo info : data) {
                         info.setPrice(info.getPrice() / 100);
