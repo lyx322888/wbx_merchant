@@ -908,7 +908,12 @@ public interface ApiService {
     //获取评价信息
     @FormUrlEncoded
     @POST("/sjapi/user/get_shop_salesman_comment")
-    Observable<JSONObject> getSalesmanCommentInfo(@Field("sj_login_token") String login_token);
+    Observable<JSONObject> getSalesmanCommentInfo(@Field("sj_login_token") String login_token,@Field("type") String type);
+
+  //添加评价信息
+    @FormUrlEncoded
+    @POST("/sjapi/user/add_shop_salesman_comment")
+    Observable<JSONObject> addSalesmanComment(@FieldMap Map<String, Object> params);
 
 
 

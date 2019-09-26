@@ -49,4 +49,11 @@
 
     <!--自定义进度条渐变颜色-->
     <color name="progress_color_1">#4BDCD2</color>
+    <!--标题栏颜色-->
+    <color name="title_color">#272727</color>
+    <!--评论选中字体颜色-->
+    <color name="selector_text_color">#F1A333</color>
+    <color name="no_selector_text_color">#3B3B3B</color>
+    <!--et hint  的颜色-->
+    <color name="et_hint_color">#999999</color>
 </resources>

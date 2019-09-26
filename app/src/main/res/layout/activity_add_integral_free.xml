@@ -174,7 +174,7 @@
         android:layout_width="53dp"
         android:layout_height="0dp"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_delete"
+        android:src="@drawable/ic_delete_img"
         app:layout_constraintBottom_toBottomOf="@id/view_4"
         app:layout_constraintLeft_toLeftOf="@id/view_6"
         app:layout_constraintRight_toRightOf="@id/view_4"

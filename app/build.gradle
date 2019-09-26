@@ -26,7 +26,7 @@ android {
         versionName rootProject.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters 'armeabi-v7a','x86'
+            abiFilters 'armeabi-v7a', 'x86'
         }
         manifestPlaceholders = [
                 JPUSH_PKGNAME: applicationId,
@@ -135,6 +135,10 @@ dependencies {
     //权限
     implementation "com.github.hotchemi:permissionsdispatcher:3.3.1"
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.3.1"
-    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
-    implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+    //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+    //图片选择框架
+    implementation 'com.yanzhenjie:album:2.1.3'
 }

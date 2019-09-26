@@ -25,8 +25,11 @@ import com.wbx.merchant.bean.UserInfo;
 import com.wbx.merchant.chat.BaseManager;
 import com.wbx.merchant.utils.APPUtil;
 import com.wbx.merchant.utils.LogUtils;
+import com.wbx.merchant.widget.MediaLoader;
 import com.wbx.merchant.widget.refresh.AppRefreshFoot;
 import com.wbx.merchant.widget.refresh.AppRefreshHead;
+import com.yanzhenjie.album.Album;
+import com.yanzhenjie.album.AlbumConfig;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -107,6 +110,12 @@ public class BaseApplication extends MultiDexApplication {
         initXunFei();
         initRefresh();
         initBugly();
+        initAlbum();
+    }
+    //图片选择框架
+    private void initAlbum() {
+        Album.initialize(AlbumConfig.newBuilder(this)
+                .setAlbumLoader(new MediaLoader()).build());
     }
 
     private void initBugly() {
