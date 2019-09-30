@@ -25,7 +25,6 @@ import butterknife.OnClick;
  * Created by wushenghui on 2017/7/21.
  * 添加多规格
  */
-
 public class AddSpecActivity extends BaseActivity {
     @Bind(R.id.spec_recycler_view)
     RecyclerView mRecyclerView;

@@ -1,12 +1,15 @@
 package com.wbx.merchant.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SalesmanCommentInfo {
+
+
     /**
      * msg : 成功
      * state : 1
-     * data : {"salesman_headimg":"wbx365web.com/attachs/2016/12/21/thumb_585a1b71b4d4b.png","salesman_nickname":"锦绣新天地","salesman_phone":"","comment_rank":0,"comment_text":"","comment_photo":[],"question":[{"id":1,"title":"您觉得业务员态度怎么样","question_answer":-1},{"id":2,"title":"您觉得为什么中国没有超人","question_answer":-1}]}
+     * data : {"salesman_headimg":"","salesman_nickname":"15959375882","salesman_phone":"15959375882","comment_rank":5,"comment_text":"扣我努力","superaddition_comment_text":"","superaddition_comment_photo":["http://imgs.wbx365.com/18206062707busine15694694102","http://imgs.wbx365.com/18206062707busine15694694100","http://imgs.wbx365.com/18206062707busine15694694101"],"update_num":2,"comment_photo":["http://imgs.wbx365.com/18206062707busine15694693970","http://imgs.wbx365.com/18206062707busine15694693971","http://imgs.wbx365.com/18206062707busine15694693972"],"question":[{"id":3,"title":"你感觉微百姓怎么样？","question_answer":1},{"id":4,"title":"你感觉业务员怎么样？","question_answer":0}]}
      */
 
     private String msg;
@@ -39,13 +42,16 @@ public class SalesmanCommentInfo {
 
     public static class DataBean {
         /**
-         * salesman_headimg : wbx365web.com/attachs/2016/12/21/thumb_585a1b71b4d4b.png
-         * salesman_nickname : 锦绣新天地
-         * salesman_phone :
-         * comment_rank : 0
-         * comment_text :
-         * comment_photo : []
-         * question : [{"id":1,"title":"您觉得业务员态度怎么样","question_answer":-1},{"id":2,"title":"您觉得为什么中国没有超人","question_answer":-1}]
+         * salesman_headimg :
+         * salesman_nickname : 15959375882
+         * salesman_phone : 15959375882
+         * comment_rank : 5
+         * comment_text : 扣我努力
+         * superaddition_comment_text :
+         * superaddition_comment_photo : ["http://imgs.wbx365.com/18206062707busine15694694102","http://imgs.wbx365.com/18206062707busine15694694100","http://imgs.wbx365.com/18206062707busine15694694101"]
+         * update_num : 2
+         * comment_photo : ["http://imgs.wbx365.com/18206062707busine15694693970","http://imgs.wbx365.com/18206062707busine15694693971","http://imgs.wbx365.com/18206062707busine15694693972"]
+         * question : [{"id":3,"title":"你感觉微百姓怎么样？","question_answer":1},{"id":4,"title":"你感觉业务员怎么样？","question_answer":0}]
          */
 
         private String salesman_headimg;
@@ -53,7 +59,10 @@ public class SalesmanCommentInfo {
         private String salesman_phone;
         private int comment_rank;
         private String comment_text;
-        private List<String> comment_photo;
+        private String superaddition_comment_text;
+        private int update_num;
+        private ArrayList<String> superaddition_comment_photo;
+        private ArrayList<String> comment_photo;
         private List<QuestionBean> question;
 
         public String getSalesman_headimg() {
@@ -96,11 +105,35 @@ public class SalesmanCommentInfo {
             this.comment_text = comment_text;
         }
 
-        public List<?> getComment_photo() {
+        public String getSuperaddition_comment_text() {
+            return superaddition_comment_text;
+        }
+
+        public void setSuperaddition_comment_text(String superaddition_comment_text) {
+            this.superaddition_comment_text = superaddition_comment_text;
+        }
+
+        public int getUpdate_num() {
+            return update_num;
+        }
+
+        public void setUpdate_num(int update_num) {
+            this.update_num = update_num;
+        }
+
+        public ArrayList<String> getSuperaddition_comment_photo() {
+            return superaddition_comment_photo;
+        }
+
+        public void setSuperaddition_comment_photo(ArrayList<String> superaddition_comment_photo) {
+            this.superaddition_comment_photo = superaddition_comment_photo;
+        }
+
+        public ArrayList<String> getComment_photo() {
             return comment_photo;
         }
 
-        public void setComment_photo(List<String> comment_photo) {
+        public void setComment_photo(ArrayList<String> comment_photo) {
             this.comment_photo = comment_photo;
         }
 
@@ -114,9 +147,9 @@ public class SalesmanCommentInfo {
 
         public static class QuestionBean {
             /**
-             * id : 1
-             * title : 您觉得业务员态度怎么样
-             * question_answer : -1
+             * id : 3
+             * title : 你感觉微百姓怎么样？
+             * question_answer : 1
              */
 
             private int id;

@@ -3,7 +3,9 @@ package com.wbx.merchant.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -26,7 +28,9 @@ import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.GoodsInfo;
 import com.wbx.merchant.bean.OrderAddressInfo;
 import com.wbx.merchant.bean.OrderInfo;
+import com.wbx.merchant.dialog.PromptPopDiolog;
 import com.wbx.merchant.utils.FormatUtil;
+import com.wbx.merchant.utils.SpannableStringUtils;
 import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
 
@@ -34,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 
@@ -41,7 +46,6 @@ import rx.Observable;
  * Created by wushenghui on 2017/6/27.
  * 订单详情
  */
-
 public class OrderDetailActivity extends BaseActivity {
     @Bind(R.id.root_view)
     ConstraintLayout rootView;
@@ -77,7 +81,12 @@ public class OrderDetailActivity extends BaseActivity {
     TextView tvOrderTime;
     @Bind(R.id.btn_submit)
     Button btnSubmit;
-
+    @Bind(R.id.tv_shop_service_money)
+    TextView tvShopSrviceMoney;
+    @Bind(R.id.tv_shop_income)
+    TextView tvShopIncome;
+    @Bind(R.id.iv_service_money_remark)
+    ImageView ivServiceMoneyRemark;
     private OrderInfo orderDetail;
     private OrderDetailAdapter mAdapter;
     private MyHttp myHttp;
@@ -133,7 +142,7 @@ public class OrderDetailActivity extends BaseActivity {
             tvReceiverTime.setText("配送时间：" + str);
             btnSubmit.setVisibility(View.VISIBLE);
 
-            if (orderDetail.getOrder_status()==4){
+            if (orderDetail.getOrder_status() == 4) {
                 if (orderDetail.getIs_afhalen() == 1) {
                     tvReceiverAddress.setVisibility(View.GONE);
                     tvReceiverTime.setText("自提码：" + orderDetail.getOrder_id());
@@ -153,7 +162,11 @@ public class OrderDetailActivity extends BaseActivity {
             tvSubsidyMoney.setText("奖励金：         " + orderDetail.getUser_subsidy_money() / 100.00 + "元");
             tvCasingPrice.setText("包装费：         " + orderDetail.getCasing_price() / 100.00 + "元");
             tvShopRedPacket.setText("店铺红包：     " + orderDetail.getRed_packet_money() / 100.00 + "元");
-            tvSum.setText("合计：            " + orderDetail.getNeed_pay() / 100.00 + "元");
+            tvShopSrviceMoney.setText(SpannableStringUtils.getBuilder("平台服务费： ").append("-" + (orderDetail.getService_money() / 100.00) + "元")
+                    .setForegroundColor(ContextCompat.getColor(this, R.color.app_color)).create());
+            tvSum.setText("订单金额：     " + orderDetail.getNeed_pay() / 100.00 + "元");
+            tvShopIncome.setText(SpannableStringUtils.getBuilder("收入：             ").append((orderDetail.getNeed_pay() - orderDetail.getService_money()) / 100.00 + "元")
+                    .setForegroundColor(ContextCompat.getColor(this, R.color.red)).create());
             tvRemark.setText("买家留言：     " + orderDetail.getMessage());
             tvOrderNo.setText("订单编号：     " + orderDetail.getOrder_id());
             tvOrderTime.setText("下单时间：     " + FormatUtil.stampToDate(orderDetail.getCreate_time() + ""));
@@ -375,20 +388,31 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
 
-    @OnClick(R.id.btn_submit)
-    public void onViewClicked() {
-        if (orderDetail != null) {
-            switch (orderDetail.getStatus()) {
-                case 1://发货
-                    showSendPop();
-                    break;
-                case 2://拒单
-                    refuse();
-                    break;
-                case 3://退款
-                    refund();
-                    break;
-            }
+    @OnClick({R.id.btn_submit,R.id.iv_service_money_remark})
+    public void onViewClicked(View view) {
+        switch (view.getId()){
+            case R.id.btn_submit:
+                if (orderDetail != null) {
+                    switch (orderDetail.getStatus()) {
+                        case 1://发货
+                            showSendPop();
+                            break;
+                        case 2://拒单
+                            refuse();
+                            break;
+                        case 3://退款
+                            refund();
+                            break;
+                    }
+                }
+                break;
+            case R.id.iv_service_money_remark:
+                //服务费详细
+                String content = "微百姓软件系统收取的平台使用服务费,服务费率按商户合约中的%执行";
+                PromptPopDiolog promptPopDiolog = PromptPopDiolog.newInstance(content);
+                promptPopDiolog.show(getFragmentManager(),"");
+                break;
         }
     }
+
 }

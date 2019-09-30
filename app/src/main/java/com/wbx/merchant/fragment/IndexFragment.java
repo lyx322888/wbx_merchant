@@ -461,7 +461,7 @@ public class IndexFragment extends BaseFragment {
                 break;
             case R.id.ll_xsdl_pj:
                 //对销售代理进行评价
-                startActivity(new Intent(getActivity(), SalesmanCommentActivity.class));
+                SalesmanCommentActivity.actionStart(getContext(),"zc");
                 break;
         }
     }

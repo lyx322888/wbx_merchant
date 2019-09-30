@@ -8,14 +8,16 @@ import com.wbx.merchant.bean.SalesmanCommentInfo;
 import com.wbx.merchant.widget.SelectorCommentButton;
 
 import java.util.List;
+
 //评论题目
 public class SalemanCommentTmAdapter extends BaseQuickAdapter<SalesmanCommentInfo.DataBean.QuestionBean, BaseViewHolder> {
+    private boolean enabled = true;//是否可编辑
     public SalemanCommentTmAdapter(int layoutResId, @Nullable List<SalesmanCommentInfo.DataBean.QuestionBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, SalesmanCommentInfo.DataBean.QuestionBean item) {
+    protected void convert(BaseViewHolder helper, final SalesmanCommentInfo.DataBean.QuestionBean item) {
         helper.setText(R.id.tv_comment_title,helper.getAdapterPosition()+1+"."+item.getTitle());
         SelectorCommentButton selectorCommentButton = helper.getView(R.id.scb_comment);
         switch (item.getQuestion_answer()){
@@ -30,5 +32,17 @@ public class SalemanCommentTmAdapter extends BaseQuickAdapter<SalesmanCommentInf
                 selectorCommentButton.setSelection(SelectorCommentButton.CHOICE_ONE);
                 break;
         }
+        selectorCommentButton.setOnselectorListen(new SelectorCommentButton.SelectorListen() {
+            @Override
+            public void onSelector(int answerQuestionType) {
+                item.setQuestion_answer(answerQuestionType);
+            }
+        });
+        selectorCommentButton.setSelectorEnabled(enabled);
+    }
+    //设置是否可编辑状态
+    public void setEnabled(boolean enabled){
+        this.enabled = enabled;
+        notifyDataSetChanged();
     }
 }

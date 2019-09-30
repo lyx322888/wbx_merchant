@@ -3,6 +3,7 @@ package com.wbx.merchant.activity;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -98,6 +99,7 @@ public class ChooseShopTypeActivity extends BaseActivity implements ShopGradeVie
                 gradeName = SPUtils.getString("gradeName", "");
                 needPayPrice = SPUtils.getSharedIntData(mContext, "needPayPrice");
                 gradeId = SPUtils.getSharedIntData(mContext, "gradeId");
+                Log.e("dfdf", "onSuccess: 选择店铺类型 "+gradeId );
                 intent.putExtra("gradeName", gradeName);
                 intent.putExtra("needPayPrice", needPayPrice);
                 intent.putExtra("gradeId", gradeId);

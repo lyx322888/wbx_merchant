@@ -143,14 +143,12 @@ public class LoginActivity extends BaseActivity {
         params.put("version", BaseApplication.getInstance().getVersion());
         params.put("registration_id", JPushInterface.getRegistrationID(this));
         params.put("phone_type", DeviceUtils.getManufacturer() + "/" + DeviceUtils.getModel() + "/" + DeviceUtils.getSDKVersionName());
-        Log.e("dfdf", "onSuccess: "+"请求开始" );
-
 
         new MyHttp().doPost(Api.getDefault().login(params), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                Log.e("dfdf", "onSuccess: "+result );
                 userInfo = JSONObject.parseObject(result.getString("data"), UserInfo.class);
+                Log.e("dfdf", "onSuccess: "+userInfo.getGrade_id());
                 userInfo.setMobile(accountEdit.getText().toString());
                 BaseApplication.getInstance().saveUserInfo(userInfo);
                 //保存登录的手机

@@ -20,6 +20,7 @@ public class OrderInfo implements Serializable {
     private int casing_price;
     private int user_subsidy_money;
     private int red_packet_money;
+    private int service_money;
     private int coupon_money;
     private int full_money_reduce;
     private int order_id;
@@ -35,7 +36,13 @@ public class OrderInfo implements Serializable {
     private int is_afhalen;//是否到店自提
     private int order_status;//请求的页面状态值
 
+    public int getService_money() {
+        return service_money;
+    }
 
+    public void setService_money(int service_money) {
+        this.service_money = service_money;
+    }
     public int getUser_subsidy_money() {
         return user_subsidy_money;
     }

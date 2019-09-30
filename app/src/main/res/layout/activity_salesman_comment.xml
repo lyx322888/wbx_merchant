@@ -118,6 +118,7 @@
                         android:gravity="bottom"
                         android:layout_height="46dp">
                         <ImageView
+                            android:visibility="invisible"
                             android:id="@+id/iv_zjpm"
                             android:src="@drawable/ic_wyzj"
                             android:scaleType="fitCenter"
@@ -158,7 +159,9 @@
                     android:textColor="#ffeb5a3f"
                     android:layout_gravity="center_horizontal"
                     android:textSize="10sp" />
+
                 <LinearLayout
+                    android:id="@+id/ll_comment"
                     android:layout_marginTop="14dp"
                     android:layout_marginLeft="10dp"
                     android:orientation="vertical"
@@ -175,6 +178,7 @@
                         android:background="@null"
                         android:lineSpacingExtra="5dp"
                         android:minHeight="80dp"
+                        android:textColor="@color/no_selector_text_color"
                         android:gravity="start"
                         android:maxLength="150"
                         android:textColorHint="@color/et_hint_color"
@@ -202,6 +206,7 @@
                 <LinearLayout
                     android:visibility="gone"
                     android:id="@+id/ll_zj_comment"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -231,6 +236,7 @@
                             android:lineSpacingExtra="5dp"
                             android:minHeight="80dp"
                             android:gravity="start"
+                            android:textColor="@color/no_selector_text_color"
                             android:maxLength="150"
                             android:textColorHint="@color/et_hint_color"
                             android:textSize="14sp"

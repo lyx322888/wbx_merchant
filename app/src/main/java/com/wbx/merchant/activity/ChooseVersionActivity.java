@@ -28,7 +28,6 @@ import butterknife.Bind;
  * Created by wushenghui on 2017/12/4.
  * 选择店铺版本  旗舰版/通用版
  */
-
 public class ChooseVersionActivity extends BaseActivity {
     @Bind(R.id.version_rv)
     RecyclerView mRecyclerView;
@@ -112,6 +111,7 @@ public class ChooseVersionActivity extends BaseActivity {
 //                ElectronicContractActivity.actionStart(mContext, shopEnterParameter);
                 Intent intent=new Intent(mContext,PayActivity.class);
                 intent.putExtra("select_money",selectShopVersion.getMoney());
+                intent.putExtra("gradeId",gradeId);//等级id
                 intent.putExtra("shopGradeId",shopEnterParameter.getShopGradeId());
                 startActivity(intent);
             }

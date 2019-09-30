@@ -39,6 +39,7 @@
     <color name="darkgrcy">#F0EFEF</color><!--暗灰色 -->
 
     <color name="deepskyblue">#00BFFF</color><!--深天蓝色 -->
+    <color name="blue">#2196F3</color><!--深天蓝色 -->
 
     <color name="black">#000000</color><!--黑色 -->
     <color name="divider">#cdcdcd</color><!--分割线 -->

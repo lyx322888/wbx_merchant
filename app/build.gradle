@@ -141,4 +141,5 @@ dependencies {
     //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
     //图片选择框架
     implementation 'com.yanzhenjie:album:2.1.3'
+
 }

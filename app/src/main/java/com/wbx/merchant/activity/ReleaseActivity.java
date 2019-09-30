@@ -211,6 +211,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         }else {
             llPackingFee.setVisibility(View.GONE);
         }
+
     }
 
     @Override
@@ -527,7 +528,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         mGoodInfo.setNum(num);
 
         String subHead = etSubTitle.getText().toString().trim();//副标题
-        mParams.put("subhead", subHead);
+        mParams.put("subhead", subHead);//副标题
         mGoodInfo.setSubhead(subHead);
 
         if (userInfo.getGrade_id() == AppConfig.StoreType.FOOD_STREET) {//美食街
@@ -543,7 +544,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         String title = goodsNameEdit.getText().toString().trim();//商品名称
         mParams.put(userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET ? "product_name" : "title", title);
         mGoodInfo.setProduct_name(title);
-
+        //如果不属于美食街
         if (userInfo.getGrade_id() != AppConfig.StoreGrade.MARKET) {
             float mallPrice = TextUtils.isEmpty(priceEdit.getText().toString().trim()) ? 0.0f : Float.valueOf(priceEdit.getText().toString().trim());//实体店商城价格
             mParams.put("mall_price", mallPrice);
@@ -586,6 +587,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                         info.setMin_price(info.getMin_price() / 100);
                     }
                     mGoodInfo.setGoods_attr(data);
+
                 }
                 Intent intent = new Intent();
                 intent.putExtra(RESULT_GOODS, mGoodInfo);

@@ -112,5 +112,12 @@ public class SelectorCommentButton extends LinearLayout {
 
     public interface SelectorListen {
         public void onSelector(@SelectorTYPE int answerQuestionType);
+
+    }
+
+    //设置不可选状态
+    public void setSelectorEnabled(boolean enabled){
+        selectorOne.setEnabled(enabled);
+        selectorTow.setEnabled(enabled);
     }
 }
