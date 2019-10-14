@@ -11,8 +11,8 @@ import rx.schedulers.Schedulers;
 
 public class OpenRadarModelImp implements OpenRadarModel {
     @Override
-    public void getOpenRadar(String login_token, final OnNetListener onNetListener) {
-        RetrofitUtils.getInstance().server().getRadar(login_token)
+    public void getOpenRadar(String login_token,int page,int num, final OnNetListener onNetListener) {
+        RetrofitUtils.getInstance().server().getRadar(login_token,page,num)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<OpenRadarBean>() {
@@ -34,4 +34,6 @@ public class OpenRadarModelImp implements OpenRadarModel {
                     }
                 });
     }
+
+
 }

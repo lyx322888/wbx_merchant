@@ -41,6 +41,8 @@ public class InventoryAdapter extends BaseAdapter<GoodsInfo, Context> {
             holder.setText(R.id.other_tv, String.format("已售 : %d    耗损 : %d    库存 : %d", goodsInfo.getSold_num(), goodsInfo.getLoss(), goodsInfo.getNum()));
             view1.setVisibility(View.GONE);
         }
+
+
         if (goodsInfo.getIs_attr() == 1) {
             boolean isEnough = false;
             for (SpecInfo specInfo : goodsInfo.getGoods_attr()) {

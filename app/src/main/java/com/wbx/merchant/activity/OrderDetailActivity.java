@@ -408,7 +408,7 @@ public class OrderDetailActivity extends BaseActivity {
                 break;
             case R.id.iv_service_money_remark:
                 //服务费详细
-                String content = "微百姓软件系统收取的平台使用服务费,服务费率按商户合约中的%执行";
+                String content = orderDetail.getCommision_text();
                 PromptPopDiolog promptPopDiolog = PromptPopDiolog.newInstance(content);
                 promptPopDiolog.show(getFragmentManager(),"");
                 break;

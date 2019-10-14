@@ -1,5 +1,6 @@
 package com.wbx.merchant;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;

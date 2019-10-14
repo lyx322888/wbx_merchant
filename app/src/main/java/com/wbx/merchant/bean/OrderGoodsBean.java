@@ -13,6 +13,7 @@ public class OrderGoodsBean {
      * express_company :
      * goods : [{"order_num":1,"price":1,"total_price":1,"original_price":258000,"photo":"http://xm32.cn/attachs/2019/06/04/5cf5cf2909041.png","title":"海报"}]
      * all_order_num : 1
+     * commision_text
      */
 
     private int order_id;

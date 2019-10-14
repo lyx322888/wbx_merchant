@@ -53,10 +53,17 @@ public class ShopInfo implements Serializable {
     private int later_subscribe_order_num;
     private int unfinished_scan_order_num;
     private int shop_grade;
+    private int is_view_withdraw_commission;
     private float order_money;
-
     private int comment_rank;
 
+    public int getIs_view_withdraw_commission() {
+        return is_view_withdraw_commission;
+    }
+
+    public void setIs_view_withdraw_commission(int is_view_withdraw_commission) {
+        this.is_view_withdraw_commission = is_view_withdraw_commission;
+    }
     public int getComment_rank() {
         return comment_rank;
     }

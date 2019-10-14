@@ -34,6 +34,7 @@ import com.wbx.merchant.utils.RetrofitUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.view.OpenRadarView;
 import com.wbx.merchant.widget.LoadingDialog;
+import com.wbx.merchant.widget.refresh.BaseRefreshListener;
 import com.wbx.merchant.widget.refresh.PullToRefreshLayout;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ import rx.schedulers.Schedulers;
  * 客户管理
  */
 
-public class CustomerManagerActivity extends BaseActivity implements OpenRadarView {
+public class CustomerManagerActivity extends BaseActivity {
     @Bind(R.id.order_lab_layout)
     TabLayout mTabLayout;
     @Bind(R.id.order_view_pager)
@@ -64,6 +65,8 @@ public class CustomerManagerActivity extends BaseActivity implements OpenRadarVi
     private Dialog mLoadingDialog;
     private List<OpenRadarBean.DataBean> list = new ArrayList<>();
     private OpenRadarAdapter openRadarAdapter;
+    private int page = 1;//雷达分页
+
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, CustomerManagerActivity.class);
         context.startActivity(intent);
@@ -97,6 +100,8 @@ public class CustomerManagerActivity extends BaseActivity implements OpenRadarVi
     }
 
     public void radar(View view) {
+        //雷达分页数
+
 //        showLoadingDialog("正在扫描用户...");
         changeWindowAlfa(0.7f);
         view = View.inflate(this, R.layout.layout_radar, null);
@@ -116,12 +121,39 @@ public class CustomerManagerActivity extends BaseActivity implements OpenRadarVi
         });
         mRecyclerView = view.findViewById(R.id.recycler_radar);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        OpenRadarPresenterImp openRadarPresenterImp = new OpenRadarPresenterImp(this);
-        openRadarPresenterImp.getOpenRadar(LoginUtil.getLoginToken());
+        final PullToRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
+
+        final OpenRadarPresenterImp openRadarPresenterImp = new OpenRadarPresenterImp(new OpenRadarView() {
+            @Override
+            public void getOpenRadar(OpenRadarBean openRadarBean) {
+                list.addAll(openRadarBean.getData());
+                openRadarAdapter.notifyDataSetChanged();
+                refreshLayout.finishLoadMore();
+                refreshLayout.finishRefresh();
+            }
+        });
+        openRadarPresenterImp.getOpenRadar(LoginUtil.getLoginToken(), page,10);
 
         p.setFocusable(true);
         p.setOutsideTouchable(true);
 
+        openRadarAdapter = new OpenRadarAdapter(mContext, list);
+        mRecyclerView.setAdapter(openRadarAdapter);
+        //刷新
+        refreshLayout.setRefreshListener(new BaseRefreshListener() {
+            @Override
+            public void refresh() {
+                page = 1;
+                list.clear();
+                openRadarPresenterImp.getOpenRadar(LoginUtil.getLoginToken(), page,10);
+            }
+
+            @Override
+            public void loadMore() {
+                page += 1;
+                openRadarPresenterImp.getOpenRadar(LoginUtil.getLoginToken(), page,10);
+            }
+        });
 
 //        all_bind=view.findViewById(R.id.all_bind);
 
@@ -134,13 +166,6 @@ public class CustomerManagerActivity extends BaseActivity implements OpenRadarVi
     }
 
 
-    @Override
-    public void getOpenRadar(final OpenRadarBean openRadarBean) {
-        openRadarAdapter = new OpenRadarAdapter(mContext, openRadarBean.getData());
-        mRecyclerView.setAdapter(openRadarAdapter);
-        list.addAll(openRadarBean.getData());
-        openRadarAdapter.notifyDataSetChanged();
-    }
 
     public void all_bind(View view) {
         RetrofitUtils.getInstance().server().getBindAllUser(LoginUtil.getLoginToken())
@@ -169,6 +194,5 @@ public class CustomerManagerActivity extends BaseActivity implements OpenRadarVi
                     }
                 });
     }
-
 
 }

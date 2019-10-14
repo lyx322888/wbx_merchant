@@ -25,6 +25,7 @@ public class OrderInfo implements Serializable {
     private int full_money_reduce;
     private int order_id;
     private int status;
+    private String commision_text;
     private String message;
     private int is_fengniao;//!=0 代表提交到蜂鸟
     private int is_dada;//!=0 代表提交到达达
@@ -50,7 +51,13 @@ public class OrderInfo implements Serializable {
     public void setUser_subsidy_money(int user_subsidy_money) {
         this.user_subsidy_money = user_subsidy_money;
     }
+    public String getCommision_text() {
+        return commision_text;
+    }
 
+    public void setCommision_text(String commision_text) {
+        this.commision_text = commision_text;
+    }
     public int getIs_fengniao() {
         return is_fengniao;
     }

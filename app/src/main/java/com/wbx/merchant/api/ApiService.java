@@ -915,6 +915,9 @@ public interface ApiService {
     @POST("/sjapi/user/add_shop_salesman_comment")
     Observable<JSONObject> addSalesmanComment(@FieldMap Map<String, Object> params);
 
-
+    //满金额免配送费
+    @FormUrlEncoded
+    @POST("/sjapi/user/get_full_minus_shipping_fee")
+    Observable<JSONObject> getShippingFeeInfo(@Field("sj_login_token") String login_token);
 
 }

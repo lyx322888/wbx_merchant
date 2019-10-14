@@ -10,7 +10,10 @@ import com.wbx.merchant.bean.OpenRadarBean;
 import com.wbx.merchant.bean.OrderBean;
 import com.wbx.merchant.bean.ProprietaryGoodsBean;
 
+import java.util.Map;
+
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import rx.Observable;
@@ -28,7 +31,7 @@ public interface ApiServices {
     //扫描雷达
     @FormUrlEncoded
     @POST("/sjapi/user/open_radar")
-    Observable<OpenRadarBean> getRadar(@Field("sj_login_token") String login_token);
+    Observable<OpenRadarBean> getRadar(@Field("sj_login_token") String login_token,@Field("page") int page,@Field("num") int num);
 
     //绑定用户
     @FormUrlEncoded

@@ -153,6 +153,8 @@ public class LoginActivity extends BaseActivity {
                 BaseApplication.getInstance().saveUserInfo(userInfo);
                 //保存登录的手机
                 SPUtils.setSharedStringData(mContext, AppConfig.LOGIN_MOBILE, accountEdit.getText().toString());
+                //保存首页奖励活动是否显示判断  is_view_withdraw_commission 1显示  0不显示
+                SPUtils.setSharedIntData(mContext, AppConfig.IS_VIEW_WITHDRAW_COMMISSION, userInfo.getIs_view_withdraw_commission());
                 nextStep();
             }
 

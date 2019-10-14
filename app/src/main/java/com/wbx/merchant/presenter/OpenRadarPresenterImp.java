@@ -16,14 +16,11 @@ public class OpenRadarPresenterImp implements OpenRadarPresenter {
     }
 
     @Override
-    public void getOpenRadar(String login_token) {
-        openRadarModelImp.getOpenRadar(login_token, new OnNetListener() {
+    public void getOpenRadar(String login_token,int page,int num) {
+        openRadarModelImp.getOpenRadar(login_token,page,num, new OnNetListener() {
             @Override
             public void onSuccess(Object o) {
-
                 openRadarView.getOpenRadar((OpenRadarBean) o);
-
-
             }
         });
     }

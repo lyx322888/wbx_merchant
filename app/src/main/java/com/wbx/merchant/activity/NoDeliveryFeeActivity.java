@@ -8,13 +8,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import com.wbx.merchant.R;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.bean.DeliveryFeeInfo;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.utils.ToastUitl;
+import com.wbx.merchant.widget.LoadingDialog;
+
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -79,6 +83,30 @@ public class NoDeliveryFeeActivity extends BaseActivity {
 
     @Override
     public void fillData() {
+        LoadingDialog.showDialogForLoading(this);
+        new MyHttp().doPost(Api.getDefault().getShippingFeeInfo(LoginUtil.getLoginToken()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                DeliveryFeeInfo info = new Gson().fromJson(result.toString(),DeliveryFeeInfo.class);
+                moneyEdit.setText(String.valueOf(info.getData().getFull_minus_shipping_fee()/100.00));
+                if (info.getData().getIs_full_minus_shipping_fee()==1){
+                    flag = 1;
+                    moneyEdit.setEnabled(false);
+                    setDrawable(tvOpen, R.drawable.ic_round);
+                    setDrawable(tvClose, R.drawable.ic_ok);
+                }else {
+                    flag = 0;
+                    moneyEdit.setEnabled(true);
+                    setDrawable(tvOpen, R.drawable.ic_ok);
+                    setDrawable(tvClose, R.drawable.ic_round);
+                }
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
     }
 
     @Override
@@ -93,6 +121,7 @@ public class NoDeliveryFeeActivity extends BaseActivity {
             @Override
             public void onSuccess(JSONObject result) {
                 ToastUitl.showShort(result.getString("msg"));
+                finish();
             }
 
             @Override

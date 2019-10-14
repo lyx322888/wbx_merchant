@@ -42,6 +42,16 @@ public class UserInfo implements Serializable {
     private int is_new_shop;
     private int scan_order_type;
 
+    public int getIs_view_withdraw_commission() {
+        return is_view_withdraw_commission;
+    }
+
+    public void setIs_view_withdraw_commission(int is_view_withdraw_commission) {
+        this.is_view_withdraw_commission = is_view_withdraw_commission;
+    }
+
+    private int is_view_withdraw_commission;
+
     public int getScan_order_type() {
         return scan_order_type;
     }

@@ -144,7 +144,6 @@ public class IndexFragment extends BaseFragment {
         IntentFilter filter = new IntentFilter(AppConfig.REFRESH_UI);
         myReceiver = new MyReceiver();
         getActivity().registerReceiver(myReceiver, filter);
-        Log.e("TAG", LoginUtil.getLoginToken());
     }
 
 
@@ -291,7 +290,8 @@ public class IndexFragment extends BaseFragment {
         if (shopInfo.getIs_dispatching_money_activity() == 0) {
             DaDaCouponDialog.newInstance().show(getFragmentManager(), "");
         }
-        if (shopInfo.getShop_grade() == 6) {
+        //奖励活动  is_view_withdraw_commission 1显示  0不显示
+        if (shopInfo.getShop_grade() == 6&&SPUtils.getSharedIntData(getContext(),"is_view_withdraw_commission")==1) {
             Boolean flag = SPUtils.getSharedBooleanData(getContext(), "flag");
             if (Awardflag == flag) {
                 ll_award.setVisibility(View.VISIBLE);
