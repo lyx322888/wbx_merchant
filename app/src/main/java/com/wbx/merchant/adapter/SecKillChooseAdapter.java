@@ -44,7 +44,13 @@ public class SecKillChooseAdapter extends BaseAdapter<GoodsInfo, Context> {
         ImageView picIm = holder.getView(R.id.goods_pic_im);
         GlideUtils.showRoundMediumPic(mContext, picIm, goodsInfo.getPhoto());
         holder.setText(R.id.goods_name_tv, goodsInfo.getProduct_name())
-                .setText(R.id.selling_price_tv, goodsInfo.getMall_price() == 0 ? String.format("¥%.2f", goodsInfo.getPrice() / 100.00) : String.format("¥%.2f", goodsInfo.getMall_price() / 100.00))
-                .setText(R.id.goods_info_tv, String.format("总销量:%d        库存:%d", goodsInfo.getSold_num(), goodsInfo.getNum()));
+                .setText(R.id.selling_price_tv, goodsInfo.getMall_price() == 0 ? String.format("%s", goodsInfo.getPrice() / 100.00) : String.format("%s", goodsInfo.getMall_price() / 100.00));
+        //如果没设置库存就不显示库存
+        if (goodsInfo.getIs_use_num() == 1) {
+            holder.setText(R.id.goods_info_tv, String.format("总销量:%d        库存:%d", goodsInfo.getSold_num(), goodsInfo.getNum()));
+        }else {
+            holder.setText(R.id.goods_info_tv, String.format("总销量:%d", goodsInfo.getSold_num()));
+        }
+
     }
 }

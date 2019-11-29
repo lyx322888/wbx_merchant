@@ -920,4 +920,28 @@ public interface ApiService {
     @POST("/sjapi/user/get_full_minus_shipping_fee")
     Observable<JSONObject> getShippingFeeInfo(@Field("sj_login_token") String login_token);
 
+    //三公里内的社区
+    @FormUrlEncoded
+    @POST("/sjapi/apply/list_city_community")
+    Observable<JSONObject> getcitycommunity(@FieldMap Map<String,Object> params);
+
+    //商家推荐列表
+    @FormUrlEncoded
+    @POST("/sjapi/recommendgoods/list_goods")
+    Observable<JSONObject> getRecommend_goods(@FieldMap Map<String,Object> params);
+
+    //推荐商家商品
+    @FormUrlEncoded
+    @POST("/sjapi/recommendgoods/update_is_recommend")
+    Observable<JSONObject> getUpdateRecommned(@FieldMap Map<String,Object> params);
+
+    //删除推荐商家商品
+    @FormUrlEncoded
+    @POST("/sjapi/recommendgoods/delete_is_recommend")
+    Observable<JSONObject> getDeleteRecommned(@FieldMap Map<String,Object> params);
+
+    //订单角标
+    @FormUrlEncoded
+    @POST("/sjapi/shoporder/count_order")
+    Observable<JSONObject> getCountOrder(@FieldMap Map<String,Object> params);
 }

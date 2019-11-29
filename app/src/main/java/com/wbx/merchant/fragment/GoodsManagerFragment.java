@@ -146,29 +146,24 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                         goodsInfo.setProduct_name(goodsInfo.getTitle());
                         goodsInfo.setDesc(goodsInfo.getIntro());
                         goodsInfo.setCate_id(goodsInfo.getShopcate_id());
-                        List<SpecInfo> goods_attr = goodsInfo.getGoods_attr();
-                        // TODO: 2019/9/30
-                        if (goods_attr != null && goods_attr.size() > 0) {
-//                            for (SpecInfo info : goods_attr) {
-//                                info.setPrice(info.getPrice() / 100);
-//                                info.setCasing_price(info.getCasing_price() / 100);
-//                                info.setSeckill_price(info.getSeckill_price() / 100);
-//                                info.setMall_price(info.getMall_price() / 100);
-//                                info.setSales_promotion_price(info.getSales_promotion_price() / 100);
-//                                info.setShop_member_price(info.getShop_member_price() / 100);
-//                                info.setMin_price(info.getMin_price() / 100);
-//                            }
-                            for (int i = 0; i < goods_attr.size(); i++) {
-                                goods_attr.get(i).setPrice( goods_attr.get(i).getPrice()/100);
-                                goods_attr.get(i).setCasing_price( goods_attr.get(i).getCasing_price()/100);
-                                goods_attr.get(i).setSeckill_price( goods_attr.get(i).getSeckill_price()/100);
-                                goods_attr.get(i).setMall_price( goods_attr.get(i).getMall_price()/100);
-                                goods_attr.get(i).setSales_promotion_price( goods_attr.get(i).getShop_member_price()/100);
-                                goods_attr.get(i).setMin_price( goods_attr.get(i).getMin_price()/100);
-                            }
+
+                    }
+                }
+                // TODO: 2019/9/30
+                for (GoodsInfo goodsInfo : dataList) {
+                    List<SpecInfo> goods_attr = goodsInfo.getGoods_attr();
+                    if (goods_attr != null && goods_attr.size() > 0) {
+                        for (int i = 0; i < goods_attr.size(); i++) {
+                            goods_attr.get(i).setPrice( goods_attr.get(i).getPrice()/100);
+                            goods_attr.get(i).setCasing_price( goods_attr.get(i).getCasing_price()/100);
+                            goods_attr.get(i).setSeckill_price( goods_attr.get(i).getSeckill_price()/100);
+                            goods_attr.get(i).setMall_price( goods_attr.get(i).getMall_price()/100);
+                            goods_attr.get(i).setSales_promotion_price( goods_attr.get(i).getShop_member_price()/100);
+                            goods_attr.get(i).setMin_price( goods_attr.get(i).getMin_price()/100);
                         }
                     }
                 }
+
                 goodsInfoList.addAll(dataList);
                 mAdapter.notifyDataSetChanged();
             }

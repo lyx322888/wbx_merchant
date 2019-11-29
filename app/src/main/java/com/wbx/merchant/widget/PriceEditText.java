@@ -63,7 +63,6 @@ public class PriceEditText extends AppCompatEditText {
                     if (!s.toString().substring(1, 2).equals(".")) {
                         s = s.toString().substring(1);
                         setText(s);
-                        setSelection(s.length());
                         return;
                     }
                 }

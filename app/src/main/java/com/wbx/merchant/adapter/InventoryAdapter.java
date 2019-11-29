@@ -35,7 +35,7 @@ public class InventoryAdapter extends BaseAdapter<GoodsInfo, Context> {
         GlideUtils.showMediumPic(mContext, view, goodsInfo.getPhoto());
         holder.setText(R.id.name_tv, goodsInfo.getProduct_name());
         if (goodsInfo.getIs_attr() == 1) {
-            holder.setText(R.id.other_tv, String.format("已售%d", goodsInfo.getSold_num()));
+            holder.setText(R.id.other_tv, String.format("已售%d    库存 : %d"  , goodsInfo.getSold_num(),goodsInfo.getNum()));
             view1.setVisibility(View.VISIBLE);
         } else {
             holder.setText(R.id.other_tv, String.format("已售 : %d    耗损 : %d    库存 : %d", goodsInfo.getSold_num(), goodsInfo.getLoss(), goodsInfo.getNum()));

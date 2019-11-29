@@ -228,7 +228,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="85dp"
@@ -839,8 +839,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:orientation="horizontal">
 
                     <RelativeLayout
@@ -854,8 +854,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:drawableTop="@drawable/icon_business_must"
-                            android:drawablePadding="13dp"
                             android:text="商家必备"
+                            android:drawablePadding="13dp"
                             android:textColor="#333333"
                             android:textSize="11sp" />
 
@@ -916,12 +916,14 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <RelativeLayout
+                        android:visibility="gone"
                         android:id="@+id/rl_make_money_by_share"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"

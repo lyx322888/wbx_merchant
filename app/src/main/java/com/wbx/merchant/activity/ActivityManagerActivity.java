@@ -44,9 +44,13 @@ public class ActivityManagerActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_right, R.id.iv_coupon, R.id.iv_full_reduce, R.id.iv_seckill, R.id.iv_send_red_packet, R.id.iv_share_free, R.id.iv_integral_free,R.id.iv_no_delivery_fee})
+    @OnClick({R.id.tv_right,R.id.iv_sjtj, R.id.iv_coupon, R.id.iv_full_reduce, R.id.iv_seckill, R.id.iv_send_red_packet, R.id.iv_share_free, R.id.iv_integral_free,R.id.iv_no_delivery_fee})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_sjtj:
+                //商家推荐
+                startActivity(new Intent(mContext, MerchantRecommendActivity.class));
+                break;
             case R.id.tv_right:
                 startActivity(new Intent(mContext, ActivitySettingsActivity.class));
                 break;
@@ -55,7 +59,6 @@ public class ActivityManagerActivity extends BaseActivity {
                 break;
             case R.id.iv_full_reduce:
                 startActivity(new Intent(mContext, FullActivity.class));
-
                 break;
             case R.id.iv_seckill:
                 startActivity(new Intent(mContext, SeckillActivity.class));

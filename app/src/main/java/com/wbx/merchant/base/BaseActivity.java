@@ -139,6 +139,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     //事件
     public abstract void setListener();
 
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

@@ -52,11 +52,11 @@
             app:layout_constraintRight_toRightOf="parent" />
 
         <ImageView
-            android:id="@+id/iv_coupon"
+            android:id="@+id/iv_sjtj"
+            android:src="@drawable/ic_sjtj"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="15dp"
-            android:src="@drawable/coupons"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/iv_full_reduce"
             app:layout_constraintTop_toBottomOf="@id/title_bar" />
@@ -67,7 +67,7 @@
             android:layout_height="120dp"
             android:layout_marginTop="15dp"
             android:src="@drawable/money_off"
-            app:layout_constraintLeft_toRightOf="@id/iv_coupon"
+            app:layout_constraintLeft_toRightOf="@id/iv_sjtj"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_bar" />
 
@@ -77,9 +77,9 @@
             android:layout_height="120dp"
             android:layout_marginTop="15dp"
             android:src="@drawable/special"
-            app:layout_constraintLeft_toLeftOf="@id/iv_coupon"
-            app:layout_constraintRight_toRightOf="@id/iv_coupon"
-            app:layout_constraintTop_toBottomOf="@id/iv_coupon" />
+            app:layout_constraintLeft_toLeftOf="@id/iv_sjtj"
+            app:layout_constraintRight_toRightOf="@id/iv_sjtj"
+            app:layout_constraintTop_toBottomOf="@id/iv_sjtj" />
 
         <ImageView
             android:id="@+id/iv_send_red_packet"
@@ -89,7 +89,7 @@
             android:src="@drawable/red_packet"
             app:layout_constraintLeft_toLeftOf="@id/iv_full_reduce"
             app:layout_constraintRight_toRightOf="@id/iv_full_reduce"
-            app:layout_constraintTop_toBottomOf="@id/iv_coupon" />
+            app:layout_constraintTop_toBottomOf="@id/iv_sjtj" />
 
         <!--<ImageView-->
         <!--android:id="@+id/iv_consume_free"-->
@@ -117,8 +117,8 @@
             android:layout_height="120dp"
             android:layout_marginTop="15dp"
             android:src="@drawable/icon_integral_free"
-            app:layout_constraintLeft_toLeftOf="@id/iv_coupon"
-            app:layout_constraintRight_toRightOf="@id/iv_coupon"
+            app:layout_constraintLeft_toLeftOf="@id/iv_sjtj"
+            app:layout_constraintRight_toRightOf="@id/iv_sjtj"
             app:layout_constraintTop_toBottomOf="@id/iv_seckill" />
 
         <ImageView
@@ -127,7 +127,17 @@
             android:layout_height="120dp"
             android:layout_marginTop="15dp"
             android:src="@drawable/icon_no_delivery_fee"
-            app:layout_constraintRight_toRightOf="@id/iv_coupon"
+            app:layout_constraintRight_toRightOf="@id/iv_sjtj"
             app:layout_constraintTop_toBottomOf="@id/iv_integral_free" />
+
+        <ImageView
+            android:id="@+id/iv_coupon"
+            android:src="@drawable/coupons"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/iv_full_reduce"
+            app:layout_constraintRight_toRightOf="@id/iv_no_delivery_fee"
+            app:layout_constraintTop_toBottomOf="@+id/iv_share_free" />
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -37,7 +37,7 @@ public class GoodsInfo implements Serializable {
     //实体店返回的数据
     private int goods_id;
     private String title;//名称
-    private double mall_price;//金额
+    private float mall_price;//金额
     private String intro;//介绍
     private int sales_promotion_is;//是否促销
     private float sales_promotion_price;//促销价
@@ -53,6 +53,17 @@ public class GoodsInfo implements Serializable {
     private int is_seckill;//是否开启秒杀
     private String seckill_num;//秒杀库存
     private String limitations_num;//秒杀限购数量
+
+
+    public int getIs_recommend() {
+        return is_recommend;
+    }
+
+    public void setIs_recommend(int is_recommend) {
+        this.is_recommend = is_recommend;
+    }
+
+    private int is_recommend;//是否开启推荐
     private float seckill_price;//秒杀价格
     private float casing_price;//包装费
     private float shop_member_price;//会员价
@@ -155,7 +166,7 @@ public class GoodsInfo implements Serializable {
     }
 
     public void setSeckill_price(float seckill_price) {
-        this.seckill_price = (int) (seckill_price / 100.00);
+        this.seckill_price = (float) (seckill_price / 100.00);
     }
 
     public void setFloatSeckill_price(float seckill_price) {
@@ -260,11 +271,11 @@ public class GoodsInfo implements Serializable {
         this.title = title;
     }
 
-    public double getMall_price() {
+    public float getMall_price() {
         return mall_price;
     }
 
-    public void setMall_price(double mall_price) {
+    public void setMall_price(float mall_price) {
         this.mall_price = mall_price;
     }
 

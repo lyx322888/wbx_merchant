@@ -41,6 +41,7 @@ public class MyHttp {
 
             @Override
             public void onError(Throwable e) {
+                Log.e("dfdf", "onError: "+e );
                 //请求错误
                 LoadingDialog.cancelDialogForLoading();
                 if (!NetWorkUtils.isNetConnected(BaseApplication.getInstance())) {

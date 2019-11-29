@@ -49,7 +49,7 @@ public class ShopVersionAdapter extends BaseAdapter<ShopVersionBean, Context> {
             holder.setText(R.id.tv_remain_num, String.valueOf(shopVersionBean.getSurplus_num()));
         } else {
             tvVersionName.setTextColor(mContext.getResources().getColor(R.color.app_color));
-            holder.setText(R.id.tv_need_money, String.format("¥%.2f/年", shopVersionBean.getMoney() / 100.00));
+            holder.setText(R.id.tv_need_money, String.format("¥%.2f", shopVersionBean.getMoney() / 100.00));
             holder.getView(R.id.iv_limit_bug).setVisibility(View.GONE);
             ((View) holder.getView(R.id.tv_remain_num).getParent()).setVisibility(View.GONE);
             holder.getView(R.id.tv_original_price).setVisibility(View.GONE);

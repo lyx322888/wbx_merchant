@@ -93,6 +93,7 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
                 } else {
                     tvSendByDaDa.setVisibility(View.VISIBLE);
                 }
+                tvCopy.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 orderState = "待退款";

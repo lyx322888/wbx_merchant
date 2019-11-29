@@ -113,7 +113,7 @@ public class ReleaseSecKillAdapter extends BaseAdapter<GoodsInfo, Context> {
             public void afterTextChanged(Editable editable) {
             }
         });
-        //
+
     }
 
     public void setIsShow(boolean isShow) {

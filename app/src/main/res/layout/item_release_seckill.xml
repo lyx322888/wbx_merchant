@@ -203,7 +203,6 @@
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:src="@drawable/ic_delete_img"
-            android:tint="@color/red" />
+            android:src="@drawable/ic_delete_img" />
     </LinearLayout>
 </LinearLayout>

@@ -16,7 +16,7 @@ public class SpecInfo implements Serializable {
     private double mall_price;//市场价
     private double sales_promotion_price;//促销价
     private double casing_price;//餐盒费
-    private int num;//库存
+    private long num;//库存
     private int loss;//损耗
     private float seckill_price;
     private int seckill_num;
@@ -101,11 +101,11 @@ public class SpecInfo implements Serializable {
         this.sales_promotion_price = sales_promotion_price;
     }
 
-    public int getNum() {
+    public long getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(long num) {
         this.num = num;
     }
 

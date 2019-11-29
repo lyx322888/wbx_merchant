@@ -76,6 +76,8 @@ public class SeckillFragment extends BaseFragment implements BaseRefreshListener
     @Override
     public void onResume() {
         super.onResume();
+        canLoadMore = true;
+        mPageNum = AppConfig.pageNum;
         getServiceData();
     }
 
@@ -92,6 +94,7 @@ public class SeckillFragment extends BaseFragment implements BaseRefreshListener
                 if (mRefreshLayout == null) {//页面已销毁
                     return;
                 }
+                nullDataLayout.setVisibility(View.GONE);
                 List<GoodsInfo> dataList = JSONArray.parseArray(result.getString("data"), GoodsInfo.class);
                 mRefreshLayout.finishRefresh();
                 mRefreshLayout.finishLoadMore();

@@ -58,6 +58,7 @@ import com.wbx.merchant.baseapp.AppManager;
 import com.wbx.merchant.bean.SalesmanCommentInfo;
 import com.wbx.merchant.bean.ShopInfo;
 import com.wbx.merchant.common.LoginUtil;
+import com.wbx.merchant.dialog.AlertNextDialog;
 import com.wbx.merchant.dialog.AlertUploadAccreditationDialog;
 import com.wbx.merchant.dialog.DaDaCouponDialog;
 import com.wbx.merchant.dialog.MiniProgramDialog;
@@ -268,25 +269,37 @@ public class IndexFragment extends BaseFragment {
         balanceTv.setText(String.format(gold == 0 ? "¥0.00" : "¥%.2f", gold / 100.00));
         GlideUtils.showMediumPic(getActivity(), indexHeadIm, shopInfo.getPhoto());
         indexShopNameTv.setText(shopInfo.getShop_name());
-        if (shopInfo.getIs_renzheng() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0)) {
-            //已认证并且有食品许可证或者该店不需要食品许可证
-            attestationStateTv.setText("查看资质");
-        } else if (shopInfo.getIs_add_audit() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0) && shopInfo.getIs_renzheng() == 0) {
-            //已经添加资料但是认证还未通过
-            attestationStateTv.setText("审核中");
-        } else {
-            attestationStateTv.setText("未认证");
-            Boolean isNoAskAgain = SPUtils.getSharedBooleanData(getActivity(), AppConfig.NO_ASK_AGAIN_ACCREDITATION);
-            if (!isNoAskAgain) {
-                if (shopInfo.getIs_add_audit() == 1) {
-                    AlertUploadAccreditationDialog uploadAccreditationDialog = AlertUploadAccreditationDialog.newInstance(true);
-                    uploadAccreditationDialog.show(getActivity().getSupportFragmentManager(), "");
-                } else {
-                    AlertUploadAccreditationDialog uploadAccreditationDialog = AlertUploadAccreditationDialog.newInstance(false);
-                    uploadAccreditationDialog.show(getActivity().getSupportFragmentManager(), "");
+        //认证判断
+        if (!TextUtils.isEmpty(shopInfo.getReturn_reason())){
+            //被驳回 Return_reason为空
+            attestationStateTv.setText("被驳回");
+            //returned_type 1 食品证的问题  returned_type 2 资质的问题
+            AlertNextDialog alertNextDialog =  AlertNextDialog.newInstance(shopInfo.getReturn_reason(),shopInfo.getReturned_type());
+            alertNextDialog.show(getActivity().getSupportFragmentManager(), "");
+        }else {
+            if (shopInfo.getIs_renzheng() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0)) {
+                //已认证并且有食品许可证或者该店不需要食品许可证
+                attestationStateTv.setText("查看资质");
+            } else if (shopInfo.getIs_add_audit() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0) && shopInfo.getIs_renzheng() == 0) {
+                //已经添加资料但是认证还未通过
+                attestationStateTv.setText("审核中");
+            } else {
+                attestationStateTv.setText("未认证");
+                Boolean isNoAskAgain = SPUtils.getSharedBooleanData(getActivity(), AppConfig.NO_ASK_AGAIN_ACCREDITATION);
+                if (!isNoAskAgain) {
+                    if (shopInfo.getIs_add_audit() == 1) {
+                        AlertUploadAccreditationDialog uploadAccreditationDialog = AlertUploadAccreditationDialog.newInstance(true);
+                        uploadAccreditationDialog.show(getActivity().getSupportFragmentManager(), "");
+                    } else {
+                        AlertUploadAccreditationDialog uploadAccreditationDialog = AlertUploadAccreditationDialog.newInstance(false);
+                        uploadAccreditationDialog.show(getActivity().getSupportFragmentManager(), "");
+                    }
                 }
             }
         }
+
+
+
         if (shopInfo.getIs_dispatching_money_activity() == 0) {
             DaDaCouponDialog.newInstance().show(getFragmentManager(), "");
         }
@@ -301,7 +314,7 @@ public class IndexFragment extends BaseFragment {
                 bt_cash_withdrawal.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (shopInfo.getOrder_money() < 30000) {
+                        if (shopInfo.getOrder_money() /100< 30000) {
                             ToastUitl.showShort("未到达活动金额,无法提现！");
                             return;
                         }
@@ -465,24 +478,41 @@ public class IndexFragment extends BaseFragment {
                 break;
         }
     }
-
+    //查看或上传证件
     private void showCertification() {
-        if (shopInfo.getIs_renzheng() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0)) {
-            //已认证并且有食品许可证或者该店不需要食品许可证
-            AccreditationActivity.actionStart(getActivity(), true);
-        } else if (shopInfo.getIs_add_audit() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0) && shopInfo.getIs_renzheng() == 0) {
-            //已经添加资料但是认证还未通过
-            AccreditationActivity.actionStart(getActivity(), true);
-        } else {
-            //未认证
-            if (shopInfo.getIs_add_audit() != 1 || (TextUtils.isEmpty(shopInfo.getHygiene_photo()) && shopInfo.getHas_hygiene_photo() != 0)) {
-                if (shopInfo.getIs_add_audit() == 1) {
+        //不为空 被驳回
+        if (!TextUtils.isEmpty(shopInfo.getReturn_reason())){
+            //returned_type 1 食品证的问题  returned_type 2 资质的问题     returned_type 3 食品证与资质都有问题
+            switch (shopInfo.getReturned_type()){
+                case 1:
                     GoodsAccreditationActivity.actionStart(getActivity());
-                } else {
+                    break;
+                case 2:
                     AccreditationActivity.actionStart(getActivity());
+                    break;
+                case 3:
+                    AccreditationActivity.actionStart(getActivity());
+                    break;
+            }
+        }else {
+            if (shopInfo.getIs_renzheng() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0)) {
+                //已认证并且有食品许可证或者该店不需要食品许可证
+                AccreditationActivity.actionStart(getActivity(), true);
+            } else if (shopInfo.getIs_add_audit() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0) && shopInfo.getIs_renzheng() == 0) {
+                //已经添加资料但是认证还未通过
+                AccreditationActivity.actionStart(getActivity(), true);
+            } else {
+                //未认证
+                if (shopInfo.getIs_add_audit() != 1 || (TextUtils.isEmpty(shopInfo.getHygiene_photo()) && shopInfo.getHas_hygiene_photo() != 0)) {
+                    if (shopInfo.getIs_add_audit() == 1) {
+                        GoodsAccreditationActivity.actionStart(getActivity());
+                    } else {
+                        AccreditationActivity.actionStart(getActivity());
+                    }
                 }
             }
         }
+
     }
 
     private void showPhoto() {
@@ -508,13 +538,6 @@ public class IndexFragment extends BaseFragment {
         });
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 
     @Override
     public void onDestroyView() {

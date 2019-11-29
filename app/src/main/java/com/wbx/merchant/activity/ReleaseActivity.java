@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.iwf.photopicker.PhotoPicker;
 import me.iwf.photopicker.PhotoPreview;
@@ -111,6 +112,10 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     EditText numEdit;
     @Bind(R.id.sales_price_edit)
     EditText salesPriceEdit;
+    @Bind(R.id.open_sales_tj)
+    SwitchButton openSalesTj;
+    @Bind(R.id.ll_price)
+    LinearLayout llPrice;
 
     private GoodsInfo mGoodInfo;
     private PhotoAdapter mPhotoAdapter;//商品详情图(底部)
@@ -186,11 +191,14 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             goodsNameEdit.setText(mGoodInfo.getProduct_name());
             goodsCateTv.setText(mGoodInfo.getCate_name());
             if (mGoodInfo.getSales_promotion_is() == 1) {
-                salesPriceEdit.setText(String.format("%.2f", mGoodInfo.getSales_promotion_price() / 100.00));
+                if (mGoodInfo.getSales_promotion_price() != 0) {
+                    salesPriceEdit.setText(String.format("%.2f", mGoodInfo.getSales_promotion_price() / 100.00));
+                }
             }
             if (mGoodInfo.getIs_use_num() == 1) {
                 numEdit.setText("" + mGoodInfo.getNum());
             }
+
             sellingPriceEdit.setText(String.format("%.2f", mGoodInfo.getPrice() / 100.00));
 
             etSubTitle.setText(mGoodInfo.getSubhead());
@@ -198,7 +206,9 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
 
         }
         if (userInfo.getGrade_id() != AppConfig.StoreGrade.MARKET) {
-            priceEdit.setText(String.format("%.2f", mGoodInfo.getMall_price() / 100.00));
+            if (mGoodInfo.getMall_price() != 0) {
+                priceEdit.setText(String.format("%.2f", mGoodInfo.getMall_price() / 100.00));
+            }
             if (null != mGoodInfo.getPhotos()) {
                 lstGoodsIntroducePic.addAll(mGoodInfo.getPhotos());
                 photoSelectNumTv.setText(lstGoodsIntroducePic.size() - 1 + "/" + MAX_INTRODUCE_PIC_NUM);
@@ -207,8 +217,10 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         }
         if (userInfo.getGrade_id() == AppConfig.StoreType.FOOD_STREET) {//美食街
             llPackingFee.setVisibility(View.VISIBLE);
-            etPackingFee.setText(String.format("%.2f", mGoodInfo.getCasing_price() / 100.00));
-        }else {
+            if (mGoodInfo.getCasing_price() != 0) {
+                etPackingFee.setText(String.format("%.2f", mGoodInfo.getCasing_price() / 100.00));
+            }
+        } else {
             llPackingFee.setVisibility(View.GONE);
         }
 
@@ -310,6 +322,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         openSpecSb.setChecked(mGoodInfo.getIs_attr() == 1);//是否开启多规格
         openInventorySb.setChecked(mGoodInfo.getIs_use_num() == 1);//是否开启库存
         openSalesSb.setChecked(mGoodInfo.getSales_promotion_is() == 1);//是否开启促销
+//        openSalesTj.setChecked(mGoodInfo.getIs_recommend() == 1);//是否开启推荐
     }
 
     //商品图(头部)
@@ -512,6 +525,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         Map<String, Object> mParams = new HashMap<>();
         mParams.put("sj_login_token", userInfo.getSj_login_token());
         mParams.put("is_attr", openSpecSb.isChecked() ? 1 : 0);//是否开启多规格
+//        mParams.put("is_recommend", openSalesTj.isChecked() ? 1 : 0);//是否开启推荐
         mGoodInfo.setIs_attr(openSpecSb.isChecked() ? 1 : 0);
         mParams.put("nature", addNature());
 
@@ -586,6 +600,8 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                         info.setShop_member_price(info.getShop_member_price() / 100);
                         info.setMin_price(info.getMin_price() / 100);
                     }
+                    //是否推荐
+//                    mGoodInfo.setIs_recommend(openSalesTj.isChecked() ? 1 : 0);
                     mGoodInfo.setGoods_attr(data);
 
                 }
@@ -709,4 +725,10 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         mGoodInfo.setCate_name(cateInfoList.get(options1).getCate_name());
         goodsCateTv.setText(cateInfoList.get(options1).getCate_name());
     }
+
+
+    @OnClick(R.id.open_sales_tj)
+    public void onViewClicked() {
+    }
+
 }

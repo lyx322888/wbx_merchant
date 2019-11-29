@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class UpdateNumInfo implements Serializable {
     private int  attr_id;
     private int loss;
-    private int num;
+    private long num;
 
     public int getAttr_id() {
         return attr_id;
@@ -27,11 +27,11 @@ public class UpdateNumInfo implements Serializable {
         this.loss = loss;
     }
 
-    public int getNum() {
+    public long getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(long num) {
         this.num = num;
     }
 }

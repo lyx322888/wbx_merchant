@@ -43,10 +43,12 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseAdapter;
 import com.wbx.merchant.base.BaseFragment;
 import com.wbx.merchant.baseapp.AppConfig;
+import com.wbx.merchant.baserx.RxBus;
 import com.wbx.merchant.bean.DaDaOrderTrackBean;
 import com.wbx.merchant.bean.FengNiaoOrderTrackBean;
 import com.wbx.merchant.bean.GoodsInfo;
 import com.wbx.merchant.bean.OrderInfo;
+import com.wbx.merchant.bean.RxbusBean;
 import com.wbx.merchant.dialog.DaDaCancelReasonFragment;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.LoadingDialog;
@@ -641,6 +643,8 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
                 showShortToast(result.getString("msg"));
                 orderInfoList.remove(position);
                 mAdapter.notifyDataSetChanged();
+                //刷新角标
+                rxbusPost();
             }
 
             @Override
@@ -648,6 +652,10 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
 
             }
         });
+    }
+    //刷新角标
+    private void rxbusPost(){
+        mRxManager.post("OrderActivity","updata");
     }
 
     //是否安装高德地图

@@ -17,15 +17,15 @@ import java.util.List;
  * 秒杀选择商品
  */
 
-public class SelectGoodsAdapter extends BaseAdapter<GoodsInfo, Context> {
+public class RecommendChooseAdapter extends BaseAdapter<GoodsInfo, Context> {
 
-    public SelectGoodsAdapter(List<GoodsInfo> dataList, Context context) {
+    public RecommendChooseAdapter(List<GoodsInfo> dataList, Context context) {
         super(dataList, context);
     }
 
     @Override
     public int getLayoutId(int viewType) {
-        return R.layout.item_select_goods;
+        return R.layout.item_seckill_choose;
     }
 
     @Override
@@ -36,16 +36,16 @@ public class SelectGoodsAdapter extends BaseAdapter<GoodsInfo, Context> {
         } else {
             holder.getView(R.id.is_attr_im).setVisibility(View.GONE);
         }
-        if (goodsInfo.isSelect()) {
+        if (goodsInfo.getIs_recommend()==1) {
             selectIm.setImageResource(R.drawable.ic_ok);
         } else {
             selectIm.setImageResource(R.drawable.ic_round);
         }
         ImageView picIm = holder.getView(R.id.goods_pic_im);
-        GlideUtils.showMediumPic(mContext, picIm, goodsInfo.getPhoto());
-        holder.setText(R.id.goods_name_tv, goodsInfo.getTitle())
-                .setText(R.id.selling_price_tv, goodsInfo.getMall_price() == 0 ? String.format("¥%.2f", goodsInfo.getPrice() / 100.00) : String.format("¥%.2f", goodsInfo.getMall_price() / 100.00))
-                .setText(R.id.goods_info_tv, String.format("总销量:%d        库存:%d", goodsInfo.getSold_num(), goodsInfo.getNum()));
+        GlideUtils.showRoundMediumPic(mContext, picIm, goodsInfo.getPhoto());
+        holder.setText(R.id.goods_name_tv, goodsInfo.getProduct_name())
+                .setText(R.id.selling_price_tv, goodsInfo.getMall_price() == 0 ? String.format("¥%.2f", goodsInfo.getPrice() / 100.00) : String.format("¥%.2f", goodsInfo.getMall_price() / 100.00));
+
         //如果没设置库存就不显示库存
         if (goodsInfo.getIs_use_num() == 1) {
             holder.setText(R.id.goods_info_tv, String.format("总销量:%d        库存:%d", goodsInfo.getSold_num(), goodsInfo.getNum()));

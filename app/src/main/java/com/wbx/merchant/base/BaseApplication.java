@@ -129,7 +129,7 @@ public class BaseApplication extends MultiDexApplication {
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
         strategy.setAppReportDelay(20000);
         // 初始化Bugly
-        CrashReport.initCrashReport(context, "2d73fcc0a2", false, strategy);
+        CrashReport.initCrashReport(context, "9cdab1f35e", false, strategy);
     }
 
     private void initRefresh() {

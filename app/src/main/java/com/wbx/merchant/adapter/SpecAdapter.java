@@ -163,7 +163,7 @@ public class SpecAdapter extends BaseAdapter<SpecInfo, Context> {
                 if (TextUtils.isEmpty(charSequence)) {
                     mListData.get(tag).setNum(0);
                 } else {
-                    mListData.get(tag).setNum(Integer.valueOf(charSequence.toString().trim()));
+                    mListData.get(tag).setNum(Long.valueOf(charSequence.toString().trim()));
                 }
             }
 

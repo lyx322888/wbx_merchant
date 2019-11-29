@@ -45,7 +45,7 @@ public class ShopInfo implements Serializable {
     private int is_subscribe;
     private int is_dispatching_money_activity;
     private String small_routine_photo;
-    private String hygiene_photo;
+    private String hygiene_photo;//食品经营许可证图片
     private int has_hygiene_photo;
     private int scan_order_type;
     private int dtk_order_num;
@@ -56,6 +56,25 @@ public class ShopInfo implements Serializable {
     private int is_view_withdraw_commission;
     private float order_money;
     private int comment_rank;
+
+    public int getReturned_type() {
+        return returned_type;
+    }
+
+    public void setReturned_type(int returned_type) {
+        this.returned_type = returned_type;
+    }
+
+    private int returned_type;
+    public String getReturn_reason() {
+        return return_reason;
+    }
+
+    public void setReturn_reason(String return_reason) {
+        this.return_reason = return_reason;
+    }
+
+    private String return_reason;
 
     public int getIs_view_withdraw_commission() {
         return is_view_withdraw_commission;

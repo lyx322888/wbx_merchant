@@ -2,15 +2,20 @@ package com.wbx.merchant.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -28,11 +33,12 @@ import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.AddressInfo;
+import com.wbx.merchant.bean.CityCommunityBean;
 import com.wbx.merchant.bean.JoinAddressInfo;
 import com.wbx.merchant.bean.ShopGradeInfo;
+import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.PermissionsChecker;
-import com.wbx.merchant.utils.SPUtils;
 import com.wbx.merchant.utils.UpLoadPicUtils;
 import com.wbx.merchant.widget.AddressBottomDialog;
 import com.wbx.merchant.widget.LoadingDialog;
@@ -45,6 +51,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chihane.jdaddressselector.OnAddressSelectedListener;
 import chihane.jdaddressselector.model.City;
@@ -86,6 +93,10 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
     ImageView storeSignageIm;
     @Bind(R.id.show_shop_address_tv)
     TextView shopShopAddressTv;
+    @Bind(R.id.tv_shop_pop_sssq)
+    TextView tvShopPopSssq;
+    @Bind(R.id.ll_sssq)
+    LinearLayout llSssq;
     private List<ShopGradeInfo> shopGradeInfos;
     private ArrayList<ArrayList<AddressInfo.AreaBean>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<AddressInfo.AreaBean.BusinessBean>>> options3Items = new ArrayList<>();
@@ -95,8 +106,14 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
     private HashMap<String, Object> mParams;
     private String mPhotoPath = "";
     private String selectCity = "";
+    private String communityId = "";//社区id;
+    private String cityName = "";
     private AddressBottomDialog addressBottomDialog;
     private boolean hasLocation = false;
+    private double lat;
+    private double lng;
+    private OptionsPickerView pvOptions;
+    private List<CityCommunityBean.DataBean> dataBeans;
 
     @Override
     public int getLayoutId() {
@@ -112,6 +129,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
     public void initView() {
         addressPickerView = new OptionsPickerView.Builder(mContext, new MyPickerSelectListener(0)).build();
 //        gradePickerView = new OptionsPickerView.Builder(mContext, new MyPickerSelectListener(1)).build();
+        initPopCommunity();
     }
 
     @Override
@@ -137,7 +155,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
         shopNameEdit.setFilters(new InputFilter[]{filter});
     }
 
-    @OnClick({R.id.shop_info_next_btn, R.id.get_location_btn, R.id.store_signage_pic_layout, R.id.choose_shop_address_layout})
+    @OnClick({R.id.shop_info_next_btn, R.id.get_location_btn, R.id.store_signage_pic_layout, R.id.choose_shop_address_layout,R.id.ll_sssq})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.shop_info_next_btn:
@@ -167,7 +185,12 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
                 } else {
                     addressBottomDialog.show();
                 }
-
+                break;
+            case R.id.ll_sssq:
+                //选择社区
+                if (!TextUtils.isEmpty(cityName)&&lat!=0){
+                    psotCitycommunity( );
+                }
                 break;
         }
     }
@@ -194,6 +217,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
         mParams.put("sj_login_token", userInfo.getSj_login_token());
         mParams.put("logo", qiNiuPath);//logo
         mParams.put("shop_name", shopNameEdit.getText().toString());//店铺名称
+        mParams.put("city_community_id", communityId);//社区id
         mParams.put("yewuyuan_id", agencyAccountEdit.getText().toString());//代理账号
         mParams.put("addr", addressEdit.getText().toString());//详细地址
         mParams.put("tel", shopPhoneEdit.getText().toString());//商家电话
@@ -337,10 +361,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
             showShortToast("请输入代理账号");
             return false;
         }
-//        if (TextUtils.isEmpty(shopShopGradeTv.getText().toString())) {
-//            showShortToast("请选择店铺分类");
-//            return false;
-//        }
+
         if (TextUtils.isEmpty(shopShopAddressTv.getText().toString())) {
             showShortToast("请选择店铺地址");
             return false;
@@ -371,11 +392,73 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
                 sb.append(aMapLocation.getPoiName());
             }
             addressEdit.setText(sb.toString());
-            mParams.put("lat", aMapLocation.getLatitude());
-            mParams.put("lng", aMapLocation.getLongitude());
+            lat = aMapLocation.getLatitude();
+            lng = aMapLocation.getLongitude();
+            mParams.put("lat", lat);
+            mParams.put("lng", lng);
+            //初始化可选择社区
+            tvShopPopSssq.setText("");
             hasLocation = true;
         }
     };
+
+    //获取选择社区列表
+    private void psotCitycommunity(){
+        LoadingDialog.showDialogForLoading(mActivity);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("city_name", cityName);
+        hashMap.put("sj_login_token", LoginUtil.getLoginToken());
+        hashMap.put("lat", lat);
+        hashMap.put("lng", lng);
+        new MyHttp().doPost(Api.getDefault().getcitycommunity(hashMap), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dataBeans = JSONArray.parseArray(result.getString("data"),CityCommunityBean.DataBean.class);
+                if (dataBeans !=null){
+                    List<String> selectCommunity = new ArrayList<>();
+                    for (int i = 0; i < dataBeans.size(); i++) {
+                        selectCommunity.add(dataBeans.get(i).getCommunity_name());
+                    }
+                    pvOptions.setPicker(selectCommunity );//添加数据源
+                    pvOptions.show();
+                }
+
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+    }
+
+    private void initPopCommunity(){
+        pvOptions = new OptionsPickerView(new OptionsPickerView.Builder(mContext, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                if (dataBeans!=null){
+                   communityId = dataBeans.get(options1).getCity_community_id();
+                   tvShopPopSssq.setText(dataBeans.get(options1).getCommunity_name());
+                }
+            }
+        })   .setSubmitText("确定")//确定按钮文字
+                .setCancelText("取消")//取消按钮文字
+                .setTitleText("社区选择")//标题
+                .setSubCalSize(18)//确定和取消文字大小
+                .setTitleSize(20)//标题文字大小
+                .setTitleColor(ContextCompat.getColor(mContext,R.color.black))//标题文字颜色
+                .setSubmitColor(ContextCompat.getColor(mContext,R.color.app_color))//确定按钮文字颜色
+                .setCancelColor(ContextCompat.getColor(mContext,R.color.black))//取消按钮文字颜色
+//                .setTitleBgColor(0xFF333333)//标题背景颜色 Night mode
+//                .setBgColor(0xFF000000)//滚轮背景颜色 Night mode
+                .setContentTextSize(18)//滚轮文字大小
+                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                .setCyclic(false, false, false)//循环与否
+                .setSelectOptions(1)  //设置默认选中项
+                .setOutSideCancelable(true)//点击外部dismiss default true
+        );
+
+    }
 
     @Override
     protected void onDestroy() {
@@ -390,6 +473,8 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
     public void onAddressSelected(Province province, City city, County county, Street street) {
         StringBuffer cityBuf = new StringBuffer();
         selectCity = "";
+        cityName = "";
+        tvShopPopSssq.setText("");
         if (null != province) {
             cityBuf.append(province.name);
             selectCity += province.name;
@@ -398,6 +483,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
             cityBuf.append("-" + city.name);
             mParams.put("city_id", city.id);
             selectCity += city.name;
+            cityName = city.name;
         }
         if (null != county) {
             cityBuf.append("-" + county.name);
@@ -407,6 +493,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
         shopShopAddressTv.setText(cityBuf);
         addressBottomDialog.dismiss();
     }
+
 
     class MyPickerSelectListener implements OptionsPickerView.OnOptionsSelectListener {
         int mPickerViewType;

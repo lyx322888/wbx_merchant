@@ -43,16 +43,39 @@
             android:layout_width="60dp"
             android:layout_height="60dp"/>
     </LinearLayout>
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/order_lab_layout"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/colorWhite"
-        app:tabIndicatorColor="@color/app_color"
-        app:tabIndicatorHeight="1dp"
-        app:tabSelectedTextColor="@color/app_color" />
+        android:background="@color/white"
+        android:layout_height="40dp">
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/order_lab_layout"
+            android:layout_marginRight="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#ffffff"
+            app:tl_indicator_color="@color/app_color"
+            app:tl_textSelectColor="@color/app_color"
+            app:tl_textUnselectColor="#66000000"
+            app:tl_indicator_width_equal_title="true"
+          />
+        <LinearLayout
+            android:layout_marginRight="30dp"
+            android:layout_width="40dp"
+            android:layout_gravity="right"
+            android:background="@drawable/bg_mc"
+            android:layout_height="match_parent">
+        </LinearLayout>
+        <ImageView
+            android:layout_gravity="right|center_vertical"
+            android:background="@drawable/bg_mc"
+            android:src="@drawable/share_slide"
+            android:padding="@dimen/dp_10"
+            android:translationZ="5dp"
+            android:elevation="5dp"
+            android:layout_width="39dp"
+            android:layout_height="39dp"/>
 
+    </FrameLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/order_view_pager"
         android:layout_width="match_parent"
