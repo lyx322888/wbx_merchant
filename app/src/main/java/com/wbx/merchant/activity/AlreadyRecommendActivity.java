@@ -32,7 +32,6 @@ import butterknife.ButterKnife;
 //已推荐
 public class AlreadyRecommendActivity extends BaseActivity {
 
-
     @Bind(R.id.rl_right)
     RelativeLayout rlRight;
     @Bind(R.id.recycler_view)
@@ -44,6 +43,7 @@ public class AlreadyRecommendActivity extends BaseActivity {
     private List<GoodsInfo> goodsInfoList = new ArrayList<>();
     private boolean canLoadMore = true;
     private AlreadyRecommendAdapter alreadyRecommendAdapter;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_already_recommend;
@@ -62,7 +62,7 @@ public class AlreadyRecommendActivity extends BaseActivity {
         alreadyRecommendAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.iv_delete:
                         //删除已选
                         postDelete(alreadyRecommendAdapter.getData().get(position).getGoods_id());
@@ -71,8 +71,9 @@ public class AlreadyRecommendActivity extends BaseActivity {
             }
         });
     }
+
     //删除已选
-    private void postDelete(int goods_id){
+    private void postDelete(int goods_id) {
         LoadingDialog.showDialogForLoading(this);
         HashMap<String, Object> mParams = new HashMap<>();
         mParams.put("sj_login_token", userInfo.getSj_login_token());

@@ -1,7 +1,9 @@
 package com.wbx.merchant.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,11 +32,13 @@ import com.wbx.merchant.base.BaseAdapter;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GoodsInfo;
+import com.wbx.merchant.utils.FormatUtil;
 import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.refresh.BaseRefreshListener;
 import com.wbx.merchant.widget.refresh.PullToRefreshLayout;
 import com.wbx.merchant.widget.refresh.ViewStatus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,21 +47,23 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/*商家推荐*/
-public class MerchantRecommendActivity extends BaseActivity {
+/*礼包商品选择*/
+public class GiftBagSelectGoodsActivity extends BaseActivity {
 
-    @Bind(R.id.recycler_view)
-    RecyclerView mRecyclerView;
-    @Bind(R.id.refresh_layout)
-    PullToRefreshLayout mRefreshLayout;
-    @Bind(R.id.select_goods_num_tv)
-    TextView selectGoodsNumTv;
+    @Bind(R.id.tv_title)
+    TextView tvTitle;
     @Bind(R.id.choose_type_tv)
     TextView chooseTypeTv;
     @Bind(R.id.search_edit_text)
     EditText searchEditText;
     @Bind(R.id.type_layout)
     LinearLayout typeLayout;
+    @Bind(R.id.recycler_view)
+    RecyclerView mRecyclerView;
+    @Bind(R.id.refresh_layout)
+    PullToRefreshLayout mRefreshLayout;
+    @Bind(R.id.select_goods_num_tv)
+    TextView selectGoodsNumTv;
     @Bind(R.id.submmit)
     Button submmit;
     private int mPageNum = AppConfig.pageNum;
@@ -69,9 +75,11 @@ public class MerchantRecommendActivity extends BaseActivity {
     private List<GoodsInfo> selectGoodsList = new ArrayList<>();
     private List<CateInfo> cateList = new ArrayList<>();
     private PopupWindow popWnd;
+
     @Override
     public int getLayoutId() {
-        return R.layout.activity_merchant_recommend;
+        FormatUtil.setStatubarColor(mActivity, R.color.app_color);
+        return R.layout.activity_gift_bag_select;
     }
 
     @Override
@@ -82,7 +90,6 @@ public class MerchantRecommendActivity extends BaseActivity {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     canLoadMore = true;
                     mPageSize = AppConfig.pageSize;
-
                     getData();
                 }
                 return false;
@@ -111,7 +118,7 @@ public class MerchantRecommendActivity extends BaseActivity {
 
     }
 
-    private void getData(){
+    private void getData() {
         HashMap<String, Object> mParams = new HashMap<>();
         mParams.put("sj_login_token", userInfo.getSj_login_token());
         mParams.put("page", mPageNum);
@@ -119,7 +126,7 @@ public class MerchantRecommendActivity extends BaseActivity {
         mParams.put("num", mPageSize);
         mParams.put("is_recommend", 0);
         mParams.put("keyword", searchEditText.getText().toString());
-        new MyHttp().doPost(Api.getDefault().listGiveGoods(mParams), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().getRecommend_goods(mParams), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 List<GoodsInfo> dataList = JSONArray.parseArray(result.getString("data"), GoodsInfo.class);
@@ -149,7 +156,7 @@ public class MerchantRecommendActivity extends BaseActivity {
                 //重新标记选择过的商品
                 for (int i = 0; i < selectGoodsList.size(); i++) {
                     for (int j = 0; j < dataList.size(); j++) {
-                        if (selectGoodsList.get(i).getGoods_id()==dataList.get(j).getGoods_id()){
+                        if (selectGoodsList.get(i).getGoods_id() == dataList.get(j).getGoods_id()) {
                             dataList.get(j).setIs_recommend(1);
                         }
                     }
@@ -172,7 +179,7 @@ public class MerchantRecommendActivity extends BaseActivity {
 
                 } else if (code == AppConfig.ERROR_STATE.NO_NETWORK || code == AppConfig.ERROR_STATE.SERVICE_ERROR) {
                     mRefreshLayout.showView(ViewStatus.ERROR_STATUS);
-                    mRefreshLayout.buttonClickError(MerchantRecommendActivity.this, "getData");
+                    mRefreshLayout.buttonClickError(GiftBagSelectGoodsActivity.this, "getData");
                 } else {
 
                 }
@@ -188,14 +195,11 @@ public class MerchantRecommendActivity extends BaseActivity {
         HashMap<String, Object> mParams = new HashMap<>();
         mParams.put("goods_ids", goodsIds);
         mParams.put("sj_login_token", userInfo.getSj_login_token());
-        new MyHttp().doPost(Api.getDefault().getUpdateRecommned(mParams), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().addGiveGoods(mParams), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                showShortToast("商品已推荐成功");
-                canLoadMore = true;
-                mPageNum = AppConfig.pageNum;
-                selectGoodsList.clear();
-                getData();
+                showShortToast("商品添加成功");
+                finish();
             }
 
             @Override
@@ -231,22 +235,22 @@ public class MerchantRecommendActivity extends BaseActivity {
             public void onItemClicked(View view, int position) {
                 //商品最多推荐12件
                 GoodsInfo item = mAdapter.getItem(position);
-                    item.setIs_recommend(item.getIs_recommend() == 1 ? 0 : 1);
-                    if (item.getIs_recommend() == 1) {
-                        //设置成秒杀
-                        item.setIs_recommend(1);
-                        selectGoodsList.add(item);
+                item.setIs_recommend(item.getIs_recommend() == 1 ? 0 : 1);
+                if (item.getIs_recommend() == 1) {
+                    //设置成秒杀
+                    item.setIs_recommend(1);
+                    selectGoodsList.add(item);
 
-                    } else {
-                        for (int i = 0; i < selectGoodsList.size(); i++) {
-                            if (selectGoodsList.get(i).getGoods_id()==item.getGoods_id()){
-                                selectGoodsList.remove(i);
-                            }
+                } else {
+                    for (int i = 0; i < selectGoodsList.size(); i++) {
+                        if (selectGoodsList.get(i).getGoods_id() == item.getGoods_id()) {
+                            selectGoodsList.remove(i);
                         }
-
                     }
-                    mAdapter.notifyDataSetChanged();
-                    selectGoodsNumTv.setText(Html.fromHtml("已选择<font color=#ff0000>" + selectGoodsList.size() + "</font>件"));
+
+                }
+                mAdapter.notifyDataSetChanged();
+                selectGoodsNumTv.setText(Html.fromHtml("已选择<font color=#ff0000>" + selectGoodsList.size() + "</font>件"));
             }
         });
     }
@@ -261,7 +265,7 @@ public class MerchantRecommendActivity extends BaseActivity {
                 CateInfo cateInfo = new CateInfo();
                 cateInfo.setCate_id(0);
                 cateInfo.setCate_name("全部");
-                cateList.add(0,cateInfo);
+                cateList.add(0, cateInfo);
                 showTypePop();
             }
 
@@ -294,33 +298,24 @@ public class MerchantRecommendActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.submmit, R.id.choose_type_tv,R.id.rl_right})
+    @OnClick({R.id.submmit, R.id.choose_type_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.submmit:
-                //推荐提交
-                String goodsIds = "";
-                for (int i = 0; i < selectGoodsList.size(); i++) {
-                    if (selectGoodsList.get(i).getIs_recommend() == 1) {
-                        goodsIds += selectGoodsList.get(i).getGoods_id() + ",";
-                    }
-                }
-                if (!TextUtils.isEmpty(goodsIds)) {
-                    goodsIds = goodsIds.substring(0, goodsIds.length() - 1);
-                }
-                postRecommend(goodsIds);
+                //返回
+                Intent intent = new Intent();
+                intent.putExtra("goods", (Serializable) selectGoodsList);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
                 break;
             case R.id.choose_type_tv:
                 //分类
                 getCateData();
                 break;
-                case R.id.rl_right:
-                //已推荐
-                    startActivity(new Intent(this,AlreadyRecommendActivity.class));
-                break;
 
         }
 
     }
+
 
 }

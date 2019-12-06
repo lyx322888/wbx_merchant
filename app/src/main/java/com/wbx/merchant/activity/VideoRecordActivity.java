@@ -469,7 +469,9 @@ public class VideoRecordActivity extends BaseActivity implements SurfaceHolder.C
             recorder.release();
             recorder = null;
             showCameraPermission();
-            FileUtils.deleteFile(videoFile.getPath());
+            if (videoFile!=null){
+                FileUtils.deleteFile(videoFile.getPath());
+            }
             return false;
         }
         return true;

@@ -432,6 +432,7 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
         mAdapter.setOnItemClickListener(R.id.iv_call_driver, new BaseAdapter.ItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
+                //Todo 报空 java.lang.Object java.util.List.get(int)' on a null object reference
                 OrderInfo orderInfo = orderInfoList.get(position);
                 if (!TextUtils.isEmpty(orderInfo.getDada().get(0).getDm_mobile())) {
                     Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + orderInfo.getDada().get(0).getDm_mobile()));

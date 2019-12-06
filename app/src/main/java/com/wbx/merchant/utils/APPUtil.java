@@ -1,5 +1,7 @@
 package com.wbx.merchant.utils;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -11,7 +13,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
@@ -163,17 +167,33 @@ public class APPUtil {
 
     /**
      * 安装APK
-     * @param context
+     * @param activity
      * @param apkPath 安装包的路径
      */
-    public static void installApk(Context context, Uri apkPath) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(apkPath, "application/vnd.android.package-archive");
-        context.startActivity(intent);
+    public static void installApk(Context activity, Uri apkPath) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            boolean b = activity.getPackageManager().canRequestPackageInstalls();
+            if (b) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setDataAndType(apkPath, "application/vnd.android.package-archive");
+                activity.startActivity(intent);
+            } else {
+                //请求安装未知应用来源的权限
+                ActivityCompat.requestPermissions((Activity) activity, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, 123);
+            }
+        } else {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setDataAndType(apkPath, "application/vnd.android.package-archive");
+            activity.startActivity(intent);
+        }
     }
-    public static String getFilePathByUri(final Context context, final Uri uri) {
+
+
+        public static String getFilePathByUri(final Context context, final Uri uri) {
         if (null == uri)
             return null;
         final String scheme = uri.getScheme();
@@ -225,6 +245,8 @@ public class APPUtil {
         }
         return null;
     }
+
+
 
     /**
      *获取当前应用的 源Apk路径

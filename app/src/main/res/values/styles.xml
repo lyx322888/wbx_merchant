@@ -212,4 +212,28 @@
         <item name="android:textColor">@color/title_color</item>
         <item name="android:layout_marginBottom">4dp</item>
     </style>
+    <style name="iv_back">
+        <item name="android:padding">13dp</item>
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:src">@drawable/ic_arrow_black</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+    <style name="tv_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginLeft">45dp</item>
+        <item name="android:layout_marginRight">45dp</item>
+        <item name="android:tint">@color/white</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="v_fgx">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/color_gray_line</item>
+    </style>
 </resources>

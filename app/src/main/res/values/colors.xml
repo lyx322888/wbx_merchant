@@ -22,6 +22,7 @@
     <color name="fenlei_text2">#333333</color>
     <color name="divider_list">#d4d4d4</color>
     <color name="gray_normal">#666667</color>
+    <color name="fgx_color">#E8E5E5</color>
 
     <color name="bg_video_controller">#A6000000</color>
     <color name="white">#ffffff</color>
@@ -57,4 +58,7 @@
     <color name="no_selector_text_color">#3B3B3B</color>
     <!--et hint  的颜色-->
     <color name="et_hint_color">#999999</color>
+    <color name="xz_hint_color">#C3C3C3</color>
+    <color name="hb_p_color">#FED848</color>
+    <color name="font_ts">#565656</color>
 </resources>

@@ -1,6 +1,11 @@
 package com.wbx.merchant.utils;
 
+import android.app.Activity;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.Window;
+import android.view.WindowManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -416,6 +421,17 @@ public class FormatUtil {
         long ts = date.getTime() / 1000;
         res = String.valueOf(ts);
         return res;
+    }
+    //状态栏颜色
+    public static void setStatubarColor(Activity activity, int color) {
+        Window window = activity.getWindow();
+        //After LOLLIPOP not translucent status bar
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        //Then call setStatusBarColor.
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(ContextCompat.getColor(activity,color));
+        }
     }
 }
 

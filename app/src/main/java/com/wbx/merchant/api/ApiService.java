@@ -944,4 +944,39 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/sjapi/shoporder/count_order")
     Observable<JSONObject> getCountOrder(@FieldMap Map<String,Object> params);
+
+    //获取礼包
+    @FormUrlEncoded
+    @POST("/sjapi/giftbag/get_gift_bag")
+    Observable<JSONObject> getGiftBag(@FieldMap Map<String,Object> params);
+
+    //添加libao红包
+    @FormUrlEncoded
+    @POST("/sjapi/giftbag/add_red_packet")
+    Observable<JSONObject> addRedPacket(@FieldMap Map<String,Object> params);
+
+    //添加赠品
+    @FormUrlEncoded
+    @POST("/sjapi/giftbag/add_give_goods")
+    Observable<JSONObject> addGiveGoods(@FieldMap Map<String,Object> params);
+
+    //删除红包
+    @FormUrlEncoded
+    @POST("/sjapi/giftbag/delete_red_packet")
+    Observable<JSONObject> deleteRedPacket(@FieldMap Map<String,Object> params);
+
+    //删除赠品
+    @FormUrlEncoded
+    @POST("/sjapi/giftbag/delete_give_goods")
+    Observable<JSONObject> deleteGiveGoods(@FieldMap Map<String,Object> params);
+
+    //发送礼包
+    @FormUrlEncoded
+    @POST("/sjapi/giftbag/affirm_gift_bag")
+    Observable<JSONObject> affirmGiftBag(@FieldMap Map<String,Object> params);
+
+    //选择赠送商品
+    @FormUrlEncoded
+    @POST("/sjapi/giftbag/list_give_goods")
+    Observable<JSONObject> listGiveGoods(@FieldMap Map<String,Object> params);
 }

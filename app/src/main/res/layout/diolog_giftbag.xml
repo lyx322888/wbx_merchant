@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_marginRight="30dp"
+    android:layout_marginLeft="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_corner_white"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/user_nick_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="自定义红包面额"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            />
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content">
+
+            <com.wbx.merchant.widget.PriceEditText
+                android:id="@+id/selling_price_edit"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ova_tra_line"
+                android:hint="请输入面额"
+                android:inputType="numberDecimal"
+                android:padding="8dp"
+                android:textSize="13sp" />
+            <TextView
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:text="元"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+    <View style="@style/GrayLineStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite"
+        >
+
+        <Button
+            android:id="@+id/dialog_cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="取消"
+            android:layout_weight="1"
+            />
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/color_gray_line"
+            ></View>
+        <Button
+            android:id="@+id/dialog_complete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="确定"
+            android:layout_weight="1"
+            android:textColor="@color/app_color"
+            />
+    </LinearLayout>
+</LinearLayout>

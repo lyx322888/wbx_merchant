@@ -65,11 +65,18 @@ public class OpenRadarAdapter extends RecyclerView.Adapter<OpenRadarAdapter.VH> 
         if (TextUtils.isEmpty(list.get(position).getFace())) {
             holder.iv_user.setImageResource(R.drawable.loading_logo);
         } else {
-            GlideUtils.showSmallPic(context, holder.iv_user, list.get(position).getFace());
+            try {
+                GlideUtils.showSmallPic(context, holder.iv_user, list.get(position).getFace());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if (list.get(position).getIs_bind() == 1) {
             holder.tv_bind.setText("已绑定");
             holder.tv_bind.setBackgroundResource(R.drawable.shape_onbind);
+        }else {
+            holder.tv_bind.setText("绑定");
+            holder.tv_bind.setBackgroundResource(R.drawable.shape_bind);
         }
 
         holder.tv_bind.setOnClickListener(new View.OnClickListener() {

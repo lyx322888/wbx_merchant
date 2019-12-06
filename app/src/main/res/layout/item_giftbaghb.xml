@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_marginLeft="15dp"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout
+        android:layout_width="72dp"
+        android:layout_height="76dp">
+        <ImageView
+            android:src="@drawable/bg_hb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tv_price"
+            android:textSize="18sp"
+            android:textColor="@color/hb_p_color"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:textStyle="bold"
+            app:autoSizeTextType="uniform"
+            android:maxLines="1"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_gravity="center_horizontal"
+        android:text="删除"
+        android:textSize="11sp"
+        android:textColor="#CBC9C9"
+        android:gravity="center"
+        android:padding="6dp"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
