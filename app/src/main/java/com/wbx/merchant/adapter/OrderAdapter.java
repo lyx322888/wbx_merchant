@@ -218,6 +218,9 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
                             case 10:
                                 tvTrack.setText(time + "妥投异常之物品返回完成");
                                 break;
+                            case 100:
+                                tvTrack.setText(time + "骑手到店");
+                                break;
                             case 1000:
                                 tvTrack.setText(time + "创建达达运单失败");
                                 break;

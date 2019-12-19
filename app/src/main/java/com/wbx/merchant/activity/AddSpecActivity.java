@@ -16,6 +16,7 @@ import com.wbx.merchant.widget.iosdialog.AlertDialog;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -101,7 +102,7 @@ public class AddSpecActivity extends BaseActivity {
 
     private void addSpec() {
         SpecInfo specInfo = new SpecInfo();
-        specInfoList.add(0, specInfo);
+        specInfoList.add( 0,specInfo);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.scrollToPosition(0);
     }
@@ -121,7 +122,8 @@ public class AddSpecActivity extends BaseActivity {
     private void save() {
         if (canSave()) {
             Intent intent = new Intent();
-            intent.putExtra("specList", (Serializable) specInfoList);
+            Collections.reverse(specInfoList);
+            intent.putExtra("specList", (Serializable)specInfoList);
             setResult(RESULT_OK, intent);
             finish();
         }

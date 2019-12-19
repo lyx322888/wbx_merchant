@@ -190,6 +190,8 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
                 //选择社区
                 if (!TextUtils.isEmpty(cityName)&&lat!=0){
                     psotCitycommunity( );
+                }else {
+                    showShortToast("请选择城市并获取定位地址");
                 }
                 break;
         }
@@ -421,7 +423,10 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
                     }
                     pvOptions.setPicker(selectCommunity );//添加数据源
                     pvOptions.show();
+                }else {
+                    showShortToast("当前位置无社区");
                 }
+
 
             }
 

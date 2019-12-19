@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.security.auth.login.LoginException;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -151,8 +149,8 @@ public class GiftBagActivity extends BaseActivity {
                 }
                 giftbagHBAdapter.setNewData(bagInfo.getData().getRed_packet());
                 giftbagZsAdapter.setNewData(bagInfo.getData().getGive_goods());
-                tvTsHb.setText(bagInfo.getData().getRed_packet_valid_day());
-                tvTsZs.setText(bagInfo.getData().getGive_goods_valid_day());
+                tvTsHb.setText(bagInfo.getData().getRed_packet_valid_day()+"天");
+                tvTsZs.setText(bagInfo.getData().getGive_goods_valid_day()+"天");
             }
 
             @Override
@@ -187,7 +185,7 @@ public class GiftBagActivity extends BaseActivity {
          final OptionsPickerView pvOptions = new OptionsPickerView(new OptionsPickerView.Builder(mContext, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                textView.setText(String.format("%s天",options1));
+                textView.setText(String.format("%s天",yxtlist.get(options1)));
             }
         }).setSubmitText("确定")//确定按钮文字
                 .setCancelText("取消")//取消按钮文字
