@@ -79,8 +79,15 @@ public class OrderAdapter extends BaseAdapter<OrderInfo, Context> {
             case 1:
                 orderState = "待配送";
                 tvRefuseOrder.setVisibility(View.VISIBLE);
-                tvSend.setVisibility(View.VISIBLE);
                 tvCopy.setVisibility(View.VISIBLE);
+                //如果选了达达 就显示取消达达
+                if (orderInfo.getIs_dada() == 1){
+                        //显示取消达达配送按钮
+                        tvCancelSendByDaDa.setVisibility(View.VISIBLE);
+                }else {
+                    //显示发货按钮
+                    tvSend.setVisibility(View.VISIBLE);
+                }
                 break;
             case 2:
                 orderState = "配送中";

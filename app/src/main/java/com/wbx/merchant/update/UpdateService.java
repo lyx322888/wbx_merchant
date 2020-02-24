@@ -1,6 +1,9 @@
 package com.wbx.merchant.update;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -9,8 +12,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.wbx.merchant.base.BaseApplication;
 
@@ -70,20 +75,53 @@ public class UpdateService extends Service {
      * @param path
      * @return
      */
-    private static Intent installIntent(String path) {
+    public   Intent  installIntent(String path) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         File file = new File(path);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri apkUri = FileProvider.getUriForFile(BaseApplication.getInstance(), "com.wbx.merchant.provider", file);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+            if (Build.VERSION.SDK_INT == 26) {
+                //8.0的手机判断是否有安装未知应用权限 8.0以上自动判断
+                boolean installAllowed= getPackageManager().canRequestPackageInstalls();
+                if(installAllowed){
+                    Uri apkUri = FileProvider.getUriForFile(BaseApplication.getInstance(), "com.wbx.merchant.provider", file);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                }else {
+                    startInstallPermissionSettingActivity();
+                }
+            }else {
+                Uri apkUri = FileProvider.getUriForFile(BaseApplication.getInstance(), "com.wbx.merchant.provider", file);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+            }
+
         } else {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Uri uri = Uri.fromFile(file);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
         }
         return intent;
+    }
+
+    /**
+     * 开启设置安装未知来源应用权限界面
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void startInstallPermissionSettingActivity() {
+        Intent intent = new Intent();
+        //获取当前apk包URI，并设置到intent中（这一步设置，可让“未知应用权限设置界面”只显示当前应用的设置项）
+        Uri packageURI = Uri.parse("package:" + getPackageName());
+        intent.setData(packageURI);
+        //设置不同版本跳转未知应用的动作
+        if (Build.VERSION.SDK_INT >= 26) {
+            //intent = new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,packageURI);
+            intent.setAction(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+        } else {
+            intent.setAction(android.provider.Settings.ACTION_SECURITY_SETTINGS);
+        }
+       startActivity(intent);
+        Toast.makeText(this, "请打开未知应用安装权限", Toast.LENGTH_SHORT).show();
     }
 
     private static String getSaveFileName(String downloadUrl) {

@@ -37,6 +37,7 @@ public class ActivityManagerActivity extends BaseActivity {
 
     @Override
     public void initView() {
+
     }
 
     @Override
@@ -88,8 +89,5 @@ public class ActivityManagerActivity extends BaseActivity {
                 break;
         }
     }
-
-
-
 
 }

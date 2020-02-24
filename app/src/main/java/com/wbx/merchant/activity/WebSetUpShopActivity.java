@@ -11,8 +11,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import com.wbx.merchant.R;
+import com.wbx.merchant.api.Api;
+import com.wbx.merchant.api.HttpListener;
+import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.bean.SetUpShopBean;
 import com.wbx.merchant.utils.ShareUtils;
 
 import butterknife.Bind;
@@ -21,22 +27,23 @@ import butterknife.Bind;
  * Created by wushenghui on 2018/1/3.
  */
 
-public class WebActivity extends BaseActivity {
+public class WebSetUpShopActivity extends BaseActivity {
     @Bind(R.id.web_view)
     WebView mWebView;
     private String url;
     @Bind(R.id.title_name_tv)
     TextView titleNameTv;
     private boolean isChat;
+    private SetUpShopBean setUpShopBean;
 
     public static void actionStart(Context context, String url) {
-        Intent intent = new Intent(context, WebActivity.class);
+        Intent intent = new Intent(context, WebSetUpShopActivity.class);
         intent.putExtra("url", url);
         context.startActivity(intent);
     }
 
     public static void actionStart(Context context, String url, String title) {
-        Intent intent = new Intent(context, WebActivity.class);
+        Intent intent = new Intent(context, WebSetUpShopActivity.class);
         intent.putExtra("url", url);
         intent.putExtra("title", title);
         context.startActivity(intent);
@@ -58,7 +65,7 @@ public class WebActivity extends BaseActivity {
         WebSettings webSettings = mWebView.getSettings();
         // 设置与Js交互的权限
         webSettings.setJavaScriptEnabled(true);
-//        mWebView.addJavascriptInterface(new InJavaScriptLocalObj(), "android");
+        mWebView.addJavascriptInterface(new InJavaScriptLocalObj(), "android");
         webSettings.setUseWideViewPort(true);
         // 设置允许JS弹窗
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
@@ -108,6 +115,18 @@ public class WebActivity extends BaseActivity {
 //            }
 
         });
+        //获取用户id奖励额度
+        new MyHttp().doPost(Api.getDefault().invitation(userInfo.getSj_login_token()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                setUpShopBean = new Gson().fromJson(result.toString(),SetUpShopBean.class);
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
     }
 
     @Override
@@ -131,7 +150,20 @@ public class WebActivity extends BaseActivity {
             }
         }
     }
+    final class InJavaScriptLocalObj {
+        @JavascriptInterface
+        public void invite(String userid) {
+            ShareUtils.getInstance().share(mContext,"邀请开店","邀请开店","",String.format("http://www.wbx365.com/Wbxwaphome/invite?id=",userid));
+        }
 
+        @JavascriptInterface
+        public void money( ) {
+            Intent intentCash = new Intent(mContext, CashActivity.class);
+            intentCash.putExtra("type", CashActivity.TYPE_REWARD_YQKD);
+            intentCash.putExtra("balance", setUpShopBean.getData().getShare_bounty());
+            startActivity(intentCash);
+        }
+    }
 //    private void refreshHtmlContent(final String html){
 //                //解析html字符串为对象
 //                Document document = Jsoup.parse(html);

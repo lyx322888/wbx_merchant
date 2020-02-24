@@ -18,6 +18,7 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.commonsdk.UMConfigure;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.wbx.merchant.BuildConfig;
 import com.wbx.merchant.baseapp.ThreadPoolManager;
@@ -111,6 +112,12 @@ public class BaseApplication extends MultiDexApplication {
         initRefresh();
         initBugly();
         initAlbum();
+        initUMeng();
+    }
+    //初始化友盟
+    private void initUMeng(){
+        UMConfigure.setLogEnabled(true);
+        UMConfigure.init(this, "5e1eb38c570df3c9a1000669", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
     }
     //图片选择框架
     private void initAlbum() {

@@ -41,6 +41,7 @@ public class CashActivity extends BaseActivity {
     public static final String TYPE_DA_DA = "dada_money";
     public static final String TYPE_SHOP = "shop";
     public static final String TYPE_REWARD = "shop_subsidy_money";
+    public static final String TYPE_REWARD_YQKD = "share_bounty";
     public static final int CHOOSE_CASH_TYPE = 1000;
     private final int PRICE_LENGTH = 9;
     @Bind(R.id.scroll_view)

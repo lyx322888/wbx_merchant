@@ -6,8 +6,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -48,6 +50,7 @@ import com.wbx.merchant.activity.ScanOrderActivity;
 import com.wbx.merchant.activity.SeatActivity;
 import com.wbx.merchant.activity.StoreManagerActivity;
 import com.wbx.merchant.activity.WebActivity;
+import com.wbx.merchant.activity.WebSetUpShopActivity;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
@@ -63,14 +66,19 @@ import com.wbx.merchant.dialog.AlertUploadAccreditationDialog;
 import com.wbx.merchant.dialog.DaDaCouponDialog;
 import com.wbx.merchant.dialog.MiniProgramDialog;
 import com.wbx.merchant.dialog.OperatingStateDialog;
+import com.wbx.merchant.utils.GlideImageLoader;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.SPUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.CircleImageView;
 import com.wbx.merchant.widget.CustomizedProgressBar;
 import com.wbx.merchant.widget.LoadingDialog;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -94,6 +102,8 @@ public class IndexFragment extends BaseFragment {
     TextView balanceTv;
     @Bind(R.id.today_income_tv)
     TextView todayIncomeTv;
+    @Bind(R.id.xbanner_view)
+    Banner xbannerView;
     @Bind(R.id.yesterday_income_tv)
     TextView yesterdayIncomeTv;
     @Bind(R.id.index_head_im)
@@ -161,6 +171,17 @@ public class IndexFragment extends BaseFragment {
         super.onResume();
         getShopInfo();
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        xbannerView.startAutoPlay();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        xbannerView.stopAutoPlay();
+    }
 
     @Override
     public void onDestroy() {
@@ -176,6 +197,28 @@ public class IndexFragment extends BaseFragment {
             SPUtils.setSharedBooleanData(getActivity(), AppConfig.LOGIN_STATE, false);
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
+
+        List<Drawable> imgurl = new ArrayList<>();
+        imgurl.add(ContextCompat.getDrawable(getContext(),R.drawable.prw));
+        imgurl.add(ContextCompat.getDrawable(getContext(),R.drawable.cwdz));
+        imgurl.add(ContextCompat.getDrawable(getContext(),R.drawable.vidio_study));
+        xbannerView.setBannerStyle(BannerConfig.NOT_INDICATOR);
+        xbannerView.setImages(imgurl).setDelayTime(6000).setImageLoader(new GlideImageLoader()).start();
+        xbannerView.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                switch (position){
+                    case 0:
+                        WebSetUpShopActivity.actionStart(getContext(), String.format("http://www.wbx365.com/Wbxwaphome/openstore#/record?uid=%s",loginUser.getSj_login_token()));
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        WebActivity.actionStart(getContext(), "http://www.wbx365.com/Wbxwaphome/video");
+                        break;
+                }
+            }
+        });
     }
 
     //获取首页 店铺的信息
@@ -331,6 +374,7 @@ public class IndexFragment extends BaseFragment {
 
     @Override
     protected void bindEven() {
+
     }
 
     private void showNoticeDialog() {
@@ -376,7 +420,7 @@ public class IndexFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.ll_xsdl_pj,R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager, R.id.ll_video_study, R.id.rl_business_must})
+    @OnClick({R.id.ll_xsdl_pj,R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager, R.id.rl_business_must})
     public void onViewClicked(View view) {
         if (shopInfo == null) {
             return;
@@ -465,9 +509,6 @@ public class IndexFragment extends BaseFragment {
                 break;
             case R.id.rl_seat_manager:
                 startActivity(new Intent(getActivity(), SeatActivity.class));
-                break;
-            case R.id.ll_video_study:
-                WebActivity.actionStart(getContext(), "http://www.wbx365.com/Wbxwaphome/video");
                 break;
             case R.id.rl_business_must:
                 startActivity(new Intent(getActivity(), BusinessMustActivity.class));

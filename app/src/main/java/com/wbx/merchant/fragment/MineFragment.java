@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.AboutActivity;
 import com.wbx.merchant.activity.BindAccountActivity;
+import com.wbx.merchant.activity.BluetoothActivity;
 import com.wbx.merchant.activity.LoginActivity;
 import com.wbx.merchant.activity.ModifyPswActivity;
 import com.wbx.merchant.activity.MyBusinessCircleActivity;
@@ -73,6 +74,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.ll_printer:
                 startActivity(new Intent(getActivity(), ReceiverListActivity.class));
+//                startActivity(new Intent(getActivity(), BluetoothActivity.class));
                 break;
             case R.id.ll_renewal:
                 Intent intent = new Intent(getActivity(), PayActivity.class);

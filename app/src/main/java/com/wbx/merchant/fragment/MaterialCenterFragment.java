@@ -119,7 +119,8 @@ public class MaterialCenterFragment extends BaseFragment {
         position = getArguments().getInt("position");
         activity = (MaterialCenterActivity) getActivity();
         List<MaterialInfoBean> lstAllMaterial = activity.getAllMaterial();
-        if (lstAllMaterial != null && lstAllMaterial.size() >= position) {
+        if (lstAllMaterial != null && lstAllMaterial.size() >= position&&lstAllMaterial.size()!=0) {
+            // TODO: 2019/12/27  有数组越界现象
             lstProduct = lstAllMaterial.get(position).getProduct();
             adapter.setData(lstProduct);
         }

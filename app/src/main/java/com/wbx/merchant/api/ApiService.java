@@ -207,6 +207,11 @@ public interface ApiService {
     @POST("/sjapi/user/add_cash_apply_new")
     Observable<JSONObject> applyCash(@FieldMap Map<String, Object> params);
 
+     //邀请开店
+    @FormUrlEncoded
+    @POST("/sjapi/Merchantinvitation/merchant_invitation")
+    Observable<JSONObject> invitation(@Field("sj_login_token") String loginToken);
+
     //获取店铺详情信息
     @FormUrlEncoded
     @POST("/sjapi/user/get_shop_detail")

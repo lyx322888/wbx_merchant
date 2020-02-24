@@ -119,7 +119,7 @@ public class MerchantRecommendActivity extends BaseActivity {
         mParams.put("num", mPageSize);
         mParams.put("is_recommend", 0);
         mParams.put("keyword", searchEditText.getText().toString());
-        new MyHttp().doPost(Api.getDefault().listGiveGoods(mParams), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().getRecommend_goods(mParams), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 List<GoodsInfo> dataList = JSONArray.parseArray(result.getString("data"), GoodsInfo.class);
