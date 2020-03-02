@@ -1,12 +1,18 @@
 package com.wbx.merchant.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +30,8 @@ import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.UserInfo;
 import com.wbx.merchant.fragment.UpdateDialogFragment;
 import com.wbx.merchant.utils.DeviceUtils;
+import com.wbx.merchant.utils.FormatUtil;
+import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.MD5;
 import com.wbx.merchant.utils.SPUtils;
 import com.wbx.merchant.utils.ToastUitl;
@@ -33,6 +41,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 
@@ -45,12 +54,24 @@ public class LoginActivity extends BaseActivity {
     EditText accountEdit;
     @Bind(R.id.login_psw_edit)
     EditText pswEdit;
+    @Bind(R.id.iv_user_img)
+    ImageView ivUserImg;
+    @Bind(R.id.tv_shop_name)
+    TextView tvShopName;
+    @Bind(R.id.login_login_btn)
+    Button loginLoginBtn;
+    @Bind(R.id.register_tv)
+    TextView registerTv;
+    @Bind(R.id.forget_psw_tv)
+    TextView forgetPswTv;
     private UserInfo userInfo;
     private int hxErrorCount = 0;
     private Dialog mLoadingDialog;
+    private static final int REQUEST_CODE = 1234;
 
     @Override
     public int getLayoutId() {
+        FormatUtil.setStatubarColor(mActivity, R.color.white);
         return R.layout.activity_login;
     }
 
@@ -61,13 +82,42 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        final String phone = SPUtils.getSharedStringData(mContext, AppConfig.LOGIN_MOBILE);
+        final String shopNeme = SPUtils.getSharedStringData(mContext, AppConfig.LOGIN_NAME);
+        final String photo = SPUtils.getSharedStringData(mContext, AppConfig.LOGIN_PHOTO);
+        accountEdit.setText(phone);
+        tvShopName.setText(shopNeme);
+        if (!TextUtils.isEmpty(photo)){
+            GlideUtils.showMediumPic(mContext,ivUserImg,photo);
+        }
+        accountEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(phone)&&TextUtils.equals(phone,s)){
+                    tvShopName.setText(shopNeme);
+                    GlideUtils.showMediumPic(mContext,ivUserImg,photo);
+                }else {
+                    tvShopName.setText("");
+                    ivUserImg.setImageDrawable(ContextCompat.getDrawable(mContext,R.drawable.shop_photo_mr));
+                }
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        accountEdit.setText(SPUtils.getSharedStringData(mContext, AppConfig.LOGIN_MOBILE));
+
     }
 
     @Override
@@ -107,12 +157,30 @@ public class LoginActivity extends BaseActivity {
                 doLogin();
                 break;
             case R.id.register_tv:
-                startActivity(new Intent(mContext, RegisterActivity.class));
+                startActivityForResult(new Intent(mContext, RegisterActivity.class),REQUEST_CODE);
                 break;
             case R.id.forget_psw_tv:
                 startActivity(new Intent(mContext, ForgetPswActivity.class));
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE:
+                //注册返回
+                if (resultCode == Activity.RESULT_OK) {
+                    accountEdit.setText(data.getStringExtra("mobile"));
+                    pswEdit.setText(data.getStringExtra("password"));
+                    doLogin();
+                }
+                break;
+            default:
+                break;
+        }
+
     }
 
     //执行登录操作
@@ -148,7 +216,6 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(JSONObject result) {
                 userInfo = JSONObject.parseObject(result.getString("data"), UserInfo.class);
-                Log.e("dfdf", "onSuccess: "+userInfo.getGrade_id());
                 userInfo.setMobile(accountEdit.getText().toString());
                 BaseApplication.getInstance().saveUserInfo(userInfo);
                 //保存登录的手机
@@ -193,7 +260,7 @@ public class LoginActivity extends BaseActivity {
             startActivity(new Intent(mContext, InputShopInfoActivity.class));
         } else if (0 == userInfo.getEnd_date()) { //未缴费
             startActivity(new Intent(mContext, ChooseShopTypeActivity.class));
-        }else if(0 == userInfo.getGrade_id()){
+        } else if (0 == userInfo.getGrade_id()) {
             startActivity(new Intent(mContext, ChooseShopTypeActivity.class));
         } else if (userInfo.getEnd_date() <= System.currentTimeMillis() / 1000) {
             //过期
@@ -210,4 +277,5 @@ public class LoginActivity extends BaseActivity {
             finish();
         }
     }
+
 }

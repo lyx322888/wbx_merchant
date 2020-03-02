@@ -238,6 +238,9 @@ public class IndexFragment extends BaseFragment {
                 loginUser.setIsSubscribe(shopInfo.getIs_subscribe());
                 loginUser.setEnd_date(shopInfo.getEnd_date());
                 loginUser.setShopPhoto(shopInfo.getPhoto());
+                //保存用户头像及昵称
+                SPUtils.setSharedStringData(getContext(), AppConfig.LOGIN_PHOTO,shopInfo.getPhoto());
+                SPUtils.setSharedStringData(getContext(), AppConfig.LOGIN_NAME,shopInfo.getShop_name());
                 loginUser.setScan_order_type(shopInfo.getScan_order_type());
                 BaseApplication.getInstance().saveUserInfo(loginUser);
                 setData();

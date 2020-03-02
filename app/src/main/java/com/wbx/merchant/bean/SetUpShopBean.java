@@ -48,7 +48,7 @@ public class SetUpShopBean {
 
         private CurrentTaskBean current_task;
         private int my_bounty;
-        private int user_id;
+        private String user_id;
         private int share_bounty;
         private List<IncentivePlanBean> incentive_plan;
 
@@ -68,7 +68,7 @@ public class SetUpShopBean {
             this.my_bounty = my_bounty;
         }
 
-        public int getUser_id() {
+        public String getUser_id() {
             return user_id;
         }
         public int getShare_bounty() {
@@ -78,7 +78,7 @@ public class SetUpShopBean {
         public void setShare_bounty(int share_bounty) {
             this.share_bounty = share_bounty;
         }
-        public void setUser_id(int user_id) {
+        public void setUser_id(String user_id) {
             this.user_id = user_id;
         }
 

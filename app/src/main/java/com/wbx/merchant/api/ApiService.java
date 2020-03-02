@@ -475,7 +475,7 @@ public interface ApiService {
 
     //获取版本等级 通用版/旗舰版
     @FormUrlEncoded
-    @POST("/sjapi/apply/get_shop_shop_grade")
+    @POST("/sjapi/applyh5/service_fee")
     Observable<JSONObject> getShopVersionInfo(@Field("grade_id") int gradeId);
 
     //设置店铺版本
@@ -984,4 +984,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/sjapi/giftbag/list_give_goods")
     Observable<JSONObject> listGiveGoods(@FieldMap Map<String,Object> params);
+
+    // 奖励明细
+    @FormUrlEncoded
+    @POST("/sjapi/Merchantinvitation/list_share_user")
+    Observable<JSONObject> listShareUser(@Field("sj_login_token") String login_token);
+
+    // 登录判断是否已经付过款
+    @FormUrlEncoded
+    @POST("/sjapi/apply/get_shop_is_pay")
+    Observable<JSONObject> getShopIsPay(@Field("sj_login_token") String login_token);
 }

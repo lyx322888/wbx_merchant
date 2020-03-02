@@ -149,8 +149,8 @@ dependencies {
 //屏幕适配
     implementation 'me.jessyan:autosize:0.9.1'
     //友盟
-    implementation  'com.umeng.umsdk:analytics:1.0.0'
-    implementation  'com.umeng.umsdk:common:1.0.5'
+    implementation 'com.umeng.umsdk:analytics:1.0.0'
+    implementation 'com.umeng.umsdk:common:1.0.5'
     //轮播图
     implementation 'com.youth.banner:banner:1.4.10'
 }

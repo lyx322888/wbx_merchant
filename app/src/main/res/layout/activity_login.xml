@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <ScrollView
@@ -15,23 +16,31 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/iv_user_img"
+                android:layout_width="93dp"
+                android:layout_height="93dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="80dp"
-                android:src="@drawable/logo" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:src="@drawable/shop_photo_mr" />
+            <TextView
+                android:id="@+id/tv_shop_name"
+                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/icon_logo" />
+                android:gravity="center"
+                android:textColor="@color/font32"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColorHint="@color/font32"
+                android:hint="欢迎您，使用微百姓独立商铺系统"
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:background="@color/colorWhite"
                 android:orientation="vertical">
 
@@ -45,15 +54,15 @@
                         android:layout_height="25dp"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        android:src="@drawable/icon_user" />
+                        android:src="@drawable/phone" />
 
                     <EditText
                         android:id="@+id/login_account_edit"
                         android:layout_width="wrap_content"
-                        android:layout_height="45dp"
+                        android:layout_height="66dp"
                         android:layout_weight="1"
                         android:background="@color/colorWhite"
-                        android:hint="请输入用户名"
+                        android:hint="请输入手机号码"
                         android:inputType="phone"
                         android:textSize="14dp" />
 
@@ -73,29 +82,34 @@
                         android:layout_height="25dp"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        android:src="@drawable/icon_lock" />
+                        android:src="@drawable/mima" />
 
                     <EditText
                         android:id="@+id/login_psw_edit"
                         android:layout_width="wrap_content"
-                        android:layout_height="45dp"
+                        android:layout_height="66dp"
                         android:layout_weight="1"
                         android:background="@color/colorWhite"
                         android:hint="请输入密码"
                         android:inputType="textPassword"
                         android:textSize="14dp" />
                 </LinearLayout>
+                <View
+                    style="@style/lineViewStyle"
+                    android:layout_marginLeft="10dp" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/login_login_btn"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_margin="16dp"
-                android:background="@drawable/ova_bg_app_color"
-                android:text="登录"
+                android:layout_marginLeft="47dp"
+                android:layout_marginRight="47dp"
+                android:layout_marginTop="25dp"
+                android:layout_height="40dp"
+                android:background="@drawable/login_bg_app_color"
+                android:text="登 录"
                 android:textColor="@color/colorWhite"
-                android:textSize="13sp" />
+                android:textSize="17sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,15 +122,11 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="新用户注册"
-                    android:textColor="@color/app_color"
+                    android:text="我要开店"
+                    android:textColor="@color/font32"
                     android:textSize="13sp" />
 
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="10dp"
-                    android:layout_gravity="center"
-                    android:background="@color/black" />
+
 
                 <TextView
                     android:id="@+id/forget_psw_tv"
@@ -125,7 +135,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="忘记密码？"
-                    android:textColor="@color/color_gray"
+                    android:textColor="@color/fonta4"
                     android:textSize="13sp" />
             </LinearLayout>
 

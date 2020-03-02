@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -18,6 +19,7 @@ import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.bean.RewardSubsidiaryBean;
 import com.wbx.merchant.bean.SetUpShopBean;
 import com.wbx.merchant.utils.ShareUtils;
 
@@ -127,6 +129,7 @@ public class WebSetUpShopActivity extends BaseActivity {
 
             }
         });
+
     }
 
     @Override
@@ -153,15 +156,30 @@ public class WebSetUpShopActivity extends BaseActivity {
     final class InJavaScriptLocalObj {
         @JavascriptInterface
         public void invite(String userid) {
-            ShareUtils.getInstance().share(mContext,"邀请开店","邀请开店","",String.format("http://www.wbx365.com/Wbxwaphome/invite?id=",userid));
+            //分享
+            ShareUtils.getInstance().share(mContext,"您的好友邀请您开店赚钱啦！","开店宝-轻松开店赚钱，有营业执照即可！送小程序[立即查看]","",String.format("http://www.wbx365.com/Wbxwaphome/invite?id=%s",userid));
         }
 
         @JavascriptInterface
         public void money( ) {
-            Intent intentCash = new Intent(mContext, CashActivity.class);
-            intentCash.putExtra("type", CashActivity.TYPE_REWARD_YQKD);
-            intentCash.putExtra("balance", setUpShopBean.getData().getShare_bounty());
-            startActivity(intentCash);
+            //提现
+            if (setUpShopBean !=null){
+                Intent intentCash = new Intent(mContext, CashActivity.class);
+                intentCash.putExtra("type", CashActivity.TYPE_REWARD_YQKD);
+                intentCash.putExtra("balance", setUpShopBean.getData().getShare_bounty());
+                startActivity(intentCash);
+            }else {
+                showShortToast("网络加载失败，请重新进入页面");
+            }
+        }
+        @JavascriptInterface
+        public void  awardPeople( ) {
+            //奖励明细
+            if (setUpShopBean !=null){
+                RewardSubsidiaryActivity.actionStart(mContext,setUpShopBean.getData().getUser_id());
+            }else {
+                showShortToast("网络加载失败，请重新进入页面");
+            }
         }
     }
 //    private void refreshHtmlContent(final String html){

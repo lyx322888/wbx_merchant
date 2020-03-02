@@ -14,6 +14,8 @@ public class AppConfig {
     public static final String IMAGES = "http://imgs.wbx365.com/";
     public static final String LOGIN_STATE = "loginState";//登录状态
     public static final String LOGIN_MOBILE = "loginMobile";//保存手机号码
+    public static final String LOGIN_PHOTO = "login_photo";//保存店铺图像
+    public static final String LOGIN_NAME = "login_name";//保存店铺昵称
     public static final String REFRESH_UI = "refreshUl";//刷新UI
     public static final String IS_VIEW_WITHDRAW_COMMISSION = "is_view_withdraw_commission";//刷新UI
     public static final String NO_ASK_AGAIN_ACCREDITATION = "NO_ASK_AGAIN_ACCREDITATION";//不再弹出资质认证提醒

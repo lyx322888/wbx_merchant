@@ -33,8 +33,8 @@ public class ChooseVersionActivity extends BaseActivity {
     RecyclerView mRecyclerView;
     ShopVersionAdapter shopVersionAdapter;
     private int gradeId;
-    private List<ShopVersionBean> lstShopVersion = new ArrayList<>();
-    private ShopVersionBean selectShopVersion;//选中项
+    private List<ShopVersionBean.DataBean> lstShopVersion = new ArrayList<>();
+    private ShopVersionBean.DataBean selectShopVersion;//选中项
 
     @Override
     public int getLayoutId() {
@@ -59,7 +59,7 @@ public class ChooseVersionActivity extends BaseActivity {
         new MyHttp().doPost(Api.getDefault().getShopVersionInfo(gradeId), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                lstShopVersion.addAll(JSONArray.parseArray(result.getString("data"), ShopVersionBean.class));
+                lstShopVersion.addAll(JSONArray.parseArray(result.getString("data"), ShopVersionBean.DataBean.class));
                 shopVersionAdapter.notifyDataSetChanged();
             }
 
@@ -71,21 +71,11 @@ public class ChooseVersionActivity extends BaseActivity {
 
     @Override
     public void setListener() {
-        shopVersionAdapter.setOnItemClickListener(R.id.tv_show_detail, new BaseAdapter.ItemClickListener() {
-            @Override
-            public void onItemClicked(View view, int position) {
-                WebActivity.actionStart(mContext, lstShopVersion.get(position).getDetail_url(), "版本详情");
-            }
-        });
         shopVersionAdapter.setOnItemClickListener(R.id.root_view, new BaseAdapter.ItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
-                if (lstShopVersion.get(position).getShop_grade() == 3 && lstShopVersion.get(position).getSurplus_num() == 0) {
-                    ToastUitl.showShort("该版本已售罄，请期待下次活动开启");
-                    return;
-                }
-                for (ShopVersionBean shopVersionBean : lstShopVersion) {
-                    shopVersionBean.setSelect(false);
+                for (ShopVersionBean.DataBean dataBean : lstShopVersion) {
+                    dataBean.setSelect(false);
                 }
                 selectShopVersion = lstShopVersion.get(position);
                 lstShopVersion.get(position).setSelect(true);
@@ -100,18 +90,19 @@ public class ChooseVersionActivity extends BaseActivity {
             return;
         }
         LoadingDialog.showDialogForLoading(mActivity, "信息提交中...", true);
-        new MyHttp().doPost(Api.getDefault().settingsShopGrade(userInfo.getSj_login_token(), selectShopVersion.getShop_grade()), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().settingsShopGrade(userInfo.getSj_login_token(),selectShopVersion.getShop_grade()), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 ShopEnterParameter shopEnterParameter = new ShopEnterParameter();
-                shopEnterParameter.setGradeName(selectShopVersion.getName());
+                shopEnterParameter.setGradeName(selectShopVersion.getTitle());
                 shopEnterParameter.setShopGradeId(selectShopVersion.getShop_grade());
-                shopEnterParameter.setNeedPayPrice(selectShopVersion.getMoney());
+                shopEnterParameter.setNeedPayPrice(selectShopVersion.getSpecial_price());
                 shopEnterParameter.setGradeId(gradeId);
 //                ElectronicContractActivity.actionStart(mContext, shopEnterParameter);
                 Intent intent=new Intent(mContext,PayActivity.class);
-                intent.putExtra("select_money",selectShopVersion.getMoney());
+                intent.putExtra("select_money",selectShopVersion.getSpecial_price()*100);
                 intent.putExtra("gradeId",gradeId);//等级id
+                intent.putExtra("gradeName",selectShopVersion.getTitle());//等级id
                 intent.putExtra("shopGradeId",shopEnterParameter.getShopGradeId());
                 startActivity(intent);
             }

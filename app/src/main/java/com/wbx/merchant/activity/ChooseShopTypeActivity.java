@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import com.wbx.merchant.R;
 import com.wbx.merchant.adapter.CateAdapter;
 import com.wbx.merchant.adapter.GradeAdapter;
@@ -15,8 +16,11 @@ import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.base.BaseApplication;
+import com.wbx.merchant.baseapp.AppManager;
 import com.wbx.merchant.bean.CateBean;
 import com.wbx.merchant.bean.GradeInfoBean;
+import com.wbx.merchant.bean.ShopIsPayBean;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.presenter.CatePresenterImp;
 import com.wbx.merchant.presenter.ShopGradePresenterImp;
@@ -95,15 +99,55 @@ public class ChooseShopTypeActivity extends BaseActivity implements ShopGradeVie
         new MyHttp().doPost(Api.getDefault().upDateShopCate(userInfo.getSj_login_token(), userInfo.getShop_id(), SPUtils.getString("cateId", "")), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                Intent intent = new Intent(mContext, ChooseVersionActivity.class);
-                gradeName = SPUtils.getString("gradeName", "");
-                needPayPrice = SPUtils.getSharedIntData(mContext, "needPayPrice");
-                gradeId = SPUtils.getSharedIntData(mContext, "gradeId");
-                Log.e("dfdf", "onSuccess: 选择店铺类型 "+gradeId );
-                intent.putExtra("gradeName", gradeName);
-                intent.putExtra("needPayPrice", needPayPrice);
-                intent.putExtra("gradeId", gradeId);
-                startActivity(intent);
+                judgeShopIsPay();
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+    }
+    //判断账号是否已经付过款
+    private void judgeShopIsPay(){
+        new MyHttp().doPost(Api.getDefault().getShopIsPay(userInfo.getSj_login_token()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                ShopIsPayBean shopIsPayBean = new Gson().fromJson(result.toString(),ShopIsPayBean.class);
+                //如果没有在h5付过款就继续下一步
+                if (shopIsPayBean.getData().getIs_paid()!=1){
+                    Intent intent = new Intent(mContext, ChooseVersionActivity.class);
+                    gradeName = SPUtils.getString("gradeName", "");
+                    needPayPrice = SPUtils.getSharedIntData(mContext, "needPayPrice");
+                    gradeId = SPUtils.getSharedIntData(mContext, "gradeId");
+                    intent.putExtra("gradeName", gradeName);
+                    intent.putExtra("needPayPrice", needPayPrice);
+                    intent.putExtra("gradeId", gradeId);
+                    startActivity(intent);
+                }else {
+                    //如果付过就直接跳到审核页面
+                    getServiceEndTime();
+                }
+
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+    }
+
+    //支付成功，获取服务到期时间
+    private void getServiceEndTime() {
+        new MyHttp().doPost(Api.getDefault().getServiceEndTime(userInfo.getSj_login_token(), userInfo.getShop_id()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                JSONObject data = result.getJSONObject("data");
+                userInfo.setEnd_date(data.getIntValue(data.getString("end_date")));
+                BaseApplication.getInstance().saveUserInfo(userInfo);
+                AppManager.getAppManager().finishAllActivity();
+                startActivity(new Intent(mContext, AuditingActivity.class));
             }
 
             @Override

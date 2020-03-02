@@ -1,5 +1,6 @@
 package com.wbx.merchant.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -137,7 +138,7 @@ public class RegisterActivity extends BaseActivity {
         String account = mobileEdit.getText().toString();
         String code = codeEdit.getText().toString();
         String firstPsw = firstPswEdit.getText().toString();
-        String secondPsw = secondPswEdit.getText().toString();
+        final String secondPsw = secondPswEdit.getText().toString();
         if (!isSuccess(account, firstPsw, secondPsw, code)) {
             return;
         }
@@ -153,7 +154,15 @@ public class RegisterActivity extends BaseActivity {
         new MyHttp().doPost(Api.getDefault().register(account, code, md5Psw), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
+                //注册成功后直接登录并
                 SPUtils.setSharedStringData(mContext, AppConfig.LOGIN_MOBILE, mobileEdit.getText().toString());
+                //返回上个界面并登录
+                Intent intent = new Intent();
+                intent.putExtra("mobile",  mobileEdit.getText().toString());
+                intent.putExtra("password", secondPsw);
+                // 设置返回码和返回携带的数据
+                setResult(Activity.RESULT_OK, intent);
+                // RESULT_OK就是一个默认值，=-1，它说OK就OK吧
                 finish();
             }
 
