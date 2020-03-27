@@ -107,11 +107,13 @@ public class OrderActivity extends BaseActivity {
                 CountBean bean = new Gson().fromJson(result.toString(),CountBean.class);
                 if (bean.getData().getCount_no_shipped_order()!=0){
                     mTabLayout.showMsg(0,bean.getData().getCount_no_shipped_order());
+                    mTabLayout.setMsgMargin(0,-10,13);
                 }else {
                     mTabLayout.hideMsg(0);
                 }
                 if (bean.getData().getCount_shipped_order()!=0){
                     mTabLayout.showMsg(1,bean.getData().getCount_shipped_order());
+                    mTabLayout.setMsgMargin(1,-10,13);
                 }else {
                     mTabLayout.hideMsg(1);
                 }

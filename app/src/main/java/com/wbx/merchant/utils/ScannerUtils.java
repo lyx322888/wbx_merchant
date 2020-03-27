@@ -48,7 +48,7 @@ public class ScannerUtils {
             } else if (type == ScannerType.MEDIA) {
                 ScannerByMedia(context, file.getAbsolutePath());
             }
-            if (!bitmap.isRecycled()) {
+            if (bitmap!=null&&!bitmap.isRecycled()) {
                 // bitmap.recycle(); 当存储大图片时，为避免出现OOM ，及时回收Bitmap
                 System.gc(); // 通知系统回收
             }
@@ -56,7 +56,6 @@ public class ScannerUtils {
     }
 
     /** Receiver扫描更新图库图片 **/
-
     private static void ScannerByReceiver(Context context, String path) {
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://"
                 + path)));

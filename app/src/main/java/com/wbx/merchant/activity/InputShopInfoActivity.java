@@ -112,7 +112,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
     private boolean hasLocation = false;
     private double lat;
     private double lng;
-    private OptionsPickerView pvOptions;
+//    private OptionsPickerView pvOptions;
     private List<CityCommunityBean.DataBean> dataBeans;
 
     @Override
@@ -129,7 +129,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
     public void initView() {
         addressPickerView = new OptionsPickerView.Builder(mContext, new MyPickerSelectListener(0)).build();
 //        gradePickerView = new OptionsPickerView.Builder(mContext, new MyPickerSelectListener(1)).build();
-        initPopCommunity();
+//        initPopCommunity();
     }
 
     @Override
@@ -188,11 +188,11 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
                 break;
             case R.id.ll_sssq:
                 //选择社区
-                if (!TextUtils.isEmpty(cityName)&&lat!=0){
-                    psotCitycommunity( );
-                }else {
-                    showShortToast("请选择城市并获取定位地址");
-                }
+//                if (!TextUtils.isEmpty(cityName)&&lat!=0){
+//                    psotCitycommunity( );
+//                }else {
+//                    showShortToast("请选择城市并获取定位地址");
+//                }
                 break;
         }
     }
@@ -219,7 +219,7 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
         mParams.put("sj_login_token", userInfo.getSj_login_token());
         mParams.put("logo", qiNiuPath);//logo
         mParams.put("shop_name", shopNameEdit.getText().toString());//店铺名称
-        mParams.put("city_community_id", communityId);//社区id
+//        mParams.put("city_community_id", communityId);//社区id
         mParams.put("yewuyuan_id", agencyAccountEdit.getText().toString());//代理账号
         mParams.put("addr", addressEdit.getText().toString());//详细地址
         mParams.put("tel", shopPhoneEdit.getText().toString());//商家电话
@@ -405,65 +405,65 @@ public class InputShopInfoActivity extends BaseActivity implements OnAddressSele
     };
 
     //获取选择社区列表
-    private void psotCitycommunity(){
-        LoadingDialog.showDialogForLoading(mActivity);
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("city_name", cityName);
-        hashMap.put("sj_login_token", LoginUtil.getLoginToken());
-        hashMap.put("lat", lat);
-        hashMap.put("lng", lng);
-        new MyHttp().doPost(Api.getDefault().getcitycommunity(hashMap), new HttpListener() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                dataBeans = JSONArray.parseArray(result.getString("data"),CityCommunityBean.DataBean.class);
-                if (dataBeans !=null){
-                    List<String> selectCommunity = new ArrayList<>();
-                    for (int i = 0; i < dataBeans.size(); i++) {
-                        selectCommunity.add(dataBeans.get(i).getCommunity_name());
-                    }
-                    pvOptions.setPicker(selectCommunity );//添加数据源
-                    pvOptions.show();
-                }else {
-                    showShortToast("当前位置无社区");
-                }
+//    private void psotCitycommunity(){
+//        LoadingDialog.showDialogForLoading(mActivity);
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//        hashMap.put("city_name", cityName);
+//        hashMap.put("sj_login_token", LoginUtil.getLoginToken());
+//        hashMap.put("lat", lat);
+//        hashMap.put("lng", lng);
+//        new MyHttp().doPost(Api.getDefault().getcitycommunity(hashMap), new HttpListener() {
+//            @Override
+//            public void onSuccess(JSONObject result) {
+//                dataBeans = JSONArray.parseArray(result.getString("data"),CityCommunityBean.DataBean.class);
+//                if (dataBeans !=null){
+//                    List<String> selectCommunity = new ArrayList<>();
+//                    for (int i = 0; i < dataBeans.size(); i++) {
+//                        selectCommunity.add(dataBeans.get(i).getCommunity_name());
+//                    }
+//                    pvOptions.setPicker(selectCommunity );//添加数据源
+//                    pvOptions.show();
+//                }else {
+//                    showShortToast("当前位置无社区");
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onError(int code) {
+//
+//            }
+//        });
+//    }
 
-
-            }
-
-            @Override
-            public void onError(int code) {
-
-            }
-        });
-    }
-
-    private void initPopCommunity(){
-        pvOptions = new OptionsPickerView(new OptionsPickerView.Builder(mContext, new OptionsPickerView.OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                if (dataBeans!=null){
-                   communityId = dataBeans.get(options1).getCity_community_id();
-                   tvShopPopSssq.setText(dataBeans.get(options1).getCommunity_name());
-                }
-            }
-        })   .setSubmitText("确定")//确定按钮文字
-                .setCancelText("取消")//取消按钮文字
-                .setTitleText("社区选择")//标题
-                .setSubCalSize(18)//确定和取消文字大小
-                .setTitleSize(20)//标题文字大小
-                .setTitleColor(ContextCompat.getColor(mContext,R.color.black))//标题文字颜色
-                .setSubmitColor(ContextCompat.getColor(mContext,R.color.app_color))//确定按钮文字颜色
-                .setCancelColor(ContextCompat.getColor(mContext,R.color.black))//取消按钮文字颜色
-//                .setTitleBgColor(0xFF333333)//标题背景颜色 Night mode
-//                .setBgColor(0xFF000000)//滚轮背景颜色 Night mode
-                .setContentTextSize(18)//滚轮文字大小
-                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
-                .setCyclic(false, false, false)//循环与否
-                .setSelectOptions(1)  //设置默认选中项
-                .setOutSideCancelable(true)//点击外部dismiss default true
-        );
-
-    }
+//    private void initPopCommunity(){
+//        pvOptions = new OptionsPickerView(new OptionsPickerView.Builder(mContext, new OptionsPickerView.OnOptionsSelectListener() {
+//            @Override
+//            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+//                if (dataBeans!=null){
+//                   communityId = dataBeans.get(options1).getCity_community_id();
+//                   tvShopPopSssq.setText(dataBeans.get(options1).getCommunity_name());
+//                }
+//            }
+//        })   .setSubmitText("确定")//确定按钮文字
+//                .setCancelText("取消")//取消按钮文字
+//                .setTitleText("社区选择")//标题
+//                .setSubCalSize(18)//确定和取消文字大小
+//                .setTitleSize(20)//标题文字大小
+//                .setTitleColor(ContextCompat.getColor(mContext,R.color.black))//标题文字颜色
+//                .setSubmitColor(ContextCompat.getColor(mContext,R.color.app_color))//确定按钮文字颜色
+//                .setCancelColor(ContextCompat.getColor(mContext,R.color.black))//取消按钮文字颜色
+////                .setTitleBgColor(0xFF333333)//标题背景颜色 Night mode
+////                .setBgColor(0xFF000000)//滚轮背景颜色 Night mode
+//                .setContentTextSize(18)//滚轮文字大小
+//                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+//                .setCyclic(false, false, false)//循环与否
+//                .setSelectOptions(1)  //设置默认选中项
+//                .setOutSideCancelable(true)//点击外部dismiss default true
+//        );
+//
+//    }
 
     @Override
     protected void onDestroy() {

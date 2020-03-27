@@ -994,4 +994,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/sjapi/apply/get_shop_is_pay")
     Observable<JSONObject> getShopIsPay(@Field("sj_login_token") String login_token);
+
+    //分享店铺信息
+    @FormUrlEncoded
+    @POST("/sjapi/user/share_shop")
+    Observable<JSONObject> shareShop(@Field("sj_login_token") String login_token);
+
+    //排行榜
+    @FormUrlEncoded
+    @POST("/sjapi/Merchantinvitation/ranking_list")
+    Observable<JSONObject> ranKingList(@Field("sj_login_token") String login_token);
 }

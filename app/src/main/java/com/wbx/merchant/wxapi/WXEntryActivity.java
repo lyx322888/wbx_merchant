@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.os.StrictMode;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
@@ -79,6 +81,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     ToastUitl.showShort("失败");
                     finish();
                 }
+                break;
+            case ConstantsAPI.COMMAND_LAUNCH_WX_MINIPROGRAM:
+                //小程序
+                WXLaunchMiniProgram.Resp launchMiniProResp = (WXLaunchMiniProgram.Resp) baseResp;
+                String extraData =launchMiniProResp.extMsg; //对应小程序组件 <button open-type="launchApp"> 中的 app-parameter 属性
                 break;
         }
     }

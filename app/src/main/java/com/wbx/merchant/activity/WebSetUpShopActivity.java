@@ -3,35 +3,45 @@ package com.wbx.merchant.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
+import com.google.zxing.WriterException;
 import com.wbx.merchant.R;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
-import com.wbx.merchant.bean.RewardSubsidiaryBean;
 import com.wbx.merchant.bean.SetUpShopBean;
+import com.wbx.merchant.utils.EncodingHandler;
 import com.wbx.merchant.utils.ShareUtils;
+import com.wbx.merchant.widget.DragImageView;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by wushenghui on 2018/1/3.
  */
-
+//跑任务
 public class WebSetUpShopActivity extends BaseActivity {
     @Bind(R.id.web_view)
     WebView mWebView;
+    @Bind(R.id.iv_phb)
+    ImageView ivPhb;
     private String url;
     @Bind(R.id.title_name_tv)
     TextView titleNameTv;
@@ -73,6 +83,15 @@ public class WebSetUpShopActivity extends BaseActivity {
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setAllowFileAccess(true); // 允许访问文件
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+
+        ivPhb.setVisibility(View.VISIBLE);
+        ivPhb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //排行榜
+                startActivity(new Intent(mContext,RankingListActivity.class));
+            }
+        });
     }
 
     @Override
@@ -121,7 +140,7 @@ public class WebSetUpShopActivity extends BaseActivity {
         new MyHttp().doPost(Api.getDefault().invitation(userInfo.getSj_login_token()), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                setUpShopBean = new Gson().fromJson(result.toString(),SetUpShopBean.class);
+                setUpShopBean = new Gson().fromJson(result.toString(), SetUpShopBean.class);
             }
 
             @Override
@@ -153,31 +172,55 @@ public class WebSetUpShopActivity extends BaseActivity {
             }
         }
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
     final class InJavaScriptLocalObj {
         @JavascriptInterface
         public void invite(String userid) {
-            //分享
-            ShareUtils.getInstance().share(mContext,"您的好友邀请您开店赚钱啦！","开店宝-轻松开店赚钱，有营业执照即可！送小程序[立即查看]","",String.format("http://www.wbx365.com/Wbxwaphome/invite?id=%s",userid));
+            //邀请更多好友
+            final View hb = LayoutInflater.from(mContext).inflate(R.layout.pop_prw_hb, null);
+            ImageView ivEwm = hb.findViewById(R.id.iv_ewm);
+            TextView tv_number = hb.findViewById(R.id.tv_number);
+            TextView tv_money = hb.findViewById(R.id.tv_money);
+            if (setUpShopBean != null) {
+                tv_number.setText(String.format("邀请第%s家商铺入驻", setUpShopBean.getData().getCurrent_task().getCheckpoint()));
+                tv_money.setText(String.format("%s", setUpShopBean.getData().getCurrent_task().getBounty() / 100));
+            }
+            String url = String.format("http://www.wbx365.com/Wbxwaphome/invite?id=%s", setUpShopBean.getData().getUser_id());
+            try {
+                ivEwm.setImageBitmap(EncodingHandler.createQRCodeNoPading(url, 800));
+            } catch (WriterException e) {
+                e.printStackTrace();
+            }
+            ShareUtils.getInstance().shareHb(mContext, hb, "您的好友邀请您开店赚钱啦!", "开店宝-轻松开店赚钱，有营业执照即可！送小程序[立即查看]", BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.bg_prw), url);
         }
 
         @JavascriptInterface
-        public void money( ) {
+        public void money() {
+            Log.e("dfdf", "money: ");
             //提现
-            if (setUpShopBean !=null){
+            if (setUpShopBean != null) {
                 Intent intentCash = new Intent(mContext, CashActivity.class);
                 intentCash.putExtra("type", CashActivity.TYPE_REWARD_YQKD);
                 intentCash.putExtra("balance", setUpShopBean.getData().getShare_bounty());
                 startActivity(intentCash);
-            }else {
+            } else {
                 showShortToast("网络加载失败，请重新进入页面");
             }
         }
+
         @JavascriptInterface
-        public void  awardPeople( ) {
+        public void awardPeople() {
             //奖励明细
-            if (setUpShopBean !=null){
-                RewardSubsidiaryActivity.actionStart(mContext,setUpShopBean.getData().getUser_id());
-            }else {
+            if (setUpShopBean != null) {
+                RewardSubsidiaryActivity.actionStart(mContext, setUpShopBean.getData().getUser_id());
+            } else {
                 showShortToast("网络加载失败，请重新进入页面");
             }
         }

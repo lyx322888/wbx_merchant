@@ -511,6 +511,7 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
                 ivSendByDaDa.setSelected(true);
                 ivSendByMerchant.setSelected(false);
                 tvEstimatePrice.setVisibility(View.VISIBLE);
+                calculateDaDaPrice(tvEstimatePrice);
             }
         });
         popView.findViewById(R.id.ll_send_by_merchant).setOnClickListener(new View.OnClickListener() {
@@ -547,9 +548,8 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
                 backgroundAlpha(1f);
             }
         });
-        calculateDaDaPrice(tvEstimatePrice);
     }
-
+    //获取达达预估价格
     private void calculateDaDaPrice(final TextView tvEstimatePrice) {
         LoadingDialog.showDialogForLoading(getActivity());
         myHttp.doPost(Api.getDefault().getDaDaEstimatePrice(loginUser.getSj_login_token(), String.valueOf(orderInfoList.get(selectPosition).getOrder_id())), new HttpListener() {

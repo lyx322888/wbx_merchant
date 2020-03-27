@@ -56,7 +56,6 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
                 .getMetrics(metrics);
         mWidth = metrics.widthPixels;
         mHeight = metrics.heightPixels;
-
         setWidth(mWidth);
         setHeight(mHeight);
     }
@@ -66,12 +65,10 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
             return overlay;
         }
         long startMs = System.currentTimeMillis();
-
         View view = mContext.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache(true);
         mBitmap = view.getDrawingCache();
-
         float scaleFactor = 8;//图片缩放比例；
         float radius = 10;//模糊程度
         int width = mBitmap.getWidth();
@@ -101,7 +98,7 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
 
         });
         showAnimation(layout);
-        setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), blur()));
+//        setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), blur()));
         setOutsideTouchable(true);
         setFocusable(true);
         showAtLocation(anchor, Gravity.BOTTOM, 0, statusBarHeight);
@@ -143,10 +140,10 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
                 mContext.startActivity(new Intent(mContext, ProductActivity.class));
                 dismiss();
                 break;
-            case R.id.product:
-                mContext.startActivity(new Intent(mContext, SpecialSupplyActivity.class));
-                dismiss();
-                break;
+//            case R.id.product:
+//                mContext.startActivity(new Intent(mContext, SpecialSupplyActivity.class));
+//                dismiss();
+//                break;
             default:
                 break;
         }

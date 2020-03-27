@@ -57,7 +57,7 @@ public class MyBusinessCircleAdapter extends RecyclerView.Adapter<MyBusinessCirc
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final BusinessCircleBean data = lstData.get(position);
         GlideUtils.showSmallPic(mContext, holder.ivUser, userInfo.getShopPhoto());
         holder.tvUser.setText(userInfo.getShop_name());
@@ -65,7 +65,9 @@ public class MyBusinessCircleAdapter extends RecyclerView.Adapter<MyBusinessCirc
         holder.ivShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShareUtils.getInstance().share(mContext, userInfo.getShop_name(), data.getText(), data.getPhotos() != null && data.getPhotos().size() > 0 ? data.getPhotos().get(0) : userInfo.getShopPhoto(), data.getShare_url());
+                String path = "pages/found/found?shop_id=" + userInfo.getShop_id();
+                ShareUtils.getInstance().shareMiniProgram(mContext, userInfo.getShop_name(), "", lstData.get(position).getPhotos().size() == 0 ? userInfo.getShopPhoto() : lstData.get(0).getPhotos().get(0), path, "www.wbx365.com");
+//                ShareUtils.getInstance().share(mContext, userInfo.getShop_name(), data.getText(), data.getPhotos() != null && data.getPhotos().size() > 0 ? data.getPhotos().get(0) : userInfo.getShopPhoto(), data.getShare_url());
             }
         });
         holder.tvContent.setText(data.getText());

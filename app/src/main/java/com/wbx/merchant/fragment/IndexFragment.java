@@ -1,5 +1,4 @@
 package com.wbx.merchant.fragment;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -7,23 +6,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.hedgehog.ratingbar.RatingBar;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.AccreditationActivity;
 import com.wbx.merchant.activity.ActivityManagerActivity;
@@ -35,22 +44,26 @@ import com.wbx.merchant.activity.GoodsAccreditationActivity;
 import com.wbx.merchant.activity.GoodsManagerActivity;
 import com.wbx.merchant.activity.InComeActivity;
 import com.wbx.merchant.activity.IntelligentReceiveActivity;
-import com.wbx.merchant.activity.IntelligentServiceActivity;
 import com.wbx.merchant.activity.InventoryAnalyzeActivity;
 import com.wbx.merchant.activity.InviteActivity;
 import com.wbx.merchant.activity.LoginActivity;
 import com.wbx.merchant.activity.MerchantSubsidiesActivity;
+import com.wbx.merchant.activity.MyBusinessCircleActivity;
+import com.wbx.merchant.activity.MyGylActivity;
 import com.wbx.merchant.activity.MyMemberActivity;
 import com.wbx.merchant.activity.NumberOrderActivity;
 import com.wbx.merchant.activity.OrderActivity;
 import com.wbx.merchant.activity.PublishBusinessCircleActivity;
+import com.wbx.merchant.activity.ReceiverListActivity;
 import com.wbx.merchant.activity.RunAnalyzeActivity;
 import com.wbx.merchant.activity.SalesmanCommentActivity;
 import com.wbx.merchant.activity.ScanOrderActivity;
 import com.wbx.merchant.activity.SeatActivity;
+import com.wbx.merchant.activity.SendSettingActivity;
 import com.wbx.merchant.activity.StoreManagerActivity;
 import com.wbx.merchant.activity.WebActivity;
 import com.wbx.merchant.activity.WebSetUpShopActivity;
+import com.wbx.merchant.adapter.ShareShopGoodsAdapter;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
@@ -58,17 +71,20 @@ import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.base.BaseFragment;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.baseapp.AppManager;
-import com.wbx.merchant.bean.SalesmanCommentInfo;
+import com.wbx.merchant.bean.ShopDetailInfo;
+import com.wbx.merchant.bean.ShopFxinfo;
 import com.wbx.merchant.bean.ShopInfo;
-import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.dialog.AlertNextDialog;
 import com.wbx.merchant.dialog.AlertUploadAccreditationDialog;
 import com.wbx.merchant.dialog.DaDaCouponDialog;
 import com.wbx.merchant.dialog.MiniProgramDialog;
 import com.wbx.merchant.dialog.OperatingStateDialog;
+import com.wbx.merchant.utils.FormatUtil;
 import com.wbx.merchant.utils.GlideImageLoader;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.SPUtils;
+import com.wbx.merchant.utils.ScannerUtils;
+import com.wbx.merchant.utils.ShareUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.CircleImageView;
 import com.wbx.merchant.widget.CustomizedProgressBar;
@@ -84,7 +100,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.iwf.photopicker.PhotoPreview;
-
 /**
  * Created by wushenghui on 2017/6/20.
  * 首页
@@ -144,6 +159,7 @@ public class IndexFragment extends BaseFragment {
     private LinearLayout ll_award;
     private TextView tv_customized;
     private Button bt_cash_withdrawal;
+    private ShopDetailInfo shopDetailInfo;
 
     @Override
     protected int getLayoutResource() {
@@ -248,6 +264,18 @@ public class IndexFragment extends BaseFragment {
 
             @Override
             public void onError(int code) {
+            }
+        });
+        //店铺详细信息
+        new MyHttp().doPost(Api.getDefault().getShopDetail(loginUser.getSj_login_token()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                shopDetailInfo = JSONObject.parseObject(result.getString("data"), ShopDetailInfo.class);
+            }
+
+            @Override
+            public void onError(int code) {
+
             }
         });
 //        //获取销售代理信息 评价
@@ -423,12 +451,35 @@ public class IndexFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.ll_xsdl_pj,R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager, R.id.rl_business_must})
+    @OnClick({R.id.rl_pssz,R.id.iv_yrdp,R.id.rl_gyl,R.id.rl_hy,R.id.rl_mysq,R.id.rl_jdq,R.id.ll_xsdl_pj,R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager, R.id.rl_business_must})
     public void onViewClicked(View view) {
         if (shopInfo == null) {
             return;
         }
         switch (view.getId()) {
+            case R.id.rl_gyl:
+                MyGylActivity.actionStart(getContext(),"供应链金融");
+                break;
+            case R.id.rl_pssz:
+                //配送设置
+                if (shopDetailInfo != null) {
+                    SendSettingActivity.actionStart(getActivity(), shopDetailInfo);
+                }else {
+                    showLongToast("请刷新一下界面");
+                }
+                break;
+            case  R.id.rl_hy:
+                //供应链
+                MyGylActivity.actionStart(getContext(),"货源");
+                break;
+            case R.id.rl_mysq:
+                //我的商圈
+                MyBusinessCircleActivity.actionStart(getActivity());
+                break;
+            case R.id.rl_jdq:
+                //接单器
+                startActivity(new Intent(getActivity(), ReceiverListActivity.class));
+                break;
             case R.id.chat_list_im:
                 break;
             case R.id.index_head_im:
@@ -490,7 +541,7 @@ public class IndexFragment extends BaseFragment {
                 InComeActivity.actionStart(getContext());
                 break;
             case R.id.rl_merchant_subsidy:
-                MerchantSubsidiesActivity.actionStart(getContext());
+//                MerchantSubsidiesActivity.actionStart(getContext());
                 break;
             case R.id.rl_intelligent_receive:
                 IntelligentReceiveActivity.actionStart(getContext());
@@ -508,7 +559,12 @@ public class IndexFragment extends BaseFragment {
                 WebActivity.actionStart(getContext(), "http://www.wbx365.com/Wbxwaphome/video");
                 break;
             case R.id.service_im:
-                IntelligentServiceActivity.actionStart(getContext());
+                //分享店铺
+                popfxdp();
+                break;
+            case R.id.iv_yrdp:
+              // 预览小程序
+                jumpXcx();
                 break;
             case R.id.rl_seat_manager:
                 startActivity(new Intent(getActivity(), SeatActivity.class));
@@ -522,6 +578,16 @@ public class IndexFragment extends BaseFragment {
                 break;
         }
     }
+    //跳转小程序
+    private void jumpXcx() {
+        IWXAPI api = WXAPIFactory.createWXAPI(getContext(), AppConfig.WX_APP_ID);
+        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+        req.userName = "gh_c90fe5b5ba40"; // 填小程序原始id
+        req.path = "/pages/home/shopDetails/shopDetails?shopID=" + shopInfo.getShop_id() + "&gradeid=" + shopInfo.getGrade_id();        //拉起小程序页面的可带参路径，不填默认拉起小程序首页
+        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发MINIPROGRAM_TYPE_PREVIEW，体验版MINIPROGRAM_TYPE_TEST,和正式版MINIPTOGRAM_TYPE_RELEASE。
+        api.sendReq(req);
+    }
+
     //查看或上传证件
     private void showCertification() {
         //不为空 被驳回
@@ -600,6 +666,100 @@ public class IndexFragment extends BaseFragment {
             });
         }
     }
+
+    //分享
+    private void popfxdp(){
+        final Dialog shareDialog = new Dialog(getContext(), R.style.DialogTheme);
+        final View shareInflate = LayoutInflater.from(getContext()).inflate(R.layout.share_pop_view, null);
+        final CircleImageView shopHeard = shareInflate.findViewById(R.id.civ_head);
+        final CircleImageView shopEwm = shareInflate.findViewById(R.id.civ_ewm);
+        final ConstraintLayout linearLayout = shareInflate.findViewById(R.id.ctl_hb);
+        final TextView shopName = shareInflate.findViewById(R.id.tv_shop_name);
+        //按钮
+        final TextView share_wechat_friends_tv  = shareInflate.findViewById(R.id.share_wechat_friends_tv);
+        final TextView share_pyq  = shareInflate.findViewById(R.id.share_pyq);
+        final TextView share_bctp  = shareInflate.findViewById(R.id.share_bctp);
+        final TextView poop_share_cancel_btn  = shareInflate.findViewById(R.id.poop_share_cancel_btn);
+        shareDialog.setContentView(shareInflate);
+        //获取当前Activity所在的窗体
+        Window dialogWindow = shareDialog.getWindow();
+//        dialogWindow.setWindowAnimations(R.style.main_menu_animStyle);
+        dialogWindow.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        shareDialog.show();//显示对话框
+        shareDialog.setCanceledOnTouchOutside(true);
+        poop_share_cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //取消
+                shareDialog.dismiss();
+            }
+        });
+        new MyHttp().doPost(Api.getDefault().shareShop(loginUser.getSj_login_token()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                final ShopFxinfo shopFxinfo = new Gson().fromJson(result.toString(), ShopFxinfo.class);
+                GlideUtils.showMediumPic(getContext(),shopHeard,shopFxinfo.getData().getPhoto());
+                GlideUtils.showMediumPic(getContext(),shopEwm,shopFxinfo.getData().getSmall_routine_photo());
+                share_wechat_friends_tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //微信好友
+                        String path = "pages/home/store/store?shopID=" + loginUser.getShop_id() + "&gradeid=" + loginUser.getGrade_id();
+                        ShareUtils.getInstance().shareMiniProgram(getContext(), shopFxinfo.getData().getShop_name(), "", shopFxinfo.getData().getPhoto(), path, "www.wbx365.com");
+                        shareDialog.dismiss();
+                    }
+                });
+                share_pyq.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //微信朋友圈
+                        ShareUtils.getInstance().shareToTimeLine(FormatUtil.viewToBitmap(linearLayout),getContext());
+                        shareDialog.dismiss();
+                    }
+                });
+                share_bctp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //保存图片
+                        linearLayout.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                ScannerUtils.saveImageToGallery(getContext(), FormatUtil.viewToBitmap(linearLayout), ScannerUtils.ScannerType.RECEIVER);
+                            }
+                        });
+                        shareDialog.dismiss();
+                    }
+                });
+
+                shopName.setText(shopFxinfo.getData().getShop_name());
+                //Adapter
+                final RecyclerView recyclerView = shareInflate.findViewById(R.id.rv_goods);
+                ShareShopGoodsAdapter  shareShopGoodsAdapter = new ShareShopGoodsAdapter(){
+                    @Override
+                    public void onBindViewHolder(BaseViewHolder holder, int position) {
+                        GridLayoutManager.LayoutParams  layoutparams = new GridLayoutManager.LayoutParams(recyclerView.getWidth() / 2, recyclerView.getHeight());
+                        holder.itemView.setLayoutParams(layoutparams);
+                        super.onBindViewHolder(holder, position);
+                    }
+                };
+                recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2){
+                    @Override
+                    public boolean canScrollVertically() {
+                        return true;
+                    }
+                });
+                recyclerView.setAdapter(shareShopGoodsAdapter);
+                shareShopGoodsAdapter.setNewData(shopFxinfo.getData().getGoods());
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

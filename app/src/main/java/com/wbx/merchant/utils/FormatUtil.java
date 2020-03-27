@@ -1,18 +1,27 @@
 package com.wbx.merchant.utils;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -102,6 +111,55 @@ public class FormatUtil {
             return true;
         }
         return false;
+    }
+    //view转bitmap
+    public static Bitmap convertViewToBitmap(View view) {
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        return view.getDrawingCache();
+    }
+
+    //view转bitmap
+    public static Bitmap viewToBitmap(View v) {
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
+                Bitmap.Config.ARGB_8888); //创建一个和View大小一样的Bitmap
+        Canvas canvas = new Canvas(bitmap);  //使用上面的Bitmap创建canvas
+        v.draw(canvas);  //把View画到Bitmap上
+        return bitmap;
+    }
+
+
+
+    //截图保存
+    public static Bitmap loadBitmapFromView(View v) {
+        v.setDrawingCacheEnabled(true);
+        //view转换成图片
+        v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        Bitmap bitmap = Bitmap.createBitmap(v.getMeasuredWidth(), v.getMeasuredHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.TRANSPARENT);
+        Paint paint = new Paint();
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+        v.draw(canvas);
+        return bitmap;
+    }
+    //截图保存
+    public static Bitmap loadBitmapFromView(View v,int h,int w) {
+        v.setDrawingCacheEnabled(true);
+        //view转换成图片
+        v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        Bitmap bitmap = Bitmap.createBitmap(v.getMeasuredWidth(), v.getMeasuredHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.TRANSPARENT);
+        Paint paint = new Paint();
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        v.layout(0, 0,w, h);
+        v.draw(canvas);
+        return bitmap;
     }
 
     /**

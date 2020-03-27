@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    tools:context=".activity.MyGylActivity">
+    <RelativeLayout
+        android:background="@color/app_color"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <ImageView
+            style="@style/iv_back"
+            android:onClick="back"
+            tools:ignore="OnClick" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:text="供应链金融"
+            style="@style/tv_title"/>
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                app:layout_constraintDimensionRatio="750:1334"
+                android:layout_width="match_parent"
+                android:src="@mipmap/bg_gyl"
+                android:layout_height="0dp"
+                tools:ignore="MissingConstraints" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

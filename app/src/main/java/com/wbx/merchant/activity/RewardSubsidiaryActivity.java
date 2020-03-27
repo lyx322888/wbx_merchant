@@ -2,15 +2,19 @@ package com.wbx.merchant.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
+import com.google.zxing.WriterException;
 import com.wbx.merchant.R;
 import com.wbx.merchant.adapter.RewardSubsidiaryAdapter;
 import com.wbx.merchant.api.Api;
@@ -18,6 +22,8 @@ import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.bean.RewardSubsidiaryBean;
+import com.wbx.merchant.bean.SetUpShopBean;
+import com.wbx.merchant.utils.EncodingHandler;
 import com.wbx.merchant.utils.FormatUtil;
 import com.wbx.merchant.utils.ShareUtils;
 
@@ -42,6 +48,7 @@ public class RewardSubsidiaryActivity extends BaseActivity {
     private RewardSubsidiaryAdapter subsidiaryAdapter;
     private RewardSubsidiaryBean subsidiaryBean;
     private String userId;
+    private SetUpShopBean setUpShopBean;
 
     public static void actionStart(Context context,String userid) {
         Intent intent = new Intent(context, RewardSubsidiaryActivity.class);
@@ -95,6 +102,18 @@ public class RewardSubsidiaryActivity extends BaseActivity {
 
             }
         });
+        //获取用户id奖励额度
+        new MyHttp().doPost(Api.getDefault().invitation(userInfo.getSj_login_token()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                setUpShopBean = new Gson().fromJson(result.toString(), SetUpShopBean.class);
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
     }
 
     @Override
@@ -119,7 +138,21 @@ public class RewardSubsidiaryActivity extends BaseActivity {
                 break;
             case R.id.tv_yqgd:
                 //邀请更多好友
-                ShareUtils.getInstance().share(mContext,"您的好友邀请您开店赚钱啦！","开店宝-轻松开店赚钱，有营业执照即可！送小程序[立即查看]","",String.format("http://www.wbx365.com/Wbxwaphome/invite?id=",userId));
+                final View hb =  LayoutInflater.from(mContext).inflate(R.layout.pop_prw_hb, null);
+                ImageView ivEwm = hb.findViewById(R.id.iv_ewm);
+                TextView tv_number = hb.findViewById(R.id.tv_number);
+                TextView tv_money = hb.findViewById(R.id.tv_money);
+                if (setUpShopBean !=null){
+                    tv_number.setText(String.format("邀请第%s家商铺入驻", setUpShopBean.getData().getCurrent_task().getCheckpoint()));
+                    tv_money.setText(String.format("%s", setUpShopBean.getData().getCurrent_task().getBounty()/100));
+                }
+                String url = String.format("http://www.wbx365.com/Wbxwaphome/invite?id=%s",userId);
+                try {
+                    ivEwm.setImageBitmap(EncodingHandler.createQRCodeNoPading(url, 800));
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+                ShareUtils.getInstance().shareHb(mContext,hb,"您的好友邀请您开店赚钱啦!","开店宝-轻松开店赚钱，有营业执照即可！送小程序[立即查看]",  BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.bg_prw), url);
                 break;
         }
     }
