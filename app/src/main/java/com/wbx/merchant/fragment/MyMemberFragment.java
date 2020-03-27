@@ -2,8 +2,8 @@ package com.wbx.merchant.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -16,8 +16,6 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseFragment;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.MemberBean;
-import com.wbx.merchant.common.LoginUtil;
-import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.refresh.BaseRefreshListener;
 import com.wbx.merchant.widget.refresh.PullToRefreshLayout;
 import com.wbx.merchant.widget.refresh.ViewStatus;

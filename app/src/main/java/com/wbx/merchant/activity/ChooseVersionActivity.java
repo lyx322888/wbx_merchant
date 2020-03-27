@@ -1,8 +1,8 @@
 package com.wbx.merchant.activity;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONArray;
@@ -16,7 +16,6 @@ import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseAdapter;
 import com.wbx.merchant.bean.ShopEnterParameter;
 import com.wbx.merchant.bean.ShopVersionBean;
-import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.LoadingDialog;
 
 import java.util.ArrayList;

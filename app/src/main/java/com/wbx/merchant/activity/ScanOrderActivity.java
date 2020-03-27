@@ -2,8 +2,8 @@ package com.wbx.merchant.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import com.wbx.merchant.R;
 import com.wbx.merchant.adapter.viewpageadapter.ScanOrderFragmentStateAdapter;

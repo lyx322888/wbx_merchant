@@ -3,7 +3,7 @@ package com.wbx.merchant.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v7.widget.SwitchCompat;
+import androidx.appcompat.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;

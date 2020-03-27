@@ -2,16 +2,14 @@ package com.wbx.merchant.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,7 +34,6 @@ import com.wbx.merchant.bean.AddressInfo;
 import com.wbx.merchant.bean.CityCommunityBean;
 import com.wbx.merchant.bean.JoinAddressInfo;
 import com.wbx.merchant.bean.ShopGradeInfo;
-import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.PermissionsChecker;
 import com.wbx.merchant.utils.UpLoadPicUtils;
@@ -51,7 +48,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import chihane.jdaddressselector.OnAddressSelectedListener;
 import chihane.jdaddressselector.model.City;

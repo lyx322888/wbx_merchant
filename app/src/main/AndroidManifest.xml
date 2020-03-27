@@ -250,7 +250,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="oLNScgBLbcCLQzld6BSlNYLb861qqLns" /> <!-- 商家必备 -->
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="com.wbx.merchant.provider"
             android:exported="false"
             android:grantUriPermissions="true"

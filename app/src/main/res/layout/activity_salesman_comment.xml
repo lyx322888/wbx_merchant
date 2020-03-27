@@ -145,7 +145,7 @@
                     android:text="销售代理对您有进行以下指导吗？"
                     android:textColor="#ff323232"
                     android:textSize="18sp" />
-               <android.support.v7.widget.RecyclerView
+               <androidx.recyclerview.widget.RecyclerView
                    android:layout_marginLeft="13dp"
                    android:layout_marginRight="13dp"
                    android:id="@+id/rv_comment_tm"
@@ -195,7 +195,7 @@
                             android:layout_width="70dp"
                             android:layout_gravity="bottom"
                             android:layout_height="70dp"/>
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:layout_marginLeft="10dp"
                             android:id="@+id/rv_comment_img"
                             android:layout_width="match_parent"
@@ -251,7 +251,7 @@
                                 android:src="@drawable/ic_add_img"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"/>
-                            <android.support.v7.widget.RecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/rv_comment_zj_img"
                                 android:layout_width="wrap_content"

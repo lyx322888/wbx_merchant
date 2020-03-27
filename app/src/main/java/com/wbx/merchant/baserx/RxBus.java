@@ -1,6 +1,6 @@
 package com.wbx.merchant.baserx;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.wbx.merchant.utils.LogUtils;
 

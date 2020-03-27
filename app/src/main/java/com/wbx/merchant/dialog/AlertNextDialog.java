@@ -1,9 +1,9 @@
 package com.wbx.merchant.dialog;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +12,7 @@ import android.widget.TextView;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.AccreditationActivity;
 import com.wbx.merchant.activity.GoodsAccreditationActivity;
-import com.wbx.merchant.baseapp.AppConfig;
-import com.wbx.merchant.utils.SPUtils;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 

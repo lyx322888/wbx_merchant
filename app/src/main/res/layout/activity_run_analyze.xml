@@ -44,7 +44,7 @@
             android:layout_height="60dp"></RelativeLayout>
     </LinearLayout>
 
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -146,7 +146,7 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/analyze_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

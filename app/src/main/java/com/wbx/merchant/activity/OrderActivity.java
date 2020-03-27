@@ -2,13 +2,10 @@ package com.wbx.merchant.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
+
+import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.fastjson.JSONObject;
-import com.flyco.tablayout.CommonTabLayout;
-import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 import com.wbx.merchant.R;
@@ -17,17 +14,11 @@ import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
-import com.wbx.merchant.baserx.RxBus;
 import com.wbx.merchant.bean.CountBean;
-import com.wbx.merchant.bean.RxbusBean;
-import com.wbx.merchant.utils.MyRxBus;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.Bind;
-import rx.Observable;
-import rx.Subscriber;
 import rx.functions.Action1;
 
 /**

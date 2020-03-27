@@ -1,11 +1,10 @@
 package com.wbx.merchant.adapter.viewpageadapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
-import com.wbx.merchant.fragment.AddFoodFragment;
 import com.wbx.merchant.fragment.MaterialCenterFragment;
 
 import java.util.List;

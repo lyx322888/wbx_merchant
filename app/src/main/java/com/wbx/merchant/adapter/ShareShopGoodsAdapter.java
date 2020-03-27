@@ -1,7 +1,7 @@
 package com.wbx.merchant.adapter;
 
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
+import androidx.annotation.Nullable;
+
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -9,8 +9,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.wbx.merchant.R;
 import com.wbx.merchant.bean.ShopFxinfo;
 import com.wbx.merchant.utils.GlideUtils;
-
-import java.util.List;
 
 public class ShareShopGoodsAdapter extends BaseQuickAdapter<ShopFxinfo.DataBean.GoodsBean, BaseViewHolder> {
     public ShareShopGoodsAdapter() {

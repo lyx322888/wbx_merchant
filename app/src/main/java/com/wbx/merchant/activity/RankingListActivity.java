@@ -1,9 +1,8 @@
 package com.wbx.merchant.activity;
 
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -20,7 +19,6 @@ import com.wbx.merchant.utils.SpannableStringUtils;
 import com.wbx.merchant.widget.CircleImageView;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 //排行榜
 public class RankingListActivity extends BaseActivity {

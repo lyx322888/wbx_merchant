@@ -8,9 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import android.widget.PopupWindow;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.ProductActivity;
 import com.wbx.merchant.activity.ReleaseActivity;
-import com.wbx.merchant.activity.SpecialSupplyActivity;
 import com.wbx.merchant.utils.KickBackAnimator;
 
 import jp.wasabeef.glide.transformations.internal.FastBlur;
