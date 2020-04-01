@@ -514,6 +514,7 @@ public class SalesmanCommentActivity extends BaseActivity {
             }
         });
     }
+
     //将图片上传到
     private void upLoadPicUtils(){
         LoadingDialog.showDialogForLoading(mActivity, "上传中...", false);

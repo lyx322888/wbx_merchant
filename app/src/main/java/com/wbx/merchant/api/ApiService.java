@@ -68,6 +68,16 @@ public interface ApiService {
     @POST("/sjapi/apply/add_apply_info")
     Observable<JSONObject> addShopInfo(@FieldMap Map<String, Object> params);
 
+    //添加入驻信息 开店宝版
+    @FormUrlEncoded
+    @POST("/sjapi/Kaidianbao/add_apply_info")
+    Observable<JSONObject> add_apply_info(@FieldMap Map<String, Object> params);
+
+    //版本选择信息 开店宝版
+    @FormUrlEncoded
+    @POST("/sjapi/Kaidianbao/get_shop_grade_info")
+    Observable<JSONObject> get_shop_grade_info(@Field("sj_login_token") String loginToken);
+
     //设置店铺分类
     @FormUrlEncoded
     @POST("/sjapi/apply/update_shop_cate")
@@ -77,6 +87,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/sjapi/apply/pay")
     Observable<JSONObject> goPay(@Field("sj_login_token") String loginToken, @Field("grade_id") int gradeId, @Field("code") String payCode, @Field("type") String payType, @Field("shop_grade") int shopGrade);
+
+    //支付
+    @FormUrlEncoded
+    @POST("/sjapi/Kaidianbao/pay")
+    Observable<JSONObject> goPayKdp(@Field("sj_login_token") String loginToken, @Field("code") String payCode, @Field("type") String payType, @Field("shop_grade") String shopGrade, @Field("grade_type") int gradeType);
 
     //获取服务到期时间
     @FormUrlEncoded
@@ -1004,4 +1019,17 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/sjapi/Merchantinvitation/ranking_list")
     Observable<JSONObject> ranKingList(@Field("sj_login_token") String login_token);
+    //状态切换
+    @FormUrlEncoded
+    @POST("/sjapi/Kaidianbao/update_is_open")
+    Observable<JSONObject> updateIsOpen(@Field("sj_login_token") String login_token,@Field("is_open") int is_open);
+    //获取状态
+    @FormUrlEncoded
+    @POST("/sjapi/Kaidianbao/get_shop_identity")
+    Observable<JSONObject> getShopIdentity(@Field("sj_login_token") String login_token);
+
+    //添加店铺审核信息
+    @FormUrlEncoded
+    @POST("/sjapi/Kaidianbao/add_shop_identity")
+    Observable<JSONObject> addShopIdentity(@FieldMap Map<String,Object> params);
 }

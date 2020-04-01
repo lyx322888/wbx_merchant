@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 
 import androidx.core.content.ContextCompat;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -255,25 +256,35 @@ public class LoginActivity extends BaseActivity {
         dimissLoading();
         if (0 == userInfo.getShop_id()) {
             //未填写信息
-            startActivity(new Intent(mContext, InputShopInfoActivity.class));
-        } else if (0 == userInfo.getEnd_date()) { //未缴费
-            startActivity(new Intent(mContext, ChooseShopTypeActivity.class));
-        } else if (0 == userInfo.getGrade_id()) {
-            startActivity(new Intent(mContext, ChooseShopTypeActivity.class));
-        } else if (userInfo.getEnd_date() <= System.currentTimeMillis() / 1000) {
+            startActivity(new Intent(mContext, ShopInfoPrwActivity.class));
+            ShopInfoPrwActivity.actionStart(mContext,userInfo.getTry_shop());
+        } else if (1== userInfo.getTry_shop()){
+            //判断是否试用版
+            startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));
+        }
+        else if (0 == userInfo.getEnd_date()) { //未缴费
+            startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));
+        }
+//         else if (0 == userInfo.getGrade_id()) {
+//            startActivity(new Intent(mContext, ChooseShopTypeActivity.class));
+//        }
+        else if (userInfo.getEnd_date() <= System.currentTimeMillis() / 1000) {
             //过期
-            Intent intent = new Intent(mContext, PayActivity.class);
-            intent.putExtra("gradeId", userInfo.getGrade_id());
-            intent.putExtra("isRenew", true);
-            startActivity(intent);
-        } else if (userInfo.getAudit() == 0) {
-            //缴费完成 还在审核中
-            startActivity(new Intent(mContext, AuditingActivity.class));
-        } else {
+          Intent intent = new Intent(mContext, PayActivity.class);
+          intent.putExtra("gradeId", userInfo.getGrade_id());
+          intent.putExtra("isRenew", true);
+          startActivity(intent);
+        }
+//        else if (userInfo.getAudit() == 0) {
+//            //缴费完成 还在审核中
+//            startActivity(new Intent(mContext, AuditingActivity.class));
+//        }
+        else {
             SPUtils.setSharedBooleanData(mContext, AppConfig.LOGIN_STATE, true);
             startActivity(new Intent(mContext, MainActivity.class));
             finish();
         }
+
     }
 
 }

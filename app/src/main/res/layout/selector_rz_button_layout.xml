@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/line_rounde_appcolour_18"
+    android:weightSum="2"
+    android:padding="0.5dp"
+    android:layout_height="36dp">
+    <CheckedTextView
+        android:id="@+id/selector_one"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:background="@drawable/selector_button_bc_left"
+        android:text="个人店版"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:checked="true"
+        android:layout_height="match_parent"/>
+    <CheckedTextView
+        android:id="@+id/selector_tow"
+        android:layout_weight="1"
+        android:text="实体店版"
+        android:textSize="15sp"
+        android:background="@drawable/selector_button_bc_left"
+        android:textColor="@color/app_color"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:checked="false"
+        android:layout_width="0dp"
+        android:clickable="false"
+        android:layout_height="match_parent"/>
+</LinearLayout>

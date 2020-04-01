@@ -127,6 +127,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     //获取布局文件
     public abstract int getLayoutId();
 
+
+
+
     //简单页面无需mvp就不用管此方法即可,完美兼容各种实际场景的变通
     public abstract void initPresenter();
 

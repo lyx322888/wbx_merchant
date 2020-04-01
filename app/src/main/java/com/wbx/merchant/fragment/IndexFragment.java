@@ -1,4 +1,5 @@
 package com.wbx.merchant.fragment;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -7,25 +8,32 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.example.popwindowutils.CustomPopWindow;
 import com.google.gson.Gson;
 import com.hedgehog.ratingbar.RatingBar;
+import com.kyleduo.switchbutton.SwitchButton;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -35,6 +43,8 @@ import com.wbx.merchant.activity.ActivityManagerActivity;
 import com.wbx.merchant.activity.AwardCashActivity;
 import com.wbx.merchant.activity.BookSeatActivity;
 import com.wbx.merchant.activity.BusinessMustActivity;
+import com.wbx.merchant.activity.ChooseShopVersionsPrwActivity;
+import com.wbx.merchant.activity.CompleteInformationActivity;
 import com.wbx.merchant.activity.DaDaActivity;
 import com.wbx.merchant.activity.GoodsAccreditationActivity;
 import com.wbx.merchant.activity.GoodsManagerActivity;
@@ -68,7 +78,9 @@ import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.baseapp.AppManager;
 import com.wbx.merchant.bean.ShopDetailInfo;
 import com.wbx.merchant.bean.ShopFxinfo;
+import com.wbx.merchant.bean.ShopIdentityBean;
 import com.wbx.merchant.bean.ShopInfo;
+import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.dialog.AlertNextDialog;
 import com.wbx.merchant.dialog.AlertUploadAccreditationDialog;
 import com.wbx.merchant.dialog.DaDaCouponDialog;
@@ -95,6 +107,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.iwf.photopicker.PhotoPreview;
+
 /**
  * Created by wushenghui on 2017/6/20.
  * 首页
@@ -142,6 +155,96 @@ public class IndexFragment extends BaseFragment {
     TextView tvWypj;
     @Bind(R.id.ll_xsdl_pj)
     LinearLayout llXsdlPj;
+    @Bind(R.id.chat_list_im)
+    ImageView chatListIm;
+    @Bind(R.id.iv_yrdp)
+    ImageView ivYrdp;
+    @Bind(R.id.bt_cash_withdrawal)
+    Button btCashWithdrawal;
+    @Bind(R.id.customizedbar)
+    CustomizedProgressBar customizedbar;
+    @Bind(R.id.tv_customized)
+    TextView tvCustomized;
+    @Bind(R.id.ll_award)
+    LinearLayout llAward;
+    @Bind(R.id.iv_pub_bus_cir)
+    ImageView ivPubBusCir;
+    @Bind(R.id.ctl_ktqjd)
+    ConstraintLayout ctlKtqjd;
+    @Bind(R.id.ll_wait_send)
+    LinearLayout llWaitSend;
+    @Bind(R.id.ll_wait_refund)
+    LinearLayout llWaitRefund;
+    @Bind(R.id.tv_send_order)
+    TextView tvSendOrder;
+    @Bind(R.id.rl_send_order)
+    RelativeLayout rlSendOrder;
+    @Bind(R.id.tv_scan_order)
+    TextView tvScanOrder;
+    @Bind(R.id.rl_scan_order)
+    RelativeLayout rlScanOrder;
+    @Bind(R.id.tv_book_order)
+    TextView tvBookOrder;
+    @Bind(R.id.rl_book_order)
+    RelativeLayout rlBookOrder;
+    @Bind(R.id.tv_number_order)
+    TextView tvNumberOrder;
+    @Bind(R.id.rl_number_order)
+    RelativeLayout rlNumberOrder;
+    @Bind(R.id.rl_shop_manager)
+    RelativeLayout rlShopManager;
+    @Bind(R.id.tv_goods_manager)
+    TextView tvGoodsManager;
+    @Bind(R.id.rl_goods_manager)
+    RelativeLayout rlGoodsManager;
+    @Bind(R.id.rl_business_manager)
+    RelativeLayout rlBusinessManager;
+    @Bind(R.id.rl_customer_manager)
+    RelativeLayout rlCustomerManager;
+    @Bind(R.id.rl_notice_manager)
+    RelativeLayout rlNoticeManager;
+    @Bind(R.id.rl_activity_manager)
+    RelativeLayout rlActivityManager;
+    @Bind(R.id.rl_inventory_manager)
+    RelativeLayout rlInventoryManager;
+    @Bind(R.id.rl_seat_manager)
+    RelativeLayout rlSeatManager;
+    @Bind(R.id.rl_business_analyse)
+    RelativeLayout rlBusinessAnalyse;
+    @Bind(R.id.rl_merchant_withdraw)
+    RelativeLayout rlMerchantWithdraw;
+    @Bind(R.id.rl_merchant_subsidy)
+    RelativeLayout rlMerchantSubsidy;
+    @Bind(R.id.rl_intelligent_receive)
+    RelativeLayout rlIntelligentReceive;
+    @Bind(R.id.rl_mysq)
+    RelativeLayout rlMysq;
+    @Bind(R.id.rl_business_must)
+    RelativeLayout rlBusinessMust;
+    @Bind(R.id.rl_dada)
+    RelativeLayout rlDada;
+    @Bind(R.id.rl_share_shop)
+    RelativeLayout rlShareShop;
+    @Bind(R.id.rl_video_course)
+    RelativeLayout rlVideoCourse;
+    @Bind(R.id.rl_jdq)
+    RelativeLayout rlJdq;
+    @Bind(R.id.rl_make_money_by_share)
+    RelativeLayout rlMakeMoneyByShare;
+    @Bind(R.id.rl_pssz)
+    RelativeLayout rlPssz;
+    @Bind(R.id.rl_gyl)
+    RelativeLayout rlGyl;
+    @Bind(R.id.rl_hy)
+    RelativeLayout rlHy;
+    @Bind(R.id.service_im)
+    ImageView serviceIm;
+    @Bind(R.id.iv_in_operation)
+    ImageView ivInOperation;
+    @Bind(R.id.tv_state)
+    TextView tvState;
+    @Bind(R.id.btn_switch)
+    SwitchButton btnSwitch;
     private ShopInfo shopInfo;
     private Dialog dialog;
     private EditText inputEdit;
@@ -175,6 +278,80 @@ public class IndexFragment extends BaseFragment {
         ll_award = rootView.findViewById(R.id.ll_award);
         tv_customized = rootView.findViewById(R.id.tv_customized);
         bt_cash_withdrawal = rootView.findViewById(R.id.bt_cash_withdrawal);
+        btnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, final boolean b) {
+                final int is_open ;
+                if (b){
+                    is_open = 1;
+                }else {
+                    is_open = 0;
+                }
+                new MyHttp().doPost(Api.getDefault().updateIsOpen(LoginUtil.getLoginToken(),is_open), new HttpListener() {
+                    @Override
+                    public void onSuccess(JSONObject result) {
+                      shopInfo.setIs_open(is_open);
+                       updataShopState();
+                    }
+
+                    @Override
+                    public void onError(int code) {
+                        btnSwitch.setChecked(!b);
+                        getShopIdentity();
+                    }
+                });
+
+                updataShopState();
+            }
+        });
+    }
+
+    //完善信息弹窗
+    private void getShopIdentity(){
+
+        new MyHttp().doPost(Api.getDefault().getShopIdentity(LoginUtil.getLoginToken()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                ShopIdentityBean shopIdentityBean = new Gson().fromJson(result.toString(),ShopIdentityBean.class);
+                switch (shopIdentityBean.getData().getAudit()){
+                    //0未核审 1已核审 2核审未通过
+                    case 0:
+                        showShortToast("请等待审核");
+                        break;
+                    case 2:
+                        showShortToast("您的审核未通过请重新上传身份证");
+                       break;
+                    default:
+                        popWsxs();
+                        break;
+                }
+            }
+
+            @Override
+            public void onError(int code) {
+                popWsxs();
+            }
+        });
+    }
+    //完善信息弹窗
+    private void popWsxs(){
+        final View shareInflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_wsxx, null);
+        ImageView imageView =shareInflate.findViewById(R.id.iv_wxss);
+        //dialog
+        final CustomPopWindow shareDialog = new CustomPopWindow.PopupWindowBuilder(getContext())
+                .setView(shareInflate)
+                .size(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setAnimationStyle(R.style.AlphaEnterExitAnimation)
+                .enableBackgroundDark(true)
+                .create()
+                .showAtLocation(shareInflate, Gravity.CENTER, 0, 0);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), CompleteInformationActivity.class));
+                shareDialog.dissmiss();
+            }
+        });
     }
 
     @Override
@@ -182,6 +359,7 @@ public class IndexFragment extends BaseFragment {
         super.onResume();
         getShopInfo();
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -210,17 +388,17 @@ public class IndexFragment extends BaseFragment {
         }
 
         List<Drawable> imgurl = new ArrayList<>();
-        imgurl.add(ContextCompat.getDrawable(getContext(),R.drawable.prw));
-        imgurl.add(ContextCompat.getDrawable(getContext(),R.drawable.cwdz));
-        imgurl.add(ContextCompat.getDrawable(getContext(),R.drawable.vidio_study));
+        imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.prw));
+        imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.cwdz));
+        imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.vidio_study));
         xbannerView.setBannerStyle(BannerConfig.NOT_INDICATOR);
         xbannerView.setImages(imgurl).setDelayTime(6000).setImageLoader(new GlideImageLoader()).start();
         xbannerView.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
-                        WebSetUpShopActivity.actionStart(getContext(), String.format("http://www.wbx365.com/Wbxwaphome/openstore#/record?uid=%s",loginUser.getSj_login_token()));
+                        WebSetUpShopActivity.actionStart(getContext(), String.format("http://www.wbx365.com/Wbxwaphome/openstore#/record?uid=%s", loginUser.getSj_login_token()));
                         break;
                     case 1:
                         break;
@@ -250,8 +428,8 @@ public class IndexFragment extends BaseFragment {
                 loginUser.setEnd_date(shopInfo.getEnd_date());
                 loginUser.setShopPhoto(shopInfo.getPhoto());
                 //保存用户头像及昵称
-                SPUtils.setSharedStringData(getContext(), AppConfig.LOGIN_PHOTO,shopInfo.getPhoto());
-                SPUtils.setSharedStringData(getContext(), AppConfig.LOGIN_NAME,shopInfo.getShop_name());
+                SPUtils.setSharedStringData(getContext(), AppConfig.LOGIN_PHOTO, shopInfo.getPhoto());
+                SPUtils.setSharedStringData(getContext(), AppConfig.LOGIN_NAME, shopInfo.getShop_name());
                 loginUser.setScan_order_type(shopInfo.getScan_order_type());
                 BaseApplication.getInstance().saveUserInfo(loginUser);
                 setData();
@@ -296,7 +474,13 @@ public class IndexFragment extends BaseFragment {
         GlideUtils.showMediumPic(getActivity(), civXsdlHeadimg, shopInfo.getSalesman_headimg());
         //星评
         rbScore.setStar(shopInfo.getComment_rank());
-
+        //判断是否试用店 ==1
+        if (shopInfo.getTry_shop() == 1) {
+            ctlKtqjd.setVisibility(View.VISIBLE);
+        } else {
+            ctlKtqjd.setVisibility(View.GONE);
+        }
+       updataShopState();
         tvWaitSendNum.setText(String.valueOf(shopInfo.getNew_order_num()));
         tvWaitRefundNum.setText(String.valueOf(shopInfo.getDtk_order_num()));
         if (shopInfo.getNew_order_num() > 0) {
@@ -338,64 +522,80 @@ public class IndexFragment extends BaseFragment {
         balanceTv.setText(String.format(gold == 0 ? "¥0.00" : "¥%.2f", gold / 100.00));
         GlideUtils.showMediumPic(getActivity(), indexHeadIm, shopInfo.getPhoto());
         indexShopNameTv.setText(shopInfo.getShop_name());
-        //认证判断
-        if (!TextUtils.isEmpty(shopInfo.getReturn_reason())){
-            //被驳回 Return_reason为空
-            attestationStateTv.setText("被驳回");
-            //returned_type 1 食品证的问题  returned_type 2 资质的问题
-            AlertNextDialog alertNextDialog =  AlertNextDialog.newInstance(shopInfo.getReturn_reason(),shopInfo.getReturned_type());
-            alertNextDialog.show(getActivity().getSupportFragmentManager(), "");
-        }else {
-            if (shopInfo.getIs_renzheng() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0)) {
-                //已认证并且有食品许可证或者该店不需要食品许可证
-                attestationStateTv.setText("查看资质");
-            } else if (shopInfo.getIs_add_audit() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0) && shopInfo.getIs_renzheng() == 0) {
-                //已经添加资料但是认证还未通过
-                attestationStateTv.setText("审核中");
-            } else {
-                attestationStateTv.setText("未认证");
-                Boolean isNoAskAgain = SPUtils.getSharedBooleanData(getActivity(), AppConfig.NO_ASK_AGAIN_ACCREDITATION);
-                if (!isNoAskAgain) {
-                    if (shopInfo.getIs_add_audit() == 1) {
-                        AlertUploadAccreditationDialog uploadAccreditationDialog = AlertUploadAccreditationDialog.newInstance(true);
-                        uploadAccreditationDialog.show(getActivity().getSupportFragmentManager(), "");
-                    } else {
-                        AlertUploadAccreditationDialog uploadAccreditationDialog = AlertUploadAccreditationDialog.newInstance(false);
-                        uploadAccreditationDialog.show(getActivity().getSupportFragmentManager(), "");
-                    }
-                }
-            }
-        }
-
+//        //认证判断
+//        if (!TextUtils.isEmpty(shopInfo.getReturn_reason())) {
+//            //被驳回 Return_reason为空
+//            attestationStateTv.setText("被驳回");
+//            //returned_type 1 食品证的问题  returned_type 2 资质的问题
+//            AlertNextDialog alertNextDialog = AlertNextDialog.newInstance(shopInfo.getReturn_reason(), shopInfo.getReturned_type());
+//            alertNextDialog.show(getActivity().getSupportFragmentManager(), "");
+//        } else {
+//            if (shopInfo.getIs_renzheng() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0)) {
+//                //已认证并且有食品许可证或者该店不需要食品许可证
+//                attestationStateTv.setText("查看资质");
+//            } else if (shopInfo.getIs_add_audit() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0) && shopInfo.getIs_renzheng() == 0) {
+//                //已经添加资料但是认证还未通过
+//                attestationStateTv.setText("审核中");
+//            } else {
+//                attestationStateTv.setText("未认证");
+//                Boolean isNoAskAgain = SPUtils.getSharedBooleanData(getActivity(), AppConfig.NO_ASK_AGAIN_ACCREDITATION);
+//                if (!isNoAskAgain) {
+//                    if (shopInfo.getIs_add_audit() == 1) {
+//                        AlertUploadAccreditationDialog uploadAccreditationDialog = AlertUploadAccreditationDialog.newInstance(true);
+//                        uploadAccreditationDialog.show(getActivity().getSupportFragmentManager(), "");
+//                    } else {
+//                        AlertUploadAccreditationDialog uploadAccreditationDialog = AlertUploadAccreditationDialog.newInstance(false);
+//                        uploadAccreditationDialog.show(getActivity().getSupportFragmentManager(), "");
+//                    }
+//                }
+//            }
+//        }
 
 
         if (shopInfo.getIs_dispatching_money_activity() == 0) {
             DaDaCouponDialog.newInstance().show(getFragmentManager(), "");
         }
-        //奖励活动  is_view_withdraw_commission 1显示  0不显示
-        if (shopInfo.getShop_grade() == 6&&SPUtils.getSharedIntData(getContext(),"is_view_withdraw_commission")==1) {
-            Boolean flag = SPUtils.getSharedBooleanData(getContext(), "flag");
-            if (Awardflag == flag) {
-                ll_award.setVisibility(View.VISIBLE);
-                tv_customized.setText((int) shopInfo.getOrder_money() / 100 + "");
-                customized.setMaxCount(progressMax);
-                customized.setCurrentCount(shopInfo.getOrder_money());
-                bt_cash_withdrawal.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (shopInfo.getOrder_money() /100< 30000) {
-                            ToastUitl.showShort("未到达活动金额,无法提现！");
-                            return;
-                        }
-                        startActivityForResult(AwardCashActivity.class, 0);
-                    }
-                });
+//        //奖励活动  is_view_withdraw_commission 1显示  0不显示
+//        if (shopInfo.getShop_grade() == 6 && SPUtils.getSharedIntData(getContext(), "is_view_withdraw_commission") == 1) {
+//            Boolean flag = SPUtils.getSharedBooleanData(getContext(), "flag");
+//            if (Awardflag == flag) {
+//                ll_award.setVisibility(View.VISIBLE);
+//                tv_customized.setText((int) shopInfo.getOrder_money() / 100 + "");
+//                customized.setMaxCount(progressMax);
+//                customized.setCurrentCount(shopInfo.getOrder_money());
+//                bt_cash_withdrawal.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (shopInfo.getOrder_money() / 100 < 30000) {
+//                            ToastUitl.showShort("未到达活动金额,无法提现！");
+//                            return;
+//                        }
+//                        startActivityForResult(AwardCashActivity.class, 0);
+//                    }
+//                });
+//            } else {
+//                ll_award.setVisibility(View.GONE);
+//            }
+//        } else {
+//            ll_award.setVisibility(View.GONE);
+//        }
+    }
+
+    //更新店铺状态
+    private void updataShopState() {
+        //判断店铺状态
+        if (shopInfo!=null){
+            if (shopInfo.getIs_open() == 1) {
+                ivInOperation.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.yingyezhong));
+                tvState.setText("店铺营业中");
+                btnSwitch.setChecked(true);
             } else {
-                ll_award.setVisibility(View.GONE);
+                ivInOperation.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.xiuxizhong));
+                tvState.setText("店铺正在休息中");
+                btnSwitch.setChecked(false);
             }
-        } else {
-            ll_award.setVisibility(View.GONE);
         }
+
     }
 
     @Override
@@ -446,26 +646,30 @@ public class IndexFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.rl_pssz,R.id.iv_yrdp,R.id.rl_gyl,R.id.rl_hy,R.id.rl_mysq,R.id.rl_jdq,R.id.ll_xsdl_pj,R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager, R.id.rl_business_must})
+    @OnClick({R.id.ctl_ktqjd, R.id.rl_pssz, R.id.iv_yrdp, R.id.rl_gyl, R.id.rl_hy, R.id.rl_mysq, R.id.rl_jdq, R.id.ll_xsdl_pj, R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager, R.id.rl_business_must})
     public void onViewClicked(View view) {
         if (shopInfo == null) {
             return;
         }
         switch (view.getId()) {
+            case R.id.ctl_ktqjd:
+                //开通旗舰店
+                startActivity(new Intent(getContext(), ChooseShopVersionsPrwActivity.class));
+                break;
             case R.id.rl_gyl:
-                MyGylActivity.actionStart(getContext(),"供应链金融");
+                MyGylActivity.actionStart(getContext(), "供应链金融");
                 break;
             case R.id.rl_pssz:
                 //配送设置
                 if (shopDetailInfo != null) {
                     SendSettingActivity.actionStart(getActivity(), shopDetailInfo);
-                }else {
+                } else {
                     showLongToast("请刷新一下界面");
                 }
                 break;
-            case  R.id.rl_hy:
+            case R.id.rl_hy:
                 //供应链
-                MyGylActivity.actionStart(getContext(),"货源");
+                MyGylActivity.actionStart(getContext(), "货源");
                 break;
             case R.id.rl_mysq:
                 //我的商圈
@@ -558,7 +762,7 @@ public class IndexFragment extends BaseFragment {
                 popfxdp();
                 break;
             case R.id.iv_yrdp:
-              // 预览小程序
+                // 预览小程序
                 jumpXcx();
                 break;
             case R.id.rl_seat_manager:
@@ -569,10 +773,11 @@ public class IndexFragment extends BaseFragment {
                 break;
             case R.id.ll_xsdl_pj:
                 //对销售代理进行评价
-                SalesmanCommentActivity.actionStart(getContext(),"zc");
+                SalesmanCommentActivity.actionStart(getContext(), "zc");
                 break;
         }
     }
+
     //跳转小程序
     private void jumpXcx() {
         IWXAPI api = WXAPIFactory.createWXAPI(getContext(), AppConfig.WX_APP_ID);
@@ -586,9 +791,9 @@ public class IndexFragment extends BaseFragment {
     //查看或上传证件
     private void showCertification() {
         //不为空 被驳回
-        if (!TextUtils.isEmpty(shopInfo.getReturn_reason())){
+        if (!TextUtils.isEmpty(shopInfo.getReturn_reason())) {
             //returned_type 1 食品证的问题  returned_type 2 资质的问题     returned_type 3 食品证与资质都有问题
-            switch (shopInfo.getReturned_type()){
+            switch (shopInfo.getReturned_type()) {
                 case 1:
                     GoodsAccreditationActivity.actionStart(getActivity());
                     break;
@@ -599,7 +804,7 @@ public class IndexFragment extends BaseFragment {
                     AccreditationActivity.actionStart(getActivity());
                     break;
             }
-        }else {
+        } else {
             if (shopInfo.getIs_renzheng() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0)) {
                 //已认证并且有食品许可证或者该店不需要食品许可证
                 AccreditationActivity.actionStart(getActivity(), true);
@@ -663,53 +868,56 @@ public class IndexFragment extends BaseFragment {
     }
 
     //分享
-    private void popfxdp(){
-        final Dialog shareDialog = new Dialog(getContext(), R.style.DialogTheme);
+    private void popfxdp() {
+
         final View shareInflate = LayoutInflater.from(getContext()).inflate(R.layout.share_pop_view, null);
         final CircleImageView shopHeard = shareInflate.findViewById(R.id.civ_head);
         final CircleImageView shopEwm = shareInflate.findViewById(R.id.civ_ewm);
         final ConstraintLayout linearLayout = shareInflate.findViewById(R.id.ctl_hb);
         final TextView shopName = shareInflate.findViewById(R.id.tv_shop_name);
         //按钮
-        final TextView share_wechat_friends_tv  = shareInflate.findViewById(R.id.share_wechat_friends_tv);
-        final TextView share_pyq  = shareInflate.findViewById(R.id.share_pyq);
-        final TextView share_bctp  = shareInflate.findViewById(R.id.share_bctp);
-        final TextView poop_share_cancel_btn  = shareInflate.findViewById(R.id.poop_share_cancel_btn);
-        shareDialog.setContentView(shareInflate);
+        final TextView share_wechat_friends_tv = shareInflate.findViewById(R.id.share_wechat_friends_tv);
+        final TextView share_pyq = shareInflate.findViewById(R.id.share_pyq);
+        final TextView share_bctp = shareInflate.findViewById(R.id.share_bctp);
+        final TextView poop_share_cancel_btn = shareInflate.findViewById(R.id.poop_share_cancel_btn);
+        //dialog
+        final CustomPopWindow shareDialog = new CustomPopWindow.PopupWindowBuilder(getContext())
+                .setView(shareInflate)
+                .size(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                .setAnimationStyle(R.style.AlphaEnterExitAnimation)
+                .enableBackgroundDark(true)
+                .create()
+                .showAtLocation(shareInflate, Gravity.CENTER, 0, 0);
+
         //获取当前Activity所在的窗体
-        Window dialogWindow = shareDialog.getWindow();
-//        dialogWindow.setWindowAnimations(R.style.main_menu_animStyle);
-        dialogWindow.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        shareDialog.show();//显示对话框
-        shareDialog.setCanceledOnTouchOutside(true);
         poop_share_cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //取消
-                shareDialog.dismiss();
+                shareDialog.dissmiss();
             }
         });
         new MyHttp().doPost(Api.getDefault().shareShop(loginUser.getSj_login_token()), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 final ShopFxinfo shopFxinfo = new Gson().fromJson(result.toString(), ShopFxinfo.class);
-                GlideUtils.showMediumPic(getContext(),shopHeard,shopFxinfo.getData().getPhoto());
-                GlideUtils.showMediumPic(getContext(),shopEwm,shopFxinfo.getData().getSmall_routine_photo());
+                GlideUtils.showMediumPic(getContext(), shopHeard, shopFxinfo.getData().getPhoto());
+                GlideUtils.showMediumPic(getContext(), shopEwm, shopFxinfo.getData().getSmall_routine_photo());
                 share_wechat_friends_tv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //微信好友
                         String path = "pages/home/store/store?shopID=" + loginUser.getShop_id() + "&gradeid=" + loginUser.getGrade_id();
                         ShareUtils.getInstance().shareMiniProgram(getContext(), shopFxinfo.getData().getShop_name(), "", shopFxinfo.getData().getPhoto(), path, "www.wbx365.com");
-                        shareDialog.dismiss();
+                        shareDialog.dissmiss();
                     }
                 });
                 share_pyq.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //微信朋友圈
-                        ShareUtils.getInstance().shareToTimeLine(FormatUtil.viewToBitmap(linearLayout),getContext());
-                        shareDialog.dismiss();
+                        ShareUtils.getInstance().shareToTimeLine(FormatUtil.viewToBitmap(linearLayout), getContext());
+                        shareDialog.dissmiss();
                     }
                 });
                 share_bctp.setOnClickListener(new View.OnClickListener() {
@@ -722,22 +930,22 @@ public class IndexFragment extends BaseFragment {
                                 ScannerUtils.saveImageToGallery(getContext(), FormatUtil.viewToBitmap(linearLayout), ScannerUtils.ScannerType.RECEIVER);
                             }
                         });
-                        shareDialog.dismiss();
+                        shareDialog.dissmiss();
                     }
                 });
 
                 shopName.setText(shopFxinfo.getData().getShop_name());
                 //Adapter
                 final RecyclerView recyclerView = shareInflate.findViewById(R.id.rv_goods);
-                ShareShopGoodsAdapter  shareShopGoodsAdapter = new ShareShopGoodsAdapter(){
+                ShareShopGoodsAdapter shareShopGoodsAdapter = new ShareShopGoodsAdapter() {
                     @Override
                     public void onBindViewHolder(BaseViewHolder holder, int position) {
-                        GridLayoutManager.LayoutParams  layoutparams = new GridLayoutManager.LayoutParams(recyclerView.getWidth() / 2, recyclerView.getHeight());
+                        GridLayoutManager.LayoutParams layoutparams = new GridLayoutManager.LayoutParams(recyclerView.getWidth() / 2, recyclerView.getHeight());
                         holder.itemView.setLayoutParams(layoutparams);
                         super.onBindViewHolder(holder, position);
                     }
                 };
-                recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2){
+                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
                     @Override
                     public boolean canScrollVertically() {
                         return true;

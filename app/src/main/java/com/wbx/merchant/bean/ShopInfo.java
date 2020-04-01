@@ -56,6 +56,16 @@ public class ShopInfo implements Serializable {
     private int is_view_withdraw_commission;
     private float order_money;
     private int comment_rank;
+    private int  try_shop;//=1试用
+
+    public int getTry_shop() {
+        return try_shop;
+    }
+
+    public void setTry_shop(int try_shop) {
+        this.try_shop = try_shop;
+    }
+
 
     public int getReturned_type() {
         return returned_type;

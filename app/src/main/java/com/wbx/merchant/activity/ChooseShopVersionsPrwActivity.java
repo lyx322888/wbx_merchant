@@ -1,23 +1,30 @@
 package com.wbx.merchant.activity;
 
-import android.annotation.SuppressLint;
+
 import android.content.Intent;
+import android.database.Observable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.sdk.app.PayTask;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wbx.merchant.MainActivity;
 import com.wbx.merchant.R;
+import com.wbx.merchant.adapter.ChooseShopVersionsAdapter;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
@@ -25,28 +32,42 @@ import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.baseapp.AppManager;
+import com.wbx.merchant.bean.ChooseShopVersionsBean;
 import com.wbx.merchant.bean.PayResult;
 import com.wbx.merchant.bean.WxPayInfo;
-import com.wbx.merchant.utils.FormatUtil;
+import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.utils.SPUtils;
-import com.wbx.merchant.utils.ToastUitl;
-import com.wbx.merchant.widget.LoadingDialog;
 
 import java.util.Map;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
 
-/**
- * Created by wushenghui on 2017/6/24.
- */
+public class ChooseShopVersionsPrwActivity extends BaseActivity {
 
-public class PayActivity extends BaseActivity {
-    private IWXAPI msgApi;
-    private PayReq request;
+
+    @Bind(R.id.tv_title)
+    TextView tvTitle;
+    @Bind(R.id.rv_shop_versions)
+    RecyclerView rvShopVersions;
+    @Bind(R.id.ali_pay_im)
+    ImageView aliPayIm;
+    @Bind(R.id.ali_pay_layout)
+    LinearLayout aliPayLayout;
+    @Bind(R.id.wx_pay_im)
+    ImageView wxPayIm;
+    @Bind(R.id.wx_pay_layout)
+    LinearLayout wxPayLayout;
+    @Bind(R.id.pay_btn)
+    TextView payBtn;
+    private ChooseShopVersionsAdapter chooseShopVersionsAdapter;
+    private ChooseShopVersionsBean.DataBean dataBean;//选择项
+    private String payMode;
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_CHECK_FLAG = 2;
+    private IWXAPI msgApi;
+    private PayReq request;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -61,12 +82,7 @@ public class PayActivity extends BaseActivity {
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
 
-                        if (isRenew || isDaDa) {
-                            //续费支付||达达充值
-                            finish();
-                        } else {
                             getServiceEndTime();//支付成功 获取服务到期时间
-                        }
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
 
                     } else {
@@ -93,30 +109,9 @@ public class PayActivity extends BaseActivity {
 
         ;
     };
-    private String payMode;
-    @Bind(R.id.ali_pay_im)
-    ImageView aliPayIm;
-    @Bind(R.id.wx_pay_im)
-    ImageView wxPayIm;
-    @Bind(R.id.grade_name_tv)
-    TextView gradeNameTv;
-    @Bind(R.id.need_pay_tv)
-    TextView needPayTv;
-    private int gradeId;
-    private double needPay;
-    private boolean isRenew;
-    @Bind(R.id.is_renew_layout)
-    LinearLayout renewLayout;
-    @Bind(R.id.service_date_end_time_tv)
-    TextView endTimeTv;
-    private boolean isDaDa;
-    @Bind(R.id.input_money_edit_text)
-    EditText moneyEditText;
-    private int shopGradeId;
-
     @Override
     public int getLayoutId() {
-        return R.layout.activity_pay;
+        return R.layout.activity_choose_shop_versions_prw;
     }
 
     @Override
@@ -128,45 +123,32 @@ public class PayActivity extends BaseActivity {
     public void initView() {
         request = new PayReq();
         msgApi = WXAPIFactory.createWXAPI(mActivity, AppConfig.WX_APP_ID);
+
+        rvShopVersions.setLayoutManager(new LinearLayoutManager(mContext));
+        chooseShopVersionsAdapter = new ChooseShopVersionsAdapter();
+        rvShopVersions.setAdapter(chooseShopVersionsAdapter);
+        chooseShopVersionsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                chooseShopVersionsAdapter.chooseVersion(position);
+                if (position == 0) {
+                    payBtn.setText("确认支付");
+                } else {
+                    payBtn.setText("确认支付 ￥" + chooseShopVersionsAdapter.getData().get(position).getMoney() / 100);
+                }
+                dataBean = chooseShopVersionsAdapter.getItem(position);
+            }
+        });
     }
 
     @Override
     public void fillData() {
-        isDaDa = getIntent().getBooleanExtra("isDaDa", false);
-        if (!isDaDa) {
-            moneyEditText.setVisibility(View.GONE);
-            gradeId = getIntent().getIntExtra("gradeId", 0);
-            isRenew = getIntent().getBooleanExtra("isRenew", false);
-            shopGradeId = getIntent().getIntExtra("shopGradeId", 0);
-            needPayTv.setText(String.format("¥%.2f", getIntent().getIntExtra("select_money", 1) / 100.00));
-            gradeNameTv.setText(getIntent().getStringExtra("gradeName"));
-            if (isRenew) {
-                endTimeTv.setText(FormatUtil.stampToDate(userInfo.getEnd_date() + ""));
-                renewLayout.setVisibility(View.VISIBLE);
-            }
-            AppConfig.RESULT_PAY_TYPE = isRenew;
-            if (shopGradeId == 0) {
-                getStoreType();
-            }
-        } else {
-            //达达充值
-            AppConfig.RESULT_PAY_TYPE = true;
-            gradeNameTv.setVisibility(View.GONE);
-            needPayTv.setVisibility(View.GONE);
-        }
-    }
 
-    private void getStoreType() {
-        LoadingDialog.showDialogForLoading(mActivity, "加载中...", true);
-        new MyHttp().doPost(Api.getDefault().getShopCate(gradeId), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().get_shop_grade_info(LoginUtil.getLoginToken()), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                JSONObject data = result.getJSONObject("data");
-                JSONObject shopGradeData = JSONObject.parseObject(data.getString("shop_grade"));
-                gradeNameTv.setText(shopGradeData.getString("grade_name"));
-                needPayTv.setText("¥" + shopGradeData.getIntValue("money") / 100.00);
-                needPay = shopGradeData.getIntValue("money") / 100.00;
-//                cateInfoList.addAll(JSONArray.parseArray(data.getString("cates"), CateInfo.class)) ;
+                ChooseShopVersionsBean bean = new Gson().fromJson(result.toString(), ChooseShopVersionsBean.class);
+                chooseShopVersionsAdapter.setNewData(bean.getData());
             }
 
             @Override
@@ -180,6 +162,7 @@ public class PayActivity extends BaseActivity {
     public void setListener() {
 
     }
+
 
     @OnClick({R.id.ali_pay_layout, R.id.wx_pay_layout, R.id.pay_btn})
     public void onClick(View view) {
@@ -195,23 +178,20 @@ public class PayActivity extends BaseActivity {
                 wxPayIm.setImageResource(R.drawable.ic_ok);
                 break;
             case R.id.pay_btn:
-                if (TextUtils.isEmpty(payMode)) {
-                    showShortToast("请选择支付方式");
-                    return;
+                if(dataBean==null){
+                    showShortToast("请选择版本");
                 }
-                if (isDaDa) {
-                    if (TextUtils.isEmpty(moneyEditText.getText().toString())) {
-                        ToastUitl.showShort("请输入金额");
+
+                if (dataBean.getGrade_type()==1){
+                    SPUtils.setSharedBooleanData(mContext, AppConfig.LOGIN_STATE, true);
+                    AppManager.getAppManager().finishAllActivity();
+                    startActivity(new Intent(mContext, MainActivity.class));
+                }else {
+                    if (TextUtils.isEmpty(payMode)) {
+                        showShortToast("请选择支付方式");
                         return;
                     }
-                    double money = Double.valueOf(moneyEditText.getText().toString());
-//                    if(money<20){
-//                        showShortToast("充值金额不能小于20元");
-//                        return;
-//                    }
-                    goPay(Api.getDefault().daDaRecharge(userInfo.getSj_login_token(), payMode, money));
-                } else {
-                    goPay(Api.getDefault().goPay(userInfo.getSj_login_token(), gradeId, payMode, isRenew ? AppConfig.PAY_TYPE.RENEW : AppConfig.PAY_TYPE.APPLY, getIntent().getIntExtra("shopGradeId", 0)));
+                    goPay();
                 }
 
                 break;
@@ -219,8 +199,8 @@ public class PayActivity extends BaseActivity {
     }
 
     //支付
-    private void goPay(Observable<JSONObject> observable) {
-        new MyHttp().doPost(observable, new HttpListener() {
+    private void goPay() {
+        new MyHttp().doPost(Api.getDefault().goPayKdp(userInfo.getSj_login_token(), payMode,"apply", dataBean.getShop_grade(),dataBean.getGrade_type()), new HttpListener() {
             @Override
             public void onSuccess(final JSONObject result) {
                 if (payMode.equals(AppConfig.PayMode.alipay)) {
@@ -252,7 +232,6 @@ public class PayActivity extends BaseActivity {
             }
         });
     }
-
     //微信支付
     private void startWxPay(WxPayInfo wxPayInfo) {
         genPayReq(wxPayInfo);

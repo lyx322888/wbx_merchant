@@ -60,7 +60,10 @@
         android:resizeableActivity="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.RankingListActivity"></activity>
+        <activity android:name=".activity.CompleteInformationActivity"></activity>
+        <activity android:name=".activity.ChooseShopVersionsPrwActivity" />
+        <activity android:name=".activity.ShopInfoPrwActivity" />
+        <activity android:name=".activity.RankingListActivity" />
         <activity android:name=".activity.MyGylActivity" />
         <activity android:name=".activity.RewardSubsidiaryActivity" />
         <activity android:name=".activity.BluetoothActivity" /> <!-- 屏幕适配设计图尺寸 -->
