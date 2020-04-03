@@ -3,26 +3,33 @@ package com.wbx.merchant.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.popwindowutils.CustomPopWindow;
+import com.google.android.material.tabs.TabLayout;
 import com.wbx.merchant.R;
 import com.wbx.merchant.adapter.ProductnewAdapter;
 import com.wbx.merchant.api.Api;
@@ -30,8 +37,12 @@ import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseAdapter;
+import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.fragment.GoodsManagerFragment;
+import com.wbx.merchant.utils.SPUtils;
+import com.wbx.merchant.utils.SpannableStringUtils;
+import com.wbx.merchant.utils.ToolsSize;
 import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
 
@@ -39,8 +50,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.functions.Action1;
 
 /**
  * Created by wushenghui on 2017/6/20.
@@ -53,6 +66,18 @@ public class GoodsManagerActivity extends BaseActivity {
     TabLayout mTabLayout;
     @Bind(R.id.view_pager)
     ViewPager mOrderViewPager;
+    @Bind(R.id.publish_goods_btn)
+    Button publishGoodsBtn;
+    @Bind(R.id.batch_manager)
+    Button batchManager;
+    @Bind(R.id.rl_all_check)
+    RelativeLayout rlAllCheck;
+    @Bind(R.id.rl_sold_out)
+    RelativeLayout rlSoldOut;
+    @Bind(R.id.rl_goods_delete)
+    RelativeLayout rlGoodsDelete;
+    @Bind(R.id.rl_classify)
+    RelativeLayout rlClassify;
     private String[] mTitles = new String[]{"已上架", "已下架"};
     private GoodsFragmentStateAdapter mPagerAdapter;
     private List<GoodsManagerFragment> mFragment = new ArrayList<>();
@@ -92,8 +117,49 @@ public class GoodsManagerActivity extends BaseActivity {
         mPagerAdapter = new GoodsFragmentStateAdapter(getSupportFragmentManager(), mTitles);
         mOrderViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mOrderViewPager);
-    }
 
+        mRxManager.on("jj", new Action1<Integer>() {
+            @Override
+            public void call(Integer integer) {
+               showPop(integer);
+            }
+        });
+
+    }
+    private void showPop(final int cs) {
+        //试用版提示框
+        if (SPUtils.getSharedIntData(mContext, AppConfig.TRY_SHOP) == 1) {
+                    final View inflate = LayoutInflater.from(mContext).inflate(R.layout.pop_restrict_goods, null);
+                    ImageView ivDsj = inflate.findViewById(R.id.iv_dsj_b);
+                    ImageView ivGb = inflate.findViewById(R.id.iv_gb);
+                    TextView tvType = inflate.findViewById(R.id.tv_type);
+                    TextView tv_ljkt = inflate.findViewById(R.id.tv_ljkt);
+                    TextView tvCs = inflate.findViewById(R.id.tv_cs);
+                    ivDsj.setVisibility(View.VISIBLE);
+                    tvType.setText("发布商品");
+                    tvCs.setText(SpannableStringUtils.getBuilder("可发布次数 10/").append(String.valueOf(cs)).setForegroundColor(ContextCompat.getColor(mContext, R.color.app_color)).create());
+                    final CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(mContext)
+                            .setView(inflate)
+                            .size(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                            .create()
+//                            .showAsDropDown(doEditLayout,0,-doEditLayout.getHeight(),Gravity.TOP);
+                            .showAtLocation(doEditLayout,Gravity.BOTTOM,0,doEditLayout.getHeight());
+                    ivGb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            customPopWindow.dissmiss();
+                        }
+                    });
+                    tv_ljkt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));
+                        }
+                    });
+
+
+        }
+    }
     @Override
     public void fillData() {
     }
@@ -357,6 +423,8 @@ public class GoodsManagerActivity extends BaseActivity {
         mHiddenAction.setDuration(500);
         return mHiddenAction;
     }
+
+
 
     class GoodsFragmentStateAdapter extends FragmentStatePagerAdapter {
         private String[] mTitles;

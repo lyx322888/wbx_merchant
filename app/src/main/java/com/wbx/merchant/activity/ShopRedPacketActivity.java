@@ -3,10 +3,13 @@ package com.wbx.merchant.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.popwindowutils.CustomPopWindow;
 import com.wbx.merchant.R;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
@@ -129,7 +132,23 @@ public class ShopRedPacketActivity extends BaseActivity {
 
                 @Override
                 public void onError(int code) {
-
+                    if (code==AppConfig.ERROR_STATE.JURISDICTION){
+                        final View inflate = LayoutInflater.from(mContext).inflate(R.layout.pop_ljkd, null);
+                        TextView tvContent = inflate.findViewById(R.id.tv_content);
+                        TextView tvLjkd = inflate.findViewById(R.id.tv_ljkt);
+                        tvContent.setText("开通特权享发红包");
+                        CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(mContext)
+                                .enableBackgroundDark(true)
+                                .setView(inflate)
+                                .create()
+                                .showAtLocation(inflate, Gravity.CENTER,0,0);
+                        tvLjkd.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));
+                            }
+                        });
+                    }
                 }
             });
         } else {
@@ -143,6 +162,23 @@ public class ShopRedPacketActivity extends BaseActivity {
 
                 @Override
                 public void onError(int code) {
+                    if (code==AppConfig.ERROR_STATE.JURISDICTION){
+                        final View inflate = LayoutInflater.from(mContext).inflate(R.layout.pop_ljkd, null);
+                        TextView tvContent = inflate.findViewById(R.id.tv_content);
+                        TextView tvLjkd = inflate.findViewById(R.id.tv_ljkt);
+                        tvContent.setText("开通特权享发红包");
+                        CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(mContext)
+                                .enableBackgroundDark(true)
+                                .setView(inflate)
+                                .create()
+                                .showAtLocation(inflate, Gravity.CENTER,0,0);
+                        tvLjkd.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));
+                            }
+                        });
+                    }
 
                 }
             });

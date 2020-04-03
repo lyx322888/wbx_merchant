@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -32,7 +33,9 @@ import com.amap.api.services.geocoder.GeocodeQuery;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.example.popwindowutils.CustomPopWindow;
 import com.wbx.merchant.R;
+import com.wbx.merchant.activity.ChooseShopVersionsPrwActivity;
 import com.wbx.merchant.activity.OrderActivity;
 import com.wbx.merchant.activity.OrderDetailActivity;
 import com.wbx.merchant.activity.PayActivity;
@@ -561,6 +564,7 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
             @Override
             public void onError(int code) {
 
+
             }
         });
     }
@@ -598,6 +602,23 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
 
                         }
                     }).show();
+                }
+                if (code==AppConfig.ERROR_STATE.JURISDICTION){
+                    final View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_ljkd, null);
+                    TextView tvContent = inflate.findViewById(R.id.tv_content);
+                    TextView tvLjkd = inflate.findViewById(R.id.tv_ljkt);
+                    tvContent.setText("开通特权享受达达配送");
+                    CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(getContext())
+                            .enableBackgroundDark(true)
+                            .setView(inflate)
+                            .create()
+                            .showAtLocation(inflate, Gravity.CENTER,0,0);
+                    tvLjkd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(getContext(), ChooseShopVersionsPrwActivity.class));
+                        }
+                    });
                 }
             }
         });

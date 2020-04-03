@@ -56,7 +56,17 @@ public class ShopInfo implements Serializable {
     private int is_view_withdraw_commission;
     private float order_money;
     private int comment_rank;
+    private String discover_num;
     private int  try_shop;//=1试用
+
+    public String getDiscover_num() {
+        return discover_num;
+    }
+
+    public void setDiscover_num(String discover_num) {
+        this.discover_num = discover_num;
+    }
+
 
     public int getTry_shop() {
         return try_shop;

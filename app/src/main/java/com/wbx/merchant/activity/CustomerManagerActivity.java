@@ -4,26 +4,35 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+
+import com.example.popwindowutils.CustomPopWindow;
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.wbx.merchant.R;
 import com.wbx.merchant.adapter.OpenRadarAdapter;
 import com.wbx.merchant.adapter.viewpageadapter.CustomerFragmentStateAdapter;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.BindAllUserBean;
 import com.wbx.merchant.bean.OpenRadarBean;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.presenter.OpenRadarPresenterImp;
 import com.wbx.merchant.utils.RetrofitUtils;
+import com.wbx.merchant.utils.SPUtils;
+import com.wbx.merchant.utils.SpannableStringUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.view.OpenRadarView;
 import com.wbx.merchant.widget.refresh.BaseRefreshListener;
@@ -75,6 +84,42 @@ public class CustomerManagerActivity extends BaseActivity {
 
     @Override
     public void initView() {
+            //试用版提示框
+            if (SPUtils.getSharedIntData(mContext, AppConfig.TRY_SHOP) == 1) {
+                mTabLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        final View inflate = LayoutInflater.from(mContext).inflate(R.layout.pop_restrict_goods, null);
+                        ImageView ivDsj = inflate.findViewById(R.id.iv_dsj_l);
+                        ImageView ivGb = inflate.findViewById(R.id.iv_gb);
+                        TextView tvType = inflate.findViewById(R.id.tv_type);
+                        TextView tv_ljkt = inflate.findViewById(R.id.tv_ljkt);
+                        TextView tvCs = inflate.findViewById(R.id.tv_cs);
+                        ivDsj.setVisibility(View.VISIBLE);
+                        tvType.setText("客户管理");
+                        tvCs.setText(SpannableStringUtils.getBuilder("可管理客户 10").create());
+                        final CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(mContext)
+                                .setView(inflate)
+                                .size(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                                .create()
+                                .showAsDropDown(mTabLayout,0,0, Gravity.BOTTOM);
+                        ivGb.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                customPopWindow.dissmiss();
+                            }
+                        });
+                        tv_ljkt.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));
+                            }
+                        });
+
+                    }
+                });
+
+            }
     }
 
     @Override

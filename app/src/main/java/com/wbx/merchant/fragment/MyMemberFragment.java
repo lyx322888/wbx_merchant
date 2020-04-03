@@ -2,12 +2,23 @@ package com.wbx.merchant.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.popwindowutils.CustomPopWindow;
 import com.wbx.merchant.R;
+import com.wbx.merchant.activity.ChooseShopVersionsPrwActivity;
 import com.wbx.merchant.activity.MemberDetailActivity;
 import com.wbx.merchant.adapter.MyMemberAdapter;
 import com.wbx.merchant.api.Api;
@@ -16,6 +27,8 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseFragment;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.MemberBean;
+import com.wbx.merchant.utils.SPUtils;
+import com.wbx.merchant.utils.SpannableStringUtils;
 import com.wbx.merchant.widget.refresh.BaseRefreshListener;
 import com.wbx.merchant.widget.refresh.PullToRefreshLayout;
 import com.wbx.merchant.widget.refresh.ViewStatus;
@@ -68,6 +81,8 @@ public class MyMemberFragment extends BaseFragment implements BaseRefreshListene
         mAdapter = new MyMemberAdapter(this, position);
         recyclerView.setAdapter(mAdapter);
         ptrl.setRefreshListener(this);
+
+
     }
 
     @Override
@@ -96,6 +111,7 @@ public class MyMemberFragment extends BaseFragment implements BaseRefreshListene
                     ptrl.finishRefresh();
                 }
                 List<MemberBean> data = JSONArray.parseArray(result.getString("data"), MemberBean.class);
+
                 if (!isLoadMore && (data == null || data.size() == 0)) {
                     ptrl.showView(ViewStatus.EMPTY_STATUS);
                     ptrl.buttonClickNullData(MyMemberFragment.this, "refresh");
@@ -127,13 +143,32 @@ public class MyMemberFragment extends BaseFragment implements BaseRefreshListene
                         ptrl.showView(ViewStatus.EMPTY_STATUS);
                         ptrl.buttonClickNullData(MyMemberFragment.this, "refresh");
                     }
-                } else {
+                } else if (code == 123){
+                        final View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_ljkd, null);
+                        TextView tvContent = inflate.findViewById(R.id.tv_content);
+                        TextView tvLjkd = inflate.findViewById(R.id.tv_ljkt);
+                        tvContent.setText("开通特权享发红包");
+                        CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(getContext())
+                                .enableBackgroundDark(true)
+                                .setView(inflate)
+                                .create()
+                                .showAtLocation(inflate, Gravity.CENTER,0,0);
+                        tvLjkd.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                startActivity(new Intent(getContext(), ChooseShopVersionsPrwActivity.class));
+                            }
+                        });
+                }
+
+                else {
                     ptrl.showView(ViewStatus.ERROR_STATUS);
                     ptrl.buttonClickError(MyMemberFragment.this, "refresh");
                 }
             }
         });
     }
+
 
     @Override
     protected void bindEven() {

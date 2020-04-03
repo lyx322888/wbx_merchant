@@ -16,6 +16,7 @@ public class AppConfig {
     public static final String LOGIN_MOBILE = "loginMobile";//保存手机号码
     public static final String LOGIN_PHOTO = "login_photo";//保存店铺图像
     public static final String LOGIN_NAME = "login_name";//保存店铺昵称
+    public static final String TRY_SHOP = "try_shop";//是否是试用
     public static final String REFRESH_UI = "refreshUl";//刷新UI
     public static final String IS_VIEW_WITHDRAW_COMMISSION = "is_view_withdraw_commission";//刷新UI
     public static final String NO_ASK_AGAIN_ACCREDITATION = "NO_ASK_AGAIN_ACCREDITATION";//不再弹出资质认证提醒
@@ -154,6 +155,7 @@ public class AppConfig {
         int SERVICE_ERROR = 1003;//加载错误
         int NULL_PAY_PSW = 1005;//未设置支付密码
         int SEND_FEE_NO_ENOUGH = 1006;//配送金额不足
+        int JURISDICTION  = 123;//权限受制
 
     }
 

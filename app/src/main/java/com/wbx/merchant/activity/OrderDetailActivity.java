@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.popwindowutils.CustomPopWindow;
 import com.wbx.merchant.R;
 import com.wbx.merchant.adapter.OrderDetailAdapter;
 import com.wbx.merchant.api.Api;
@@ -370,6 +372,23 @@ public class OrderDetailActivity extends BaseActivity {
 
                         }
                     }).show();
+                }
+                if (code==AppConfig.ERROR_STATE.JURISDICTION){
+                    final View inflate = LayoutInflater.from(mContext).inflate(R.layout.pop_ljkd, null);
+                    TextView tvContent = inflate.findViewById(R.id.tv_content);
+                    TextView tvLjkd = inflate.findViewById(R.id.tv_ljkt);
+                    tvContent.setText("开通特权享受达达配送");
+                    CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(mContext)
+                            .enableBackgroundDark(true)
+                            .setView(inflate)
+                            .create()
+                            .showAtLocation(inflate, Gravity.CENTER,0,0);
+                    tvLjkd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));
+                        }
+                    });
                 }
             }
         });

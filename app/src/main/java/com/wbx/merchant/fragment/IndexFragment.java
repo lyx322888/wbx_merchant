@@ -278,30 +278,34 @@ public class IndexFragment extends BaseFragment {
         ll_award = rootView.findViewById(R.id.ll_award);
         tv_customized = rootView.findViewById(R.id.tv_customized);
         bt_cash_withdrawal = rootView.findViewById(R.id.bt_cash_withdrawal);
-        btnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        btnSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, final boolean b) {
-                final int is_open ;
-                if (b){
-                    is_open = 1;
-                }else {
-                    is_open = 0;
+            public void onClick(View view) {
+                if (shopInfo!=null){
+                    if (shopInfo.getIs_open()==1){
+                        postSw(0);
+                    }else {
+                        postSw(1);
+                    }
                 }
-                new MyHttp().doPost(Api.getDefault().updateIsOpen(LoginUtil.getLoginToken(),is_open), new HttpListener() {
-                    @Override
-                    public void onSuccess(JSONObject result) {
-                      shopInfo.setIs_open(is_open);
-                       updataShopState();
-                    }
+            }
+        });
 
-                    @Override
-                    public void onError(int code) {
-                        btnSwitch.setChecked(!b);
-                        getShopIdentity();
-                    }
-                });
+    }
 
+    private void postSw(final int is_open){
+        new MyHttp().doPost(Api.getDefault().updateIsOpen(LoginUtil.getLoginToken(),is_open), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                shopInfo.setIs_open(is_open);
                 updataShopState();
+            }
+
+            @Override
+            public void onError(int code) {
+                shopInfo.setIs_open(is_open==1?0:1);
+                updataShopState();
+                getShopIdentity();
             }
         });
     }
@@ -316,13 +320,14 @@ public class IndexFragment extends BaseFragment {
                 switch (shopIdentityBean.getData().getAudit()){
                     //0未核审 1已核审 2核审未通过
                     case 0:
-                        showShortToast("请等待审核");
+//                    "请等待审核"
                         break;
                     case 2:
-                        showShortToast("您的审核未通过请重新上传身份证");
+//                     您的审核未通过请重新上传身份证
+                        popWsxs();
                        break;
                     default:
-                        popWsxs();
+
                         break;
                 }
             }
@@ -389,10 +394,10 @@ public class IndexFragment extends BaseFragment {
 
         List<Drawable> imgurl = new ArrayList<>();
         imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.prw));
-        imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.cwdz));
+//        imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.cwdz));
         imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.vidio_study));
         xbannerView.setBannerStyle(BannerConfig.NOT_INDICATOR);
-        xbannerView.setImages(imgurl).setDelayTime(6000).setImageLoader(new GlideImageLoader()).start();
+        xbannerView.setImages(imgurl).setDelayTime(10000).setImageLoader(new GlideImageLoader()).start();
         xbannerView.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
@@ -430,6 +435,8 @@ public class IndexFragment extends BaseFragment {
                 //保存用户头像及昵称
                 SPUtils.setSharedStringData(getContext(), AppConfig.LOGIN_PHOTO, shopInfo.getPhoto());
                 SPUtils.setSharedStringData(getContext(), AppConfig.LOGIN_NAME, shopInfo.getShop_name());
+
+                SPUtils.setSharedIntData(getContext(), AppConfig.TRY_SHOP, shopInfo.getTry_shop());
                 loginUser.setScan_order_type(shopInfo.getScan_order_type());
                 BaseApplication.getInstance().saveUserInfo(loginUser);
                 setData();
@@ -691,7 +698,7 @@ public class IndexFragment extends BaseFragment {
                 changeOpenState();
                 break;
             case R.id.iv_pub_bus_cir:
-                PublishBusinessCircleActivity.actionStart(getContext());
+                PublishBusinessCircleActivity.actionStart(getContext(),shopInfo.getDiscover_num());
                 break;
             case R.id.ll_wait_send:
                 OrderActivity.actionStart(getContext(), 0);
@@ -716,6 +723,7 @@ public class IndexFragment extends BaseFragment {
                 StoreManagerActivity.actionStart(getContext());
                 break;
             case R.id.rl_goods_manager:
+                //商品管理
                 GoodsManagerActivity.actionStart(getContext());
                 break;
             case R.id.rl_business_manager:

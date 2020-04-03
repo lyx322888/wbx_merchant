@@ -40,6 +40,8 @@ import butterknife.ButterKnife;
 public class WebSetUpShopActivity extends BaseActivity {
     @Bind(R.id.web_view)
     WebView mWebView;
+    @Bind(R.id.iv_phb)
+    ImageView ivPhb;
     private String url;
     @Bind(R.id.title_name_tv)
     TextView titleNameTv;
@@ -82,6 +84,14 @@ public class WebSetUpShopActivity extends BaseActivity {
         webSettings.setAllowFileAccess(true); // 允许访问文件
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
 
+        ivPhb.setVisibility(View.VISIBLE);
+        ivPhb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //排行榜
+                startActivity(new Intent(mContext,RankingListActivity.class));
+            }
+        });
     }
 
     @Override
@@ -207,11 +217,6 @@ public class WebSetUpShopActivity extends BaseActivity {
             } else {
                 showShortToast("网络加载失败，请重新进入页面");
             }
-        }
-        @JavascriptInterface
-        public void ankingPic() {
-           //排行榜
-            startActivity(new Intent(mContext,RankingListActivity.class));
         }
     }
 //    private void refreshHtmlContent(final String html){

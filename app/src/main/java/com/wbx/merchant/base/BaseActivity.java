@@ -1,5 +1,6 @@
 package com.wbx.merchant.base;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +16,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.umeng.analytics.MobclickAgent;
+import com.wbx.merchant.R;
 import com.wbx.merchant.activity.SplashActivity;
 import com.wbx.merchant.baseapp.AppManager;
 import com.wbx.merchant.baserx.RxManager;
 import com.wbx.merchant.bean.UserInfo;
+import com.wbx.merchant.utils.FormatUtil;
 import com.wbx.merchant.utils.StatusBarUtil;
 import com.wbx.merchant.utils.TUtil;
 import com.wbx.merchant.utils.ToastUitl;
@@ -101,6 +104,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         MobclickAgent.onResume(this);
     }
 
+    protected void setStatubarColor(int color){
+        FormatUtil.setStatubarColor(mActivity,color);
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -110,6 +116,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     /**
      * 设置layout前配置
      */
+    @SuppressLint("SourceLockedOrientationActivity")
     private void doBeforeSetcontentView() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         // 把actvity放到application栈中管理

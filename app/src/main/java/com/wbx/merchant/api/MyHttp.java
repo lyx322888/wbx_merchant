@@ -80,6 +80,12 @@ public class MyHttp {
                         listener.onError(AppConfig.ERROR_STATE.NULL_PAY_PSW);
                     } else if (result.getString("msg").contains("配送金额不足")) {
                         listener.onError(AppConfig.ERROR_STATE.SEND_FEE_NO_ENOUGH);
+                    }else if (result.getString("msg").contains("试用店最多能上传10个商品")
+                            ||result.getString("msg").contains("试用店无法使用红包功能")
+                            ||result.getString("msg").contains("试用店无法使用达达配送")
+                            ||result.getString("msg").contains("试用店最多可以管理10个客户")
+                            ||result.getString("msg").contains("试用店最多可以发三条商圈")){
+                        listener.onError(AppConfig.ERROR_STATE.JURISDICTION);
                     } else {
                         ToastUitl.showShort(result.getString("msg"));
                         listener.onError(result.getInteger("state"));

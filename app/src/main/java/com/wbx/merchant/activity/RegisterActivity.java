@@ -38,8 +38,8 @@ public class RegisterActivity extends BaseActivity {
     EditText codeEdit;
     @Bind(R.id.register_first_psw_edit)
     EditText firstPswEdit;
-    @Bind(R.id.register_second_psw_edit)
-    EditText secondPswEdit;
+//    @Bind(R.id.register_second_psw_edit)
+//    EditText secondPswEdit;
     @Bind(R.id.agree_cb)
     CheckBox agreeCb;
     @Bind(R.id.register_get_code_btn)
@@ -137,9 +137,8 @@ public class RegisterActivity extends BaseActivity {
     private void doRegister() {
         String account = mobileEdit.getText().toString();
         String code = codeEdit.getText().toString();
-        String firstPsw = firstPswEdit.getText().toString();
-        final String secondPsw = secondPswEdit.getText().toString();
-        if (!isSuccess(account, firstPsw, secondPsw, code)) {
+        final String firstPsw = firstPswEdit.getText().toString();
+        if (!isSuccess(account, firstPsw, code)) {
             return;
         }
         LoadingDialog.showDialogForLoading(mActivity, "注册中...", true);
@@ -159,7 +158,7 @@ public class RegisterActivity extends BaseActivity {
                 //返回上个界面并登录
                 Intent intent = new Intent();
                 intent.putExtra("mobile",  mobileEdit.getText().toString());
-                intent.putExtra("password", secondPsw);
+                intent.putExtra("password", firstPsw);
                 // 设置返回码和返回携带的数据
                 setResult(Activity.RESULT_OK, intent);
                 // RESULT_OK就是一个默认值，=-1，它说OK就OK吧
@@ -173,21 +172,13 @@ public class RegisterActivity extends BaseActivity {
         });
     }
 
-    private boolean isSuccess(String account, String firstPsw, String secondPsw, String code) {
+    private boolean isSuccess(String account, String firstPsw, String code) {
         if (TextUtils.isEmpty(account)) {
             showShortToast("请输入账号");
             return false;
         }
         if (TextUtils.isEmpty(firstPsw)) {
             showShortToast("请输入密码");
-            return false;
-        }
-        if (TextUtils.isEmpty(secondPsw)) {
-            showShortToast("请输入确认密码");
-            return false;
-        }
-        if (!firstPsw.equals(secondPsw)) {
-            showShortToast("两次输入的密码不对");
             return false;
         }
         if (TextUtils.isEmpty(code)) {

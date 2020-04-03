@@ -4,22 +4,29 @@ import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.popwindowutils.CustomPopWindow;
 import com.wbx.merchant.R;
+import com.wbx.merchant.activity.ChooseShopVersionsPrwActivity;
 import com.wbx.merchant.activity.GoodsManagerActivity;
 import com.wbx.merchant.activity.ReleaseActivity;
 import com.wbx.merchant.adapter.GoodsAdapter;
@@ -33,7 +40,11 @@ import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GoodsInfo;
 import com.wbx.merchant.bean.SpecInfo;
+import com.wbx.merchant.utils.FormatUtil;
+import com.wbx.merchant.utils.SPUtils;
+import com.wbx.merchant.utils.SpannableStringUtils;
 import com.wbx.merchant.utils.ToastUitl;
+import com.wbx.merchant.utils.ToolsSize;
 import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
 import com.wbx.merchant.widget.refresh.BaseRefreshListener;
@@ -124,6 +135,12 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                     return;
                 }
                 List<GoodsInfo> dataList = JSONArray.parseArray(result.getString("data"), GoodsInfo.class);
+
+
+                if(anInt==0){
+                    mRxManager.post("jj",dataList.size());
+                }
+
                 mRefreshLayout.finishRefresh();
                 mRefreshLayout.finishLoadMore();
                 if (null == dataList && mPageNum == AppConfig.pageNum) {
@@ -193,6 +210,8 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
             }
         });
     }
+
+
 
     @Override
     protected void bindEven() {

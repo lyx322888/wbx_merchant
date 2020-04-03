@@ -3,11 +3,17 @@ package com.wbx.merchant.activity;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.popwindowutils.CustomPopWindow;
 import com.wbx.merchant.R;
 import com.wbx.merchant.adapter.ProductReleaseAdapter;
 import com.wbx.merchant.api.Api;
@@ -15,6 +21,7 @@ import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseAdapter;
+import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.MaterialInfoBean;
 import com.wbx.merchant.bean.ProductJson;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
@@ -142,6 +149,24 @@ public class ProductReleaseActivity extends BaseActivity {
             @Override
             public void onError(int code) {
                 btnRelease.setClickable(true);
+
+                if (code== AppConfig.ERROR_STATE.JURISDICTION){
+                    final View inflate = LayoutInflater.from(mContext).inflate(R.layout.pop_ljkd, null);
+                    TextView tvContent = inflate.findViewById(R.id.tv_content);
+                    TextView tvLjkd = inflate.findViewById(R.id.tv_ljkt);
+                    tvContent.setText("发布商品已到限制");
+                    CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(mContext)
+                            .enableBackgroundDark(true)
+                            .setView(inflate)
+                            .create()
+                            .showAtLocation(inflate, Gravity.CENTER,0,0);
+                    tvLjkd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));
+                        }
+                    });
+                }
             }
         });
     }

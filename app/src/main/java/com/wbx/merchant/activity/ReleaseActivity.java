@@ -8,6 +8,8 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bigkoo.pickerview.OptionsPickerView;
+import com.example.popwindowutils.CustomPopWindow;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.wbx.merchant.R;
 import com.wbx.merchant.adapter.PhotoAdapter;
@@ -536,7 +539,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
 
         mParams.put("is_use_num", openInventorySb.isChecked() ? 1 : 0);//是否启用库存
         mGoodInfo.setIs_use_num(openInventorySb.isChecked() ? 1 : 0);
-        int num = TextUtils.isEmpty(numEdit.getText().toString().trim()) ? 0 : Integer.valueOf(numEdit.getText().toString().trim());//库存数目
+        final int num = TextUtils.isEmpty(numEdit.getText().toString().trim()) ? 0 : Integer.valueOf(numEdit.getText().toString().trim());//库存数目
         mParams.put("num", num);//库存数目
         mGoodInfo.setNum(num);
 
@@ -613,6 +616,23 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
 
             @Override
             public void onError(int code) {
+                if (code==AppConfig.ERROR_STATE.JURISDICTION){
+                    final View inflate = LayoutInflater.from(mContext).inflate(R.layout.pop_ljkd, null);
+                    TextView tvContent = inflate.findViewById(R.id.tv_content);
+                    TextView tvLjkd = inflate.findViewById(R.id.tv_ljkt);
+                    tvContent.setText("发布商品已到限制");
+                    CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(mContext)
+                            .enableBackgroundDark(true)
+                            .setView(inflate)
+                            .create()
+                            .showAtLocation(inflate, Gravity.CENTER,0,0);
+                    tvLjkd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));
+                        }
+                    });
+                }
             }
         });
     }

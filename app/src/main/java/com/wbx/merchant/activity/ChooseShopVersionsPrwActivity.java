@@ -111,6 +111,7 @@ public class ChooseShopVersionsPrwActivity extends BaseActivity {
     };
     @Override
     public int getLayoutId() {
+        setStatubarColor(R.color.white);
         return R.layout.activity_choose_shop_versions_prw;
     }
 
@@ -123,8 +124,12 @@ public class ChooseShopVersionsPrwActivity extends BaseActivity {
     public void initView() {
         request = new PayReq();
         msgApi = WXAPIFactory.createWXAPI(mActivity, AppConfig.WX_APP_ID);
-
-        rvShopVersions.setLayoutManager(new LinearLayoutManager(mContext));
+        rvShopVersions.setLayoutManager(new LinearLayoutManager(mContext){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         chooseShopVersionsAdapter = new ChooseShopVersionsAdapter();
         rvShopVersions.setAdapter(chooseShopVersionsAdapter);
         chooseShopVersionsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -180,8 +185,8 @@ public class ChooseShopVersionsPrwActivity extends BaseActivity {
             case R.id.pay_btn:
                 if(dataBean==null){
                     showShortToast("请选择版本");
+                    return;
                 }
-
                 if (dataBean.getGrade_type()==1){
                     SPUtils.setSharedBooleanData(mContext, AppConfig.LOGIN_STATE, true);
                     AppManager.getAppManager().finishAllActivity();

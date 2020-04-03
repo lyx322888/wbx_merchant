@@ -70,6 +70,7 @@ public class CompleteInformationActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        setStatubarColor(R.color.app_color);
         sbSmrz.setOnselectorListen(new SelectorButton.SelectorListen() {
             @Override
             public void onSelector(boolean isSelectionOne) {

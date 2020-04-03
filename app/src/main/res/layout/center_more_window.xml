@@ -44,7 +44,7 @@
         android:id="@+id/close_im"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="150dp"
         android:src="@drawable/tabbar_compose_background_icon_close"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

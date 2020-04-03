@@ -64,7 +64,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 } else {//入驻
                     finish();
                     AppManager.getAppManager().finishAllActivity();
-                    startActivity(new Intent(WXPayEntryActivity.this, AuditingActivity.class));
+                    startActivity(new Intent(WXPayEntryActivity.this, MainActivity.class));
                 }
             } else {
                 new Handler().post(new Runnable() {

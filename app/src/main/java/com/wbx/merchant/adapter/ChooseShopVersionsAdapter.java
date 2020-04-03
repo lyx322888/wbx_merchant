@@ -24,10 +24,10 @@ public class ChooseShopVersionsAdapter extends BaseQuickAdapter<ChooseShopVersio
         GlideUtils.showMediumPic(mContext, (ImageView) helper.getView(R.id.iv_photo),item.getOrder_img());
         helper.setText(R.id.tv_description,item.getPresent())
                 .setText(R.id.tv_mfty,item.getPresent())
-                .setText(R.id.tv_title,item.getTitle())
+                .setText(R.id.tv_title,SpannableStringUtils.getBuilder(item.getTitle()).append(item.getSubhead()).setProportion(0.5f).create())
                 .setText(R.id.tv_price, SpannableStringUtils.getBuilder("¥"+item.getMoney()/100)
-                .append(String.format("%s",item.getTime())).setProportion((float) 0.5)
-                .append(String.format("  原价%s",item.getTime())).setProportion((float) 0.5).setForegroundColor(ContextCompat.getColor(mContext,R.color.gray)).setStrikethrough()
+                .append(String.format("%s  ",item.getTime())).setProportion((float) 0.5)
+                .append(String.format("%s",item.getOriginal_price())).setProportion((float) 0.5).setForegroundColor(ContextCompat.getColor(mContext,R.color.gray)).setStrikethrough()
                         .create());
         if (item.is_choose){
             helper.getView(R.id.iv_choose).setVisibility(View.VISIBLE);
@@ -36,22 +36,24 @@ public class ChooseShopVersionsAdapter extends BaseQuickAdapter<ChooseShopVersio
             helper.getView(R.id.iv_choose).setVisibility(View.GONE);
             helper.getView(R.id.ll_choose).setBackground(ContextCompat.getDrawable(mContext,R.drawable.line_rounde_hui));
         }
+        if (item.getIs_recommend()==1){
+            helper.getView(R.id.iv_tj).setVisibility(View.VISIBLE);
+        }else {
+            helper.getView(R.id.iv_tj).setVisibility(View.GONE);
+        }
         switch (item.getGrade_type()){
             case 1:
                 //试用版
-                helper.getView(R.id.iv_tj).setVisibility(View.GONE);
                 helper.getView(R.id.ll_qjb).setVisibility(View.GONE);
                 helper.getView(R.id.tv_mfty).setVisibility(View.VISIBLE);
                 break;
             case 2:
                 //旗舰版 12个月
-                helper.getView(R.id.iv_tj).setVisibility(View.VISIBLE);
                 helper.getView(R.id.ll_qjb).setVisibility(View.VISIBLE);
                 helper.getView(R.id.tv_mfty).setVisibility(View.GONE);
                 break;
             default :
                 //旗舰版 24个月
-                helper.getView(R.id.iv_tj).setVisibility(View.GONE);
                 helper.getView(R.id.ll_qjb).setVisibility(View.VISIBLE);
                 helper.getView(R.id.tv_mfty).setVisibility(View.GONE);
                 break;

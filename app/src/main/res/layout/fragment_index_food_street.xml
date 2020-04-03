@@ -50,6 +50,7 @@
                     </RelativeLayout>
                     <!--销售代理评价路口-->
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/ll_xsdl_pj"
                         android:layout_marginLeft="14dp"
                         android:orientation="horizontal"
@@ -658,8 +659,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:visibility="invisible"
-                        android:id="@+id/rl_business_manager"
+                        android:id="@+id/rl_seat_manager"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
@@ -668,12 +668,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:drawableTop="@drawable/icon_business_manager"
+                            android:drawableTop="@drawable/icon_seat_manager"
                             android:drawablePadding="13dp"
-                            android:text="营业管理"
+                            android:text="桌位管理"
                             android:textColor="#333333"
                             android:textSize="11sp" />
                     </RelativeLayout>
+
 
                     <RelativeLayout
                         android:id="@+id/rl_customer_manager"
@@ -749,9 +750,9 @@
                             android:textColor="#333333"
                             android:textSize="11sp" />
                     </RelativeLayout>
-
                     <RelativeLayout
-                        android:id="@+id/rl_seat_manager"
+                        android:visibility="invisible"
+                        android:id="@+id/rl_business_manager"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
@@ -760,12 +761,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:drawableTop="@drawable/icon_seat_manager"
+                            android:drawableTop="@drawable/icon_business_manager"
                             android:drawablePadding="13dp"
-                            android:text="桌位管理"
+                            android:text="营业管理"
                             android:textColor="#333333"
                             android:textSize="11sp" />
                     </RelativeLayout>
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -860,7 +862,7 @@
                             android:layout_centerInParent="true"
                             android:drawableTop="@drawable/icon_intelligent_receive"
                             android:drawablePadding="13dp"
-                            android:text="智能付款"
+                            android:text="到店付款"
                             android:textColor="#333333"
                             android:textSize="11sp" />
                     </RelativeLayout>

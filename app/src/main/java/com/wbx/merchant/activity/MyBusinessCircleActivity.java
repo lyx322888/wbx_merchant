@@ -36,6 +36,7 @@ public class MyBusinessCircleActivity extends BaseActivity implements BaseRefres
     private List<BusinessCircleBean> lstData = new ArrayList<>();
     private MyBusinessCircleAdapter mAdapter;
     private boolean canLoadMore = true;
+    private int discover_num;
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, MyBusinessCircleActivity.class);
@@ -66,6 +67,7 @@ public class MyBusinessCircleActivity extends BaseActivity implements BaseRefres
             @Override
             public void onSuccess(JSONObject result) {
                 List<BusinessCircleBean> data = JSONArray.parseArray(result.getString("data"), BusinessCircleBean.class);
+                discover_num = data.size();
                 ptrl.finishRefresh();
                 ptrl.finishLoadMore();
                 if ((null == data || data.size() == 0) && mPageNum == AppConfig.pageNum) {
@@ -115,7 +117,7 @@ public class MyBusinessCircleActivity extends BaseActivity implements BaseRefres
 
     @OnClick(R.id.rl_release)
     public void onViewClicked() {
-        PublishBusinessCircleActivity.actionStart(this);
+        PublishBusinessCircleActivity.actionStart(this,String.valueOf(discover_num));
         finish();
     }
 
