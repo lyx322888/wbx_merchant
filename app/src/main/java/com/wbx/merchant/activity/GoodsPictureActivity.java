@@ -3,6 +3,8 @@ package com.wbx.merchant.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import com.wbx.merchant.R;
 import com.wbx.merchant.adapter.GoodsPictureAdapter;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.utils.ChoosePictureUtils;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.widget.decoration.SpacesItemDecoration;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
@@ -110,7 +113,26 @@ public class GoodsPictureActivity extends BaseActivity {
     }
 
     public void addPhoto() {
-        PhotoPicker.builder().setShowCamera(true).setPhotoCount(ReleaseActivity.MAX_GOODS_PIC_NUM - lstPhoto.size() + 1).setPreviewEnabled(true).start(this, REQUEST_GET_BUSINESS_CIRCLE_PHOTO);
+        PhotoPicker.builder().setShowCamera(true)
+                .setPhotoCount(ReleaseActivity.MAX_GOODS_PIC_NUM - lstPhoto.size() + 1)
+                .setPreviewEnabled(true).start(this, REQUEST_GET_BUSINESS_CIRCLE_PHOTO);
+    }
+
+    //选择图片
+    public void choosePicture( ) {
+        lstPhoto.remove(lstPhoto.size()-1);
+        ChoosePictureUtils.choosePictureCommon(mContext, ReleaseActivity.MAX_GOODS_PIC_NUM-lstPhoto.size(), new ChoosePictureUtils.Action<ArrayList<String>>() {
+            @Override
+            public void onAction(@NonNull ArrayList<String> result) {
+                lstPhoto.addAll(result);
+                lstPhoto.add("");
+                if (lstPhoto.size() == ReleaseActivity.MAX_GOODS_PIC_NUM + 1) {
+                    lstPhoto.remove(ReleaseActivity.MAX_GOODS_PIC_NUM);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     public void showPicDetail(int position) {
@@ -122,22 +144,6 @@ public class GoodsPictureActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null && requestCode == REQUEST_GET_BUSINESS_CIRCLE_PHOTO) {
-            ArrayList<String> pics = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-            for (String pic : pics) {
-                if (!lstPhoto.contains(pic)) {
-                    lstPhoto.add(lstPhoto.size() - 1, pic);
-                }
-            }
-            if (lstPhoto.size() == ReleaseActivity.MAX_GOODS_PIC_NUM + 1) {
-                lstPhoto.remove(ReleaseActivity.MAX_GOODS_PIC_NUM);
-            }
-            adapter.notifyDataSetChanged();
-        }
-    }
 
     private ItemTouchHelper.Callback callback = new ItemTouchHelper.Callback() {
         @Override

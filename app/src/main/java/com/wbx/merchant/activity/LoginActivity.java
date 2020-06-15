@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.sdk.android.push.CloudPushService;
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
+import com.google.gson.Gson;
 import com.wbx.merchant.MainActivity;
 import com.wbx.merchant.R;
 import com.wbx.merchant.api.Api;
@@ -27,8 +32,11 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.baseapp.AppConfig;
+import com.wbx.merchant.bean.UpdataBean;
 import com.wbx.merchant.bean.UserInfo;
+import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.fragment.UpdateDialogFragment;
+import com.wbx.merchant.utils.APPUtil;
 import com.wbx.merchant.utils.DeviceUtils;
 import com.wbx.merchant.utils.FormatUtil;
 import com.wbx.merchant.utils.GlideUtils;
@@ -43,6 +51,8 @@ import java.util.HashMap;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by wushenghui on 2017/6/22.
@@ -86,6 +96,7 @@ public class LoginActivity extends BaseActivity {
         final String photo = SPUtils.getSharedStringData(mContext, AppConfig.LOGIN_PHOTO);
         accountEdit.setText(phone);
         tvShopName.setText(shopNeme);
+        tvShopName.setHint("欢迎您，使用"+getString(R.string.app_name));
         if (!TextUtils.isEmpty(photo)){
             GlideUtils.showMediumPic(mContext,ivUserImg,photo);
         }
@@ -121,21 +132,21 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void fillData() {
-        new MyHttp().doPost(Api.getDefault().getVersion(), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().getVersion(AppConfig.apptype, String.valueOf(APPUtil.getVersionCode(mContext))), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                JSONObject data = result.getJSONObject("data");
-                int serviceVersion = Integer.parseInt(data.getString("version").replace(".", ""));
-                String version = BaseApplication.getInstance().getVersion();
-                int appVersion = Integer.parseInt(version.replace(".", ""));
-                if (appVersion < serviceVersion) {
+                UpdataBean updataBean = new Gson().fromJson(result.toString(),UpdataBean.class);
+                if (updataBean.getData().getIs_update()==1){
                     upDateApp(JSONObject.toJSONString(result));
                 }
+//                else {
+//                    getNotice();
+//                }
             }
 
             @Override
             public void onError(int code) {
-
+//                getNotice();
             }
         });
     }
@@ -208,9 +219,10 @@ public class LoginActivity extends BaseActivity {
         params.put("password", md5Psw);
         params.put("app_type", "android");
         params.put("version", BaseApplication.getInstance().getVersion());
-        params.put("registration_id", JPushInterface.getRegistrationID(this));
+//        params.put("registration_id", JPushInterface.getRegistrationID(this));
+        params.put("registration_id", PushServiceFactory.getCloudPushService().getDeviceId());
+        params.put("push_type", AppConfig.ALIPUSH);
         params.put("phone_type", DeviceUtils.getManufacturer() + "/" + DeviceUtils.getModel() + "/" + DeviceUtils.getSDKVersionName());
-
         new MyHttp().doPost(Api.getDefault().login(params), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -257,7 +269,6 @@ public class LoginActivity extends BaseActivity {
         if (0 == userInfo.getShop_id()) {
             //未填写信息
             startActivity(new Intent(mContext, ShopInfoPrwActivity.class));
-            ShopInfoPrwActivity.actionStart(mContext,userInfo.getTry_shop());
         } else if (1== userInfo.getTry_shop()){
             //判断是否试用版
             startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));

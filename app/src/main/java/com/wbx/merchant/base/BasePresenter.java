@@ -1,6 +1,7 @@
 package com.wbx.merchant.base;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.wbx.merchant.baserx.RxManager;
 

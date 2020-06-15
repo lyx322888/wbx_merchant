@@ -82,7 +82,7 @@ public class GoodsPictureAdapter extends RecyclerView.Adapter<GoodsPictureAdapte
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(data)) {
-                    mContext.addPhoto();
+                    mContext.choosePicture();
                 } else {
                     mContext.showPicDetail(position);
                 }

@@ -5,8 +5,9 @@ import com.wbx.merchant.base.BaseApplication;
 
 
 public class AppConfig {
-
+    public static final String apptype = "android";
     public static final String SP_DOWNLOAD_PATH = "download.path";
+    public static final String UMENG_CHANNEL = "UMENG_CHANNEL";
     public static final String DEBUG_TAG = "logger";// LogCat的标记
     public static final String VERSION = "VERSION";//保存服务端版本号
     public static final String WX_APP_ID = "wx07867153bc1d88fa";//  wx07867153bc1d88fa
@@ -14,10 +15,13 @@ public class AppConfig {
     public static final String IMAGES = "http://imgs.wbx365.com/";
     public static final String LOGIN_STATE = "loginState";//登录状态
     public static final String LOGIN_MOBILE = "loginMobile";//保存手机号码
+    public static final String PUSH_TYPE = "push_type";//推送方式
     public static final String LOGIN_PHOTO = "login_photo";//保存店铺图像
     public static final String LOGIN_NAME = "login_name";//保存店铺昵称
     public static final String TRY_SHOP = "try_shop";//是否是试用
     public static final String REFRESH_UI = "refreshUl";//刷新UI
+    public static final String ALIPUSH = "alipush";//
+    public static final String jpush = "jpush";//
     public static final String IS_VIEW_WITHDRAW_COMMISSION = "is_view_withdraw_commission";//刷新UI
     public static final String NO_ASK_AGAIN_ACCREDITATION = "NO_ASK_AGAIN_ACCREDITATION";//不再弹出资质认证提醒
     public static final int TAKE_PHOTO_CODE = 10066;

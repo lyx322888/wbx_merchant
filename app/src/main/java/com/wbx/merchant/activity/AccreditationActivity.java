@@ -20,6 +20,7 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.AccreditationDetailBean;
+import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.UpLoadPicUtils;
 import com.wbx.merchant.widget.LoadingDialog;
@@ -93,7 +94,7 @@ public class AccreditationActivity extends BaseActivity {
         if (isCheck) {
             LoadingDialog.showDialogForLoading(this);
             submitAuthenticationBtn.setText("查看食品经营许可证");
-            new MyHttp().doPost(Api.getDefault().getAccreditation(userInfo.getSj_login_token()), new HttpListener() {
+            new MyHttp().doPost(Api.getDefault().getAccreditation(LoginUtil.getLoginToken()), new HttpListener() {
                 @Override
                 public void onSuccess(JSONObject result) {
                     bean = JSONObject.parseObject(result.getString("data"), AccreditationDetailBean.class);

@@ -44,6 +44,16 @@ public class CountBean {
         private int count_no_shipped_order;
         private int count_shipped_order;
 
+        public int getCount_afhalen_order() {
+            return count_afhalen_order;
+        }
+
+        public void setCount_afhalen_order(int count_afhalen_order) {
+            this.count_afhalen_order = count_afhalen_order;
+        }
+
+        private int count_afhalen_order ;
+
         public int getCount_no_shipped_order() {
             return count_no_shipped_order;
         }

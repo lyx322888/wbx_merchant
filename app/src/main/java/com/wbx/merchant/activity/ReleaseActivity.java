@@ -3,11 +3,15 @@ package com.wbx.merchant.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,12 +40,17 @@ import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GoodsInfo;
 import com.wbx.merchant.bean.SpecInfo;
+import com.wbx.merchant.utils.ChoosePictureUtils;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.utils.UpLoadPicUtils;
 import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.decoration.SpacesItemDecoration;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
+import com.yanzhenjie.album.Action;
+import com.yanzhenjie.album.Album;
+import com.yanzhenjie.album.AlbumFile;
+import com.yanzhenjie.album.api.widget.Widget;
 
 import java.io.File;
 import java.io.Serializable;
@@ -58,7 +67,6 @@ import me.iwf.photopicker.PhotoPreview;
 /**
  * 发布商品/更新商品
  */
-
 public class ReleaseActivity extends BaseActivity implements OptionsPickerView.OnOptionsSelectListener {
     @Bind(R.id.take_photo_recycler_view)
     RecyclerView takePhotoRecyclerView;//商品详情图(底部)
@@ -130,7 +138,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
     public static final int MAX_GOODS_PIC_NUM = 5; //商品图最多5张
     private static final int MAX_INTRODUCE_PIC_NUM = 6; //介绍图最多6张
     private List<CateInfo> cateInfoList = new ArrayList<>();//商品分类
-    private List<String> lstGoodsIntroducePic = new ArrayList<>();//商品详情图(底部)
+    private ArrayList<String> lstGoodsIntroducePic = new ArrayList<>();//商品详情图(底部)
     private ArrayList<String> lstGoodsPic = new ArrayList<>(); //商品图(头部)
 
 
@@ -278,31 +286,7 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         mPhotoAdapter.setOnItemClickListener(R.id.root_view, new BaseAdapter.ItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
-                if (position == 0) {
-                    if (lstGoodsIntroducePic.size() - 1 == MAX_INTRODUCE_PIC_NUM) {
-                        showShortToast("最多只能选6张哦！");
-                        return;
-                    }
-                    PhotoPicker.builder()
-                            .setPhotoCount(MAX_INTRODUCE_PIC_NUM - lstGoodsIntroducePic.size() + 1)
-                            .setShowCamera(true)
-                            .setPreviewEnabled(false)
-                            .start(mActivity, REQUEST_GOODS_INTRODUCE_PIC);
-                } else {
-                    if (lstGoodsIntroducePic.size() > 0) {
-                        ArrayList lstPic = new ArrayList();
-                        for (String s : lstGoodsIntroducePic) {
-                            if (!TextUtils.isEmpty(s)) {
-                                lstPic.add(s);
-                            }
-                        }
-                        PhotoPreview.builder()
-                                .setPhotos(lstPic)
-                                .setCurrentItem(position - 1)
-                                .setShowDeleteButton(false)
-                                .start(mActivity);
-                    }
-                }
+                choosePicture(lstGoodsIntroducePic,MAX_INTRODUCE_PIC_NUM+1,REQUEST_GOODS_INTRODUCE_PIC);
             }
         });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -326,6 +310,28 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         openSalesSb.setChecked(mGoodInfo.getSales_promotion_is() == 1);//是否开启促销
 //        openSalesTj.setChecked(mGoodInfo.getIs_recommend() == 1);//是否开启推荐
     }
+
+    //选择图片
+    private void choosePicture(final ArrayList<String> arrayList, int maxSelectCount, final int type) {
+        ChoosePictureUtils.choosePictureCommon(mContext, maxSelectCount-arrayList.size(), new ChoosePictureUtils.Action<ArrayList<String>>() {
+            @Override
+            public void onAction(@NonNull ArrayList<String> result) {
+                arrayList.addAll(result);
+                if (type == REQUEST_GOODS_PIC) {//商品图(头部)
+                    if (((View) viewPager.getParent()).getVisibility() != View.VISIBLE) {
+                        ((View) viewPager.getParent()).setVisibility(View.VISIBLE);
+                        rlAddPic.setVisibility(View.GONE);
+                    }
+                    tvIndexPic.setText(viewPager.getCurrentItem() + 1 + "/" + lstGoodsPic.size());
+                    picPagerAdapter.notifyDataSetChanged();
+                } else if (type == REQUEST_GOODS_INTRODUCE_PIC) {//商品详情图(底部)
+                    photoSelectNumTv.setText(lstGoodsIntroducePic.size() - 1 + "/" + MAX_INTRODUCE_PIC_NUM);
+                    mPhotoAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
 
     //商品图(头部)
     protected PagerAdapter picPagerAdapter = new PagerAdapter() {
@@ -371,27 +377,13 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             return POSITION_NONE;
         }
     };
-
     @OnClick({R.id.rl_add_pic, R.id.iv_add_pic, R.id.release_btn, R.id.add_classify_layout, R.id.choose_cate_layout, R.id.is_spec_layout, R.id.ll_spec_attr})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_add_pic:
-                PhotoPicker.builder()
-                        .setPhotoCount(MAX_GOODS_PIC_NUM)
-                        .setShowCamera(true)
-                        .setPreviewEnabled(true)
-                        .start(mActivity, REQUEST_GOODS_PIC);
-                break;
             case R.id.iv_add_pic:
-                if (lstGoodsPic.size() >= MAX_GOODS_PIC_NUM) {
-                    ToastUitl.showShort("最多只能添加" + MAX_GOODS_PIC_NUM + "张图片");
-                    return;
-                }
-                PhotoPicker.builder()
-                        .setPhotoCount(MAX_GOODS_PIC_NUM - lstGoodsPic.size())
-                        .setShowCamera(true)
-                        .setPreviewEnabled(true)
-                        .start(mActivity, REQUEST_GOODS_PIC);
+                //选择图片
+                choosePicture(lstGoodsPic,MAX_GOODS_PIC_NUM,REQUEST_GOODS_PIC);
                 break;
             case R.id.add_classify_layout:
                 startActivity(new Intent(mContext, GoodsClassifyActivity.class));
@@ -423,7 +415,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
                 break;
         }
     }
-
     //获取分类数据
     private void getCateListInfo() {
         LoadingDialog.showDialogForLoading(mActivity, "加载中...", true);
@@ -471,7 +462,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             }
         });
     }
-
     /**
      * 上传商品图
      */
@@ -574,7 +564,6 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
         mParams.put("photo", mGoodInfo.getGoods_photo() == null ? "" : TextUtils.join(",", mGoodInfo.getGoods_photo()));//商品图片(头部)
         mParams.put("photos", mGoodInfo.getPhotos() == null ? "" : TextUtils.join(",", mGoodInfo.getPhotos()));//商品详情图(底部)
         mParams.put("goods_attr", JSONArray.toJSON(mGoodInfo.getGoods_attr()));
-
         mParams.put(userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET ? "cate_id" : "shopcate_id", mGoodInfo.getCate_id());//商品分类
         mParams.put(userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET ? "product_id" : "goods_id", mGoodInfo.getProduct_id());//产品ID
         new MyHttp().doPost(Api.getDefault().releaseGoods(mParams), new HttpListener() {

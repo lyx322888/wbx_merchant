@@ -6,10 +6,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.AboutActivity;
 import com.wbx.merchant.activity.BindAccountActivity;
-import com.wbx.merchant.activity.BluetoothActivity;
 import com.wbx.merchant.activity.LoginActivity;
 import com.wbx.merchant.activity.ModifyPswActivity;
 import com.wbx.merchant.activity.MyBusinessCircleActivity;
@@ -38,6 +38,9 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MineFragment extends BaseFragment {
 
+    @Bind(R.id.ll_title)
+    LinearLayout llTitle;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_mine;
@@ -45,7 +48,6 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void initPresenter() {
-
     }
 
     @Override
@@ -58,6 +60,10 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void bindEven() {
+    }
+
+    public void hiddenTitle() {
+        llTitle.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.ll_modify_password, R.id.ll_bind_account, R.id.ll_set_pay_password, R.id.ll_printer, R.id.ll_renewal, R.id.ll_my_business_circle, R.id.ll_about, R.id.ll_evaluate, R.id.ll_help_center, R.id.ll_logout})
@@ -133,7 +139,7 @@ public class MineFragment extends BaseFragment {
 
     private void clearUserData() {
         LoadingDialog.showDialogForLoading(getActivity(), "退出中...", true);
-        new MyHttp().doPost(Api.getDefault().logout(loginUser.getSj_login_token(), "android", JPushInterface.getRegistrationID(getContext())), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().logout(loginUser.getSj_login_token(), "android", PushServiceFactory.getCloudPushService().getDeviceId()), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 SPUtils.setSharedBooleanData(getActivity(), AppConfig.LOGIN_STATE, false);

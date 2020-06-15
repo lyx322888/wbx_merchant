@@ -40,6 +40,11 @@
                 android:text="首页"
                 android:textColor="@drawable/index_text_color"
                 android:textSize="11sp" />
+            <TextView
+                android:id="@+id/tv_scan_order_num"
+                style="@style/badge_style"
+                android:layout_centerHorizontal="true"
+                />
         </RelativeLayout>
     </LinearLayout>
 </FrameLayout>

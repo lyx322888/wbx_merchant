@@ -46,7 +46,6 @@ import butterknife.OnClick;
 
 public class ChooseShopVersionsPrwActivity extends BaseActivity {
 
-
     @Bind(R.id.tv_title)
     TextView tvTitle;
     @Bind(R.id.rv_shop_versions)

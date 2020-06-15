@@ -1,70 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_background"
     android:orientation="vertical"
-    tools:context=".activity.MyBusinessCircleActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/app_color"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:onClick="back">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/ic_arrow_black"
-                android:tint="@color/colorWhite" />
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="4dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="我的商圈"
-            android:textColor="@color/colorWhite"
-            android:textSize="18sp" />
-
-        <RelativeLayout
-            android:id="@+id/rl_release"
-            android:layout_width="60dp"
-            android:layout_height="60dp">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/icon_release"
-                android:tint="@color/colorWhite" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <com.wbx.merchant.widget.refresh.PullToRefreshLayout
-        android:id="@+id/ptrl"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+    android:layout_height="match_parent"
+    >
+        <fragment
+            android:id="@+id/mine_fragment"
+            android:name="com.wbx.merchant.fragment.MybusinessFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.wbx.merchant.widget.refresh.PullToRefreshLayout>
-</LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+</FrameLayout>

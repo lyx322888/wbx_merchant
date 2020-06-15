@@ -214,6 +214,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mRxManager.clear();
         LoadingDialog.cancelDialogForLoading();
         AppManager.getAppManager().removeActivity(this);
     }

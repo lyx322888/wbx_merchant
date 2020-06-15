@@ -1,6 +1,5 @@
 package com.wbx.merchant.widget;
 
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -20,7 +19,6 @@ import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import com.wbx.merchant.R;
-
 
 public class CircleImageView extends AppCompatImageView {
 

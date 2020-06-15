@@ -1,7 +1,11 @@
 package com.wbx.merchant.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -10,10 +14,12 @@ import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CashInfoBean;
 import com.wbx.merchant.widget.LoadingDialog;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -29,6 +35,21 @@ public class BindAccountActivity extends BaseActivity {
     TextView tvBindWx;
     @Bind(R.id.tv_bind_bank)
     TextView tvBindBank;
+    @Bind(R.id.title_name_tv)
+    TextView titleNameTv;
+    @Bind(R.id.ali_layout)
+    LinearLayout aliLayout;
+    @Bind(R.id.weixin_layout)
+    LinearLayout weixinLayout;
+    @Bind(R.id.bank_layout)
+    LinearLayout bankLayout;
+    private String type;
+
+    public static void actionStart(Context context, String type) {
+        Intent intent = new Intent(context, BindAccountActivity.class);
+        intent.putExtra("type",type);
+        context.startActivity(intent);
+    }
 
     @Override
     public int getLayoutId() {
@@ -42,7 +63,13 @@ public class BindAccountActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        type = getIntent().getStringExtra("type");
+        //跑任务的只支持支付宝
+        if (TextUtils.equals("share_bounty",type)) {
+            bankLayout.setVisibility(View.GONE);
+        }else {
+            bankLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -93,4 +120,6 @@ public class BindAccountActivity extends BaseActivity {
                 break;
         }
     }
+
+
 }

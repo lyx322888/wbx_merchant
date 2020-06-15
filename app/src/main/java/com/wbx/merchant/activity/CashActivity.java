@@ -63,11 +63,13 @@ public class CashActivity extends BaseActivity {
     ImageView payModeIm;
     @Bind(R.id.pay_name_tv)
     TextView payNameTv;
-    public static String cashType = "";
+    public static String payCode = "";
     private Dialog dialog;
     private HashMap<String, Object> mParams = new HashMap<>();
     private String type;
     private DecimalFormat format;
+    private float shop_cash_commission;
+    private Float shop_cash_commission_end;
 
     @Override
     public int getLayoutId() {
@@ -168,9 +170,13 @@ public class CashActivity extends BaseActivity {
                 //免手续费
                 showMoneyTv.setText("实际提现" + format.format(Float.valueOf(money)) + "元（推广期间无需手续费）");
             } else {
-                float cash_commission = getIntent().getFloatExtra("cash_commission", 3);//手续费
-                double commission = Float.valueOf(money) * cash_commission * 0.01;
-                showMoneyTv.setText("实际提现" + format.format(Float.valueOf(money) - commission) + "元（手续费¥" + format.format(commission) + "元/费率" + cash_commission + "%）");
+                try {
+                    double commission = Float.valueOf(money) * shop_cash_commission_end * 0.01;
+                    String tsType = TextUtils.equals(type,TYPE_REWARD_YQKD)?"税费":"手续费";
+                    showMoneyTv.setText("实际提现" + format.format(Float.valueOf(money) - commission) + "元（"+tsType+"¥" + format.format(commission) + "元/费率" + shop_cash_commission + "%）");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -179,6 +185,7 @@ public class CashActivity extends BaseActivity {
 
     @Override
     public void initView() {
+
     }
 
     @Override
@@ -186,7 +193,7 @@ public class CashActivity extends BaseActivity {
         format = new DecimalFormat("#0.00");
         type = getIntent().getStringExtra("type");
         //获取绑定账户
-        cashType = AppConfig.CashCode.alipay;
+        payCode = AppConfig.CashCode.alipay;
         getBindPayInfo();
         if (TYPE_REWARD.equals(type)) {
             inputMoneyEdit.setText(String.format("%.2f", (float) getIntent().getIntExtra("balance", 1) / 100.00));
@@ -195,7 +202,7 @@ public class CashActivity extends BaseActivity {
     }
 
     private void getBindPayInfo() {
-        new MyHttp().doPost(Api.getDefault().getBindPayInfo(userInfo.getSj_login_token()), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().getBindPayInfo(userInfo.getSj_login_token(),type), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 data = result.getJSONObject("data");
@@ -203,30 +210,48 @@ public class CashActivity extends BaseActivity {
                     JSONObject userAliPay = data.getJSONObject("user_alipay");
                     JSONObject userWeiXinPay = data.getJSONObject("user_weixinpay");
                     JSONObject userBank = data.getJSONObject("user_bank");
-                    if (userAliPay == null && userWeiXinPay == null && userBank == null) {
-                        showShortToast("请先绑定提现账户");
-                        startActivity(new Intent(mContext, BindAccountActivity.class));
-                        finish();
-                    } else {
-                        if (userAliPay != null && userAliPay.getIntValue("is_default") == 1) {
-                            cashType = AppConfig.CashCode.alipay;
+                    shop_cash_commission = data.getFloat("shop_cash_commission");
+                    shop_cash_commission_end = data.getFloat("shop_cash_commission_end");
+                    //跑任务只支持支付宝
+                    if (TextUtils.equals(type,TYPE_REWARD_YQKD)){
+                        if (userAliPay == null) {
+                            showShortToast("请先绑定提现账户");
+                            BindAccountActivity.actionStart(mContext,type);
+                            finish();
+                        }
+                        if (null != userAliPay) {
+                            payCode = AppConfig.CashCode.alipay;
                             payModeIm.setImageResource(R.drawable.icon_pay_ali);
                             payNameTv.setText("支付宝");
                             payHintTv.setText(userAliPay.getString("depict"));
-                        } else if (userWeiXinPay != null && userWeiXinPay.getIntValue("is_default") == 1) {
-                            cashType = AppConfig.CashCode.wxpay;
-                            payModeIm.setImageResource(R.drawable.icon_pay_weixin);
-                            payNameTv.setText("微信");
-                            payHintTv.setText(userWeiXinPay.getString("depict"));
-                        } else if (userBank != null && userBank.getIntValue("is_default") == 1) {
-                            cashType = AppConfig.CashCode.bank;
-                            payModeIm.setImageResource(R.drawable.icon_unionpay);
-                            payNameTv.setText(userBank.getString("bank_name"));
-                            payHintTv.setText(userBank.getString("depict"));
+                        }
+                    }else {
+                        if (userAliPay == null && userWeiXinPay == null && userBank == null) {
+                            showShortToast("请先绑定提现账户");
+                            startActivity(new Intent(mContext, BindAccountActivity.class));
+                            finish();
+                        } else {
+                            if (userAliPay != null && userAliPay.getIntValue("is_default") == 1) {
+                                payCode = AppConfig.CashCode.alipay;
+                                payModeIm.setImageResource(R.drawable.icon_pay_ali);
+                                payNameTv.setText("支付宝");
+                                payHintTv.setText(userAliPay.getString("depict"));
+                            } else if (userWeiXinPay != null && userWeiXinPay.getIntValue("is_default") == 1) {
+                                payCode = AppConfig.CashCode.wxpay;
+                                payModeIm.setImageResource(R.drawable.icon_pay_weixin);
+                                payNameTv.setText("微信");
+                                payHintTv.setText(userWeiXinPay.getString("depict"));
+                            } else if (userBank != null && userBank.getIntValue("is_default") == 1) {
+                                payCode = AppConfig.CashCode.bank;
+                                payModeIm.setImageResource(R.drawable.icon_unionpay);
+                                payNameTv.setText(userBank.getString("bank_name"));
+                                payHintTv.setText(userBank.getString("depict"));
+                            }
                         }
                     }
+
                 } else {
-                    switch (cashType) {
+                    switch (payCode) {
                         case AppConfig.PayMode.alipay:
                             payModeIm.setImageResource(R.drawable.icon_pay_ali);
                             payNameTv.setText("支付宝");
@@ -261,6 +286,7 @@ public class CashActivity extends BaseActivity {
                 if (data != null) {
                     Intent intent = new Intent(mContext, ChooseFinanceWayActivity.class);
                     intent.putExtra("data", data.toJSONString());
+                    intent.putExtra("type", type);
                     startActivityForResult(intent, CHOOSE_CASH_TYPE);
                 }
                 break;
@@ -320,7 +346,7 @@ public class CashActivity extends BaseActivity {
         mParams.put("money", inputMoneyEdit.getText().toString());
         mParams.put("pay_password", md5PayPsw);
         mParams.put("cash_type", type);
-        mParams.put("pay_code", cashType);
+        mParams.put("pay_code", payCode);
         new MyHttp().doPost(Api.getDefault().applyCash(mParams), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -346,17 +372,17 @@ public class CashActivity extends BaseActivity {
     }
 
     private void updateCashType() {
-        if (cashType == AppConfig.CashCode.alipay) {
+        if (payCode == AppConfig.CashCode.alipay) {
             JSONObject userAliPay = data.getJSONObject("user_alipay");
             payModeIm.setImageResource(R.drawable.icon_pay_ali);
             payNameTv.setText("支付宝");
             payHintTv.setText(userAliPay.getString("depict"));
-        } else if (cashType == AppConfig.CashCode.wxpay) {
+        } else if (payCode == AppConfig.CashCode.wxpay) {
             JSONObject userWeiXinPay = data.getJSONObject("user_weixinpay");
             payModeIm.setImageResource(R.drawable.icon_pay_weixin);
             payNameTv.setText("微信");
             payHintTv.setText(userWeiXinPay.getString("depict"));
-        } else if (cashType == AppConfig.CashCode.bank) {
+        } else if (payCode == AppConfig.CashCode.bank) {
             JSONObject userBank = data.getJSONObject("user_bank");
             payModeIm.setImageResource(R.drawable.icon_unionpay);
             payNameTv.setText(userBank.getString("bank_name"));

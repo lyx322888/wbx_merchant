@@ -41,13 +41,13 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        long showTime = 2000 - (System.currentTimeMillis() - BaseApplication.getInstance().getAppInitTime());
+        long showTime = 800 - (System.currentTimeMillis() - BaseApplication.getInstance().getAppInitTime());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 SplashActivityPermissionsDispatcher.showMainContentWithPermissionCheck(SplashActivity.this);
             }
-        }, showTime < 0 ? 2000 : showTime);//温启动时application没有重新创建，showTime会为负值
+        }, showTime < 0 ? 800 : showTime);//温启动时application没有重新创建，showTime会为负值
     }
 
     @Override
@@ -79,6 +79,7 @@ public class SplashActivity extends BaseActivity {
 
     @OnShowRationale({Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void showPermissionDialog(final PermissionRequest request) {
+
         new AlertDialog.Builder(this, R.style.SplashDialog).setTitle("提示").setMessage("请授予相关权限，否则微百姓无法正常工作")
                 .setCancelable(false).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override

@@ -1,14 +1,18 @@
 package com.wbx.merchant.fragment;
 
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -29,7 +34,6 @@ import java.util.List;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 
-
 /**
  * Created by Vector
  * on 2017/7/19 0019.
@@ -40,6 +44,7 @@ public class UpdateDialogFragment extends DialogFragment {
     private Button mUpdateOkButton;
     private NumberProgressBar mNumberProgressBar;
     private ImageView mIvClose;
+    private LinearLayout llqx;
     private TextView mTitleTextView;
     public static final String TIPS = "请授权访问存储空间权限，否则App无法更新";
     public static boolean isShow = false;
@@ -50,6 +55,7 @@ public class UpdateDialogFragment extends DialogFragment {
         Bundle bundle = new Bundle();
         bundle.putString(JSONSTRING, result);
         updateDialogFragment.setArguments(bundle);
+
         return updateDialogFragment;
     }
 
@@ -105,6 +111,16 @@ public class UpdateDialogFragment extends DialogFragment {
         super.onStart();
         //点击window外的区域 是否消失
         getDialog().setCanceledOnTouchOutside(false);
+        getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
         Window dialogWindow = getDialog().getWindow();
         dialogWindow.setGravity(Gravity.CENTER);
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
@@ -156,10 +172,15 @@ public class UpdateDialogFragment extends DialogFragment {
         mNumberProgressBar = (NumberProgressBar) view.findViewById(R.id.npb);
         //关闭按钮
         mIvClose = (ImageView) view.findViewById(R.id.iv_close);
+        llqx = view.findViewById(R.id.ll_qx);
 
         String string = getArguments().getString(JSONSTRING);
         JSONObject jsonObject = JSONObject.parseObject(string);
         mTitleTextView.setText(jsonObject.getJSONObject("data").getString("title"));
+        if (TextUtils.equals(jsonObject.getJSONObject("data").getString("is_force_update"),"1")){
+            //是否强制更新
+            llqx.setVisibility(View.GONE);
+        }
         List<String> stringList = JSONArray.parseArray(jsonObject.getJSONObject("data").getString("message"), String.class);
         String infoStr = "";
         for (String str : stringList) {

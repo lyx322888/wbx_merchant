@@ -2,6 +2,7 @@ package com.wbx.merchant.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.viewpager.widget.ViewPager;
 
@@ -15,6 +16,7 @@ import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.bean.CountBean;
+import com.wbx.merchant.common.LoginUtil;
 
 import java.util.HashMap;
 
@@ -62,7 +64,6 @@ public class OrderActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
         mPagerAdapter = new OrderFragmentStateAdapter(getSupportFragmentManager(), mTitles);
         mOrderViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setViewPager(mOrderViewPager,mTitles);
@@ -91,7 +92,7 @@ public class OrderActivity extends BaseActivity {
     //更新角标
     private void upData(){
         HashMap<String, Object> mParams = new HashMap<>();
-        mParams.put("sj_login_token", userInfo.getSj_login_token());
+        mParams.put("sj_login_token", LoginUtil.getLoginToken());
         new MyHttp().doPost(Api.getDefault().getCountOrder(mParams), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -107,6 +108,12 @@ public class OrderActivity extends BaseActivity {
                     mTabLayout.setMsgMargin(1,-10,13);
                 }else {
                     mTabLayout.hideMsg(1);
+                }
+                if (bean.getData().getCount_afhalen_order()!=0){
+                    mTabLayout.showMsg(2,bean.getData().getCount_shipped_order());
+                    mTabLayout.setMsgMargin(2,-10,13);
+                }else {
+                    mTabLayout.hideMsg(2);
                 }
             }
 

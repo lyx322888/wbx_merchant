@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -163,24 +164,21 @@ public class GoodsManagerFragment extends BaseFragment implements BaseRefreshLis
                         goodsInfo.setProduct_name(goodsInfo.getTitle());
                         goodsInfo.setDesc(goodsInfo.getIntro());
                         goodsInfo.setCate_id(goodsInfo.getShopcate_id());
-
                     }
                 }
                 // TODO: 2019/9/30
                 for (GoodsInfo goodsInfo : dataList) {
-                    List<SpecInfo> goods_attr = goodsInfo.getGoods_attr();
-                    if (goods_attr != null && goods_attr.size() > 0) {
-                        for (int i = 0; i < goods_attr.size(); i++) {
-                            goods_attr.get(i).setPrice( goods_attr.get(i).getPrice()/100);
-                            goods_attr.get(i).setCasing_price( goods_attr.get(i).getCasing_price()/100);
-                            goods_attr.get(i).setSeckill_price( goods_attr.get(i).getSeckill_price()/100);
-                            goods_attr.get(i).setMall_price( goods_attr.get(i).getMall_price()/100);
-                            goods_attr.get(i).setSales_promotion_price( goods_attr.get(i).getShop_member_price()/100);
-                            goods_attr.get(i).setMin_price( goods_attr.get(i).getMin_price()/100);
+                    if (goodsInfo.getGoods_attr() != null && goodsInfo.getGoods_attr().size() > 0) {
+                        for (int i = 0; i < goodsInfo.getGoods_attr().size(); i++) {
+                            goodsInfo.getGoods_attr().get(i).setPrice( goodsInfo.getGoods_attr().get(i).getPrice()/100);
+                            goodsInfo.getGoods_attr().get(i).setCasing_price( goodsInfo.getGoods_attr().get(i).getCasing_price()/100);
+                            goodsInfo.getGoods_attr().get(i).setSeckill_price( goodsInfo.getGoods_attr().get(i).getSeckill_price()/100);
+                            goodsInfo.getGoods_attr().get(i).setMall_price( goodsInfo.getGoods_attr().get(i).getMall_price()/100);
+                            goodsInfo.getGoods_attr().get(i).setSales_promotion_price( goodsInfo.getGoods_attr().get(i).getSales_promotion_price()/100);
+                            goodsInfo.getGoods_attr().get(i).setMin_price( goodsInfo.getGoods_attr().get(i).getMin_price()/100);
                         }
                     }
                 }
-
                 goodsInfoList.addAll(dataList);
                 mAdapter.notifyDataSetChanged();
             }

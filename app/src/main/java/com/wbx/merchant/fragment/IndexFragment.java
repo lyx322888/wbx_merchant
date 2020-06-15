@@ -14,12 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -40,7 +38,6 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.AccreditationActivity;
 import com.wbx.merchant.activity.ActivityManagerActivity;
-import com.wbx.merchant.activity.AwardCashActivity;
 import com.wbx.merchant.activity.BookSeatActivity;
 import com.wbx.merchant.activity.BusinessMustActivity;
 import com.wbx.merchant.activity.ChooseShopVersionsPrwActivity;
@@ -53,6 +50,7 @@ import com.wbx.merchant.activity.IntelligentReceiveActivity;
 import com.wbx.merchant.activity.InventoryAnalyzeActivity;
 import com.wbx.merchant.activity.InviteActivity;
 import com.wbx.merchant.activity.LoginActivity;
+import com.wbx.merchant.activity.MIneActivity;
 import com.wbx.merchant.activity.MyBusinessCircleActivity;
 import com.wbx.merchant.activity.MyGylActivity;
 import com.wbx.merchant.activity.MyMemberActivity;
@@ -81,8 +79,6 @@ import com.wbx.merchant.bean.ShopFxinfo;
 import com.wbx.merchant.bean.ShopIdentityBean;
 import com.wbx.merchant.bean.ShopInfo;
 import com.wbx.merchant.common.LoginUtil;
-import com.wbx.merchant.dialog.AlertNextDialog;
-import com.wbx.merchant.dialog.AlertUploadAccreditationDialog;
 import com.wbx.merchant.dialog.DaDaCouponDialog;
 import com.wbx.merchant.dialog.MiniProgramDialog;
 import com.wbx.merchant.dialog.OperatingStateDialog;
@@ -92,7 +88,6 @@ import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.SPUtils;
 import com.wbx.merchant.utils.ScannerUtils;
 import com.wbx.merchant.utils.ShareUtils;
-import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.CircleImageView;
 import com.wbx.merchant.widget.CustomizedProgressBar;
 import com.wbx.merchant.widget.LoadingDialog;
@@ -274,6 +269,7 @@ public class IndexFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+
         customized = rootView.findViewById(R.id.customizedbar);
         ll_award = rootView.findViewById(R.id.ll_award);
         tv_customized = rootView.findViewById(R.id.tv_customized);
@@ -293,8 +289,9 @@ public class IndexFragment extends BaseFragment {
 
     }
 
+
     private void postSw(final int is_open){
-        new MyHttp().doPost(Api.getDefault().updateIsOpen(LoginUtil.getLoginToken(),is_open), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().updateIsOpen(LoginUtil.getLoginTokenRegister(),is_open), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 shopInfo.setIs_open(is_open);
@@ -313,7 +310,7 @@ public class IndexFragment extends BaseFragment {
     //完善信息弹窗
     private void getShopIdentity(){
 
-        new MyHttp().doPost(Api.getDefault().getShopIdentity(LoginUtil.getLoginToken()), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().getShopIdentity(LoginUtil.getLoginTokenRegister()), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 ShopIdentityBean shopIdentityBean = new Gson().fromJson(result.toString(),ShopIdentityBean.class);
@@ -393,7 +390,7 @@ public class IndexFragment extends BaseFragment {
         }
 
         List<Drawable> imgurl = new ArrayList<>();
-        imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.prw));
+//        imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.prw));
 //        imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.cwdz));
         imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.vidio_study));
         xbannerView.setBannerStyle(BannerConfig.NOT_INDICATOR);
@@ -403,11 +400,9 @@ public class IndexFragment extends BaseFragment {
             public void OnBannerClick(int position) {
                 switch (position) {
                     case 0:
-                        WebSetUpShopActivity.actionStart(getContext(), String.format("http://www.wbx365.com/Wbxwaphome/openstore#/record?uid=%s", loginUser.getSj_login_token()));
+//                        WebSetUpShopActivity.actionStart(getContext(), String.format("http://www.wbx365.com/Wbxwaphome/openstore#/record?uid=%s", loginUser.getSj_login_token()));
                         break;
                     case 1:
-                        break;
-                    case 2:
                         WebActivity.actionStart(getContext(), "http://www.wbx365.com/Wbxwaphome/video");
                         break;
                 }
@@ -435,7 +430,6 @@ public class IndexFragment extends BaseFragment {
                 //保存用户头像及昵称
                 SPUtils.setSharedStringData(getContext(), AppConfig.LOGIN_PHOTO, shopInfo.getPhoto());
                 SPUtils.setSharedStringData(getContext(), AppConfig.LOGIN_NAME, shopInfo.getShop_name());
-
                 SPUtils.setSharedIntData(getContext(), AppConfig.TRY_SHOP, shopInfo.getTry_shop());
                 loginUser.setScan_order_type(shopInfo.getScan_order_type());
                 BaseApplication.getInstance().saveUserInfo(loginUser);
@@ -496,9 +490,9 @@ public class IndexFragment extends BaseFragment {
         } else {
             tvSendOrderNum.setVisibility(View.GONE);
         }
-        if (shopInfo.getUnfinished_scan_order_num() > 0) {
+        if (shopInfo.getScan_order_no_pay_count() > 0) {
             tvScanOrderNum.setVisibility(View.VISIBLE);
-            tvScanOrderNum.setText(String.valueOf(shopInfo.getUnfinished_scan_order_num()));
+            tvScanOrderNum.setText(String.valueOf(shopInfo.getScan_order_no_pay_count()));
         } else {
             tvScanOrderNum.setVisibility(View.GONE);
         }
@@ -636,7 +630,7 @@ public class IndexFragment extends BaseFragment {
                     showShortToast("公告内容不能为空");
                     return;
                 }
-                new MyHttp().doPost(Api.getDefault().updateNotice(loginUser.getSj_login_token(), noticeStr), new HttpListener() {
+                new MyHttp().doPost(Api.getDefault().updateNotice(LoginUtil.getLoginTokenRegister(), noticeStr), new HttpListener() {
                     @Override
                     public void onSuccess(JSONObject result) {
                         showShortToast(result.getString("msg"));
@@ -653,12 +647,17 @@ public class IndexFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.ctl_ktqjd, R.id.rl_pssz, R.id.iv_yrdp, R.id.rl_gyl, R.id.rl_hy, R.id.rl_mysq, R.id.rl_jdq, R.id.ll_xsdl_pj, R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager, R.id.rl_business_must})
+    @OnClick({R.id.rl_seting,R.id.ctl_ktqjd, R.id.rl_pssz, R.id.iv_yrdp, R.id.rl_gyl, R.id.rl_hy, R.id.rl_mysq, R.id.rl_jdq, R.id.ll_xsdl_pj, R.id.chat_list_im, R.id.index_head_im, R.id.attestation_state_tv, R.id.show_open_state_tv, R.id.iv_pub_bus_cir, R.id.ll_wait_send, R.id.ll_wait_refund, R.id.rl_send_order, R.id.rl_scan_order, R.id.rl_book_order, R.id.rl_number_order, R.id.rl_shop_manager, R.id.rl_goods_manager, R.id.rl_business_manager, R.id.rl_customer_manager, R.id.rl_notice_manager, R.id.rl_activity_manager, R.id.rl_inventory_manager, R.id.rl_business_analyse, R.id.rl_merchant_withdraw, R.id.rl_merchant_subsidy, R.id.rl_intelligent_receive, R.id.rl_dada, R.id.rl_make_money_by_share, R.id.rl_share_shop, R.id.rl_video_course, R.id.service_im, R.id.rl_seat_manager, R.id.rl_business_must})
     public void onViewClicked(View view) {
         if (shopInfo == null) {
             return;
         }
         switch (view.getId()) {
+            case R.id.rl_seting:
+                //我的
+                startActivity(new Intent(getContext(), MIneActivity.class));
+
+                break;
             case R.id.ctl_ktqjd:
                 //开通旗舰店
                 startActivity(new Intent(getContext(), ChooseShopVersionsPrwActivity.class));
@@ -708,6 +707,7 @@ public class IndexFragment extends BaseFragment {
                 OrderActivity.actionStart(getContext(), 3);
                 break;
             case R.id.rl_send_order:
+                //订单
                 OrderActivity.actionStart(getContext());
                 break;
             case R.id.rl_scan_order:

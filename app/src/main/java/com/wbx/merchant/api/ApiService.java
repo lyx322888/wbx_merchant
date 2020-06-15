@@ -17,8 +17,9 @@ import rx.Observable;
  */
 public interface ApiService {
     //获取版本号
-    @POST("/sjapi/user/get_version_info")
-    Observable<JSONObject> getVersion();
+    @FormUrlEncoded
+    @POST("/sjapi/version/get_version_info")
+    Observable<JSONObject> getVersion(@Field("app_type") String appType,@Field("version_code") String versionCode);
 
     //登录
     @FormUrlEncoded
@@ -53,7 +54,7 @@ public interface ApiService {
     //获取店铺分类
     @FormUrlEncoded
     @POST("/sjapi/apply/get_shop_cate")
-    Observable<JSONObject> getShopCate(@Field("grade_id") int gradeId);
+    Observable<JSONObject> getShopCate(@Field("grade_id") int gradeId,@Field("type") String type );
 
     //获取店铺等级
     @POST("/sjapi/apply/get_shop_grade")
@@ -431,7 +432,7 @@ public interface ApiService {
     //获取提现申请时需要的信息
     @FormUrlEncoded
     @POST("sjapi/user/get_cash_info")
-    Observable<JSONObject> getBindPayInfo(@Field("sj_login_token") String loginToken);
+    Observable<JSONObject> getBindPayInfo(@Field("sj_login_token") String loginToken,@Field("cash_type") String cashType);
 
     //获取提现申请时需要的信息
     @FormUrlEncoded
@@ -672,7 +673,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("/sjapi/discover/list_discover")
-    Observable<JSONObject> getDiscoveryList(@Field("sj_login_token") String login_token, @Field("page") int page, @Field("num") int num);
+    Observable<JSONObject> getDiscoveryList(@Field("sj_login_token") String login_token);
 
     /**
      * 删除发现内容
@@ -1032,4 +1033,12 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/sjapi/Kaidianbao/add_shop_identity")
     Observable<JSONObject> addShopIdentity(@FieldMap Map<String,Object> params);
+    //活动管理
+    @FormUrlEncoded
+    @POST("/sjapi/Shopactivity/get_shop_activity")
+    Observable<JSONObject> getShopActivity(@Field("sj_login_token") String login_token);
+    //是否退出登录
+    @FormUrlEncoded
+    @POST("/sjapi/user/get_need_login")
+    Observable<JSONObject> getNeedLogin(@Field("sj_login_token") String login_token,@Field("version_code") String versionCode);
 }

@@ -1,15 +1,25 @@
 package com.wbx.merchant.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.text.Html;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.text.Html;
-import android.view.View;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wbx.merchant.R;
+import com.wbx.merchant.adapter.ScreenCateAdapter;
 import com.wbx.merchant.adapter.SecKillChooseAdapter;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
@@ -17,7 +27,9 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseAdapter;
 import com.wbx.merchant.baseapp.AppConfig;
+import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.bean.GoodsInfo;
+import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.refresh.BaseRefreshListener;
 import com.wbx.merchant.widget.refresh.PullToRefreshLayout;
 import com.wbx.merchant.widget.refresh.ViewStatus;
@@ -28,6 +40,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by wushenghui on 2017/12/12.
@@ -36,6 +50,12 @@ import butterknife.Bind;
 public class SeckillChooseGoodsActivity extends BaseActivity implements BaseRefreshListener {
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
+    @Bind(R.id.choose_type_tv)
+    TextView chooseTypeTv;
+    @Bind(R.id.search_edit_text)
+    EditText searchEditText;
+    @Bind(R.id.type_layout)
+    LinearLayout typeLayout;
     private List<GoodsInfo> goodsInfoList = new ArrayList<>();
     private SecKillChooseAdapter mAdapter;
     private HashMap<String, Object> mParams = new HashMap<>();
@@ -46,9 +66,11 @@ public class SeckillChooseGoodsActivity extends BaseActivity implements BaseRefr
     private boolean canLoadMore = true;
     @Bind(R.id.select_goods_num_tv)
     TextView selectGoodsNumTv;
+    private List<CateInfo> cateList = new ArrayList<>();
     private List<GoodsInfo> selectGoodsList = new ArrayList<>();
     private String seckill_start_time, seckill_end_time, limitations_num;
-
+    private PopupWindow popWnd;
+    private int goods_type = 0;//分类id
     @Override
     public int getLayoutId() {
         return R.layout.activity_seckill_choose_goods;
@@ -56,7 +78,17 @@ public class SeckillChooseGoodsActivity extends BaseActivity implements BaseRefr
 
     @Override
     public void initPresenter() {
-
+        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    canLoadMore = true;
+                    mPageSize = AppConfig.pageSize;
+                    fillData();
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -74,8 +106,9 @@ public class SeckillChooseGoodsActivity extends BaseActivity implements BaseRefr
         mParams.put("sj_login_token", userInfo.getSj_login_token());
         mParams.put("page", mPageNum);
         mParams.put("num", mPageSize);
-        mParams.put("goods_type", 0);
+        mParams.put("goods_type", goods_type);
         mParams.put("is_seckill", AppConfig.SECKILL.UNSECKILL);
+        mParams.put("keyword", searchEditText.getText().toString());
         new MyHttp().doPost(Api.getDefault().getSecKillGoodsList(mParams), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -188,5 +221,52 @@ public class SeckillChooseGoodsActivity extends BaseActivity implements BaseRefr
             setResult(RESULT_OK);
             finish();
         }
+    }
+
+    @OnClick(R.id.choose_type_tv)
+    public void onViewClicked() {
+        //分类
+        getCateData();
+    }
+
+    private void getCateData() {
+        LoadingDialog.showDialogForLoading(this, "加载中...", true);
+        new MyHttp().doPost(Api.getDefault().getCateList(userInfo.getSj_login_token()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                cateList = JSONArray.parseArray(result.getString("data"), CateInfo.class);
+                CateInfo cateInfo = new CateInfo();
+                cateInfo.setCate_id(0);
+                cateInfo.setCate_name("全部");
+                cateList.add(0,cateInfo);
+                showTypePop();
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+    }
+    private void showTypePop() {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popwin_cate_layout, null);
+        popWnd = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        popWnd.setWidth(typeLayout.getWidth());
+        RecyclerView cateRecyclerView = contentView.findViewById(R.id.cate_recycler_view);
+        cateRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        ScreenCateAdapter screenCateAdapter = new ScreenCateAdapter(cateList, this);
+        cateRecyclerView.setAdapter(screenCateAdapter);
+        popWnd.showAsDropDown(typeLayout);
+        screenCateAdapter.setOnItemClickListener(R.id.root_view, new BaseAdapter.ItemClickListener() {
+            @Override
+            public void onItemClicked(View view, int position) {
+                canLoadMore = true;
+                mPageNum = AppConfig.pageNum;
+                chooseTypeTv.setText(cateList.get(position).getCate_name());
+                goods_type = cateList.get(position).getCate_id();
+                fillData();
+                popWnd.dismiss();
+            }
+        });
     }
 }

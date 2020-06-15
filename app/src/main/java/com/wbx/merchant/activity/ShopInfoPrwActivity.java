@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,12 +59,10 @@ import chihane.jdaddressselector.model.Street;
 
 public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelectedListener {
 
-
     @Bind(R.id.tv_title)
     TextView tvTitle;
     @Bind(R.id.shop_name_edit)
     EditText shopNameEdit;
-
     @Bind(R.id.show_shop_address_tv)
     TextView showShopAddressTv;
     @Bind(R.id.choose_shop_address_layout)
@@ -79,6 +78,10 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
     @Bind(R.id.shop_info_next_btn)
     Button shopInfoNextBtn;
     public AMapLocationClient mLocationClient = null;
+    @Bind(R.id.iv_r)
+    ImageView ivR;
+    @Bind(R.id.agency_account_edit)
+    EditText agencyAccountEdit;
     private List<JoinAddressInfo> addressInfos;
 
     private static final String[] PERMISSIONS_CONTACT = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -87,20 +90,14 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
     private boolean hasLocation = false;
     private String selectCity = "";
     private String cityName = "";
-    private int shopEdition  = 2;//1个人版 2实体店
-    private int cityId ;
-    private int countyId ;
+    private int shopEdition = 2;//1个人版 2实体店
+    private int cityId;
+    private int countyId;
 
     private AddressBottomDialog addressBottomDialog;
     private OptionsPickerView pvOptions;
-    private int tryShop;
 
-    //跳转
-    public static void actionStart(Context context, int try_shop) {
-        Intent intent = new Intent(context, ShopInfoPrwActivity.class);
-        intent.putExtra("try_shop", try_shop);
-        context.startActivity(intent);
-    }
+
 
     @Override
     public int getLayoutId() {
@@ -116,7 +113,14 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
     @Override
     public void initView() {
         initPopCommunity();
-        tryShop = getIntent().getIntExtra("try_shop",0);
+
+        //小千微店宝只有个人版
+        if (BaseApplication.isxqwdb) {
+            shopEdition = 1;
+            tvShopType.setText("个人版");
+            ivR.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -244,11 +248,13 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
                 break;
             case R.id.choose_shop_type:
                 //店铺类型
-               pvOptions.show();
+                if (!BaseApplication.isxqwdb) {
+                    pvOptions.show();
+                }
                 break;
             case R.id.shop_info_next_btn:
                 //下一步
-                if (canNext()){
+                if (canNext()) {
                     addShopInfo();
                 }
                 break;
@@ -256,26 +262,26 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
     }
 
 
-    private void initPopCommunity(){
+    private void initPopCommunity() {
         //数据源
         final List<String> strings = new ArrayList<>();
         strings.add("个人版");
         strings.add("实体店版");
-
+        strings.add("餐饮店版");
         pvOptions = new OptionsPickerView(new OptionsPickerView.Builder(mContext, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                shopEdition = options1+1;
+                shopEdition = options1 + 1;
                 tvShopType.setText(strings.get(options1));
             }
-        })   .setSubmitText("确定")//确定按钮文字
+        }).setSubmitText("确定")//确定按钮文字
                 .setCancelText("取消")//取消按钮文字
                 .setTitleText("社区选择")//标题
                 .setSubCalSize(18)//确定和取消文字大小
                 .setTitleSize(20)//标题文字大小
-                .setTitleColor(ContextCompat.getColor(mContext,R.color.black))//标题文字颜色
-                .setSubmitColor(ContextCompat.getColor(mContext,R.color.app_color))//确定按钮文字颜色
-                .setCancelColor(ContextCompat.getColor(mContext,R.color.black))//取消按钮文字颜色
+                .setTitleColor(ContextCompat.getColor(mContext, R.color.black))//标题文字颜色
+                .setSubmitColor(ContextCompat.getColor(mContext, R.color.app_color))//确定按钮文字颜色
+                .setCancelColor(ContextCompat.getColor(mContext, R.color.black))//取消按钮文字颜色
 //                .setTitleBgColor(0xFF333333)//标题背景颜色 Night mode
 //                .setBgColor(0xFF000000)//滚轮背景颜色 Night mode
                 .setContentTextSize(18)//滚轮文字大小
@@ -311,15 +317,20 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
 
 
     //提交店铺信息
-    private void addShopInfo( ) {
-        HashMap<String, Object> mParams; mParams = new HashMap<>();
+    private void addShopInfo() {
+        HashMap<String, Object> mParams;
+        mParams = new HashMap<>();
         mParams.put("sj_login_token", userInfo.getSj_login_token());
 //        mParams.put("logo", qiNiuPath);//logo
         mParams.put("shop_name", shopNameEdit.getText().toString());//店铺名称
         mParams.put("addr", addressEdit.getText().toString());//详细地址
         mParams.put("lat", lat);
         mParams.put("city_id", cityId);
+        if (!TextUtils.isEmpty(agencyAccountEdit.getText().toString())){
+            mParams.put("yewuyuan_id", agencyAccountEdit.getText().toString());//代理账号
+        }
         mParams.put("area_id", countyId);
+//        mParams.put("is_douyin", );
         mParams.put("shop_edition", shopEdition);
         mParams.put("lng", lng);
         new MyHttp().doPost(Api.getDefault().add_apply_info(mParams), new HttpListener() {
@@ -327,18 +338,18 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
             public void onSuccess(JSONObject result) {
                 JSONObject data = JSONObject.parseObject(result.getString("data"));
                 userInfo.setShop_id(data.getIntValue("shop_id"));
-//                userInfo.setGrade_id((int) mParams.get("grade_id"));
+                userInfo.setGrade_id(data.getIntValue("grade_id"));
                 showShortToast(result.getString("msg"));
                 BaseApplication.getInstance().saveUserInfo(userInfo);
-
-                if (1== userInfo.getTry_shop()){
+                if (1 == userInfo.getTry_shop()) {
                     //判断是否付过费 = 1没有付费
                     startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));
-                }else {
+                } else {
                     SPUtils.setSharedBooleanData(mContext, AppConfig.LOGIN_STATE, true);
                     AppManager.getAppManager().finishAllActivity();
                     startActivity(new Intent(mContext, MainActivity.class));
-                 }
+                }
+                finish();
             }
 
             @Override
@@ -371,4 +382,5 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
         showShopAddressTv.setText(cityBuf);
         addressBottomDialog.dismiss();
     }
+
 }

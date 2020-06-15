@@ -93,6 +93,10 @@ public class PullToRefreshLayout extends FrameLayout {
         mTouchSlope = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
 
+    public void setEmpty(int empty) {
+        this.empty = empty;
+    }
+
     private void init() {
         cal();
         int count = getChildCount();
@@ -386,28 +390,24 @@ public class PullToRefreshLayout extends FrameLayout {
                     hideView(mChildView);
                     hideView(emptyView);
                     hideView(errorView);
-
                     showLoadingView();
                     break;
                 case ViewStatus.EMPTY_STATUS:
                     hideView(mChildView);
                     hideView(loadingView);
                     hideView(errorView);
-
                     showEmptyView();
                     break;
                 case ViewStatus.ERROR_STATUS:
                     hideView(mChildView);
                     hideView(loadingView);
                     hideView(emptyView);
-
                     showErrorView();
                     break;
                 default:
                     hideView(loadingView);
                     hideView(emptyView);
                     hideView(errorView);
-
                     mChildView.setVisibility(VISIBLE);
                     break;
             }

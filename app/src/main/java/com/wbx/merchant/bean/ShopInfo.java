@@ -56,9 +56,17 @@ public class ShopInfo implements Serializable {
     private int is_view_withdraw_commission;
     private float order_money;
     private int comment_rank;
+    private int scan_order_no_pay_count;
     private String discover_num;
     private int  try_shop;//=1试用
 
+    public int getScan_order_no_pay_count() {
+        return scan_order_no_pay_count;
+    }
+
+    public void setScan_order_no_pay_count(int scan_order_no_pay_count) {
+        this.scan_order_no_pay_count = scan_order_no_pay_count;
+    }
     public String getDiscover_num() {
         return discover_num;
     }

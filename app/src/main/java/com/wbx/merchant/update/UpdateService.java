@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.wbx.merchant.base.BaseApplication;
+import com.wbx.merchant.utils.FormatUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -81,22 +82,38 @@ public class UpdateService extends Service {
                 //8.0的手机判断是否有安装未知应用权限 8.0以上自动判断
                 boolean installAllowed= getPackageManager().canRequestPackageInstalls();
                 if(installAllowed){
+                    try {
+                        Uri apkUri = FileProvider.getUriForFile(BaseApplication.getInstance(), "com.wbx.merchant.provider", file);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                    } catch (Exception e) {
+                        FormatUtil.openBrowser(this,"http://wbx365.com/Public/app/wbxmerchant.apk");
+                    }
+                }else {
+                    try {
+                        startInstallPermissionSettingActivity();
+                    } catch (Exception e) {
+                        FormatUtil.openBrowser(this,"http://wbx365.com/Public/app/wbxmerchant.apk");
+                    }
+                }
+            }else {
+                try {
                     Uri apkUri = FileProvider.getUriForFile(BaseApplication.getInstance(), "com.wbx.merchant.provider", file);
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-                }else {
-                    startInstallPermissionSettingActivity();
+                } catch (Exception e) {
+                    FormatUtil.openBrowser(this,"http://wbx365.com/Public/app/wbxmerchant.apk");
                 }
-            }else {
-                Uri apkUri = FileProvider.getUriForFile(BaseApplication.getInstance(), "com.wbx.merchant.provider", file);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
             }
 
         } else {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            Uri uri = Uri.fromFile(file);
-            intent.setDataAndType(uri, "application/vnd.android.package-archive");
+            try {
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Uri uri = Uri.fromFile(file);
+                intent.setDataAndType(uri, "application/vnd.android.package-archive");
+            } catch (Exception e) {
+                FormatUtil.openBrowser(this,"http://wbx365.com/Public/app/wbxmerchant.apk");
+            }
         }
         return intent;
     }

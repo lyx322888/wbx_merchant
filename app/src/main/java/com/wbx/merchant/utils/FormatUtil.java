@@ -1,16 +1,21 @@
 package com.wbx.merchant.utils;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Build;
 import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +25,8 @@ import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import mlxy.utils.L;
 
 public class FormatUtil {
     /**
@@ -476,6 +483,7 @@ public class FormatUtil {
         res = String.valueOf(ts);
         return res;
     }
+
     //状态栏颜色
     public static void setStatubarColor(Activity activity, int color) {
         Window window = activity.getWindow();
@@ -485,6 +493,27 @@ public class FormatUtil {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(ContextCompat.getColor(activity,color));
+        }
+    }
+
+    /**
+     * 调用第三方浏览器打开
+     * @param context
+     * @param url 要浏览的资源地址
+     */
+    public static  void openBrowser(Context context, String url){
+        final Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        // 注意此处的判断intent.resolveActivity()可以返回显示该Intent的Activity对应的组件名
+        // 官方解释 : Name of the component implementing an activity that can display the intent
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            final ComponentName componentName = intent.resolveActivity(context.getPackageManager());
+            // 打印Log   ComponentName到底是什么
+            L.d("componentName = " + componentName.getClassName());
+            context.startActivity(Intent.createChooser(intent, "请选择浏览器"));
+        } else {
+            Toast.makeText(context.getApplicationContext(), "请下载浏览器", Toast.LENGTH_SHORT).show();
         }
     }
 }

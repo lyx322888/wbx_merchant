@@ -11,6 +11,7 @@ import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.fragment.MemberManageFragment;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -58,7 +59,8 @@ public class MyMemberActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        MemberManageFragment mineFragment = (MemberManageFragment) getSupportFragmentManager().getFragments().get(0);
+        mineFragment.setVisibilityHead(View.VISIBLE);
     }
 
     @Override

@@ -158,7 +158,7 @@ public class PayActivity extends BaseActivity {
 
     private void getStoreType() {
         LoadingDialog.showDialogForLoading(mActivity, "加载中...", true);
-        new MyHttp().doPost(Api.getDefault().getShopCate(gradeId), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().getShopCate(gradeId,"renewals"), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 JSONObject data = result.getJSONObject("data");

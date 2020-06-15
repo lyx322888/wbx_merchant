@@ -34,7 +34,7 @@ import java.util.HashMap;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-
+//完善信息
 public class CompleteInformationActivity extends BaseActivity {
 
     @Bind(R.id.tv_title)

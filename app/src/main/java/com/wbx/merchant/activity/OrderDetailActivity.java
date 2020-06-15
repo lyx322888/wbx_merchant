@@ -30,6 +30,7 @@ import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.GoodsInfo;
 import com.wbx.merchant.bean.OrderAddressInfo;
 import com.wbx.merchant.bean.OrderInfo;
+import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.dialog.PromptPopDiolog;
 import com.wbx.merchant.utils.FormatUtil;
 import com.wbx.merchant.utils.SpannableStringUtils;
@@ -292,7 +293,7 @@ public class OrderDetailActivity extends BaseActivity {
                     sendByDaDa(mPopUpWindow);
                 } else {
                     //商家配送
-                    orderOperation(Api.getDefault().sendGoods(userInfo.getSj_login_token(), orderDetail.getOrder_id()));
+                    orderOperation(Api.getDefault().sendGoods(LoginUtil.getLoginToken(), orderDetail.getOrder_id()));
                     mPopUpWindow.dismiss();
                 }
             }

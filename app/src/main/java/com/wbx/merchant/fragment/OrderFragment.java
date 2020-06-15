@@ -12,6 +12,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +70,6 @@ import rx.Observable;
  * Created by wushenghui on 2017/6/20.
  * 订单
  */
-
 public class OrderFragment extends BaseFragment implements BaseRefreshListener {
     @Bind(R.id.refresh_layout)
     PullToRefreshLayout mRefreshLayout;
@@ -433,8 +433,9 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
         mAdapter.setOnItemClickListener(R.id.iv_call_driver, new BaseAdapter.ItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
-                OrderInfo orderInfo = mAdapter.getItem(position);;
-                if (!TextUtils.isEmpty(orderInfo.getDada().get(0).getDm_mobile())) {
+                // TODO: 2020/6/8 java.lang.NullPointerException: Attempt to invoke interface method 'java.lang.Object java.util.List.get(int)' on a null object reference
+                OrderInfo orderInfo = mAdapter.getItem(position);
+                if (orderInfo.getDada()!=null&&orderInfo.getDada().get(0)!=null&&!TextUtils.isEmpty(orderInfo.getDada().get(0).getDm_mobile())) {
                     Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + orderInfo.getDada().get(0).getDm_mobile()));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -674,6 +675,7 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
     }
     //刷新角标
     private void rxbusPost(){
+        Log.e("dfdf", "rxbusPost: " );
         mRxManager.post("OrderActivity","updata");
     }
 

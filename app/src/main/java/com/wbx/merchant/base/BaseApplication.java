@@ -1,14 +1,34 @@
 package com.wbx.merchant.base;
 
 import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Build;
+import android.text.TextUtils;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
+import com.alibaba.sdk.android.push.CloudPushService;
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.huawei.HuaWeiRegister;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
+import com.alibaba.sdk.android.push.register.MeizuRegister;
+import com.alibaba.sdk.android.push.register.MiPushRegister;
+import com.alibaba.sdk.android.push.register.OppoRegister;
+import com.alibaba.sdk.android.push.register.VivoRegister;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -21,11 +41,14 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.commonsdk.UMConfigure;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.wbx.merchant.BuildConfig;
+import com.wbx.merchant.R;
+import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.baseapp.ThreadPoolManager;
 import com.wbx.merchant.bean.UserInfo;
 import com.wbx.merchant.chat.BaseManager;
 import com.wbx.merchant.utils.APPUtil;
 import com.wbx.merchant.utils.LogUtils;
+import com.wbx.merchant.utils.SystemUtils;
 import com.wbx.merchant.widget.MediaLoader;
 import com.wbx.merchant.widget.refresh.AppRefreshFoot;
 import com.wbx.merchant.widget.refresh.AppRefreshHead;
@@ -55,6 +78,7 @@ import cn.jpush.android.api.JPushInterface;
 public class BaseApplication extends MultiDexApplication {
     private static BaseApplication instance;
     private static long appInitTime = System.currentTimeMillis();
+    public static boolean isxqwdb = false;
 
     //单例模式中获取唯一的MyApplication实例
     public static BaseApplication getInstance() {
@@ -103,21 +127,55 @@ public class BaseApplication extends MultiDexApplication {
         });
         initInUiThread();
 
+        isxqwdb = TextUtils.equals(SystemUtils.getAppMetaData(this, AppConfig.UMENG_CHANNEL),"xqwdb");
     }
 
     private void initInUiThread() {
         LogUtils.logInit(BuildConfig.LOG_DEBUG);
-        initJPush();
+//        initJPush();
         initXunFei();
         initRefresh();
         initBugly();
         initAlbum();
         initUMeng();
+        initCloudChannel(this);
+    }
+    /**
+     * 初始化云推送通道
+     * @param applicationContext
+     */
+    private void initCloudChannel(Context applicationContext) {
+        createNotificationChannel();
+        PushServiceFactory.init(applicationContext);
+        CloudPushService pushService = PushServiceFactory.getCloudPushService();
+        pushService.register(applicationContext, new CommonCallback() {
+            @Override
+            public void onSuccess(String response) {
+                Log.d("dfdf", "init cloudchannel success");
+                //注册华为推送
+                HuaWeiRegister.register(BaseApplication.this);
+                //小米
+                MiPushRegister.register(BaseApplication.this, "2882303761517594729", "5161759426729");
+                //GCM/FCM辅助通道注册
+//                GcmRegister.register(this, sendId, applicationId); //sendId/applicationId为步骤获得的参数
+                // OPPO通道注册
+                OppoRegister.register(BaseApplication.this, "f22NrG5t1Hc0g84kWG4s0k80K", "2841d9Ac5Ded5791D6d82f8361B745da"); // appKey/appSecret在OPPO开发者平台获取
+                // 魅族通道注册
+                MeizuRegister.register(BaseApplication.this, "130756", "9476d8bd52b14dbb986ff6082a9da59d"); // appId/appkey在魅族开发者平台获取
+                // VIVO通道注册
+                VivoRegister.register(BaseApplication.this);
+            }
+            @Override
+            public void onFailed(String errorCode, String errorMessage) {
+                Log.d("dfdf", "init cloudchannel failed -- errorcode:" + errorCode + " -- errorMessage:" + errorMessage);
+            }
+        });
+
     }
     //初始化友盟
     private void initUMeng(){
         UMConfigure.setLogEnabled(true);
-        UMConfigure.init(this, "5e1eb38c570df3c9a1000669", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
+        UMConfigure.init(this, "5e1eb3e8570df3d4ce0004f8", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
     }
     //图片选择框架
     private void initAlbum() {
@@ -271,5 +329,31 @@ public class BaseApplication extends MultiDexApplication {
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
         MultiDex.install(this);
+    }
+
+
+    //通知
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            // 通知渠道的id
+            String id = "1";
+            // 用户可以看到的通知渠道的名字.
+            CharSequence name = "notification channel";
+            // 用户可以看到的通知渠道的描述
+            String description = "notification description";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(id, name, importance);
+            // 配置通知渠道的属性
+            mChannel.setDescription(description);
+            // 设置通知出现时的闪灯（如果 android 设备支持的话）
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            // 设置通知出现时的震动（如果 android 设备支持的话）
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            //最后在notificationmanager中创建该通知渠道
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
     }
 }

@@ -26,7 +26,7 @@ import butterknife.Bind;
 public class ActivitySettingsActivity extends BaseActivity {
     @Bind(R.id.scroll_view)
     ScrollView mScrollView;
-    @Bind({R.id.full_reduction_is_seckill_sb, R.id.full_reduction_is_sales_sb, R.id.coupon_is_seckill_sb, R.id.coupon_is_sales_sb, R.id.coupon_is_full_reduction_sb})
+    @Bind({R.id.full_reduction_is_seckill_sb, R.id.full_reduction_is_sales_sb, R.id.coupon_is_seckill_sb, R.id.coupon_is_sales_sb, R.id.coupon_is_full_reduction_sb,R.id.scan_is_discounts})
     List<SwitchButton> switchButtonList;
 
     private HashMap<String, Object> mParams = new HashMap<>();
@@ -57,6 +57,7 @@ public class ActivitySettingsActivity extends BaseActivity {
                 switchButtonList.get(2).setChecked(data.getIntValue("coupon_is_seckill") == 1);//秒杀商品是否支持优惠券
                 switchButtonList.get(3).setChecked(data.getIntValue("coupon_is_sales") == 1);//促销商品是否支持优惠券
                 switchButtonList.get(4).setChecked(data.getIntValue("coupon_full_reduction_all_use") == 1);//优惠券与满减活动是否同时使用
+                switchButtonList.get(5).setChecked(data.getIntValue("scan_is_discounts") == 1);//扫码点餐是否参与优惠
                 mParams.put("full_reduction_is_seckill", data.getIntValue("full_reduction_is_seckill"));
                 mParams.put("full_reduction_is_sales", data.getIntValue("full_reduction_is_sales"));
                 mParams.put("coupon_is_seckill", data.getIntValue("coupon_is_seckill"));
@@ -101,6 +102,12 @@ public class ActivitySettingsActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mParams.put("coupon_full_reduction_all_use", b ? 1 : 0);
+            }
+        });
+        switchButtonList.get(5).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mParams.put("scan_is_discounts", b ? 1 : 0);
             }
         });
 

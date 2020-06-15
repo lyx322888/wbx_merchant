@@ -191,7 +191,7 @@ public class AwardCashActivity extends BaseActivity {
     }
 
     private void getBindPayInfo() {
-        new MyHttp().doPost(Api.getDefault().getBindPayInfo(userInfo.getSj_login_token()), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().getBindPayInfo(userInfo.getSj_login_token(),cashType), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 data = result.getJSONObject("data");

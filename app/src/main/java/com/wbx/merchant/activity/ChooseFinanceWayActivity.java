@@ -1,5 +1,6 @@
 package com.wbx.merchant.activity;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,6 +48,7 @@ public class ChooseFinanceWayActivity extends BaseActivity {
     @Bind(R.id.bank_name_tv)
     TextView bankNameTv;
     private String data;
+    private String type;
 
     @Override
     public int getLayoutId() {
@@ -65,6 +67,7 @@ public class ChooseFinanceWayActivity extends BaseActivity {
     @Override
     public void fillData() {
         data = getIntent().getStringExtra("data");
+        type = getIntent().getStringExtra("type");
         JSONObject jsonObject = JSONObject.parseObject(data);
         JSONObject userAliPay = jsonObject.getJSONObject("user_alipay");
         JSONObject userWeiXinPay = jsonObject.getJSONObject("user_weixinpay");
@@ -73,17 +76,23 @@ public class ChooseFinanceWayActivity extends BaseActivity {
             aliLayout.setVisibility(View.VISIBLE);
             aliPayHintTv.setText(userAliPay.getString("depict"));
         }
-        if (userWeiXinPay != null) {
-            weChatLayout.setVisibility(View.VISIBLE);
-            wxPayHintTv.setText(userWeiXinPay.getString("depict"));
-        }
-        if (userBank != null) {
-            bankLayout.setVisibility(View.VISIBLE);
-            bankPayHintTv.setText(userBank.getString("depict"));
-            bankNameTv.setText(userBank.getString("bank_name"));
+        //跑任务只支持支付宝
+        if (!TextUtils.equals(type,"share_bounty")){
+
+            if (userWeiXinPay != null) {
+                weChatLayout.setVisibility(View.VISIBLE);
+                wxPayHintTv.setText(userWeiXinPay.getString("depict"));
+            }
+            if (userBank != null) {
+                bankLayout.setVisibility(View.VISIBLE);
+                bankPayHintTv.setText(userBank.getString("depict"));
+                bankNameTv.setText(userBank.getString("bank_name"));
+            }
         }
 
-        switch (CashActivity.cashType) {
+
+
+        switch (CashActivity.payCode) {
             case AppConfig.CashCode.alipay:
                 aliCheckIm.setImageResource(R.drawable.ic_ok);
                 wxCheckIm.setImageResource(R.drawable.ic_round);
@@ -124,13 +133,13 @@ public class ChooseFinanceWayActivity extends BaseActivity {
         });
     }
 
-    private void setDefaultCashType(final String cashType) {
+    private void setDefaultCashType(final String pay_code) {
         LoadingDialog.showDialogForLoading(this);
-        new MyHttp().doPost(Api.getDefault().setDefaultCashType(userInfo.getSj_login_token(), cashType), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().setDefaultCashType(userInfo.getSj_login_token(), pay_code), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 ToastUitl.showShort(result.getString("msg"));
-                CashActivity.cashType = cashType;
+                CashActivity.payCode = pay_code;
                 setResult(RESULT_OK);
                 finish();
             }

@@ -15,7 +15,10 @@ android {
 //            storeFile file(' C:/Users/WBX/Desktop/密钥/wbxmerchant/wbxmerchant.jks')
             storePassword 'wbx365888'
         }
+
     }
+    //推送
+
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
@@ -26,15 +29,18 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        ndk {
-            abiFilters 'armeabi-v7a', 'x86'
-        }
+        flavorDimensions "versionCode"//维度相同
         manifestPlaceholders = [
                 JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "f92f2942fb844252acd5977a", //JPush上注册的包名对应的appkey.
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
+
         // 对于国际化支持只打包中文资源，
         resConfigs "zh-rCN"
     }
@@ -49,10 +55,12 @@ android {
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
+//            applicationIdSuffix ".debug"
             signingConfig signingConfigs.release
         }
 
         release {
+//            applicationIdSuffix ".release"
             debuggable true
             buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled false
@@ -60,6 +68,9 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+
+
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -73,6 +84,7 @@ android {
         repositories {
             maven { url "https://jitpack.io" }
         }
+
     }
 }
 
@@ -87,6 +99,7 @@ configurations.all {
         }
     }
 }
+
 
 dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
@@ -157,4 +170,20 @@ dependencies {
     implementation 'com.youth.banner:banner:1.4.10'
     //工具
     implementation 'com.github.lyx322888:ToolManagement:1.1'
+    //状态栏适配
+    implementation 'com.jaeger.statusbarutil:library:1.5.1'
+    //阿里云推送
+    implementation 'com.aliyun.ams:alicloud-android-third-push:3.1.0@aar'
+    implementation 'com.aliyun.ams:alicloud-android-push:3.1.9.1@aar'
+    implementation 'com.aliyun.ams:alicloud-android-utils:1.1.5'
+    implementation 'com.aliyun.ams:alicloud-android-beacon:1.0.3'
+    implementation 'com.aliyun.ams:alicloud-android-ut:5.4.3'
+    implementation 'com.aliyun.ams:alicloud-android-utdid:1.5.2'
+    //华为推送
+    implementation 'com.aliyun.ams:huawei-push:2.6.3.305'
+    implementation 'com.aliyun.ams:huawei-push-base:2.6.3.305'
+    //vivo
+    implementation 'com.aliyun.ams:third_vivopush:2.9.0.1'
+    //魅族
+    implementation 'com.aliyun.ams:meizu-push:3.8.7.1'
 }

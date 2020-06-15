@@ -10,8 +10,9 @@
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
-        <item name="android:background">@drawable/splash2</item>
+        <item name="android:windowBackground">@drawable/app_shape</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
     </style>
 
     <style name="lineViewStyle">
@@ -233,6 +234,11 @@
     </style>
     <style name="v_fgx">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/color_gray_line</item>
+    </style>
+    <style name="GrayLineStyle">
+        <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/color_gray_line</item>
     </style>

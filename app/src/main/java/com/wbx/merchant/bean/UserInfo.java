@@ -41,6 +41,8 @@ public class UserInfo implements Serializable {
     private int shop_grade_price;
     private int is_new_shop;
     private int scan_order_type;
+    private int try_shop;
+    private int is_view_withdraw_commission;
 
     public int getTry_shop() {
         return try_shop;
@@ -50,7 +52,6 @@ public class UserInfo implements Serializable {
         this.try_shop = try_shop;
     }
 
-    private int try_shop;
 
     public int getIs_view_withdraw_commission() {
         return is_view_withdraw_commission;
@@ -60,7 +61,6 @@ public class UserInfo implements Serializable {
         this.is_view_withdraw_commission = is_view_withdraw_commission;
     }
 
-    private int is_view_withdraw_commission;
 
     public int getScan_order_type() {
         return scan_order_type;
