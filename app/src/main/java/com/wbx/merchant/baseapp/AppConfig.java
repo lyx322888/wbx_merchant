@@ -1,8 +1,5 @@
 package com.wbx.merchant.baseapp;
-
-
 import com.wbx.merchant.base.BaseApplication;
-
 
 public class AppConfig {
     public static final String apptype = "android";

@@ -212,7 +212,6 @@
                     android:background="@color/colorWhite"
                     android:orientation="horizontal">
                     <TextView
-                        android:visibility="invisible"
                         android:layout_marginLeft="15dp"
                         android:text="*"
                         android:layout_width="wrap_content"
@@ -233,7 +232,7 @@
                         android:layout_gravity="center"
                         android:maxLength="11"
                         android:background="@null"
-                        android:hint="请输入业务员手机号（选填）"
+                        android:hint="请输入业务员手机号"
                         android:inputType="phone"
                         android:textSize="13sp" />
                 </LinearLayout>

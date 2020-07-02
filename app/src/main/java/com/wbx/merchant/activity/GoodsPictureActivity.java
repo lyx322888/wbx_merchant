@@ -185,4 +185,6 @@ public class GoodsPictureActivity extends BaseActivity {
             adapter.notifyDataSetChanged();
         }
     };
+
+
 }
