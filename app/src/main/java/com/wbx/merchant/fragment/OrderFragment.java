@@ -51,6 +51,7 @@ import com.wbx.merchant.bean.DaDaOrderTrackBean;
 import com.wbx.merchant.bean.FengNiaoOrderTrackBean;
 import com.wbx.merchant.bean.GoodsInfo;
 import com.wbx.merchant.bean.OrderInfo;
+import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.dialog.DaDaCancelReasonFragment;
 import com.wbx.merchant.utils.ToastUitl;
 import com.wbx.merchant.widget.LoadingDialog;
@@ -120,7 +121,7 @@ public class OrderFragment extends BaseFragment implements BaseRefreshListener {
     protected void fillData() {
         initLocation();
         position = getArguments().getInt(POSITION, 0);
-        mParams.put("sj_login_token", loginUser.getSj_login_token());
+        mParams.put("sj_login_token", LoginUtil.getLoginToken());
         mParams.put("page", AppConfig.pageNum);
         mParams.put("num", AppConfig.pageSize);
         int status = 0;

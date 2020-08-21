@@ -114,13 +114,6 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
     public void initView() {
         initPopCommunity();
 
-        //小千微店宝只有个人版
-        if (BaseApplication.isxqwdb) {
-            shopEdition = 1;
-            tvShopType.setText("个人版");
-            ivR.setVisibility(View.GONE);
-        }
-
     }
 
     @Override

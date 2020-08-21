@@ -1,10 +1,6 @@
 package com.wbx.merchant;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,12 +9,7 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
-
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.google.gson.Gson;
 import com.wbx.merchant.activity.LoginActivity;
 import com.wbx.merchant.activity.OrderActivity;
@@ -50,7 +41,6 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import mlxy.utils.App;
 
 public class MainActivity extends BaseActivity {
     @Bind(android.R.id.tabhost)

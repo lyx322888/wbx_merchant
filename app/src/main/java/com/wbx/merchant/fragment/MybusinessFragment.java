@@ -22,6 +22,7 @@ import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.base.BaseFragment;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.BusinessCircleBean;
+import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.utils.AdapterUtilsNew;
 import com.wbx.merchant.widget.refresh.BaseRefreshListener;
 import com.wbx.merchant.widget.refresh.PullToRefreshLayout;
@@ -90,7 +91,7 @@ public class MybusinessFragment extends BaseFragment implements BaseRefreshListe
 
     @Override
     protected void fillData() {
-        new MyHttp().doPost(Api.getDefault().getDiscoveryList(BaseApplication.getInstance().readLoginUser().getSj_login_token()), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().getDiscoveryList(LoginUtil.getLoginToken()), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 List<BusinessCircleBean> data = JSONArray.parseArray(result.getString("data"), BusinessCircleBean.class);
