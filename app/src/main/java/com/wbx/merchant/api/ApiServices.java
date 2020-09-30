@@ -58,5 +58,4 @@ public interface ApiServices {
     @POST("/sjapi/interiorshop/order")
     Observable<OrderBean> getOeder(@Field("sj_login_token") String login_token);
 
-
 }

@@ -10,6 +10,7 @@ import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumFile;
 import com.yanzhenjie.album.api.widget.Widget;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 //选择图片

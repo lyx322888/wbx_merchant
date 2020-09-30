@@ -59,9 +59,23 @@
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:resizeableActivity="false"
-        android:theme="@style/AppTheme"
-        >
-        <activity android:name=".receiver.PopupPushActivity" android:exported="true"/>
+        android:theme="@style/AppTheme">
+        <activity android:name=".activity.jhzf.DistrictActivity"></activity>
+        <activity android:name=".activity.jhzf.UploadPicturesActivity" />
+        <activity android:name=".activity.jhzf.IndustrySecondActivity" />
+        <activity android:name=".activity.jhzf.JdShopInfoActivity" />
+        <activity android:name=".activity.jhzf.StartServiceActivity" />
+        <activity android:name=".activity.jhzf.CityListActivity" />
+        <activity android:name=".activity.jhzf.BankListActivity" />
+        <activity android:name=".activity.jhzf.SubBranchActivity" />
+        <activity android:name=".activity.jhzf.ZizhiInfoActivity" />
+        <activity android:name=".activity.jhzf.CredentialsActivity" />
+        <activity android:name=".activity.jhzf.CloseAnAccountActivity" />
+        <activity android:name=".activity.jhzf.JingdongDetailActivity" />
+        <activity android:name=".activity.jhzf.AggregatePayActivity" />
+        <activity
+            android:name=".receiver.PopupPushActivity"
+            android:exported="true" />
         <activity android:name=".activity.MIneActivity" />
         <activity android:name=".activity.CompleteInformationActivity" />
         <activity android:name=".activity.ChooseShopVersionsPrwActivity" />
@@ -75,26 +89,22 @@
             android:value="375" />
         <meta-data
             android:name="design_height_in_dp"
-            android:value="667" />
-        <!-- ~~~~~~~~~~~~~~~~~~~推送~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+            android:value="667" /> <!-- ~~~~~~~~~~~~~~~~~~~推送~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <meta-data
             android:name="com.alibaba.app.appkey"
             android:value="30046069" /> <!-- 请填写你自己的- appKey -->
         <meta-data
             android:name="com.alibaba.app.appsecret"
-            android:value="0e6234dab96e923cdccceff36df78c89" />
-        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~华为~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+            android:value="0e6234dab96e923cdccceff36df78c89" /> <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~华为~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <meta-data
             android:name="com.huawei.hms.client.appid"
-            android:value="appid=100065417" />
-        <!--vivo-->
+            android:value="appid=100065417" /> <!-- vivo -->
         <meta-data
             android:name="com.vivo.push.api_key"
             android:value="3ffcbc4114738e5721fe817450010873" />
         <meta-data
             android:name="com.vivo.push.app_id"
-            android:value="100124272" />
-        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~分割线~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+            android:value="100124272" /> <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~分割线~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <activity android:name=".activity.GiftBagActivity" />
         <activity android:name=".activity.AlreadyRecommendActivity" />
         <activity android:name=".activity.MerchantRecommendActivity" />
@@ -266,7 +276,6 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5e1eb3e8570df3d4ce0004f8" />
-
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="167dd241a8344728ace1b456b8aeaa85" /> <!-- 提现 -->

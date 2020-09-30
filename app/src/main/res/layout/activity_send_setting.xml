@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".activity.SendSettingActivity">
@@ -44,254 +45,225 @@
             android:layout_width="60dp"
             android:layout_height="60dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="保存"
-                android:textColor="@color/colorWhite"
-                android:textSize="11sp" />
+
         </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="15dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
 
-        <com.amap.api.maps.MapView
-            android:id="@+id/map_view"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/bg_reference_only" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:visibility="gone"
-        android:paddingRight="15dp">
-
-        <ImageView
-            android:layout_width="19dp"
-            android:layout_height="19dp"
-            android:src="@drawable/blue_circle" />
-
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                android:text="配送范围"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:id="@+id/et_delivery_scope"
+                android:inputType="number"
+                android:layout_marginStart="5dp"
+                android:gravity="center"
+                android:hint="请输入距离店铺可配送公里数"
+                android:background="@drawable/shape_et_bg"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:minWidth="190dp"
+                android:layout_height="34dp"/>
+            <TextView
+                android:inputType="number"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                android:text="公里"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:text="配送范围"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <TextView
+            android:textSize="12sp"
+            android:textColor="@color/gray"
+            android:text="超过此设置范围，消费者将无法下单"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="6公里"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                android:text="起  送  价"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:id="@+id/et_since_money"
+                android:layout_marginStart="5dp"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:background="@drawable/shape_et_bg"
+                android:textSize="13sp"
+                android:paddingVertical="10dp"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:inputType="number"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                android:text="元"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                android:text="配送费"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:inputType="number"
+                android:id="@+id/et_logistics"
+                android:layout_marginStart="5dp"
+                android:gravity="center"
+                android:hint="请输入配送费"
+                android:background="@drawable/shape_et_bg"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:minWidth="190dp"
+                android:layout_height="34dp"/>
+            <TextView
+                android:inputType="number"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                android:text="元"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <TextView
+            android:textSize="12sp"
+            android:textColor="@color/gray"
+            android:text="配送费用由消费者承担"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:id="@+id/view_bg"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="#f7f7f7"
+                app:layout_constraintTop_toBottomOf="@+id/title_bar" />
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="消费满"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/view_bg"
+                app:layout_constraintEnd_toStartOf="@+id/money_edit"
+                app:layout_constraintStart_toStartOf="@+id/view_bg"
+                app:layout_constraintTop_toTopOf="@+id/view_bg" />
+
+            <EditText
+                android:id="@+id/et_full_minus_shipping_fee"
+                android:layout_width="140dp"
+                android:layout_height="36dp"
+                android:background="@drawable/shape_rectangle_etid"
+                android:gravity="center"
+                android:hint="请输入金额"
+                android:inputType="number"
+                app:layout_constraintBottom_toBottomOf="@+id/view_bg"
+                app:layout_constraintEnd_toStartOf="@+id/textView3"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/view_bg" />
+
+            <TextView
+                android:layout_marginRight="15dp"
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="元免配送费"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/view_bg"
+                app:layout_constraintEnd_toEndOf="@+id/view_bg"
+                app:layout_constraintStart_toEndOf="@+id/money_edit"
+                app:layout_constraintTop_toTopOf="@+id/view_bg" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="是否启用功能"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="@+id/view_bg"
+                app:layout_constraintTop_toBottomOf="@+id/view_bg" />
+
+            <TextView
+                android:id="@+id/tv_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_ok"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="启用功能"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                app:layout_constraintEnd_toStartOf="@+id/tv_close"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+            <TextView
+                android:id="@+id/tv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_round"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="关闭功能"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_open"
+                app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+            <Button
+                android:id="@+id/delivery_btn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/ova_bg_app_color"
+                android:text="保存"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/view_bg"
+                app:layout_constraintStart_toStartOf="@+id/view_bg"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="15dp"
-        android:background="@color/light_divider" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="配送区域"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/et_send_range"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:gravity="end"
-            android:hint="如A小区，B小区(用逗号隔开)"
-            android:paddingRight="15dp"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="15dp"
-        android:background="@color/light_divider" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="起送价"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <com.wbx.merchant.widget.PriceEditText
-            android:id="@+id/et_start_send_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:gravity="end"
-            android:hint="请输入起送价"
-            android:paddingRight="15dp"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="15dp"
-        android:background="@color/light_divider" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="配送费"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <com.wbx.merchant.widget.PriceEditText
-            android:id="@+id/et_send_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:gravity="end"
-            android:hint="请输入配送费"
-            android:paddingRight="15dp"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:background="@color/page_background"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:paddingLeft="15dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="※超出配送范围设置"
-            android:textColor="#6B6B6B" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="（超出6公里商家自行配送）"
-            android:textColor="#F60909" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="每增加"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/et_kilometre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:gravity="end"
-            android:hint="请输入公里数(选填)"
-            android:inputType="number"
-            android:paddingRight="15dp"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="15dp"
-        android:background="@color/light_divider" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="配送费增加"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <com.wbx.merchant.widget.PriceEditText
-            android:id="@+id/et_per_send_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:gravity="end"
-            android:hint="请输入配送费(选填)"
-            android:paddingRight="15dp"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/page_background" />
 </LinearLayout>

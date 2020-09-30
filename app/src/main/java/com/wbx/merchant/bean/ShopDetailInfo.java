@@ -56,6 +56,16 @@ public class ShopDetailInfo implements Serializable {
     private String lng;
     private int is_daofu_pay;
 
+    private int duolabao_step;
+
+
+    public int getDuolabao_step() {
+        return duolabao_step;
+    }
+
+    public void setDuolabao_step(int duolabao_step) {
+        this.duolabao_step = duolabao_step;
+    }
     public int getEvery_exceed_kilometre() {
         return every_exceed_kilometre;
     }

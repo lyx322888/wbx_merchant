@@ -29,13 +29,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/ll_qjb"
                 android:layout_marginTop="5dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/et_zfm"
+                    android:paddingHorizontal="10dp"
+                    android:textSize="13sp"
+                    android:hint="请输入支付码"
+                    android:background="@drawable/shape_et_bg"
+                    android:layout_width="200dp"
+                    android:layout_height="35dp">
+                </EditText>
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_price"
                     android:text="开店宝【试用版】"
                     android:textSize="25sp"

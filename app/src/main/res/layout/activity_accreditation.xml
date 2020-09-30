@@ -39,7 +39,7 @@
 
         <RelativeLayout
             android:layout_width="60dp"
-            android:layout_height="60dp"></RelativeLayout>
+            android:layout_height="60dp"/>
     </LinearLayout>
 
     <ScrollView
@@ -198,7 +198,7 @@
     <Button
         android:id="@+id/submit_authentication_btn"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="50dp"
         android:layout_margin="16dp"
         android:background="@drawable/ova_bg_app_color"
         android:text="上传认证"

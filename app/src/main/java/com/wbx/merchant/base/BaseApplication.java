@@ -69,6 +69,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
+import me.jessyan.autosize.AutoSizeConfig;
 
 
 /**
@@ -91,6 +92,7 @@ public class BaseApplication extends MultiDexApplication {
         instance = this;
         init();
         closeAndroidPDialog();
+
     }
 
     /**
@@ -128,6 +130,14 @@ public class BaseApplication extends MultiDexApplication {
         initInUiThread();
 
         isxqwdb = TextUtils.equals(SystemUtils.getAppMetaData(this, AppConfig.UMENG_CHANNEL),"xqwdb");
+
+        //屏幕适配
+        AutoSizeConfig.getInstance()
+                .setBaseOnWidth(true)
+                .getUnitsManager()
+                .setDesignHeight(667)
+                .setSupportDP(true)
+                .setSupportSP(true);
     }
 
     private void initInUiThread() {

@@ -60,19 +60,19 @@ public class NoDeliveryFeeActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_open:
-                flag = 0;
+                flag = 1;
                 moneyEdit.setEnabled(true);
                 setDrawable(tvOpen, R.drawable.ic_ok);
                 setDrawable(tvClose, R.drawable.ic_round);
                 break;
             case R.id.tv_close:
-                flag = 1;
+                flag = 0;
                 moneyEdit.setEnabled(false);
                 setDrawable(tvOpen, R.drawable.ic_round);
                 setDrawable(tvClose, R.drawable.ic_ok);
                 break;
             case R.id.delivery_btn:
-                if (flag == 0 && TextUtils.isEmpty(moneyEdit.getText().toString())) {
+                if (flag == 1 && TextUtils.isEmpty(moneyEdit.getText().toString())) {
                     ToastUitl.showShort("请输入金额");
                     return;
                 }
@@ -91,14 +91,14 @@ public class NoDeliveryFeeActivity extends BaseActivity {
                 moneyEdit.setText(String.valueOf(info.getData().getFull_minus_shipping_fee()/100.00));
                 if (info.getData().getIs_full_minus_shipping_fee()==1){
                     flag = 1;
-                    moneyEdit.setEnabled(false);
-                    setDrawable(tvOpen, R.drawable.ic_round);
-                    setDrawable(tvClose, R.drawable.ic_ok);
-                }else {
-                    flag = 0;
                     moneyEdit.setEnabled(true);
                     setDrawable(tvOpen, R.drawable.ic_ok);
                     setDrawable(tvClose, R.drawable.ic_round);
+                }else {
+                    flag = 0;
+                    moneyEdit.setEnabled(false);
+                    setDrawable(tvOpen, R.drawable.ic_round);
+                    setDrawable(tvClose, R.drawable.ic_ok);
                 }
             }
 

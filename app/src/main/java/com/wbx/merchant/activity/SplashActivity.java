@@ -21,8 +21,6 @@ import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
-
-
 /**
  * Created by wushenghui on 2017/6/20.
  */
@@ -38,6 +36,8 @@ public class SplashActivity extends BaseActivity {
     public void initPresenter() {
 
     }
+
+
 
     @Override
     public void initView() {

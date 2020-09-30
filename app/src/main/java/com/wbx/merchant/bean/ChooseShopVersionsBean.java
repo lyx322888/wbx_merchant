@@ -61,6 +61,7 @@ public class ChooseShopVersionsBean {
         private String present;
         private int is_recommend;
         private String order_img;
+        private String payment_code;
         public boolean is_choose = false;
 
         public String getShop_grade() {
@@ -78,7 +79,13 @@ public class ChooseShopVersionsBean {
         public void setTitle(String title) {
             this.title = title;
         }
+        public String getPayment_code() {
+            return payment_code;
+        }
 
+        public void setPayment_code(String payment_code) {
+            this.payment_code = payment_code;
+        }
         public int getGrade_type() {
             return grade_type;
         }

@@ -2,12 +2,21 @@ package com.wbx.merchant.api;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.io.File;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
+import retrofit2.http.Path;
 import retrofit2.http.Url;
 import rx.Observable;
 
@@ -78,6 +87,16 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/sjapi/Kaidianbao/get_shop_grade_info")
     Observable<JSONObject> get_shop_grade_info(@Field("sj_login_token") String loginToken);
+
+    //版本选择信息 开店宝版
+    @FormUrlEncoded
+    @POST("/sjapi/Kaidianbao/get_shop_grade_info_two")
+    Observable<JSONObject> get_shop_grade_info_two(@Field("sj_login_token") String loginToken);
+
+    //支付码
+    @FormUrlEncoded
+    @POST("/sjapi/Kaidianbao/payment_code_pay")
+    Observable<JSONObject> payment_code_pay(@FieldMap Map<String, Object> params);
 
     //设置店铺分类
     @FormUrlEncoded
@@ -1033,12 +1052,122 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/sjapi/Kaidianbao/add_shop_identity")
     Observable<JSONObject> addShopIdentity(@FieldMap Map<String,Object> params);
+
     //活动管理
     @FormUrlEncoded
     @POST("/sjapi/Shopactivity/get_shop_activity")
     Observable<JSONObject> getShopActivity(@Field("sj_login_token") String login_token);
+
     //是否退出登录
     @FormUrlEncoded
     @POST("/sjapi/user/get_need_login")
     Observable<JSONObject> getNeedLogin(@Field("sj_login_token") String login_token,@Field("version_code") String versionCode);
+
+    //行业类型
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/list_industry")
+    Observable<JSONObject> list_industry(@Field("sj_login_token") String login_token);
+
+    //二级行业
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/list_industry_second")
+    Observable<JSONObject> list_industry_second(@Field("sj_login_token") String login_token,@Field("industryNum") String industryNum);
+
+    //京东信息提交
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/add_customerinfo")
+    Observable<JSONObject> add_customerinfo(@FieldMap Map<String,Object> params);
+
+    //订单列表
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/list_order")
+    Observable<JSONObject> list_order(@FieldMap Map<String,Object> params);
+
+    //银行列表
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/list_bank")
+    Observable<JSONObject> list_bank(@Field("sj_login_token") String sj_login_token,@Field("keyword") String keyword);
+
+    //支行列表
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/list_bankSub")
+    Observable<JSONObject> list_bankSub(@Field("sj_login_token") String sj_login_token,@Field("keyword") String keyword,@Field("bankCode") String bankCode);
+
+     //获取省份
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/list_province")
+    Observable<JSONObject> list_province(@Field("sj_login_token") String sj_login_token);
+
+    //获取城市
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/list_city")
+    Observable<JSONObject> list_city(@Field("sj_login_token") String sj_login_token,@Field("code") String code);
+
+    //支付银行
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/list_bankinfo")
+    Observable<JSONObject> list_bankinfo(@Field("sj_login_token") String sj_login_token);
+
+    //设置结算信息
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/add_customerinfo_declare")
+    Observable<JSONObject> add_customerinfo_declare(@FieldMap Map<String,Object> params);
+
+    //店铺信息
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/add_declare_shopinfo")
+    Observable<JSONObject> create(@FieldMap Map<String,Object> params);
+
+    //图片上传
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/upload_attach")
+    Observable<JSONObject> upload_attach(@Field("sj_login_token") String sj_login_token,@Field("attachType") String attachType,@Field("file") String file);
+
+    //提交报单
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/declare_complete")
+    Observable<JSONObject> declare_complete(@Field("sj_login_token") String sj_login_token);
+
+    //确认报单
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/declare_complete_confirm")
+    Observable<JSONObject> declare_complete_confirm(@Field("sj_login_token") String sj_login_token);
+
+    //获取附件
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/get_attach")
+    Observable<JSONObject> get_attach(@Field("sj_login_token") String sj_login_token);
+
+    //修改附件
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/update_attach")
+    Observable<JSONObject> update_attach(@Field("sj_login_token") String sj_login_token,@Field("attachType") String attachType,@Field("file") String file,@Field("attachNum") String attachNum);
+
+    //获取单个附件
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/get_attach_one")
+    Observable<JSONObject> get_attach_one(@Field("sj_login_token") String sj_login_token,@Field("attachType") String attachType);
+
+    //行业类型
+    @FormUrlEncoded
+    @POST("/sjapi/Kaidianbao/get_shop_grade")
+    Observable<JSONObject> get_shop_grade(@Field("sj_login_token") String sj_login_token);
+
+    //区域
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/list_district")
+    Observable<JSONObject> list_district(@Field("sj_login_token") String sj_login_token,@Field("code") String code);
+
+
+    //获取配送管理
+    @FormUrlEncoded
+    @POST("/sjapi/user/get_delivery_manage")
+    Observable<JSONObject> get_delivery_manage(@Field("sj_login_token") String sj_login_token);
+
+    //配送管理
+    @FormUrlEncoded
+    @POST("/sjapi/user/update_delivery_manage")
+    Observable<JSONObject> update_delivery_manage(@FieldMap Map<String,Object> params);
+
+
 }

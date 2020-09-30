@@ -38,6 +38,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wbx.merchant.R;
 import com.wbx.merchant.activity.AccreditationActivity;
 import com.wbx.merchant.activity.ActivityManagerActivity;
+import com.wbx.merchant.activity.jhzf.AggregatePayActivity;
 import com.wbx.merchant.activity.BookSeatActivity;
 import com.wbx.merchant.activity.BusinessMustActivity;
 import com.wbx.merchant.activity.ChooseShopVersionsPrwActivity;
@@ -65,7 +66,6 @@ import com.wbx.merchant.activity.SeatActivity;
 import com.wbx.merchant.activity.SendSettingActivity;
 import com.wbx.merchant.activity.StoreManagerActivity;
 import com.wbx.merchant.activity.WebActivity;
-import com.wbx.merchant.activity.WebSetUpShopActivity;
 import com.wbx.merchant.adapter.ShareShopGoodsAdapter;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
@@ -392,6 +392,7 @@ public class IndexFragment extends BaseFragment {
         List<Drawable> imgurl = new ArrayList<>();
 //        imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.prw));
 //        imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.cwdz));
+        imgurl.add(ContextCompat.getDrawable(getContext(), R.mipmap.ic_jhzf));
         imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.vidio_study));
         xbannerView.setBannerStyle(BannerConfig.NOT_INDICATOR);
         xbannerView.setImages(imgurl).setDelayTime(10000).setImageLoader(new GlideImageLoader()).start();
@@ -400,6 +401,7 @@ public class IndexFragment extends BaseFragment {
             public void OnBannerClick(int position) {
                 switch (position) {
                     case 0:
+                        startActivity(new Intent(getContext(),AggregatePayActivity.class));
 //                        WebSetUpShopActivity.actionStart(getContext(), String.format("http://www.wbx365.com/Wbxwaphome/openstore#/record?uid=%s", loginUser.getSj_login_token()));
                         break;
                     case 1:
@@ -523,63 +525,13 @@ public class IndexFragment extends BaseFragment {
         balanceTv.setText(String.format(gold == 0 ? "¥0.00" : "¥%.2f", gold / 100.00));
         GlideUtils.showMediumPic(getActivity(), indexHeadIm, shopInfo.getPhoto());
         indexShopNameTv.setText(shopInfo.getShop_name());
-//        //认证判断
-//        if (!TextUtils.isEmpty(shopInfo.getReturn_reason())) {
-//            //被驳回 Return_reason为空
-//            attestationStateTv.setText("被驳回");
-//            //returned_type 1 食品证的问题  returned_type 2 资质的问题
-//            AlertNextDialog alertNextDialog = AlertNextDialog.newInstance(shopInfo.getReturn_reason(), shopInfo.getReturned_type());
-//            alertNextDialog.show(getActivity().getSupportFragmentManager(), "");
-//        } else {
-//            if (shopInfo.getIs_renzheng() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0)) {
-//                //已认证并且有食品许可证或者该店不需要食品许可证
-//                attestationStateTv.setText("查看资质");
-//            } else if (shopInfo.getIs_add_audit() == 1 && (!TextUtils.isEmpty(shopInfo.getHygiene_photo()) || shopInfo.getHas_hygiene_photo() == 0) && shopInfo.getIs_renzheng() == 0) {
-//                //已经添加资料但是认证还未通过
-//                attestationStateTv.setText("审核中");
-//            } else {
-//                attestationStateTv.setText("未认证");
-//                Boolean isNoAskAgain = SPUtils.getSharedBooleanData(getActivity(), AppConfig.NO_ASK_AGAIN_ACCREDITATION);
-//                if (!isNoAskAgain) {
-//                    if (shopInfo.getIs_add_audit() == 1) {
-//                        AlertUploadAccreditationDialog uploadAccreditationDialog = AlertUploadAccreditationDialog.newInstance(true);
-//                        uploadAccreditationDialog.show(getActivity().getSupportFragmentManager(), "");
-//                    } else {
-//                        AlertUploadAccreditationDialog uploadAccreditationDialog = AlertUploadAccreditationDialog.newInstance(false);
-//                        uploadAccreditationDialog.show(getActivity().getSupportFragmentManager(), "");
-//                    }
-//                }
-//            }
-//        }
+
 
 
         if (shopInfo.getIs_dispatching_money_activity() == 0) {
             DaDaCouponDialog.newInstance().show(getFragmentManager(), "");
         }
-//        //奖励活动  is_view_withdraw_commission 1显示  0不显示
-//        if (shopInfo.getShop_grade() == 6 && SPUtils.getSharedIntData(getContext(), "is_view_withdraw_commission") == 1) {
-//            Boolean flag = SPUtils.getSharedBooleanData(getContext(), "flag");
-//            if (Awardflag == flag) {
-//                ll_award.setVisibility(View.VISIBLE);
-//                tv_customized.setText((int) shopInfo.getOrder_money() / 100 + "");
-//                customized.setMaxCount(progressMax);
-//                customized.setCurrentCount(shopInfo.getOrder_money());
-//                bt_cash_withdrawal.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        if (shopInfo.getOrder_money() / 100 < 30000) {
-//                            ToastUitl.showShort("未到达活动金额,无法提现！");
-//                            return;
-//                        }
-//                        startActivityForResult(AwardCashActivity.class, 0);
-//                    }
-//                });
-//            } else {
-//                ll_award.setVisibility(View.GONE);
-//            }
-//        } else {
-//            ll_award.setVisibility(View.GONE);
-//        }
+
     }
 
     //更新店铺状态

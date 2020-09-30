@@ -3,8 +3,6 @@ package com.wbx.merchant.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +40,6 @@ import com.wbx.merchant.bean.CateInfo;
 import com.wbx.merchant.fragment.GoodsManagerFragment;
 import com.wbx.merchant.utils.SPUtils;
 import com.wbx.merchant.utils.SpannableStringUtils;
-import com.wbx.merchant.utils.ToolsSize;
 import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
 
@@ -50,13 +47,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.functions.Action1;
 
 /**
- * Created by wushenghui on 2017/6/20.
  * 商品管理
  */
 public class GoodsManagerActivity extends BaseActivity {
@@ -156,10 +151,9 @@ public class GoodsManagerActivity extends BaseActivity {
                             startActivity(new Intent(mContext, ChooseShopVersionsPrwActivity.class));
                         }
                     });
-
-
         }
     }
+
     @Override
     public void fillData() {
     }

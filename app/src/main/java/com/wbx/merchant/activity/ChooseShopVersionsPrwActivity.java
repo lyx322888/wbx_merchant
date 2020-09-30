@@ -38,6 +38,7 @@ import com.wbx.merchant.bean.WxPayInfo;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.utils.SPUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -105,8 +106,6 @@ public class ChooseShopVersionsPrwActivity extends BaseActivity {
                     break;
             }
         }
-
-        ;
     };
     @Override
     public int getLayoutId() {
@@ -135,10 +134,16 @@ public class ChooseShopVersionsPrwActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 chooseShopVersionsAdapter.chooseVersion(position);
-                if (position == 0) {
-                    payBtn.setText("确认支付");
-                } else {
-                    payBtn.setText("确认支付 ￥" + chooseShopVersionsAdapter.getData().get(position).getMoney() / 100);
+                switch (position){
+                    case 0:
+                        payBtn.setText("确认支付");
+                        break;
+                    case 1:
+                        payBtn.setText("确认支付 ￥" + chooseShopVersionsAdapter.getData().get(position).getMoney() / 100);
+                        break;
+                    case 2:
+                        payBtn.setText("确认支付");
+                        break;
                 }
                 dataBean = chooseShopVersionsAdapter.getItem(position);
             }
@@ -147,8 +152,7 @@ public class ChooseShopVersionsPrwActivity extends BaseActivity {
 
     @Override
     public void fillData() {
-
-        new MyHttp().doPost(Api.getDefault().get_shop_grade_info(LoginUtil.getLoginToken()), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().get_shop_grade_info_two(LoginUtil.getLoginToken()), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 ChooseShopVersionsBean bean = new Gson().fromJson(result.toString(), ChooseShopVersionsBean.class);
@@ -166,7 +170,6 @@ public class ChooseShopVersionsPrwActivity extends BaseActivity {
     public void setListener() {
 
     }
-
 
     @OnClick({R.id.ali_pay_layout, R.id.wx_pay_layout, R.id.pay_btn})
     public void onClick(View view) {
@@ -190,6 +193,13 @@ public class ChooseShopVersionsPrwActivity extends BaseActivity {
                     SPUtils.setSharedBooleanData(mContext, AppConfig.LOGIN_STATE, true);
                     AppManager.getAppManager().finishAllActivity();
                     startActivity(new Intent(mContext, MainActivity.class));
+                }else if (dataBean.getGrade_type()==4){
+                    //支付码支付
+                    if (!TextUtils.isEmpty(dataBean.getPayment_code())){
+                        payment_code();
+                    }else {
+                        showShortToast("请输入支付码");
+                    }
                 }else {
                     if (TextUtils.isEmpty(payMode)) {
                         showShortToast("请选择支付方式");
@@ -201,6 +211,26 @@ public class ChooseShopVersionsPrwActivity extends BaseActivity {
                 break;
         }
     }
+
+     private void payment_code(){
+         HashMap<String,Object> hashMap = new HashMap<>();
+         hashMap.put("sj_login_token",LoginUtil.getLoginToken());
+         hashMap.put("type","apply");
+         hashMap.put("shop_grade",dataBean.getShop_grade());
+         hashMap.put("grade_type",dataBean.getGrade_type());
+         hashMap.put("payment_code",dataBean.getPayment_code());
+        new MyHttp().doPost(Api.getDefault().payment_code_pay(hashMap), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                getServiceEndTime();
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+     }
 
     //支付
     private void goPay() {
@@ -236,6 +266,7 @@ public class ChooseShopVersionsPrwActivity extends BaseActivity {
             }
         });
     }
+
     //微信支付
     private void startWxPay(WxPayInfo wxPayInfo) {
         genPayReq(wxPayInfo);

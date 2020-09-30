@@ -1,6 +1,9 @@
 package com.wbx.merchant.adapter;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -20,7 +23,7 @@ public class ChooseShopVersionsAdapter extends BaseQuickAdapter<ChooseShopVersio
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ChooseShopVersionsBean.DataBean item) {
+    protected void convert(final BaseViewHolder helper, final ChooseShopVersionsBean.DataBean item) {
         GlideUtils.showMediumPic(mContext, (ImageView) helper.getView(R.id.iv_photo),item.getOrder_img());
         helper.setText(R.id.tv_description,item.getPresent())
                 .setText(R.id.tv_mfty,item.getPresent())
@@ -51,13 +54,44 @@ public class ChooseShopVersionsAdapter extends BaseQuickAdapter<ChooseShopVersio
                 //旗舰版 12个月
                 helper.getView(R.id.ll_qjb).setVisibility(View.VISIBLE);
                 helper.getView(R.id.tv_mfty).setVisibility(View.GONE);
+                helper.getView(R.id.tv_price).setVisibility(View.VISIBLE);
+                helper.getView(R.id.et_zfm).setVisibility(View.GONE);
                 break;
-            default :
+            case 3 :
                 //旗舰版 24个月
                 helper.getView(R.id.ll_qjb).setVisibility(View.VISIBLE);
                 helper.getView(R.id.tv_mfty).setVisibility(View.GONE);
+                helper.getView(R.id.tv_price).setVisibility(View.VISIBLE);
+                helper.getView(R.id.et_zfm).setVisibility(View.GONE);
+                break;
+            case 4 :
+                // 支付码
+                helper.getView(R.id.ll_qjb).setVisibility(View.VISIBLE);
+                helper.getView(R.id.tv_price).setVisibility(View.GONE);
+                helper.getView(R.id.et_zfm).setVisibility(View.VISIBLE);
+                helper.getView(R.id.tv_mfty).setVisibility(View.GONE);
                 break;
         }
+
+        EditText editText =helper.getView(R.id.et_zfm);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                item.setPayment_code(s.toString());
+            }
+        });
+
+
     }
 
     //重置

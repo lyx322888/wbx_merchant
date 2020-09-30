@@ -26,6 +26,7 @@ import com.wbx.merchant.bean.UpdataBean;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.dialog.ConfirmDialog;
 import com.wbx.merchant.dialog.NoticeDialog;
+import com.wbx.merchant.fragment.HomeFragment;
 import com.wbx.merchant.fragment.IndexFragment;
 import com.wbx.merchant.fragment.MemberManageFragment;
 import com.wbx.merchant.fragment.MineFragment;
@@ -117,7 +118,7 @@ public class MainActivity extends BaseActivity {
     private void initIndexFragment() {
         View mainTabView = getTabItemView(R.drawable.yst_index_tab_btn_selector, "首页");
         TabHost.TabSpec tabSpec = mTabHost.newTabSpec("index").setIndicator(mainTabView);
-        mTabHost.addTab(tabSpec, IndexFragment.class, null);
+        mTabHost.addTab(tabSpec, HomeFragment.class, null);
     }
 
     @Override

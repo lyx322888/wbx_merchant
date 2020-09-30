@@ -1,8 +1,11 @@
 package com.wbx.merchant.utils;
 
+import android.content.Context;
 import android.os.Environment;
 
+import java.io.Closeable;
 import java.io.File;
+import java.io.RandomAccessFile;
 
 public class FileUtils {
     private static final String SD_PATH = Environment.getExternalStorageDirectory().getPath();
@@ -30,5 +33,47 @@ public class FileUtils {
                 file.delete();
             }
         }
+    }
+
+    //缓存目录
+    public static File getCacheDir(Context context, String cacheName) {
+        File cacheDir = context.getExternalCacheDir();
+        if (cacheDir != null) {
+            File result = new File(cacheDir, cacheName);
+            if (!result.mkdirs() && (!result.exists() || !result.isDirectory())) {
+                // File wasn't able to create a directory, or the result exists but not a directory
+                return null;
+            }
+            return result;
+        }
+        return null;
+    }
+
+    //file文件读取成byte[]
+    public static byte[] readFile(File file) {
+        RandomAccessFile rf = null;
+        byte[] data = null;
+        try {
+            rf = new RandomAccessFile(file, "r");
+            data = new byte[(int) rf.length()];
+            rf.readFully(data);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        } finally {
+            closeQuietly(rf);
+        }
+        return data;
+    }
+
+    //关闭读取file
+    public static void closeQuietly(Closeable closeable) {
+        try {
+            if (closeable != null) {
+                closeable.close();
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
     }
 }

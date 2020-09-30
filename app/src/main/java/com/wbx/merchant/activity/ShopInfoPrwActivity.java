@@ -2,14 +2,12 @@ package com.wbx.merchant.activity;
 
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +24,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.bigkoo.pickerview.OptionsPickerView;
+import com.google.gson.Gson;
 import com.wbx.merchant.MainActivity;
 import com.wbx.merchant.R;
 import com.wbx.merchant.api.Api;
@@ -36,6 +35,8 @@ import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.baseapp.AppManager;
 import com.wbx.merchant.bean.JoinAddressInfo;
+import com.wbx.merchant.bean.ShopGradeBean;
+import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.utils.FormatUtil;
 import com.wbx.merchant.utils.PermissionsChecker;
 import com.wbx.merchant.utils.SPUtils;
@@ -82,6 +83,8 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
     ImageView ivR;
     @Bind(R.id.agency_account_edit)
     EditText agencyAccountEdit;
+    @Bind(R.id.tv_grade_type)
+    TextView tvGradeType;
     private List<JoinAddressInfo> addressInfos;
 
     private static final String[] PERMISSIONS_CONTACT = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -93,10 +96,11 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
     private int shopEdition = 2;//1个人版 2实体店
     private int cityId;
     private int countyId;
+    private String grade_id = "";
 
     private AddressBottomDialog addressBottomDialog;
     private OptionsPickerView pvOptions;
-
+    private OptionsPickerView pvOptionsHylx;
 
 
     @Override
@@ -118,7 +122,7 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
 
     @Override
     public void fillData() {
-
+        getHylx();
     }
 
     @Override
@@ -219,10 +223,16 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
             showShortToast("请点击获取定位地址");
             return false;
         }
+
+        if (TextUtils.isEmpty(grade_id)) {
+            showShortToast("请选择行业类型");
+            return false;
+        }
+
         return true;
     }
 
-    @OnClick({R.id.choose_shop_address_layout, R.id.get_location_btn, R.id.choose_shop_type, R.id.shop_info_next_btn})
+    @OnClick({R.id.choose_grade_type, R.id.choose_shop_address_layout, R.id.get_location_btn, R.id.choose_shop_type, R.id.shop_info_next_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.choose_shop_address_layout:
@@ -243,6 +253,14 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
                 //店铺类型
                 if (!BaseApplication.isxqwdb) {
                     pvOptions.show();
+                }
+                break;
+            case R.id.choose_grade_type:
+                //行业类型
+                if (pvOptionsHylx!=null){
+                 pvOptionsHylx.show();
+                }else {
+                    getHylx();
                 }
                 break;
             case R.id.shop_info_next_btn:
@@ -269,7 +287,6 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
             }
         }).setSubmitText("确定")//确定按钮文字
                 .setCancelText("取消")//取消按钮文字
-                .setTitleText("社区选择")//标题
                 .setSubCalSize(18)//确定和取消文字大小
                 .setTitleSize(20)//标题文字大小
                 .setTitleColor(ContextCompat.getColor(mContext, R.color.black))//标题文字颜色
@@ -288,6 +305,39 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
 
     }
 
+    private void initHylx(final List<ShopGradeBean.DataBean> data) {
+        //数据源
+        final List<String> strings = new ArrayList<>();
+
+        for (ShopGradeBean.DataBean bean : data) {
+            strings.add(bean.getGrade_name());
+
+        }
+        pvOptionsHylx = new OptionsPickerView(new OptionsPickerView.Builder(mContext, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                grade_id = data.get(options1).getGrade_id();
+                tvGradeType.setText(strings.get(options1));
+            }
+        }).setSubmitText("确定")//确定按钮文字
+                .setCancelText("取消")//取消按钮文字
+                .setSubCalSize(18)//确定和取消文字大小
+                .setTitleSize(20)//标题文字大小
+                .setTitleColor(ContextCompat.getColor(mContext, R.color.black))//标题文字颜色
+                .setSubmitColor(ContextCompat.getColor(mContext, R.color.app_color))//确定按钮文字颜色
+                .setCancelColor(ContextCompat.getColor(mContext, R.color.black))//取消按钮文字颜色
+//                .setTitleBgColor(0xFF333333)//标题背景颜色 Night mode
+//                .setBgColor(0xFF000000)//滚轮背景颜色 Night mode
+                .setContentTextSize(18)//滚轮文字大小
+                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                .setCyclic(false, false, false)//循环与否
+                .setSelectOptions(1)  //设置默认选中项
+                .setOutSideCancelable(true)//点击外部dismiss default true
+        );
+        pvOptionsHylx.setPicker(strings);//添加数据源
+
+
+    }
 
     //获取城市及商圈等数据
     private void getCityList() {
@@ -308,6 +358,21 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
         });
     }
 
+    private void getHylx() {
+        new MyHttp().doPost(Api.getDefault().get_shop_grade(LoginUtil.getLoginToken()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                ShopGradeBean bean = new Gson().fromJson(result.toString(), ShopGradeBean.class);
+                initHylx(bean.getData());
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+    }
+
 
     //提交店铺信息
     private void addShopInfo() {
@@ -319,10 +384,11 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
         mParams.put("addr", addressEdit.getText().toString());//详细地址
         mParams.put("lat", lat);
         mParams.put("city_id", cityId);
-        if (!TextUtils.isEmpty(agencyAccountEdit.getText().toString())){
+        if (!TextUtils.isEmpty(agencyAccountEdit.getText().toString())) {
             mParams.put("yewuyuan_id", agencyAccountEdit.getText().toString());//代理账号
         }
         mParams.put("area_id", countyId);
+        mParams.put("grade_id", grade_id);
 //        mParams.put("is_douyin", );
         mParams.put("shop_edition", shopEdition);
         mParams.put("lng", lng);

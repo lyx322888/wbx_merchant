@@ -65,4 +65,6 @@
     <color name="fonta4">#A4A3A3</color>
     <color name="font_phb">#FDA457</color>
     <color name="font_phb_s">#EC5A20</color>
+    <color name="font_home">#CDFDFA</color>
+
 </resources>

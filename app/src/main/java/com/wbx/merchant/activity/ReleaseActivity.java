@@ -377,6 +377,8 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
             return POSITION_NONE;
         }
     };
+
+
     @OnClick({R.id.rl_add_pic, R.id.iv_add_pic, R.id.release_btn, R.id.add_classify_layout, R.id.choose_cate_layout, R.id.is_spec_layout, R.id.ll_spec_attr})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -563,7 +565,9 @@ public class ReleaseActivity extends BaseActivity implements OptionsPickerView.O
 
         mParams.put("photo", mGoodInfo.getGoods_photo() == null ? "" : TextUtils.join(",", mGoodInfo.getGoods_photo()));//商品图片(头部)
         mParams.put("photos", mGoodInfo.getPhotos() == null ? "" : TextUtils.join(",", mGoodInfo.getPhotos()));//商品详情图(底部)
-        mParams.put("goods_attr", JSONArray.toJSON(mGoodInfo.getGoods_attr()));
+        if (mGoodInfo.getGoods_attr()!=null){
+            mParams.put("goods_attr", JSONArray.toJSON(mGoodInfo.getGoods_attr()));
+        }
         mParams.put(userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET ? "cate_id" : "shopcate_id", mGoodInfo.getCate_id());//商品分类
         mParams.put(userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET ? "product_id" : "goods_id", mGoodInfo.getProduct_id());//产品ID
         new MyHttp().doPost(Api.getDefault().releaseGoods(mParams), new HttpListener() {
