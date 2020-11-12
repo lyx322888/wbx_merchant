@@ -24,6 +24,7 @@ import com.wbx.merchant.base.BaseAdapter;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.MaterialInfoBean;
 import com.wbx.merchant.bean.ProductJson;
+import com.wbx.merchant.widget.LoadingDialog;
 import com.wbx.merchant.widget.iosdialog.AlertDialog;
 
 import java.util.ArrayList;
@@ -36,7 +37,6 @@ import rx.Observable;
 /**
  * Created by Administrator on 2017/11/6 0006.
  */
-
 public class ProductReleaseActivity extends BaseActivity {
     private List<MaterialInfoBean.ProductBean> dataList = new ArrayList<>();
     private List<ProductJson> productJsonList = new ArrayList<>();
@@ -137,6 +137,7 @@ public class ProductReleaseActivity extends BaseActivity {
             productJsonList.add(productJson);
         }
         String jsonString = JSON.toJSONString(productJsonList);
+        LoadingDialog.showDialogForLoading(mActivity);
         Observable<JSONObject> j = Api.getDefault().getproductrelease(userInfo.getSj_login_token(),
                 jsonString);
         new MyHttp().doPost(j, new HttpListener() {
@@ -169,5 +170,6 @@ public class ProductReleaseActivity extends BaseActivity {
                 }
             }
         });
+
     }
 }
