@@ -15,11 +15,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.flyco.roundview.RoundTextView;
+import com.google.gson.Gson;
 import com.wbx.merchant.R;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.bean.CustomerinfoDeclareBean;
 import com.wbx.merchant.bean.PayBankListBean;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.dialog.ConfirmDialog;
@@ -81,7 +83,8 @@ public class CloseAnAccountActivity extends BaseActivity {
     private PayBankListBean payBankListBean;
     private String province = "";
     private String city = "";
-
+    //是否修改
+    boolean isUpdata = false;
     @Override
     public int getLayoutId() {
         return R.layout.activity_close_an_account;
@@ -99,6 +102,35 @@ public class CloseAnAccountActivity extends BaseActivity {
 
     @Override
     public void fillData() {
+        new MyHttp().doPost(Api.getDefault().get_customerinfo_declare(LoginUtil.getLoginToken()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                CustomerinfoDeclareBean customerinfoDeclareBean =new Gson().fromJson(result.toString(),CustomerinfoDeclareBean.class);
+                setData(customerinfoDeclareBean.getData());
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+    }
+
+    private void setData(CustomerinfoDeclareBean.DataBean data) {
+        isUpdata = true;
+        zhLxType = data.getAccountType();
+        tvSzyh.setText(data.getBankName());
+        etJskh.setText(data.getBankAccountNum());
+        tvSzzh.setText(data.getBankBranchName());
+        etJsr.setText(data.getBankAccountName());
+        province = data.getProvince();
+        city = data.getCity();
+        tvKhsy.setText(province+"-"+city);
+        etPhone.setText(data.getPhone());
+        etJsrSfz.setText(data.getSettlerCertificateCode());
+        tvStartTime.setText(data.getSettlerCertificateStartDate());
+        tvEndTime.setText(data.getSettlerCertificateEndDate());
+        tvZhlx.setText("法人");
 
     }
 
@@ -189,7 +221,15 @@ public class CloseAnAccountActivity extends BaseActivity {
                 StartServiceActivity.actionStart(mActivity, payBankListBean);
                 break;
             case R.id.tv_submit:
-                submit();
+                if (TextUtils.isEmpty(zhLxType)) {
+                    showShortToast("请选择账号类型");
+                    return;
+                }
+                if (isUpdata){
+                    updata();
+                }else {
+                    submit();
+                }
                 break;
         }
     }
@@ -208,10 +248,6 @@ public class CloseAnAccountActivity extends BaseActivity {
 
     //提交
     private void submit() {
-        if (TextUtils.isEmpty(zhLxType)) {
-            showShortToast("请选择账号类型");
-            return;
-        }
 
         LoadingDialog.showDialogForLoading(mActivity);
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -232,6 +268,39 @@ public class CloseAnAccountActivity extends BaseActivity {
         }
 
         new MyHttp().doPost(Api.getDefault().add_customerinfo_declare(hashMap), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                showShortToast("设置成功");
+                startActivity(new Intent(mContext, JdShopInfoActivity.class));
+            }
+
+            @Override
+            public void onError(int code) {
+            }
+        });
+    }
+
+    //修改
+    private void updata( ){
+        LoadingDialog.showDialogForLoading(mActivity);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sj_login_token", LoginUtil.getLoginToken());
+        hashMap.put("accountType", zhLxType);
+        hashMap.put("bankName", tvSzyh.getText().toString());
+        hashMap.put("bankAccountNum", etJskh.getText().toString());
+        hashMap.put("bankBranchName", tvSzzh.getText().toString());
+        hashMap.put("bankAccountName", etJsr.getText().toString());
+        hashMap.put("province", province);
+        hashMap.put("city", city);
+        hashMap.put("phone", etPhone.getText().toString());
+        hashMap.put("settlerCertificateCode", etJsrSfz.getText().toString());
+        hashMap.put("settlerCertificateStartDate",tvStartTime.getText().toString());
+        hashMap.put("settlerCertificateEndDate",tvEndTime.getText().toString());
+        if (payBankListBean!=null){
+            hashMap.put("payBankList", JSONArray.toJSON(payBankListBean.getData()));
+        }
+
+        new MyHttp().doPost(Api.getDefault().update_customerinfo_declare(hashMap), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 showShortToast("设置成功");
@@ -278,8 +347,6 @@ public class CloseAnAccountActivity extends BaseActivity {
                 .setOutSideCancelable(true)//点击外部dismiss default true
         );
         pvOptions.setPicker(strings);//添加数据源
-
-
     }
 
 }

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".activity.NewCirclePutInActivity">
+    <LinearLayout
+        android:paddingTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="55dp"
+            android:layout_height="?attr/actionBarSize"
+            android:onClick="back">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_back_white"
+                android:tint="@color/title_color" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_marginRight="55dp"
+            android:id="@+id/title_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="圈粉投放账户"
+            android:textColor="@color/title_color"
+            android:textSize="17sp" />
+    </LinearLayout>
+        <LinearLayout
+            android:paddingVertical="23dp"
+            android:layout_marginTop="2dp"
+            android:orientation="vertical"
+            android:background="@color/app_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="14sp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:text="余额(元)"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_marginTop="15dp"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_cz"
+                app:rv_cornerRadius="17dp"
+                android:paddingHorizontal="80dp"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:textColor="@color/app_color"
+                android:text="充值"
+                app:rv_backgroundColor="@color/white"
+                android:layout_marginTop="25dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"/>
+        </LinearLayout>
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/lab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="#ffffff"
+            app:tl_indicator_color="@color/app_color"
+            app:tl_tab_space_equal="true"
+            app:tl_textSelectColor="@color/app_color"
+            app:tl_textUnselectColor="#66000000" />
+        <androidx.viewpager.widget.ViewPager
+            android:layout_marginTop="1dp"
+            android:id="@+id/order_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+</LinearLayout>

@@ -45,6 +45,7 @@ public class UploadPicturesActivity extends BaseActivity {
     @Bind(R.id.tv_title)
     TextView tvTitle;
     File file  ;
+    String url;//返回来的照片
     String base64 = "";
     String attachNum = "";
     boolean isUpdata = false;
@@ -93,7 +94,8 @@ public class UploadPicturesActivity extends BaseActivity {
                     isUploading = true;
                     isUpdata =true;
                     attachNum = attachOneBean.getData().getAttachList().get(0).getAttachNum();
-                    GlideUtils.showMediumPic(mContext,ivPic,attachOneBean.getData().getAttachList().get(0).getUrl());
+                    url = attachOneBean.getData().getAttachList().get(0).getUrl();
+                    GlideUtils.showMediumPic(mContext,ivPic,url);
                 }
             }
 
@@ -141,6 +143,7 @@ public class UploadPicturesActivity extends BaseActivity {
             public void onSuccess(JSONObject result) {
                 isUploading = true;
                 showShortToast("上传成功");
+                finish();
             }
 
             @Override
@@ -158,6 +161,7 @@ public class UploadPicturesActivity extends BaseActivity {
             public void onSuccess(JSONObject result) {
                 isUploading = true;
                 showShortToast("上传成功");
+                finish();
             }
 
             @Override
@@ -172,7 +176,12 @@ public class UploadPicturesActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_bc:
                 if (file==null){
-                    showShortToast("请先选择图片");
+                    if (TextUtils.isEmpty(url)){
+                        showShortToast("请先选择图片");
+                    }else {
+                        // TODO: 2020/10/14 代理反馈要直接退出
+                        finish();
+                    }
                 }else {
                     if (isUpdata){
                         updata();

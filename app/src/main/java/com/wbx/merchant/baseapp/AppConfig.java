@@ -90,6 +90,7 @@ public class AppConfig {
         String money = "money";//余额支付
         String wxpay = "weixinapp";//微信支付
         String alipay = "alipayapp";//支付宝
+        String draw_fans_money = "draw_fans_money";//圈粉余额
     }
 
     public static String orderStateStr(int state) {

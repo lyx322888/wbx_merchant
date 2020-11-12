@@ -225,10 +225,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        android:text="行业类型" />
+                        android:text="选择店铺分类" />
 
                     <TextView
-                        android:hint="请选择行业类型"
+                        android:hint="请选择店铺分类"
                         android:id="@+id/tv_grade_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

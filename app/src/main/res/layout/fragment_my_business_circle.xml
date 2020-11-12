@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,6 +8,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.MyBusinessCircleActivity">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -59,14 +63,86 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <com.wbx.merchant.widget.refresh.PullToRefreshLayout
-        android:id="@+id/ptrl"
+    <LinearLayout
+        android:background="@color/font_tm_y"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        android:layout_height="wrap_content">
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.wbx.merchant.widget.refresh.PullToRefreshLayout>
-</LinearLayout>
+            android:layout_height="32dp">
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginStart="14dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:text="圈粉投放账户余额："
+                    android:textColor="@color/font_font_y"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_qfxq"
+                    android:layout_marginStart="7dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:text="详情>"
+                    android:textColor="@color/font_font_y"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_qfcz"
+                android:paddingEnd="15dp"
+                android:layout_gravity="center_vertical|right"
+                android:textSize="12sp"
+                android:gravity="center_vertical"
+                android:text="去充值>"
+                android:textColor="@color/font_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="14dp"
+            android:textSize="10sp"
+            android:textColor="#FFC8BA89"
+            android:text="投放效果预估(促进交易订单数)：100元50单、200元100单、300元150单..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/lab_layout"
+            android:layout_width="wrap_content"
+            app:tl_textsize="17sp"
+            android:layout_height="55dp"
+            app:tl_indicator_color="@color/app_color"
+            app:tl_tab_padding="20dp"
+            app:tl_textSelectColor="@color/title_color"
+            app:tl_textUnselectColor="#66000000"
+            />
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/order_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <com.wbx.merchant.widget.DragImageView
+        android:id="@+id/div"
+        android:layout_marginBottom="60dp"
+        android:layout_gravity="bottom|right"
+        android:layout_width="97dp"
+        android:src="@mipmap/ic_sqfb"
+        android:layout_height="102dp"/>
+</FrameLayout>

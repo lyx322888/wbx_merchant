@@ -52,6 +52,16 @@ public class ShopIdentityBean {
         private String identity_card_front;
         private String identity_card_contrary;
         private String identity_card_in_hand;
+
+        public String getFood_business_license() {
+            return food_business_license;
+        }
+
+        public void setFood_business_license(String food_business_license) {
+            this.food_business_license = food_business_license;
+        }
+
+        private String food_business_license;
         private String business_license;
         private int audit;
         private String return_reasons;

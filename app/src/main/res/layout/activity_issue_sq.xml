@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.IssueSqActivity">
+    <LinearLayout
+        android:paddingTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_color"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="55dp"
+            android:layout_height="?attr/actionBarSize"
+            android:onClick="back">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_back_white"
+                android:tint="@color/colorWhite" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_marginRight="55dp"
+            android:id="@+id/title_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="发布商圈动态"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp" />
+    </LinearLayout>
+    <ScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="15dp"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/title_color"
+                    android:textSize="16sp"
+                    android:text="商圈文案"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/et_sqwa"
+                    android:gravity="start"
+                    android:hint="最多可输入800字，建议在前50字突出宣传重点"
+                    android:padding="10dp"
+                    android:minHeight="141dp"
+                    android:textSize="14sp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/ova_tra_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_tp"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="15dp"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textColor="@color/title_color"
+                        android:textSize="16sp"
+                        android:text="商圈图片"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/gray89"
+                        android:textSize="13sp"
+                        android:text="最多可上传9张，建议尺寸320*568"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:padding="15dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_sp"
+
+                android:layout_marginTop="10dp"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="15dp"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textColor="@color/title_color"
+                        android:textSize="16sp"
+                        android:text="商圈视频"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/gray89"
+                        android:textSize="13sp"
+                        android:text="可上传1条视频，200M以内"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                   >
+                    <ImageView
+                        android:id="@+id/iv_choose_video"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:scaleType="fitXY"
+                        android:layout_margin="10dp"
+                        android:src="@mipmap/bg_scsp" />
+
+                    <cn.jzvd.JZVideoPlayerStandard
+                        android:id="@+id/video_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:visibility="gone" />
+                    <ImageView
+                        android:visibility="gone"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/iv_video_gb"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_guanbi"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:id="@+id/ll_qfyl"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:paddingHorizontal="15dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:layout_marginEnd="10dp"
+                    android:id="@+id/cb_qf"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#2D2D2D"
+                    android:layout_gravity="center"
+                    android:text="圈粉引流" />
+
+                <TextView
+                    android:gravity="right|center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:hint="精准获客、圈粉、拓客、引流" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_more" />
+            </LinearLayout>
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_submit"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:text="提交"
+                app:rv_cornerRadius="5dp"
+                android:layout_marginHorizontal="15dp"
+                app:rv_backgroundColor="@color/app_color"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

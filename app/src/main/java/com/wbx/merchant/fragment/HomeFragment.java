@@ -59,6 +59,7 @@ import com.wbx.merchant.activity.SeatActivity;
 import com.wbx.merchant.activity.SendSettingActivity;
 import com.wbx.merchant.activity.StoreManagerActivity;
 import com.wbx.merchant.activity.WebActivity;
+import com.wbx.merchant.activity.jhzf.RedEnvelopeCodeActivity;
 import com.wbx.merchant.adapter.ShareShopGoodsAdapter;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
@@ -67,6 +68,7 @@ import com.wbx.merchant.base.BaseApplication;
 import com.wbx.merchant.base.BaseFragment;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.baseapp.AppManager;
+import com.wbx.merchant.bean.AuditResult;
 import com.wbx.merchant.bean.ShopDetailInfo;
 import com.wbx.merchant.bean.ShopFxinfo;
 import com.wbx.merchant.bean.ShopIdentityBean;
@@ -145,6 +147,7 @@ public class HomeFragment extends BaseFragment {
     private Button completeBtn;
     private MyReceiver myReceiver;
     private ShopDetailInfo shopDetailInfo;
+    private AuditResult auditResult ;
 
     @Override
     protected int getLayoutResource() {
@@ -184,13 +187,17 @@ public class HomeFragment extends BaseFragment {
         new MyHttp().doPost(Api.getDefault().updateIsOpen(LoginUtil.getLoginTokenRegister(), is_open), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                shopInfo.setIs_open(is_open);
+                if (shopInfo!=null){
+                    shopInfo.setIs_open(is_open);
+                }
                 updataShopState();
             }
 
             @Override
             public void onError(int code) {
-                shopInfo.setIs_open(is_open == 1 ? 0 : 1);
+                if (shopInfo!=null){
+                    shopInfo.setIs_open(is_open == 1 ? 0 : 1);
+                }
                 updataShopState();
                 getShopIdentity();
             }
@@ -281,6 +288,7 @@ public class HomeFragment extends BaseFragment {
 
         List<Drawable> imgurl = new ArrayList<>();
         imgurl.add(ContextCompat.getDrawable(getContext(), R.mipmap.ic_jhzf));
+        imgurl.add(ContextCompat.getDrawable(getContext(), R.mipmap.ic_hbm));
         imgurl.add(ContextCompat.getDrawable(getContext(), R.drawable.vidio_study));
         xbannerView.setBannerStyle(BannerConfig.NOT_INDICATOR);
         xbannerView.setImages(imgurl).setDelayTime(10000).setImageLoader(new GlideImageLoader()).start();
@@ -288,49 +296,63 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void OnBannerClick(int position) {
                 switch (position) {
-                    case 0:
-                        if (shopDetailInfo!=null){
-                            //入驻流程
-                            switch (shopDetailInfo.getDuolabao_step()){
-                                case 2:
-                                    //结算信息
-                                    startActivity(new Intent(getContext(), CloseAnAccountActivity.class));
-                                    break;
-                                case 3:
-                                    //店铺信息
-                                    startActivity(new Intent(getContext(), JdShopInfoActivity.class));
-                                    break;
-                                case 4:
-                                    //证件信息
-                                    startActivity(new Intent(getContext(),CredentialsActivity.class));
-                                    break;
-                                case 5:
-                                    //报单提交
-                                    startActivity(new Intent(getContext(),CredentialsActivity.class));
-                                    break;
-                                case 6:
-                                    //报单确认提交
-                                    startActivity(new Intent(getContext(),CredentialsActivity.class));
-                                    break;
-                                case 7:
+                    case 0://聚合支付
+                        if (auditResult!=null){
+                            switch (auditResult.getData().getStatus()){
+                                case "PASS"://已通过
+                                case "WAITCHANNELAUDIT"://审核中
                                     showShortToast("您的报单已提交审核，请注意查看短信");
                                     break;
                                 default:
                                     Intent intent = new Intent(getContext(), AggregatePayActivity.class);
-                                    intent.putExtra("shopInfo",shopDetailInfo);
+                                    intent.putExtra("auditOpinion",auditResult.getData().getAuditOpinion());
                                     startActivity(intent);
                                     break;
+                            }
+                        }else {
+                            if (shopDetailInfo!=null){
+                                //入驻流程
+                                switch (shopDetailInfo.getDuolabao_step()){
+                                    case 2:
+                                        //结算信息
+                                        startActivity(new Intent(getContext(), CloseAnAccountActivity.class));
+                                        break;
+                                    case 3:
+                                        //店铺信息
+                                        startActivity(new Intent(getContext(), JdShopInfoActivity.class));
+                                        break;
+                                    case 4:
+                                        //证件信息
+                                        startActivity(new Intent(getContext(),CredentialsActivity.class));
+                                        break;
+                                    case 5:
+                                        //报单提交
+                                        startActivity(new Intent(getContext(),CredentialsActivity.class));
+                                        break;
+                                    case 6:
+                                        //报单确认提交
+                                        startActivity(new Intent(getContext(),CredentialsActivity.class));
+                                        break;
+                                    case 7:
+                                        showShortToast("您的报单已提交审核，请注意查看短信");
+                                        break;
+                                    default:
+                                        startActivity(new Intent(getContext(), AggregatePayActivity.class));
+                                        break;
+                                }
                             }
                         }
                         break;
                     case 1:
+                        //红包码
+                        startActivity(new Intent(getContext(), RedEnvelopeCodeActivity.class));
+                        break;
+                    case 2:
                         WebActivity.actionStart(getContext(), "http://www.wbx365.com/Wbxwaphome/video");
                         break;
                 }
             }
         });
-
-
 
     }
 
@@ -356,6 +378,7 @@ public class HomeFragment extends BaseFragment {
                 SPUtils.setSharedStringData(getContext(), AppConfig.LOGIN_NAME, shopInfo.getShop_name());
                 SPUtils.setSharedIntData(getContext(), AppConfig.TRY_SHOP, shopInfo.getTry_shop());
                 loginUser.setScan_order_type(shopInfo.getScan_order_type());
+                loginUser.setGrade_id(shopInfo.getGrade_id());
                 BaseApplication.getInstance().saveUserInfo(loginUser);
                 setData();
             }
@@ -372,6 +395,19 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(JSONObject result) {
                 shopDetailInfo = JSONObject.parseObject(result.getString("data"), ShopDetailInfo.class);
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+
+        //获取聚合支付报单结果
+        new MyHttp().doPost(Api.getDefault().get_audit_result(LoginUtil.getLoginToken()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                 auditResult = new Gson().fromJson(result.toString(),AuditResult.class);
             }
 
             @Override
@@ -489,16 +525,18 @@ public class HomeFragment extends BaseFragment {
 
     //跳转小程序
     private void jumpXcx() {
-        IWXAPI api = WXAPIFactory.createWXAPI(getContext(), AppConfig.WX_APP_ID);
-        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
-        req.userName = "gh_c90fe5b5ba40"; // 填小程序原始id
-        req.path = "/pages/home/shopDetails/shopDetails?shopID=" + shopInfo.getShop_id() + "&gradeid=" + shopInfo.getGrade_id();        //拉起小程序页面的可带参路径，不填默认拉起小程序首页
-        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发MINIPROGRAM_TYPE_PREVIEW，体验版MINIPROGRAM_TYPE_TEST,和正式版MINIPTOGRAM_TYPE_RELEASE。
-        api.sendReq(req);
+        if (shopInfo!=null){
+            IWXAPI api = WXAPIFactory.createWXAPI(getContext(), AppConfig.WX_APP_ID);
+            WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+            req.userName = "gh_c90fe5b5ba40"; // 填小程序原始id
+            req.path = "/pages/home/shopDetails/shopDetails?shopID=" + shopInfo.getShop_id() + "&gradeid=" + shopInfo.getGrade_id();        //拉起小程序页面的可带参路径，不填默认拉起小程序首页
+            req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发MINIPROGRAM_TYPE_PREVIEW，体验版MINIPROGRAM_TYPE_TEST,和正式版MINIPTOGRAM_TYPE_RELEASE。
+            api.sendReq(req);
+        }
     }
 
     private void showPhoto() {
-        if (!TextUtils.isEmpty(shopInfo.getPhoto())) {
+        if (shopInfo!=null&&!TextUtils.isEmpty(shopInfo.getPhoto())) {
             ArrayList<String> lstPhoto = new ArrayList<>();
             lstPhoto.add(shopInfo.getPhoto());
             PhotoPreview.builder()

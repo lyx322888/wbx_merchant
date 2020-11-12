@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.FollowersDrainageActivity">
+    <LinearLayout
+        android:paddingTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_color"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="55dp"
+            android:layout_height="?attr/actionBarSize"
+            android:onClick="back">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_back_white"
+                android:tint="@color/colorWhite" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_marginRight="55dp"
+            android:id="@+id/title_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="商圈引流"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp" />
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_marginBottom="60dp"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/title_color"
+                        android:textSize="16sp"
+                        android:text="潜在意向用户要求" />
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/title_color"
+                            android:text="性别"
+                            android:textSize="14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <RadioGroup
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/rg_xb"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <RadioButton
+                                android:id="@+id/rb_xb_bx"
+                                android:layout_marginLeft="20dp"
+                                android:text="不限"
+                                android:textColor="#2D2D2D"
+                                android:textSize="13sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center" />
+                            <RadioButton
+                                android:id="@+id/rb_xb_nan"
+                                android:text="男"
+                                android:textColor="#2D2D2D"
+                                android:textSize="13sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="20dp" />
+                            <RadioButton
+                                android:id="@+id/rb_xb_nv"
+                                android:text="女"
+                                android:textColor="#2D2D2D"
+                                android:textSize="13sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="20dp" />
+                        </RadioGroup>
+                    </RelativeLayout>
+                    <View
+                        style="@style/v_fgx"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/title_color"
+                        android:textSize="16sp"
+                        android:text="投放范围" />
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RadioGroup
+                            android:id="@+id/rg_tffw"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="70dp">
+                            <RadioButton
+                                android:id="@+id/rb_tffw_city"
+                                android:text="城市"
+                                android:textColor="#2D2D2D"
+                                android:textSize="13sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp" />
+                            <RadioButton
+                                android:id="@+id/rb_tffw_fj"
+                                android:text="店铺附近"
+                                android:textColor="#2D2D2D"
+                                android:textSize="13sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp" />
+
+                        </RadioGroup>
+                        <LinearLayout
+                            android:layout_alignParentEnd="true"
+                            android:orientation="vertical"
+                            android:gravity="right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="70dp">
+                            <TextView
+                                android:id="@+id/tv_city"
+                                android:textSize="13sp"
+                                android:gravity="center|end"
+                                android:textColor="@color/app_color"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"/>
+                            <EditText
+                                android:id="@+id/et_gls"
+                                android:gravity="center|end"
+                                android:textSize="13sp"
+                                android:background="@null"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:textColor="@color/app_color"
+                                android:minWidth="80dp"
+                                android:hint="请填写距店铺公里数"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <View
+                        style="@style/v_fgx"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/title_color"
+                        android:textSize="16sp"
+                        android:text="年龄阶段" />
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RadioGroup
+                            android:id="@+id/rg_nl"
+                            android:orientation="horizontal"
+                            android:weightSum="4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <RadioButton
+                                android:id="@+id/rb_nl_bx"
+                                android:text="不限"
+                                android:textColor="#2D2D2D"
+                                android:textSize="13sp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center" />
+                            <RadioButton
+                                android:id="@+id/rb_nl_00"
+                                android:text="00后"
+                                android:textColor="#2D2D2D"
+                                android:textSize="13sp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                />
+                            <RadioButton
+                                android:id="@+id/rb_nl_90"
+                                android:text="90后"
+                                android:textColor="#2D2D2D"
+                                android:textSize="13sp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                />
+                            <RadioButton
+                                android:id="@+id/rb_nl_80"
+                                android:text="80后"
+                                android:textColor="#2D2D2D"
+                                android:textSize="13sp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                />
+                        </RadioGroup>
+                    </RelativeLayout>
+                    <View
+                        style="@style/v_fgx"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_xqah"
+                        android:layout_width="match_parent"
+                        android:paddingVertical="10dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/title_color"
+                            android:layout_gravity="center_vertical"
+                            android:text="兴趣爱好" />
+
+                        <TextView
+                            android:gravity="right|center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:textColor="@color/black"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="1"
+                            android:hint="请选择用户的兴趣爱好" />
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_more" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_submit"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:text="确定"
+                app:rv_cornerRadius="20dp"
+                android:layout_marginHorizontal="15dp"
+                app:rv_backgroundColor="@color/app_color"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

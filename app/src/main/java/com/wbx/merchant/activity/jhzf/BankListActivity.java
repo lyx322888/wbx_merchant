@@ -82,7 +82,6 @@ public class BankListActivity extends BaseActivity {
                     intent.putExtra("yhName", bankAdapter.getItem(position).getBankName());
                     setResult(Activity.RESULT_OK, intent);
                     finish();
-
             }
         });
 
@@ -91,6 +90,7 @@ public class BankListActivity extends BaseActivity {
     }
 
     private void initdata() {
+
     }
 
     @Override

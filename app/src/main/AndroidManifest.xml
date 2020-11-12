@@ -60,7 +60,13 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:resizeableActivity="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.jhzf.DistrictActivity"></activity>
+        <activity android:name=".activity.FollowersDrainageActivity"></activity>
+        <activity android:name=".activity.FollowerDrainagePayActivity"/>
+        <activity android:name=".activity.IssueSqActivity" />
+        <activity android:name=".activity.NewCirclePutInActivity" />
+        <activity android:name=".activity.CriclePutlnPayActivity" />
+        <activity android:name=".activity.jhzf.RedEnvelopeCodeActivity" />
+        <activity android:name=".activity.jhzf.DistrictActivity" />
         <activity android:name=".activity.jhzf.UploadPicturesActivity" />
         <activity android:name=".activity.jhzf.IndustrySecondActivity" />
         <activity android:name=".activity.jhzf.JdShopInfoActivity" />

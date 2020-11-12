@@ -77,7 +77,6 @@ public class PublishBusinessCircleActivity extends BaseActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addItemDecoration(new SpacesItemDecoration(8));
-        adapter = new AddBusinessCirclePhotoAdapter(this);
         recyclerView.setAdapter(adapter);
 
         //试用版提示框

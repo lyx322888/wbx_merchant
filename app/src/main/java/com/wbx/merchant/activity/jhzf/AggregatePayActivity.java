@@ -21,8 +21,8 @@ import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.bean.Customerinfo;
 import com.wbx.merchant.bean.ListIndustryBean;
-import com.wbx.merchant.bean.ShopDetailInfo;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.dialog.ConfirmDialog;
 
@@ -86,6 +86,8 @@ public class AggregatePayActivity extends BaseActivity {
     TextView tvEndTimeYyzz;
     @Bind(R.id.tv_xzdq)
     TextView tvXzdq;
+    @Bind(R.id.tv_cw)
+    TextView tvCw;
     private OptionsPickerView pvOptions;
     private OptionsPickerView pvOptionsHyxl;
     private String customerType = "";//商户类型
@@ -93,6 +95,10 @@ public class AggregatePayActivity extends BaseActivity {
     String province = "";
     String city = "";
     String district = "";
+    //是否修改
+    boolean isUpdata = false;
+    boolean canUpdate = true;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_aggregate_pay;
@@ -106,21 +112,56 @@ public class AggregatePayActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        ShopDetailInfo shopInfo = (ShopDetailInfo) getIntent().getSerializableExtra("shopInfo");
-        if (shopInfo != null) {
-            pullData(shopInfo);
+        String auditOpinion = getIntent().getStringExtra("auditOpinion");
+        if (!TextUtils.isEmpty(auditOpinion)) {
+            tvCw.setVisibility(View.VISIBLE);
+            tvCw.setText("审核失败原因："+auditOpinion);
         }
         initShlx();
     }
 
     //填充信息
-    private void pullData(ShopDetailInfo shopInfo) {
-        etShdz.setText(shopInfo.getAddr());
+    private void pullData(Customerinfo.DataBean data) {
+        isUpdata = true;
+        tvShmc.setText(data.getFullName());
+        province = data.getProvince();
+        city = data.getCity();
+        district = data.getDistrict();
+        tvXzdq.setText(province + city + district);
+        tvShJc.setText(data.getShortName());
+        etShlxr.setText(data.getLinkMan());
+        etPhone.setText(data.getLinkPhone());
+        etLxrSfh.setText(data.getLinkManId());
+        etFrmc.setText(data.getCertificateName());
+        etFrCode.setText(data.getCertificateCode());
+        tvStartTime.setText(data.getCertificateStartDate());
+        tvEndTime.setText(data.getCertificateEndDate());
+
+        etYyzzzcdz.setText(data.getPostalAddress());
     }
 
     @Override
     public void fillData() {
         getHylx();
+        getData();
+
+    }
+
+    //获取商户信息
+    private void getData() {
+        new MyHttp().doPost(Api.getDefault().get_customerinfo(LoginUtil.getLoginToken()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                Customerinfo customerinfo = new Gson().fromJson(result.toString(), Customerinfo.class);
+                canUpdate = customerinfo.getData().isCanUpdate();
+                pullData(customerinfo.getData());
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
     }
 
     private void getHylx() {
@@ -148,11 +189,11 @@ public class AggregatePayActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data!=null&&requestCode==DistrictActivity.REQUESTCODE_DISTRICT){
+        if (data != null && requestCode == DistrictActivity.REQUESTCODE_DISTRICT) {
             province = data.getStringExtra("province");
             city = data.getStringExtra("city");
             district = data.getStringExtra("district");
-            tvXzdq.setText(province+city+district);
+            tvXzdq.setText(province + city + district);
         }
     }
 
@@ -168,7 +209,7 @@ public class AggregatePayActivity extends BaseActivity {
         confirmDialog.show(getSupportFragmentManager(), "");
     }
 
-    @OnClick({R.id.ll_hylx,R.id.ll_xzdq, R.id.ll_shlx, R.id.tv_submit, R.id.tv_start_time, R.id.tv_end_time, R.id.tv_start_time_yyzz, R.id.tv_end_time_yyzz})
+    @OnClick({R.id.ll_hylx, R.id.ll_xzdq, R.id.ll_shlx, R.id.tv_submit, R.id.tv_start_time, R.id.tv_end_time, R.id.tv_start_time_yyzz, R.id.tv_end_time_yyzz})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_hylx:
@@ -208,22 +249,31 @@ public class AggregatePayActivity extends BaseActivity {
                 break;
             case R.id.tv_submit:
                 //提交
-                submit();
+                if (TextUtils.isEmpty(tvHylx.getText())) {
+                    showShortToast("请选择行业类型");
+                    return;
+                }
+                if (TextUtils.isEmpty(tvShlx.getText())) {
+                    showShortToast("请选择商户类型");
+                    return;
+                }
+                //是否修改
+                if (!isUpdata) {
+                    submit();
+                } else {
+                    //是否可以编辑 不可编辑直接跳下一步
+                    if (canUpdate){
+                        updata();
+                    }else {
+                        startActivity(new Intent(mContext, CloseAnAccountActivity.class));
+                    }
+                }
                 break;
         }
     }
 
     //提交
     private void submit() {
-        if (TextUtils.isEmpty(tvHylx.getText())) {
-            showShortToast("请选择行业类型");
-            return;
-        }
-        if (TextUtils.isEmpty(tvShlx.getText())) {
-            showShortToast("请选择商户类型");
-            return;
-        }
-
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sj_login_token", LoginUtil.getLoginToken());
@@ -242,13 +292,52 @@ public class AggregatePayActivity extends BaseActivity {
         hashMap.put("certificateName", etFrmc.getText().toString() + "");
         hashMap.put("certificateCode", etFrCode.getText().toString() + "");
         hashMap.put("certificateStartDate", tvStartTime.getText().toString() + "");
-        hashMap.put("ertificateEndDate", tvEndTime.getText().toString() + "");
+        hashMap.put("certificateEndDate", tvEndTime.getText().toString() + "");
         //营业执照
         hashMap.put("organizationCode", etYyzzh.getText().toString() + "");
         hashMap.put("postalAddress", etYyzzzcdz.getText().toString() + "");
 
 
         new MyHttp().doPost(Api.getDefault().add_customerinfo(hashMap), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                showShortToast("提交成功");
+                startActivity(new Intent(mContext, CloseAnAccountActivity.class));
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+    }
+
+    //修改
+    private void updata() {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sj_login_token", LoginUtil.getLoginToken());
+        hashMap.put("fullName", tvShmc.getText().toString());
+        hashMap.put("shortName", tvShJc.getText().toString());
+        hashMap.put("linkMan", etShlxr.getText().toString() + "");
+        hashMap.put("linkPhone", etPhone.getText().toString() + "");
+        hashMap.put("linkManId", etLxrSfh.getText().toString() + "");
+        hashMap.put("customerType", customerType);
+        hashMap.put("industry", tvHylx.getText().toString() + "");
+        //地址
+        hashMap.put("province", province);
+        hashMap.put("city", city);
+        hashMap.put("district", district);
+        //法人
+        hashMap.put("certificateName", etFrmc.getText().toString() + "");
+        hashMap.put("certificateCode", etFrCode.getText().toString() + "");
+        hashMap.put("certificateStartDate", tvStartTime.getText().toString() + "");
+        hashMap.put("certificateEndDate", tvEndTime.getText().toString() + "");
+        //营业执照
+        hashMap.put("organizationCode", etYyzzh.getText().toString() + "");
+        hashMap.put("postalAddress", etYyzzzcdz.getText().toString() + "");
+
+
+        new MyHttp().doPost(Api.getDefault().update_customerinfo(hashMap), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 showShortToast("提交成功");
@@ -356,6 +445,5 @@ public class AggregatePayActivity extends BaseActivity {
 
 
     }
-
 
 }

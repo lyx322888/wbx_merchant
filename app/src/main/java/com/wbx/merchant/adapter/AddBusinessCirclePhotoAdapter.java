@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.wbx.merchant.R;
+import com.wbx.merchant.activity.IssueSqActivity;
 import com.wbx.merchant.activity.PublishBusinessCircleActivity;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.widget.SquareLayout;
@@ -23,10 +24,10 @@ import butterknife.ButterKnife;
  */
 
 public class AddBusinessCirclePhotoAdapter extends RecyclerView.Adapter<AddBusinessCirclePhotoAdapter.MyViewHolder> {
-    private PublishBusinessCircleActivity mContext;
+    private IssueSqActivity mContext;
     private List<String> lstData = new ArrayList<>();
 
-    public AddBusinessCirclePhotoAdapter(PublishBusinessCircleActivity context) {
+    public AddBusinessCirclePhotoAdapter(IssueSqActivity context) {
         mContext = context;
     }
 

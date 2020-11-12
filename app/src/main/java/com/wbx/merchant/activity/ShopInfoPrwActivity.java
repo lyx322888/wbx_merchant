@@ -93,7 +93,7 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
     private boolean hasLocation = false;
     private String selectCity = "";
     private String cityName = "";
-    private int shopEdition = 2;//1个人版 2实体店
+    private int shopEdition = 2;// 1个人版 2实体店 3.餐饮店
     private int cityId;
     private int countyId;
     private String grade_id = "";
@@ -122,7 +122,7 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
 
     @Override
     public void fillData() {
-        getHylx();
+
     }
 
     @Override
@@ -257,11 +257,8 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
                 break;
             case R.id.choose_grade_type:
                 //行业类型
-                if (pvOptionsHylx!=null){
-                 pvOptionsHylx.show();
-                }else {
-                    getHylx();
-                }
+                LoadingDialog.showDialogForLoading(mActivity);
+               getHylx();
                 break;
             case R.id.shop_info_next_btn:
                 //下一步
@@ -276,14 +273,16 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
     private void initPopCommunity() {
         //数据源
         final List<String> strings = new ArrayList<>();
-        strings.add("个人版");
         strings.add("实体店版");
         strings.add("餐饮店版");
+        strings.add("菜市场版");
         pvOptions = new OptionsPickerView(new OptionsPickerView.Builder(mContext, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                shopEdition = options1 + 1;
+                shopEdition = options1 + 2;
                 tvShopType.setText(strings.get(options1));
+                grade_id = "";
+                tvGradeType.setText("");
             }
         }).setSubmitText("确定")//确定按钮文字
                 .setCancelText("取消")//取消按钮文字
@@ -301,8 +300,6 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
                 .setOutSideCancelable(true)//点击外部dismiss default true
         );
         pvOptions.setPicker(strings);//添加数据源
-
-
     }
 
     private void initHylx(final List<ShopGradeBean.DataBean> data) {
@@ -336,6 +333,7 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
         );
         pvOptionsHylx.setPicker(strings);//添加数据源
 
+        pvOptionsHylx.show();
 
     }
 
@@ -358,8 +356,9 @@ public class ShopInfoPrwActivity extends BaseActivity implements OnAddressSelect
         });
     }
 
+    //获取店铺
     private void getHylx() {
-        new MyHttp().doPost(Api.getDefault().get_shop_grade(LoginUtil.getLoginToken()), new HttpListener() {
+        new MyHttp().doPost(Api.getDefault().get_shop_grade(LoginUtil.getLoginToken(),shopEdition), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 ShopGradeBean bean = new Gson().fromJson(result.toString(), ShopGradeBean.class);

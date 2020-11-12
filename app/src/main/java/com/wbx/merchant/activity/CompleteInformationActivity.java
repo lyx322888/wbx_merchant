@@ -1,5 +1,4 @@
 package com.wbx.merchant.activity;
-
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +32,6 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
 //完善信息
 public class CompleteInformationActivity extends BaseActivity {
 
@@ -47,15 +45,16 @@ public class CompleteInformationActivity extends BaseActivity {
     ImageView ivSfzSc;
     @Bind(R.id.iv_zz)
     ImageView ivZz;
+    @Bind(R.id.iv_spjyz)
+    ImageView ivSpjyz;
     @Bind(R.id.submit_btn)
     Button submitBtn;
-    @Bind(R.id.sb_smrz)
-    SelectorButton sbSmrz;
     @Bind(R.id.ll_zz)
     LinearLayout llZz;
     private String pathSfzZm ="";
     private String pathSfzFm ="";
     private String pathSfzSc ="";
+    private String pathspjyz ="";
     private String pathZz ="";
 
     @Override
@@ -71,16 +70,7 @@ public class CompleteInformationActivity extends BaseActivity {
     @Override
     public void initView() {
         setStatubarColor(R.color.app_color);
-        sbSmrz.setOnselectorListen(new SelectorButton.SelectorListen() {
-            @Override
-            public void onSelector(boolean isSelectionOne) {
-                if (isSelectionOne){
-                    llZz.setVisibility(View.GONE);
-                }else {
-                    llZz.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+
     }
 
     @Override
@@ -93,14 +83,14 @@ public class CompleteInformationActivity extends BaseActivity {
 
     }
 
-
-    @OnClick({R.id.iv_sfz_zm, R.id.iv_sfz_fm, R.id.iv_sfz_sc, R.id.iv_zz, R.id.submit_btn})
+    @OnClick({R.id.iv_sfz_zm,R.id.iv_spjyz, R.id.iv_sfz_fm, R.id.iv_sfz_sc, R.id.iv_zz, R.id.submit_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_sfz_zm:
             case R.id.iv_sfz_fm:
             case R.id.iv_sfz_sc:
             case R.id.iv_zz:
+            case R.id.iv_spjyz:
                 showAlbum((ImageView) view);
                 break;
             case R.id.submit_btn:
@@ -108,6 +98,7 @@ public class CompleteInformationActivity extends BaseActivity {
                 break;
         }
     }
+
     //检测信息完整
     private void detection() {
         if (TextUtils.isEmpty(pathSfzZm)){
@@ -122,14 +113,7 @@ public class CompleteInformationActivity extends BaseActivity {
             showShortToast("请上传手持身份证照片");
             return;
         }
-        if (!sbSmrz.getSelectionOne()){
-            if (TextUtils.isEmpty(pathZz)){
-                showShortToast("请上传营业执照");
-                return;
-            }
-        }
         submit();
-
     }
 
     //选择图片
@@ -163,6 +147,9 @@ public class CompleteInformationActivity extends BaseActivity {
                                     case R.id.iv_sfz_sc:
                                         pathSfzSc = qiNiuPath;
                                         break;
+                                    case R.id.iv_spjyz:
+                                        pathspjyz = qiNiuPath;
+                                        break;
                                     case R.id.iv_zz:
                                         pathZz = qiNiuPath;
                                         break;
@@ -181,7 +168,6 @@ public class CompleteInformationActivity extends BaseActivity {
                 }).start();
     }
 
-
     //获取页面信息
     private void getShopIdentity(){
         new MyHttp().doPost(Api.getDefault().getShopIdentity(LoginUtil.getLoginToken()), new HttpListener() {
@@ -192,6 +178,7 @@ public class CompleteInformationActivity extends BaseActivity {
                 pathSfzFm = shopIdentityBean.getData().getIdentity_card_contrary();
                 pathSfzSc = shopIdentityBean.getData().getIdentity_card_in_hand();
                 pathZz = shopIdentityBean.getData().getBusiness_license();
+                pathspjyz = shopIdentityBean.getData().getFood_business_license();
                 if (!TextUtils.isEmpty(pathSfzZm)){
                     GlideUtils.showMediumPic(mContext,ivSfzZm,pathSfzZm);
                 }
@@ -203,6 +190,9 @@ public class CompleteInformationActivity extends BaseActivity {
                 }
                 if (!TextUtils.isEmpty(pathZz)){
                     GlideUtils.showMediumPic(mContext,ivZz,pathZz);
+                }
+                if (!TextUtils.isEmpty(pathspjyz)){
+                    GlideUtils.showMediumPic(mContext,ivSpjyz,pathspjyz);
                 }
             }
 
@@ -219,9 +209,11 @@ public class CompleteInformationActivity extends BaseActivity {
         hashMap.put("identity_card_front",pathSfzZm);
         hashMap.put("identity_card_contrary",pathSfzFm);
         hashMap.put("identity_card_in_hand",pathSfzSc);
-        if (!sbSmrz.getSelectionOne()){
-            hashMap.put("business_license",pathZz);
+        hashMap.put("business_license",pathZz);
+        if (!TextUtils.isEmpty(pathspjyz)){
+            hashMap.put("food_business_license",pathspjyz);
         }
+
         LoadingDialog.showDialogForLoading(mActivity, "上传中...", false);
         new MyHttp().doPost(Api.getDefault().addShopIdentity(hashMap), new HttpListener() {
             @Override

@@ -85,6 +85,18 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
+    <style name="FullScreenDialog" parent="@android:style/Theme.Dialog">
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- Dialog以外的区域模糊效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
     <declare-styleable name="MaterialCircleView">
 
         <attr name="bGradient" format="boolean"></attr>
@@ -232,11 +244,13 @@
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
+
     <style name="v_fgx">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/color_gray_line</item>
     </style>
+
     <style name="GrayLineStyle">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">1dp</item>

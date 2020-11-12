@@ -649,7 +649,7 @@ public class IndexFragment extends BaseFragment {
                 changeOpenState();
                 break;
             case R.id.iv_pub_bus_cir:
-                PublishBusinessCircleActivity.actionStart(getContext(),shopInfo.getDiscover_num());
+//                PublishBusinessCircleActivity.actionStart(getContext(),shopInfo.getDiscover_num());
                 break;
             case R.id.ll_wait_send:
                 OrderActivity.actionStart(getContext(), 0);

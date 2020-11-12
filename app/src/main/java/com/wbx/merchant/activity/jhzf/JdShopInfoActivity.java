@@ -12,11 +12,13 @@ import androidx.core.content.ContextCompat;
 import com.alibaba.fastjson.JSONObject;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.flyco.roundview.RoundTextView;
+import com.google.gson.Gson;
 import com.wbx.merchant.R;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
+import com.wbx.merchant.bean.JdShopInfo;
 import com.wbx.merchant.common.LoginUtil;
 import com.wbx.merchant.dialog.ConfirmDialog;
 import com.wbx.merchant.widget.LoadingDialog;
@@ -49,7 +51,8 @@ public class JdShopInfoActivity extends BaseActivity {
     private String twoIndustry = "";
     private String microBizType = "";
     private OptionsPickerView pvOptions;
-
+    //是否修改
+    boolean isUpdata = false;
     @Override
     public int getLayoutId() {
         return R.layout.activity_jd_shop_info;
@@ -67,7 +70,40 @@ public class JdShopInfoActivity extends BaseActivity {
 
     @Override
     public void fillData() {
+        new MyHttp().doPost(Api.getDefault().list_shopinfo(LoginUtil.getLoginToken()), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                JdShopInfo jdShopInfo = new Gson().fromJson(result.toString(),JdShopInfo.class);
+                if (jdShopInfo.getData().getShopList()!=null&&jdShopInfo.getData().getShopList().size()>0){
+                    setData(jdShopInfo.getData().getShopList().get(0));
+                }
+            }
 
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+    }
+
+    private void setData(JdShopInfo.DataBean.ShopListBean shopListBean) {
+        isUpdata = true;
+        microBizType = shopListBean.getMicroBizType();
+        switch (microBizType){
+            case "MICRO_TYPE_STORE":
+                tvJylx.setText("⻔店场所");
+                break;
+            case "MICRO_TYPE_MOBILE":
+                tvJylx.setText("流动经营/便⺠服务");
+                break;
+            case "MICRO_TYPE_ONLINE":
+                tvJylx.setText("线上商品/服务交易");
+                break;
+        }
+        oneIndustry = shopListBean.getOneIndustry();
+        twoIndustry = shopListBean.getTwoIndustry();
+        tvJypl.setText(oneIndustry +"-"+twoIndustry);
+        tvDpPhone.setText(shopListBean.getMobilePhone());
     }
 
     @Override
@@ -114,10 +150,10 @@ public class JdShopInfoActivity extends BaseActivity {
                         microBizType = "MICRO_TYPE_STORE";
                         break;
                     case 1:
-                        microBizType = "MICRO_TYPE_MOBILE ";
+                        microBizType = "MICRO_TYPE_MOBILE";
                         break;
                     case 2:
-                        microBizType = "MICRO_TYPE_ONLINE ";
+                        microBizType = "MICRO_TYPE_ONLINE";
                         break;
                 }
             }
@@ -153,7 +189,11 @@ public class JdShopInfoActivity extends BaseActivity {
                 IndustrySecondActivity.actionStart(mActivity);
                 break;
             case R.id.tv_submit:
-                submit();
+                if (!isUpdata){
+                    submit();
+                }else {
+                    updata();
+                }
                 break;
         }
     }
@@ -167,6 +207,28 @@ public class JdShopInfoActivity extends BaseActivity {
         hashMap.put("mobilePhone",tvDpPhone.getText().toString());
         hashMap.put("microBizType",microBizType);
         new MyHttp().doPost(Api.getDefault().create(hashMap), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                showShortToast("设置成功");
+                startActivity(new Intent(mContext,CredentialsActivity.class));
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+    }
+
+    private void updata() {
+        LoadingDialog.showDialogForLoading(mActivity);
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("sj_login_token", LoginUtil.getLoginToken());
+        hashMap.put("oneIndustry",oneIndustry);
+        hashMap.put("twoIndustry",twoIndustry);
+        hashMap.put("mobilePhone",tvDpPhone.getText().toString());
+        hashMap.put("microBizType",microBizType);
+        new MyHttp().doPost(Api.getDefault().update_declare_shopinfo(hashMap), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
                 showShortToast("设置成功");

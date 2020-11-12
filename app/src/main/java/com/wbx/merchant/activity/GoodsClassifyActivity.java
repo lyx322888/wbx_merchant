@@ -78,6 +78,7 @@ public class GoodsClassifyActivity extends BaseActivity {
                 if (null == dataList) {
                     return;
                 }
+                cateInfoList.clear();
                 cateInfoList.addAll(dataList);
                 mAdapter.notifyDataSetChanged();
             }
@@ -258,15 +259,7 @@ public class GoodsClassifyActivity extends BaseActivity {
             @Override
             public void onSuccess(JSONObject result) {
                 if (null != dialog) dialog.dismiss();
-                CateInfo cateInfo = new CateInfo();
-                cateInfo.setCate_name(nameStr);
-                if (userInfo.getGrade_id() == AppConfig.StoreGrade.MARKET) {
-                    cateInfo.setOrderby_cate(orderByStr);
-                } else {
-                    cateInfo.setOrderby(orderByStr);
-                }
-                cateInfoList.add(0, cateInfo);
-                mAdapter.notifyDataSetChanged();
+                getServiceData();
             }
 
             @Override

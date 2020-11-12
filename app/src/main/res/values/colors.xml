@@ -66,5 +66,10 @@
     <color name="font_phb">#FDA457</color>
     <color name="font_phb_s">#EC5A20</color>
     <color name="font_home">#CDFDFA</color>
+    <color name="btn_fales">#FF87D5CC</color>
+    <color name="font_tm_y">#FFFFFBEE</color>
+    <color name="font_font_y">#FFDDBB45</color>
+    <color name="font_blue">#FF236DE5</color>
+    <color name="gray89">#898989</color>
 
 </resources>

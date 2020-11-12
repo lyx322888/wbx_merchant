@@ -21,185 +21,235 @@
             android:text="实名认证"
             style="@style/tv_title"/>
     </RelativeLayout>
-    <com.wbx.merchant.widget.SelectorButton
-        android:id="@+id/sb_smrz"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="231dp"
-        android:layout_height="36dp"/>
-    <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_marginHorizontal="10dp"
-        android:orientation="horizontal"
+
+    <ScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:weightSum="2"
         android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
+                android:layout_marginTop="30dp"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:weightSum="2"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/iv_sfz_zm"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:src="@drawable/bg_sfz_zm"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="474:305"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_sfz_zm"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:src="@drawable/bg_sfz_zm"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="474:305"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:layout_width="47dp"
-                    android:layout_height="47dp"
-                    android:src="@drawable/bg_xj"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <TextView
-                android:layout_marginTop="6dp"
-                android:layout_gravity="center_horizontal"
-                android:text="请上传身份证正面"
-                android:textColor="#333"
-                android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <androidx.constraintlayout.widget.ConstraintLayout
+                        <ImageView
+                            android:layout_width="47dp"
+                            android:layout_height="47dp"
+                            android:src="@drawable/bg_xj"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_marginTop="6dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="请上传身份证正面"
+                        android:textColor="#333"
+                        android:textSize="12sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_sfz_fm"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:src="@drawable/bg_sfz_fm"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="474:305"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:layout_width="47dp"
+                            android:layout_height="47dp"
+                            android:src="@drawable/bg_xj"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_marginTop="6dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="请上传身份证反面"
+                        android:textColor="#333"
+                        android:textSize="12sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:weightSum="2"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/iv_sfz_fm"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:src="@drawable/bg_sfz_fm"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="474:305"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_sfz_sc"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:src="@drawable/bg_sfz_sc"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="474:305"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:layout_width="47dp"
-                    android:layout_height="47dp"
-                    android:src="@drawable/bg_xj"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <TextView
-                android:layout_marginTop="6dp"
-                android:layout_gravity="center_horizontal"
-                android:text="请上传身份证反面"
-                android:textColor="#333"
-                android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="10dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:weightSum="2"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <androidx.constraintlayout.widget.ConstraintLayout
+                        <ImageView
+                            android:layout_width="47dp"
+                            android:layout_height="47dp"
+                            android:src="@drawable/bg_xj"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_marginTop="6dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="请上传手持身份证照片"
+                        android:textSize="12sp"
+                        android:textColor="#333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_zz"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_zz"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:src="@drawable/bg_zz"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="474:305"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:layout_width="47dp"
+                            android:layout_height="47dp"
+                            android:src="@drawable/bg_xj"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_marginTop="6dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="营业执照"
+                        android:textSize="12sp"
+                        android:textColor="#333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:weightSum="2"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/iv_sfz_sc"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:src="@drawable/bg_sfz_sc"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="474:305"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:layout_width="47dp"
-                    android:layout_height="47dp"
-                    android:src="@drawable/bg_xj"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <TextView
-                android:layout_marginTop="6dp"
-                android:layout_gravity="center_horizontal"
-                android:text="请上传手持身份证照片"
-                android:textSize="12sp"
-                android:textColor="#333"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_zz"
-            android:visibility="gone"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_spjyz"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:src="@drawable/bg_spjyz"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="474:305"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:layout_width="47dp"
+                            android:layout_height="47dp"
+                            android:src="@drawable/bg_xj"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_marginTop="6dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="食品流通/经营许可证"
+                        android:textSize="12sp"
+                        android:textColor="#333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+            <Button
+                android:id="@+id/submit_btn"
+                android:layout_gravity="bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/iv_zz"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:src="@drawable/bg_zz"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="474:305"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:layout_width="47dp"
-                    android:layout_height="47dp"
-                    android:src="@drawable/bg_xj"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <TextView
-                android:layout_marginTop="6dp"
-                android:layout_gravity="center_horizontal"
-                android:text="营业执照"
-                android:textSize="12sp"
-                android:textColor="#333"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="45dp"
+                android:layout_margin="30dp"
+                android:background="@drawable/ova_bg_app_color"
+                android:text="提交"
+                android:textColor="@color/colorWhite" />
         </LinearLayout>
-    </LinearLayout>
-    <Button
-        android:id="@+id/submit_btn"
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_margin="30dp"
-        android:background="@drawable/ova_bg_app_color"
-        android:text="提交"
-        android:textColor="@color/colorWhite" />
+    </ScrollView>
 </LinearLayout>

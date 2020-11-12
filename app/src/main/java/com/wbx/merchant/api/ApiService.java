@@ -1078,6 +1078,11 @@ public interface ApiService {
     @POST("/sjapi/duolabao/add_customerinfo")
     Observable<JSONObject> add_customerinfo(@FieldMap Map<String,Object> params);
 
+    //京东信息修改
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/update_customerinfo")
+    Observable<JSONObject> update_customerinfo(@FieldMap Map<String,Object> params);
+
     //订单列表
     @FormUrlEncoded
     @POST("/sjapi/duolabao/list_order")
@@ -1150,8 +1155,8 @@ public interface ApiService {
 
     //行业类型
     @FormUrlEncoded
-    @POST("/sjapi/Kaidianbao/get_shop_grade")
-    Observable<JSONObject> get_shop_grade(@Field("sj_login_token") String sj_login_token);
+    @POST("/sjapi/Kaidianbao/get_shop_grade_v2")
+    Observable<JSONObject> get_shop_grade(@Field("sj_login_token") String sj_login_token,@Field("shop_edition") int shop_edition);
 
     //区域
     @FormUrlEncoded
@@ -1168,6 +1173,87 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/sjapi/user/update_delivery_manage")
     Observable<JSONObject> update_delivery_manage(@FieldMap Map<String,Object> params);
+
+
+    //获取商户信息
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/get_customerinfo")
+    Observable<JSONObject> get_customerinfo(@Field("sj_login_token") String sj_login_token);
+
+    //获取审核结果
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/get_audit_result")
+    Observable<JSONObject> get_audit_result(@Field("sj_login_token") String sj_login_token);
+
+    //获取结算信息
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/get_customerinfo_declare")
+    Observable<JSONObject> get_customerinfo_declare(@Field("sj_login_token") String sj_login_token);
+
+    //获取结算信息
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/update_customerinfo_declare")
+    Observable<JSONObject> update_customerinfo_declare(@FieldMap Map<String,Object> params);
+
+
+    //获取店铺信息
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/list_shopinfo")
+    Observable<JSONObject> list_shopinfo(@Field("sj_login_token") String sj_login_token);
+
+
+    //修改店铺信息
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/update_declare_shopinfo")
+    Observable<JSONObject> update_declare_shopinfo(@FieldMap Map<String,Object> params);
+
+    //获取红包码
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/get_red_packet_code")
+    Observable<JSONObject> get_red_packet_code(@Field("sj_login_token") String sj_login_token);
+
+
+    //充值
+    @FormUrlEncoded
+    @POST("/sjapi/discover/recharge")
+    Observable<JSONObject> recharge(@Field("sj_login_token") String sj_login_token,@Field("code") String code,@Field("money") String money);
+
+
+    //红包码
+    @FormUrlEncoded
+    @POST("/sjapi/duolabao/add_red_packet_code")
+    Observable<JSONObject> add_red_packet_code(@Field("sj_login_token") String sj_login_token,@Field("red_packet_code") String red_packet_code);
+
+    //圈粉充值明细
+    @FormUrlEncoded
+    @POST("/sjapi/discover/list_draw_fans_money_log")
+    Observable<JSONObject> list_draw_fans_money_log(@FieldMap Map<String,Object> params);
+
+    //圈粉
+    @FormUrlEncoded
+    @POST("/sjapi/discover/get_draw_fans_money")
+    Observable<JSONObject> get_draw_fans_money(@Field("sj_login_token") String sj_login_token);
+
+    //圈粉引流info
+    @FormUrlEncoded
+    @POST("/sjapi/discover/get_draw_fans_info")
+    Observable<JSONObject> get_draw_fans_info(@Field("sj_login_token") String sj_login_token);
+
+    //圈粉引流
+    @FormUrlEncoded
+    @POST("/sjapi/discover/add_discover_v2")
+    Observable<JSONObject> add_discove_v2(@FieldMap Map<String,Object> params);
+
+    //圈粉引流
+    @FormUrlEncoded
+    @POST("/sjapi/discover/update_discover_draw_fans_settings")
+    Observable<JSONObject> update_discover_draw_fans_settings(@FieldMap Map<String,Object> params);
+
+
+    //充值
+    @FormUrlEncoded
+    @POST("/sjapi/discover/pay")
+    Observable<JSONObject> pay(@Field("sj_login_token") String sj_login_token,@Field("code") String code,@Field("money") String money,@Field("discover_id") String discover_id,@Field("pay_password") String pay_password);
 
 
 }

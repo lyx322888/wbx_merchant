@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.jhzf.RedEnvelopeCodeActivity">
+    <LinearLayout
+        android:paddingTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_color"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="55dp"
+            android:layout_height="?attr/actionBarSize"
+            android:onClick="back">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_back_white"
+                android:tint="@color/colorWhite" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_marginRight="55dp"
+            android:id="@+id/title_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="京东红包码"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:paddingHorizontal="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/white"
+                >
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/title_color"
+                        android:layout_gravity="center"
+                        android:text="店铺名称" />
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_shop_name"
+                    android:background="@null"
+                    android:hint="店铺名称"
+                    android:gravity="right|center_vertical"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    />
+            </RelativeLayout>
+            <View
+                style="@style/lineViewStyle"
+                android:layout_marginStart="15dp" />
+            <RelativeLayout
+                android:paddingHorizontal="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/white"
+                >
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/title_color"
+                        android:layout_gravity="center"
+                        android:text="京东红包码" />
+
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_hbm"
+                    android:background="@null"
+                    android:hint="请输入京东红包码"
+                    android:gravity="right|center_vertical"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    />
+            </RelativeLayout>
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"
+                android:text="小提示："
+                android:textColor="@color/title_color"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:text="1、请联系您的代理商获取京东红包码；\n2、相关京东红包码推广分红活动详情可咨询您的代理商；
+\n3、京东红包码一旦提交绑定就无法更改，请仔细核对后再提交。"
+                android:textColor="#FF666666"
+                android:lineSpacingExtra="5dp"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <TextView
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_state"
+            android:id="@+id/tv_submit"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="提交绑定红包码"
+            android:layout_marginHorizontal="15dp"
+            android:enabled="true"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"/>
+    </FrameLayout>
+
+</LinearLayout>

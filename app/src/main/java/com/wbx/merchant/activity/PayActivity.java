@@ -1,6 +1,5 @@
 package com.wbx.merchant.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -41,7 +40,6 @@ import rx.Observable;
 /**
  * Created by wushenghui on 2017/6/24.
  */
-
 public class PayActivity extends BaseActivity {
     private IWXAPI msgApi;
     private PayReq request;
