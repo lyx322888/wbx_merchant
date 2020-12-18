@@ -3,6 +3,8 @@ package com.wbx.merchant.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
@@ -29,6 +31,7 @@ import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.base.BaseAdapter;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.ShopDetailInfo;
+import com.wbx.merchant.utils.ChoosePictureUtils;
 import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.UpLoadPicUtils;
 import com.wbx.merchant.widget.LoadingDialog;
@@ -262,11 +265,7 @@ public class StoreManagerActivity extends BaseActivity implements AMapLocationLi
                         showShortToast("最多只能选6张哦！");
                         return;
                     }
-                    PhotoPicker.builder()
-                            .setPhotoCount(AppConfig.MAX_COUNT - selectPicList.size())
-                            .setShowCamera(true)
-                            .setPreviewEnabled(false)
-                            .start(mActivity, PhotoPicker.REQUEST_CODE);
+                    choosePicture(AppConfig.MAX_COUNT - selectPicList.size(), PhotoPicker.REQUEST_CODE);
                 } else {
                     if (picList.size() > 0) {
                         PhotoPreview.builder()
@@ -317,7 +316,7 @@ public class StoreManagerActivity extends BaseActivity implements AMapLocationLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.store_signage_pic_layout:
-                addStoreSignagePic();
+                choosePicture(1,AppConfig.TAKE_PHOTO_CODE);
                 break;
             case R.id.choose_business_time_layout:
                 if (data != null) {
@@ -455,11 +454,25 @@ public class StoreManagerActivity extends BaseActivity implements AMapLocationLi
 
     //选择店铺招牌图
     private void addStoreSignagePic() {
-        PhotoPicker.builder()
-                .setPhotoCount(1)
-                .setShowCamera(true)
-                .setPreviewEnabled(false)
-                .start(mActivity, AppConfig.TAKE_PHOTO_CODE);
+
+    }
+
+    //选择图片
+    private void choosePicture(int maxSelectCount, final int type) {
+        ChoosePictureUtils.choosePictureCommon(mContext, maxSelectCount, new ChoosePictureUtils.Action<ArrayList<String>>() {
+            @Override
+            public void onAction(@NonNull ArrayList<String> result) {
+               if (type==AppConfig.TAKE_PHOTO_CODE){
+                   GlideUtils.displayUri(mContext, storeSignageIm, Uri.fromFile(new File(result.get(0))));
+                   selectPhoto = result.get(0);
+               }else if (type==PhotoPicker.REQUEST_CODE){
+                   selectPicNum += result.size();
+                   selectPicList.addAll(result);
+                   picList.addAll(selectPicList);
+                   mAdapter.notifyDataSetChanged();
+               }
+            }
+        });
     }
 
     @Override

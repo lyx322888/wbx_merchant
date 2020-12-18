@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+   >
+    <LinearLayout
+        android:paddingTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_color"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="55dp"
+            android:layout_height="?attr/actionBarSize"
+            android:onClick="back">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_back_white"
+                android:tint="@color/colorWhite" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_marginRight="55dp"
+            android:id="@+id/title_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="规则说明"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp" />
+    </LinearLayout>
+    <FrameLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_marginBottom="60dp"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@mipmap/bg_gzsm"
+                    app:layout_constraintDimensionRatio="1500:3678"
+                    app:layout_constraintBottom_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                     />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <TextView
+                android:id="@+id/tv_fbsp"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="发布视频"
+                android:layout_marginHorizontal="30dp"
+                android:layout_gravity="center"
+                android:background="#FFFF5053"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

@@ -99,6 +99,17 @@ public class ActivityManagerActivity extends BaseActivity {
                             //满减活动
                             startActivity(new Intent(mContext, FullActivity.class));
                             break;
+                        case 9:
+                            //视频抵用券
+                            startActivity(new Intent(mContext, VideoVoucherListActivity.class));
+                            break;
+                        case 10:
+                            //到店套餐
+                            startActivity(new Intent(mContext, StoreSetMealListActivity.class));
+                            break;
+                        default:
+                            showShortToast("敬请期待");
+                            break;
                     }
                 }
             }

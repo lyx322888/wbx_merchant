@@ -113,12 +113,7 @@ public class GoodsManagerActivity extends BaseActivity {
         mOrderViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mOrderViewPager);
 
-        mRxManager.on("jj", new Action1<Integer>() {
-            @Override
-            public void call(Integer integer) {
-               showPop(integer);
-            }
-        });
+        mRxManager.on("jj", (Action1<Integer>) integer -> showPop(integer));
 
     }
     private void showPop(final int cs) {
@@ -156,6 +151,7 @@ public class GoodsManagerActivity extends BaseActivity {
 
     @Override
     public void fillData() {
+
     }
 
     @Override
@@ -198,9 +194,13 @@ public class GoodsManagerActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.publish_goods_btn, R.id.batch_manager, R.id.rl_right, R.id.rl_all_check, R.id.rl_sold_out, R.id.rl_goods_delete, R.id.rl_classify})
+    @OnClick({R.id.publish_goods_btn,R.id.publish_goods_ku_btn, R.id.batch_manager, R.id.rl_right, R.id.rl_all_check, R.id.rl_sold_out, R.id.rl_goods_delete, R.id.rl_classify})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.publish_goods_ku_btn:
+                //产品库
+                startActivity(new Intent(mContext, ProductActivity.class));
+                break;
             case R.id.publish_goods_btn:
                 startActivityForResult(new Intent(mContext, ReleaseActivity.class), REQUEST_ADD_GOODS);
                 break;
@@ -417,8 +417,6 @@ public class GoodsManagerActivity extends BaseActivity {
         mHiddenAction.setDuration(500);
         return mHiddenAction;
     }
-
-
 
     class GoodsFragmentStateAdapter extends FragmentStatePagerAdapter {
         private String[] mTitles;

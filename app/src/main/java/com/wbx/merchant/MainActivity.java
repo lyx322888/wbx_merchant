@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
+import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.wbx.merchant.activity.LoginActivity;
 import com.wbx.merchant.activity.OrderActivity;
+import com.wbx.merchant.activity.ScanQRCodeActivity;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
@@ -72,7 +74,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-
     private void initTabHost() {
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         mTabWidget = mTabHost.getTabWidget();
@@ -86,7 +87,6 @@ public class MainActivity extends BaseActivity {
         initPublishFragment();//发布
         initSqFragment();//商圈
         initMineFragment();//客户
-
     }
 
     private void initSqFragment() {
@@ -230,7 +230,8 @@ public class MainActivity extends BaseActivity {
         mTabWidget.getChildTabViewAt(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showMoreWindow(view);
+//                showMoreWindow(view);
+                startActivity(new Intent(mContext, ScanQRCodeActivity.class));
             }
         });
 
@@ -277,7 +278,10 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.iv_publish)
     public void onViewClicked() {
-        showMoreWindow(mTabHost);
+//        showMoreWindow(mTabHost);
+        startActivity(new Intent(mContext, ScanQRCodeActivity.class));
+
+
     }
 
     private void getNotice() {

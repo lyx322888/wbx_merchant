@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:minHeight="65dp"
+    android:gravity="center_vertical"
+    android:weightSum="10"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_phone"
+        android:textColor="@color/title_color"
+        android:gravity="center"
+        android:layout_weight="3"
+        android:text="137****0214"
+        android:textSize="11sp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tv_time"
+        android:textColor="@color/title_color"
+        android:gravity="center"
+        android:layout_weight="3"
+        android:text="2020.08.08"
+        android:textSize="11sp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_cs"
+        android:layout_weight="4"
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:weightSum="4"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_num"
+            android:textColor="@color/red"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:textSize="11sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_gm_price"
+                android:textColor="@color/red"
+                android:layout_weight="2"
+                android:text="565.66"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+
+                android:id="@+id/tv_is_tk"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/title_color"
+                android:layout_weight="2"
+                android:text="已退款"
+                android:textSize="11sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_sy"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_sr_price"
+                android:textColor="@color/red"
+                android:layout_weight="2"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_fwf"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/title_color"
+                android:layout_weight="2"
+                android:textSize="11sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+</LinearLayout>

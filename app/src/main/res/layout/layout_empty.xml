@@ -30,7 +30,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="点击重试"
             android:textColor="@color/app_color"
             android:layout_marginLeft="5dp"
             />

@@ -24,10 +24,10 @@ import butterknife.ButterKnife;
  */
 
 public class AddBusinessCirclePhotoAdapter extends RecyclerView.Adapter<AddBusinessCirclePhotoAdapter.MyViewHolder> {
-    private IssueSqActivity mContext;
+    private PublishBusinessCircleActivity mContext;
     private List<String> lstData = new ArrayList<>();
 
-    public AddBusinessCirclePhotoAdapter(IssueSqActivity context) {
+    public AddBusinessCirclePhotoAdapter(PublishBusinessCircleActivity context) {
         mContext = context;
     }
 

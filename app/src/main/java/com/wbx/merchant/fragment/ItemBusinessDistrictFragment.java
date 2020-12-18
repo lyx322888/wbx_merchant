@@ -72,7 +72,7 @@ public class ItemBusinessDistrictFragment extends BaseFragment {
         emptyView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                PublishBusinessCircleActivity.actionStart(getActivity(), String.valueOf(0));
+                PublishBusinessCircleActivity.actionStart(getActivity(), String.valueOf(0));
             }
         });
         recyclerView.setAdapter(mAdapter);

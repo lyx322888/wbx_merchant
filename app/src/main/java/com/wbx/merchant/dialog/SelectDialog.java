@@ -21,7 +21,6 @@ import butterknife.OnClick;
 
 public class SelectDialog extends Dialog {
 
-
     @Bind(R.id.rtv_one)
     RoundTextView rtvOne;
     @Bind(R.id.rtv_tow)

@@ -139,6 +139,7 @@
     </LinearLayout>
 
     <com.wbx.merchant.widget.DragImageView
+        android:visibility="gone"
         android:id="@+id/div"
         android:layout_marginBottom="60dp"
         android:layout_gravity="bottom|right"

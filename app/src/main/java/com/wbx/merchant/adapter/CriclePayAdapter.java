@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.wbx.merchant.R;
 import com.wbx.merchant.bean.CricePayBaen;
 
+//价格
 public class CriclePayAdapter extends BaseQuickAdapter<CricePayBaen, BaseViewHolder> {
     public CriclePayAdapter() {
         super(R.layout.item_pay_tv_select);

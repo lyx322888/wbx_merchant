@@ -42,5 +42,5 @@
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="18dp"
         android:clickable="true"
-        android:src="@drawable/icon_add" />
+        android:src="@mipmap/ic_middle" />
 </FrameLayout>

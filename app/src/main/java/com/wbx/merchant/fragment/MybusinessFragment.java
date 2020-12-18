@@ -177,13 +177,14 @@ public class MybusinessFragment extends BaseFragment  {
 
     }
 
-    @OnClick({R.id.tv_qfcz,R.id.tv_qfxq,R.id.div})
+    @OnClick({R.id.tv_qfcz,R.id.tv_qfxq,R.id.div,R.id.rl_release})
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.div:
-                    SelectDialog dialog = new SelectDialog(getContext());
-                    dialog.show();
-//                PublishBusinessCircleActivity.actionStart(getActivity(), String.valueOf(discover_num));
+            case R.id.rl_release:
+//                    SelectDialog dialog = new SelectDialog(getContext());
+//                    dialog.show();
+                PublishBusinessCircleActivity.actionStart(getActivity(), String.valueOf(discover_num));
                 break;
             case R.id.tv_qfcz:
                 //圈粉充值

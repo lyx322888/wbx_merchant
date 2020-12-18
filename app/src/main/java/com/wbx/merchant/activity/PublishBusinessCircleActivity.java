@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +30,7 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.common.LoginUtil;
+import com.wbx.merchant.utils.ChoosePictureUtils;
 import com.wbx.merchant.utils.SPUtils;
 import com.wbx.merchant.utils.SpannableStringUtils;
 import com.wbx.merchant.utils.ToastUitl;
@@ -77,6 +79,7 @@ public class PublishBusinessCircleActivity extends BaseActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addItemDecoration(new SpacesItemDecoration(8));
+        adapter = new AddBusinessCirclePhotoAdapter(this);
         recyclerView.setAdapter(adapter);
 
         //试用版提示框
@@ -198,27 +201,29 @@ public class PublishBusinessCircleActivity extends BaseActivity {
         });
     }
 
-    public void addPhoto() {
-        PhotoPicker.builder().setShowCamera(true).setPhotoCount(MAX_PICTURE_NUM - lstPhoto.size() + 1).setPreviewEnabled(true).start(this, REQUEST_GET_BUSINESS_CIRCLE_PHOTO);
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null && requestCode == REQUEST_GET_BUSINESS_CIRCLE_PHOTO) {
-            ArrayList<String> pics = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-            for (String pic : pics) {
-                if (!lstPhoto.contains(pic)) {
-                    lstPhoto.add(lstPhoto.size() - 1, pic);
+    //选择图片
+    private void choosePicture(int maxSelectCount) {
+        ChoosePictureUtils.choosePictureCommon(mContext,maxSelectCount, new ChoosePictureUtils.Action<ArrayList<String>>() {
+            @Override
+            public void onAction(@NonNull ArrayList<String> result) {
+                for (String pic : result) {
+                    if (!lstPhoto.contains(pic)) {
+                        lstPhoto.add(lstPhoto.size() - 1, pic);
+                    }
                 }
+                if (lstPhoto.size() == MAX_PICTURE_NUM + 1) {
+                    lstPhoto.remove(MAX_PICTURE_NUM);
+                }
+                adapter.update(lstPhoto);
             }
-            if (lstPhoto.size() == MAX_PICTURE_NUM + 1) {
-                lstPhoto.remove(MAX_PICTURE_NUM);
-            }
-            adapter.update(lstPhoto);
-        }
+        });
     }
+
+    public void addPhoto() {
+        choosePicture(MAX_PICTURE_NUM - lstPhoto.size() + 1);
+//        PhotoPicker.builder().setShowCamera(true).setPhotoCount(MAX_PICTURE_NUM - lstPhoto.size() + 1).setPreviewEnabled(true).start(this, REQUEST_GET_BUSINESS_CIRCLE_PHOTO);
+    }
+
 
 
 }

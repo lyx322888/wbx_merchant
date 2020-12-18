@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DeductionCouponActivity">
+    <LinearLayout
+        android:paddingTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_color"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="55dp"
+            android:layout_height="?attr/actionBarSize"
+            android:onClick="back">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_back_white"
+                android:tint="@color/colorWhite" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_marginRight="55dp"
+            android:id="@+id/title_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="抵用券核销"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp" />
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.flyco.roundview.RoundTextView
+            app:rv_backgroundColor="@color/app_color"
+            android:layout_marginHorizontal="15dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="25dp"
+            app:rv_cornerRadius="3dp"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:text="确认核销"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+        </com.flyco.roundview.RoundTextView>
+    </FrameLayout>
+
+</LinearLayout>

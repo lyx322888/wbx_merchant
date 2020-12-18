@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginHorizontal="25dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rect_ffffff_10dp">
+
+    <LinearLayout
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <TextView
+            android:textSize="17sp"
+            android:textColor="@color/title_color"
+            android:layout_gravity="center_horizontal"
+            android:text="请选择拓客服务套餐(单选)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="15dp"
+            android:id="@+id/rv_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:text="权益一：优先呈现推荐(预估)：100元30-100名、300元20-30名、500元10-20名、1000元5-10名、3000元1-5名。\n权益二：优先达成交易(预估)：100元20-50单、300元60-150单、500元100-250单、1000元200-500单、3000元600-1500单；"
+            android:textColor="@color/gray89"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -81,12 +81,13 @@
             android:layout_height="60dp"
             android:background="@color/colorWhite"
             android:orientation="horizontal"
+            android:weightSum="3"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
             <Button
                 android:id="@+id/publish_goods_btn"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
@@ -94,10 +95,21 @@
                 android:text="发布商品"
                 android:textColor="@color/colorWhite"
                 android:textSize="13sp" />
+            <Button
+                android:layout_marginLeft="15dp"
+                android:id="@+id/publish_goods_ku_btn"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/ova_bg_app_color"
+                android:text="产品库发布"
+                android:textColor="@color/colorWhite"
+                android:textSize="13sp" />
 
             <Button
                 android:id="@+id/batch_manager"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"

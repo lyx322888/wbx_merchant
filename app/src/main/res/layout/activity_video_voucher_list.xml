@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/back_ground_color"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    >
+    <RelativeLayout
+        android:paddingTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_color"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="55dp"
+            android:layout_height="?attr/actionBarSize"
+            android:onClick="back">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_back_white"
+                android:tint="@color/colorWhite" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="55dp"
+            android:id="@+id/title_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="视频管理"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp" />
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="规则说明"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.StoreSetMealListActivity">
+        <com.wbx.merchant.widget.refresh.PullToRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="60dp"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/order_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.wbx.merchant.widget.refresh.PullToRefreshLayout>
+        <LinearLayout
+            android:elevation="10dp"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="60dp">
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_add_ddtc"
+                android:layout_gravity="center"
+                app:rv_cornerRadius="20dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:text="发布视频"
+                android:layout_marginHorizontal="15dp"
+                app:rv_backgroundColor="@color/app_color"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

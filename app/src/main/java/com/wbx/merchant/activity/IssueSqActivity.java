@@ -23,6 +23,7 @@ import com.flyco.roundview.RoundTextView;
 import com.google.gson.Gson;
 import com.wbx.merchant.R;
 import com.wbx.merchant.adapter.AddBusinessCirclePhotoAdapter;
+import com.wbx.merchant.adapter.AddBusinessCirclePhotoAdapterNew;
 import com.wbx.merchant.api.Api;
 import com.wbx.merchant.api.HttpListener;
 import com.wbx.merchant.api.MyHttp;
@@ -79,7 +80,7 @@ public class IssueSqActivity extends BaseActivity {
     private static final int REQUEST_GET_BUSINESS_CIRCLE_PHOTO = 1000;
     private static final int REQUEST_CHOOSE_VIDEO = 1001;
     private List<String> lstPhoto = new ArrayList<>();
-    private AddBusinessCirclePhotoAdapter adapter;
+    private AddBusinessCirclePhotoAdapterNew adapter;
     private String videoUrl;
 
     public static void actionStart(Context context, int type) {
@@ -109,7 +110,7 @@ public class IssueSqActivity extends BaseActivity {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
             recyclerView.setLayoutManager(gridLayoutManager);
             recyclerView.addItemDecoration(new SpacesItemDecoration(8));
-            adapter = new AddBusinessCirclePhotoAdapter(this);
+            adapter = new AddBusinessCirclePhotoAdapterNew(this);
             recyclerView.setAdapter(adapter);
 
             lstPhoto.add("");

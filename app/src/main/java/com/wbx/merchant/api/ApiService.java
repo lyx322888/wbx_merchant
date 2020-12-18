@@ -1055,7 +1055,7 @@ public interface ApiService {
 
     //活动管理
     @FormUrlEncoded
-    @POST("/sjapi/Shopactivity/get_shop_activity")
+    @POST("/sjapi/Shopactivity/get_shop_activity_v2")
     Observable<JSONObject> getShopActivity(@Field("sj_login_token") String login_token);
 
     //是否退出登录
@@ -1249,11 +1249,88 @@ public interface ApiService {
     @POST("/sjapi/discover/update_discover_draw_fans_settings")
     Observable<JSONObject> update_discover_draw_fans_settings(@FieldMap Map<String,Object> params);
 
-
     //充值
     @FormUrlEncoded
     @POST("/sjapi/discover/pay")
     Observable<JSONObject> pay(@Field("sj_login_token") String sj_login_token,@Field("code") String code,@Field("money") String money,@Field("discover_id") String discover_id,@Field("pay_password") String pay_password);
+
+    //到店套餐商品选择列表
+    @FormUrlEncoded
+    @POST("/sjapi/Shopsetmeal/list_goods")
+    Observable<JSONObject> list_goods(@FieldMap Map<String,Object> params);
+
+    //添加到店套餐
+    @FormUrlEncoded
+    @POST("/sjapi/shopsetmeal/add_shop_set_meal")
+    Observable<JSONObject> add_shop_set_meal(@FieldMap Map<String,Object> params);
+
+    //到店套餐列表
+    @FormUrlEncoded
+    @POST("/sjapi/shopsetmeal/list_shop_set_meal")
+    Observable<JSONObject> list_shop_set_meal(@FieldMap Map<String,Object> params);
+
+
+
+    //到店套餐
+    @FormUrlEncoded
+    @POST("/sjapi/shopsetmeal/delete_shop_set_meal")
+    Observable<JSONObject> delete_shop_set_meal(@Field("sj_login_token") String sj_login_token,@Field("shop_set_meal_id") String shop_set_meal_id);
+
+    //到店套餐
+    @FormUrlEncoded
+    @POST("/sjapi/shopsetmeal/pause_shop_set_meal")
+    Observable<JSONObject> pause_shop_set_meal(@Field("sj_login_token") String sj_login_token,@Field("shop_set_meal_id") String shop_set_meal_id,@Field("is_pause") String is_pause);
+
+    //33.7.	套餐出售使用统计
+    @FormUrlEncoded
+    @POST("/sjapi/shopsetmeal/count_user_set_meal")
+    Observable<JSONObject> count_user_set_meal(@Field("sj_login_token") String sj_login_token,@Field("shop_set_meal_id") String shop_set_meal_id);
+
+    //	33.6.	套餐售出、使用列表
+    @FormUrlEncoded
+    @POST("/sjapi/shopsetmeal/list_user_set_meal")
+    Observable<JSONObject> list_user_set_meal(@FieldMap Map<String,Object> params);
+
+    //添加私密商品
+    @FormUrlEncoded
+    @POST("/sjapi/shopsetmeal/add_secret_goods")
+    Observable<JSONObject> add_secret_goods(@FieldMap Map<String, Object> params);
+
+    //获取套餐
+    @FormUrlEncoded
+    @POST("/sjapi/Shopsetmeal/get_shop_set_meal")
+    Observable<JSONObject> get_shop_set_meal(@Field("sj_login_token") String loginToken, @Field("shop_set_meal_id") String shop_set_meal_id);
+
+    //修改套餐
+    @FormUrlEncoded
+    @POST("/sjapi/Shopsetmeal/update_shop_set_meal")
+    Observable<JSONObject> update_shop_set_meal(@FieldMap Map<String, Object> params);
+
+    //33.3.	获取技术服务费（百分比）
+    @FormUrlEncoded
+    @POST("/sjapi/shopsetmeal/get_set_meal_skill_fee")
+    Observable<JSONObject> get_set_meal_skill_fee(@Field("sj_login_token") String sj_login_token);
+
+
+    //32.1.	获取视频抵扣券分类
+    @FormUrlEncoded
+    @POST("/sjapi/Videopromotion/get_video_promotion_classify")
+    Observable<JSONObject> get_video_promotion_classify(@Field("sj_login_token") String sj_login_token);
+
+    //32.2.	视频抵扣券新增与支付
+    @FormUrlEncoded
+    @POST("/sjapi/Videopromotion/add_video_promotion")
+    Observable<JSONObject> add_video_deduction_coupon(@FieldMap Map<String, Object> params);
+
+    //视频列表
+    @FormUrlEncoded
+    @POST("/sjapi/Videopromotion/list_video_promotion")
+    Observable<JSONObject> list_video_promotion(@Field("sj_login_token") String sj_login_token);
+
+    //视频列表
+    @FormUrlEncoded
+    @POST("/sjapi/Videopromotion/delete_video_promotion")
+    Observable<JSONObject> delete_video_promotion(@Field("sj_login_token") String sj_login_token,@Field("video_promotion_id") String video_promotion_id);
 
 
 }

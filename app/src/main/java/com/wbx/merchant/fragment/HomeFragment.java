@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -163,16 +164,25 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        btnSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (shopInfo != null) {
-                    if (shopInfo.getIs_open() == 1) {
-                        postSw(0);
-                    } else {
-                        postSw(1);
-                    }
-                }
+//        btnSwitch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (shopInfo != null) {
+//                    if (shopInfo.getIs_open() == 1) {
+//                        postSw(0);
+//                    } else {
+//                        postSw(1);
+//                    }
+//                }
+//            }
+//        });
+
+        btnSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Log.e("dfdf", "initView: "+isChecked );
+            if (isChecked){
+                postSw(1);
+            }else {
+                postSw(0);
             }
         });
 
@@ -468,9 +478,9 @@ public class HomeFragment extends BaseFragment {
         //判断店铺状态
         if (shopInfo != null) {
             if (shopInfo.getIs_open() == 1) {
-                btnSwitch.setChecked(true);
+                btnSwitch.setCheckedNoEvent(true);
             } else {
-                btnSwitch.setChecked(false);
+                btnSwitch.setCheckedNoEvent(false);
             }
         }
     }
