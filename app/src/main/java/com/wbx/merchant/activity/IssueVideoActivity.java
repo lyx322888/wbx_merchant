@@ -1,8 +1,9 @@
 package com.wbx.merchant.activity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.wbx.merchant.api.MyHttp;
 import com.wbx.merchant.base.BaseActivity;
 import com.wbx.merchant.baseapp.AppConfig;
 import com.wbx.merchant.bean.CricePayBaen;
+import com.wbx.merchant.bean.IssueVideoBean;
 import com.wbx.merchant.bean.StoreSetMealBean;
 import com.wbx.merchant.bean.VideoCalssifyBean;
 import com.wbx.merchant.bean.WxPayInfo;
@@ -44,7 +46,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
@@ -93,7 +94,16 @@ public class IssueVideoActivity extends BaseActivity {
     String shop_set_meal_id ="";//套餐id
     private TkfwDialog tkfwDialog;
     private String price = "";
+    private String type = "";//1 编辑 0添加
+    private String video_promotion_id = "";
     private PayUtils payUtils;
+
+    public static void actionStart(Context context, String type,String video_promotion_id) {
+        Intent intent = new Intent(context, IssueVideoActivity.class);
+        intent.putExtra("video_promotion_id", video_promotion_id);
+        intent.putExtra("type", type);
+        context.startActivity(intent);
+    }
 
     @Override
     public int getLayoutId() {
@@ -105,8 +115,19 @@ public class IssueVideoActivity extends BaseActivity {
 
     }
 
+
     @Override
     public void initView() {
+        video_promotion_id = getIntent().getStringExtra("video_promotion_id");
+        type = getIntent().getStringExtra("type");
+
+        //是否是编辑状态
+        if (TextUtils.equals(type,"1")){
+            cbTkfw.setClickable(false);
+        }
+
+
+        //适配器
         addDdtcAdapter = new AddDdtcAdapter();
         rvDdtc.setLayoutManager(new LinearLayoutManager(mContext){
             @Override
@@ -132,13 +153,43 @@ public class IssueVideoActivity extends BaseActivity {
             @Override
             public void onSuccess() {
                 showShortToast("添加成功！");
+                finish();
             }
         });
+
+
     }
 
     @Override
     public void fillData() {
+        if (!TextUtils.isEmpty(video_promotion_id)){
+            get_video_promotion();
+        }
+    }
 
+    //获取视频数据
+    private void get_video_promotion(){
+        new MyHttp().doPost(Api.getDefault().get_video_promotion(LoginUtil.getLoginToken(),video_promotion_id), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                IssueVideoBean bean  = new Gson().fromJson(result.toString(),IssueVideoBean.class);
+                video_promotion_classify_id = bean.getData().getVideo_promotion_classify_id();
+                tvVideoType.setText(bean.getData().getName());
+                showVideo(bean.getData().getVideo());
+                showDDtc(bean.getData().getShop_set_meal());
+                shop_set_meal_id= bean.getData().getShop_set_meal_id();
+                cbTkfw.setChecked(bean.getData().getIs_talk()==1);
+
+                if (cbTkfw.isChecked()){
+                    tvTc.setText(price+"元套餐");
+                }
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
     }
 
     //获取视频类型
@@ -220,11 +271,7 @@ public class IssueVideoActivity extends BaseActivity {
                 .columnCount(3)
                 .onResult(result -> {
                     String path = result.get(0).getPath();
-                    ivChooseVideo.setVisibility(View.GONE);
-                    ivVideoGb.setVisibility(View.VISIBLE);
-                    videoUrl = path;
-                    videoView.setVisibility(View.VISIBLE);
-                    videoView.setUp(videoUrl, JZVideoPlayer.SCREEN_WINDOW_LIST, "视频");
+                    showVideo(path);
 //                    videoView.startVideo();
 //                    ConfirmDialog confirmDialog = ConfirmDialog.newInstance("是否压缩视频？");
 //                    confirmDialog.setDialogListener(() -> {
@@ -233,6 +280,15 @@ public class IssueVideoActivity extends BaseActivity {
 //                    new Handler().postDelayed(() -> confirmDialog.show(getSupportFragmentManager(), ""), 500);
                 })
                 .start();
+    }
+
+    //显示视频
+    private void showVideo(String path){
+        ivChooseVideo.setVisibility(View.GONE);
+        ivVideoGb.setVisibility(View.VISIBLE);
+        videoUrl = path;
+        videoView.setVisibility(View.VISIBLE);
+        videoView.setUp(videoUrl, JZVideoPlayer.SCREEN_WINDOW_LIST, "视频");
     }
 
     @OnClick({R.id.tv_cxxz,R.id.tv_delete,R.id.ll_select_video_type, R.id.iv_add_ddtc, R.id.ll_tkfy, R.id.tv_submit, R.id.iv_choose_video, R.id.iv_video_gb})
@@ -285,7 +341,10 @@ public class IssueVideoActivity extends BaseActivity {
                 break;
             case R.id.ll_tkfy:
                 //拓客服务
-                showDialog();
+                if (!TextUtils.equals(type,"1")){
+                    showDialog();
+                }else {
+                    showShortToast("编辑不能再次更改此项");             }
                 break;
             case R.id.tv_submit:
                 //发布
@@ -301,25 +360,31 @@ public class IssueVideoActivity extends BaseActivity {
                     showShortToast("请添加到店套餐");
                     return;
                 }
-                //是否选择拓客服务
-                if (cbTkfw.isChecked()){
-                    //拓客服务发布
-                    if (TextUtils.isEmpty(price)){
-                        showShortToast("请选择拓客服务套餐");
-                        return;
-                    }
-                    PayDialog payDialog =PayDialog.newInstance(price);
-                    payDialog.setDialogListener(new PayDialog.DialogListener() {
-                        @Override
-                        public void dialogClickListener(String price, String payMode) {
-                            payDialog.dismiss();
-                            upOnevideo(price,payMode);
-                        }
-                    });
-                    payDialog.show(getSupportFragmentManager(),"");
+                //是否是编辑状态
+                if (TextUtils.equals(type,"1")){
+                    //修改
+                    update_video_promotion();
                 }else {
-                    //直接发布
-                    upOnevideo("","");
+                    //是否选择拓客服务
+                    if (cbTkfw.isChecked()){
+                        //拓客服务发布
+                        if (TextUtils.isEmpty(price)){
+                            showShortToast("请选择拓客服务套餐");
+                            return;
+                        }
+                        PayDialog payDialog =PayDialog.newInstance(price);
+                        payDialog.setDialogListener(new PayDialog.DialogListener() {
+                            @Override
+                            public void dialogClickListener(String price, String payMode) {
+                                payDialog.dismiss();
+                                upOnevideo(price,payMode);
+                            }
+                        });
+                        payDialog.show(getSupportFragmentManager(),"");
+                    }else {
+                        //直接发布
+                        upOnevideo("","");
+                    }
                 }
                 break;
         }
@@ -349,7 +414,32 @@ public class IssueVideoActivity extends BaseActivity {
                     }
                 }else {
                     showShortToast("添加成功");
+                    finish();
                 }
+            }
+
+            @Override
+            public void onError(int code) {
+
+            }
+        });
+    }
+
+    //提交
+    private void update_video_promotion(){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("sj_login_token",LoginUtil.getLoginToken());
+        hashMap.put("video_promotion_classify_id",video_promotion_classify_id);
+        hashMap.put("video_promotion_id",video_promotion_id);
+        hashMap.put("video",videoUrl);
+        hashMap.put("discounts_type","2");
+        hashMap.put("shop_set_meal_id",shop_set_meal_id);
+        LoadingDialog.showDialogForLoading(mActivity);
+        new MyHttp().doPost(Api.getDefault().update_video_promotion(hashMap), new HttpListener() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                    showShortToast("修改成功");
+                    finish();
             }
 
             @Override
@@ -412,12 +502,16 @@ public class IssueVideoActivity extends BaseActivity {
             public void dialogBeanClickListener(StoreSetMealBean.DataBean dataBean) {
                 List<StoreSetMealBean.DataBean> dataBeans = new ArrayList<>();
                 dataBeans.add(dataBean);
-                addDdtcAdapter.setNewData(dataBeans);
-                ivAddDdtc.setVisibility(View.GONE);
-                llDdtc.setVisibility(View.VISIBLE);
+                showDDtc(dataBeans);
                 shop_set_meal_id= dataBean.getShop_set_meal_id();
             }
         });
+    }
+
+    private void showDDtc(List<StoreSetMealBean.DataBean> dataBeans){
+        addDdtcAdapter.setNewData(dataBeans);
+        ivAddDdtc.setVisibility(View.GONE);
+        llDdtc.setVisibility(View.VISIBLE);
     }
 
     @Override

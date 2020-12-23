@@ -1,15 +1,20 @@
 package com.wbx.merchant.adapter;
 
+import android.media.MediaMetadataRetriever;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wbx.merchant.R;
 import com.wbx.merchant.bean.VideoVVoucherListBean;
+import com.wbx.merchant.utils.GlideUtils;
 import com.wbx.merchant.utils.SpannableStringUtils;
+
+import java.util.HashMap;
 
 import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
@@ -25,6 +30,7 @@ public class VideoVoucherAdapter extends BaseQuickAdapter<VideoVVoucherListBean.
         TextView tvSbYy = helper.getView(R.id.tv_sb_yy);
         JZVideoPlayerStandard jzvd = helper.getView(R.id.jz_video);
         jzvd.setUp(item.getVideo(), JZVideoPlayer.SCREEN_WINDOW_NORMAL, "");
+        GlideUtils.showBigPic(mContext,jzvd.thumbImageView,item.getShop_set_meal().getPhoto());
         helper.setText(R.id.tv_title,item.getShop_set_meal().getSet_meal_name())
                 .setText(R.id.tv_price, SpannableStringUtils.getBuilder("¥"+item.getShop_set_meal().getOne_price()+"  ")
                         .append("¥"+item.getShop_set_meal().getOriginal_price()).setStrikethrough().setProportion((float) 0.8)

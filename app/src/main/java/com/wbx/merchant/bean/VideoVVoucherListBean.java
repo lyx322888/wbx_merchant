@@ -205,6 +205,16 @@ public class VideoVVoucherListBean {
             private String original_price;
             private String one_price;
 
+            public String getPhoto() {
+                return photo;
+            }
+
+            public void setPhoto(String photo) {
+                this.photo = photo;
+            }
+
+            private String photo;
+
             public String getAlready_sell_num() {
                 return already_sell_num;
             }

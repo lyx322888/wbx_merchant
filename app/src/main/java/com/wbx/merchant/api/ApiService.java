@@ -1322,15 +1322,24 @@ public interface ApiService {
     @POST("/sjapi/Videopromotion/add_video_promotion")
     Observable<JSONObject> add_video_deduction_coupon(@FieldMap Map<String, Object> params);
 
+    //32.2.	视频抵扣券与支付
+    @FormUrlEncoded
+    @POST("/sjapi/Videopromotion/update_video_promotion")
+    Observable<JSONObject> update_video_promotion(@FieldMap Map<String, Object> params);
+
     //视频列表
     @FormUrlEncoded
     @POST("/sjapi/Videopromotion/list_video_promotion")
     Observable<JSONObject> list_video_promotion(@Field("sj_login_token") String sj_login_token);
+
 
     //视频列表
     @FormUrlEncoded
     @POST("/sjapi/Videopromotion/delete_video_promotion")
     Observable<JSONObject> delete_video_promotion(@Field("sj_login_token") String sj_login_token,@Field("video_promotion_id") String video_promotion_id);
 
-
+    //视频
+    @FormUrlEncoded
+    @POST("/sjapi/Videopromotion/get_video_promotion")
+    Observable<JSONObject> get_video_promotion(@Field("sj_login_token") String sj_login_token,@Field("video_promotion_id") String video_promotion_id);
 }

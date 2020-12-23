@@ -61,7 +61,7 @@ public class VideoVoucherListActivity extends BaseActivity {
         refreshLayout.setRefreshListener(new BaseRefreshListener() {
             @Override
             public void refresh() {
-                fillData();
+                getList();
             }
 
             @Override
@@ -95,6 +95,7 @@ public class VideoVoucherListActivity extends BaseActivity {
                 switch (view.getId()){
                     case R.id.tv_bj:
                         //编辑
+                        IssueVideoActivity.actionStart(mContext,"1",videoVoucherAdapter.getItem(position).getVideo_promotion_id());
                         break;
                     case R.id.tv_sc:
                         //删除
@@ -118,7 +119,12 @@ public class VideoVoucherListActivity extends BaseActivity {
     }
 
     @Override
-    public void fillData() {
+    protected void onResume() {
+        super.onResume();
+        getList();
+    }
+
+    private void getList(){
         new MyHttp().doPost(Api.getDefault().list_video_promotion(LoginUtil.getLoginToken()), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -135,6 +141,11 @@ public class VideoVoucherListActivity extends BaseActivity {
     }
 
     @Override
+    public void fillData() {
+
+    }
+
+    @Override
     public void setListener() {
 
     }
@@ -144,7 +155,7 @@ public class VideoVoucherListActivity extends BaseActivity {
         new MyHttp().doPost(Api.getDefault().delete_video_promotion(LoginUtil.getLoginToken(), video_promotion_id), new HttpListener() {
             @Override
             public void onSuccess(JSONObject result) {
-                fillData();
+                getList();
             }
 
             @Override
@@ -161,7 +172,7 @@ public class VideoVoucherListActivity extends BaseActivity {
                 startActivity(new Intent(mContext,VideoGzsmActivity.class));
                 break;
             case R.id.tv_add_ddtc:
-                startActivity(new Intent(mContext,IssueVideoActivity.class));
+                IssueVideoActivity.actionStart(mContext,"0","");
                 break;
         }
     }
